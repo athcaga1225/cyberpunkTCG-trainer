@@ -130,7 +130,7 @@ function render(){
  if(!items.length)grid.append(create('p','beta-empty','沒有符合條件的卡牌。'));
 }
 document.getElementById('betaDetailClose').addEventListener('click',()=>detail.close());
-detail.addEventListener('click',event=>{if(event.target===detail)detail.close()});
+detail.addEventListener('click',event=>{if(event.target!==detail)return;const r=detail.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)detail.close()});
 detail.addEventListener('close',()=>root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed','false')));
 search.addEventListener('input',filter);
 rarity.addEventListener('change',filter);
