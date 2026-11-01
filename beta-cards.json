@@ -1004,13 +1004,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b040-rogueamendiarespreemsolo.jpg?v=1789055373",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-rogueamendiarespreemsolo-b040-rare",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Legend",
+   "cost": 7,
+   "power": 7,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【獨闖（Go Solo）】支付此傳奇角色的費用，將其作為重置狀態的單位打出。本回合可以攻擊；離開戰場時將其移出遊戲。每當友方傳奇角色奪取任務骰時，若該骰點數為偶數，抽 1 張牌；若為奇數，則一名對手棄 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "羅格・阿曼迪亞蕾絲：頂尖獨行俠",
+   "tags": [
+    "MERC"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/rogue-amendiares-preem-solo",
+   "attributesSource": "https://cyberpunktcg.com/cards/rogue-amendiares-preem-solo",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B041",
@@ -1020,13 +1028,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b041-adamsmashermetalovermeat.jpg?v=1789055394",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-adamsmashermetalovermeat-b041-epic",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 9,
+   "power": 15,
+   "ram": 6,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】擊敗場上所有其他單位。",
+   "ruleVerified": false,
+   "nameZh": "亞當・碎骨：鋼鐵凌駕血肉",
+   "tags": [
+    "ARASAKA",
+    "MERC"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/adam-smasher-metal-over-meat",
+   "attributesSource": "https://cyberpunktcg.com/cards/adam-smasher-metal-over-meat",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B042",
@@ -1036,13 +1053,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b042-altcunninghammotherofdaemons.jpg?v=1789055362",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-altcunninghammotherofdaemons-b042-rare",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 7,
+   "power": 8,
+   "ram": 3,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "每當一個已裝備的友方單位或傳奇角色橫置時，抽 1 張牌。當對手單位即將奪取任務骰時，你可以棄掉 1 張費用等於該骰點數的牌。若如此做，該任務骰便不會被奪取。",
+   "ruleVerified": false,
+   "nameZh": "奧特・坎寧安：魔靈之母",
+   "tags": [
+    "MERC",
+    "NETRUNNER"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/alt-cunningham-mother-of-daemons",
+   "attributesSource": "https://cyberpunktcg.com/cards/alt-cunningham-mother-of-daemons",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B043",
@@ -1052,13 +1078,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b043-augmentednegotiators.jpg?v=1789055364",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-augmentednegotiators-b043-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 3,
+   "power": 2,
+   "ram": 1,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【阻擋（Blocker）】你可以橫置此單位，改由其承受對手單位的攻擊。每當此單位使用【阻擋】，一名對手棄 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "義體強化談判員",
+   "tags": [
+    "ARASAKA",
+    "CORPO"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/augmented-negotiators",
+   "attributesSource": "https://cyberpunktcg.com/cards/augmented-negotiators",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B044",
@@ -1068,13 +1103,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b044-calibertotentanzstopdog.jpg?v=1789055390",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-calibertotentanzstopdog-b044-rare",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 5,
+   "power": 5,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】擊敗一個費用為 2 以下的對手單位。【被擊敗（Defeated）】一名對手棄 1 張牌。如果棄掉的牌費用等於某顆友方任務骰的點數，該對手再棄 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "卡利柏：死亡之舞的頭號打手",
+   "tags": [
+    "GANGER",
+    "MAELSTROM"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/caliber-totentanz-s-top-dog",
+   "attributesSource": "https://cyberpunktcg.com/cards/caliber-totentanz-s-top-dog",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B045",
@@ -1084,13 +1128,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b045-gildedmaton.jpg?v=1789055376",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-gildedmaton-b045-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 4,
+   "power": 3,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】你可以擊敗一張友方裝備牌。若如此做，擊敗一個費用為 3 以下的對手單位。",
+   "ruleVerified": false,
+   "nameZh": "鍍金打手",
+   "tags": [
+    "GANGER",
+    "VALENTINO"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/gilded-mato-n",
+   "attributesSource": "https://cyberpunktcg.com/cards/gilded-mato-n",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B046",
@@ -1100,13 +1153,23 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b046-hanakoarasakainagildedcage.jpg?v=1789055384",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-hanakoarasakainagildedcage-b046-rare",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 4,
+   "power": 1,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】查看牌庫頂的 4 張牌。你可以展示任意張費用等於某顆友方任務骰點數的牌，並將它們加入手牌。其餘置於牌庫底。",
+   "ruleVerified": false,
+   "nameZh": "荒坂華子：金籠之中",
+   "tags": [
+    "ARASAKA",
+    "CORPO",
+    "NETRUNNER"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/hanako-arasaka-in-a-gilded-cage",
+   "attributesSource": "https://cyberpunktcg.com/cards/hanako-arasaka-in-a-gilded-cage",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B047",
@@ -1116,13 +1179,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b047-heywoodripperdoc.jpg?v=1789055395",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-heywoodripperdoc-b047-uncommon",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 6,
+   "power": 8,
+   "ram": 1,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】你可以擊敗一張裝備牌。如果該裝備牌的費用等於某顆友方任務骰的點數，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "黑伍德神機醫",
+   "tags": [
+    "RIPPERDOC"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/heywood-ripperdoc",
+   "attributesSource": "https://cyberpunktcg.com/cards/heywood-ripperdoc",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B048",
@@ -1132,13 +1203,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b048-jackiewellesrideordiechoom.jpg?v=1789055394",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-jackiewellesrideordiechoom-b048-epic",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 6,
+   "power": 8,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【攻擊（Attack）】你每控制一顆點數為偶數的友方任務骰，本回合此單位戰力便 +2。【被擊敗（Defeated）】你每控制一顆點數為奇數的友方任務骰，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "阿傑・威爾斯：生死與共的兄弟",
+   "tags": [
+    "MERC",
+    "VALENTINO"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/jackie-welles-ride-or-die-choom",
+   "attributesSource": "https://cyberpunktcg.com/cards/jackie-welles-ride-or-die-choom",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B049",
@@ -1148,13 +1228,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b049-maelstromgoons.jpg?v=1789055372",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-maelstromgoons-b049-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 3,
+   "power": 3,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "每當此單位奪取任務骰時，若它已裝備裝備牌，一名對手棄 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "漩戰幫嘍囉",
+   "tags": [
+    "GANGER",
+    "MAELSTROM"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/maelstrom-goons",
+   "attributesSource": "https://cyberpunktcg.com/cards/maelstrom-goons",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B050",
@@ -1164,13 +1253,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b050-maxtacsuppressionteam.jpg?v=1789055380",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-maxtacsuppressionteam-b050-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 5,
+   "power": 7,
+   "ram": 1,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "對手單位不能在打出的當回合攻擊。",
+   "ruleVerified": false,
+   "nameZh": "鎮靜特勤組鎮壓小隊",
+   "tags": [
+    "NCPD"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/maxtac-suppression-team",
+   "attributesSource": "https://cyberpunktcg.com/cards/maxtac-suppression-team",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B051",
@@ -1180,13 +1277,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b051-offdutymalfini.jpg?v=1789055360",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-offdutymalfini-b051-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 4,
+   "power": 5,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】橫置此單位及一個對手單位。",
+   "ruleVerified": false,
+   "nameZh": "下班的馬爾菲尼",
+   "tags": [
+    "GANGER",
+    "VOODOO BOYS"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/offduty-malfini",
+   "attributesSource": "https://cyberpunktcg.com/cards/offduty-malfini",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B052",
@@ -1196,13 +1302,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b052-rocknrockerboy.jpg?v=1789055379",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-rocknrockerboy-b052-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 5,
+   "power": 8,
+   "ram": 1,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "無額外規則能力。（風味文字：為了某件事，無論是什麼，都要吶喊到聲嘶力竭。）",
+   "ruleVerified": false,
+   "nameZh": "搖滾小子",
+   "tags": [
+    "ROCKER"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/rockn-rockerboy",
+   "attributesSource": "https://cyberpunktcg.com/cards/rockn-rockerboy",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B053",
@@ -1212,13 +1326,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b053-secondhandbombus.jpg?v=1789055384",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-secondhandbombus-b053-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 2,
+   "power": 0,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【阻擋（Blocker）】你可以橫置此單位，改由其承受對手單位的攻擊。（戰力為 0 的單位無法奪取任務骰。）",
+   "ruleVerified": false,
+   "nameZh": "二手蜂型機器人",
+   "tags": [
+    "DRONE",
+    "ZETATECH"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/secondhand-bombus",
+   "attributesSource": "https://cyberpunktcg.com/cards/secondhand-bombus",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B054",
@@ -1228,13 +1351,23 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b054-sketchyripper.jpg?v=1789055362",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-sketchyripper-b054-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 2,
+   "power": 0,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【攻擊（Attack）】查看牌庫頂的 3 張牌，展示其中一張裝備牌並加入手牌。其餘置於牌庫底。（戰力為 0 的單位無法奪取任務骰。）",
+   "ruleVerified": false,
+   "nameZh": "可疑神機醫",
+   "tags": [
+    "GANGER",
+    "RIPPERDOC",
+    "SCAVENGER"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/sketchy-ripper",
+   "attributesSource": "https://cyberpunktcg.com/cards/sketchy-ripper",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B055",
@@ -1244,13 +1377,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b055-tbugamateurphilosopher.jpg?v=1789055364",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-tbugamateurphilosopher-b055-uncommon",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 4,
+   "power": 4,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【被擊敗（Defeated）】查看所有友方背面朝上的傳奇角色。然後，你可以免費呼叫其中一名傳奇角色。（每回合只能呼叫一名傳奇角色。）",
+   "ruleVerified": false,
+   "nameZh": "T-Bug：業餘哲學家",
+   "tags": [
+    "MERC",
+    "NETRUNNER"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/t-bug-amateur-philosopher",
+   "attributesSource": "https://cyberpunktcg.com/cards/t-bug-amateur-philosopher",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B056",
@@ -1260,13 +1402,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b056-traumateamoperatives.jpg?v=1789055372",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-traumateamoperatives-b056-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 6,
+   "power": 7,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "棄牌區中每有一張單位牌，打出此單位的費用便減少 1 €$，最低為 1 €$。",
+   "ruleVerified": false,
+   "nameZh": "創傷小組隊員",
+   "tags": [
+    "MEDTECH",
+    "TRAUMA TEAM"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/trauma-team-operatives",
+   "attributesSource": "https://cyberpunktcg.com/cards/trauma-team-operatives",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B057",
@@ -1276,13 +1427,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b057-viktorvektordropyourillusions.jpg?v=1789055366",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-viktorvektordropyourillusions-b057-epic",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 5,
+   "power": 5,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "每回合你打出的第一張「義體（CYBERWARE）」裝備牌，費用減少 3 €$，最低為 1 €$。",
+   "ruleVerified": false,
+   "nameZh": "維克・威科特：拋開幻想",
+   "tags": [
+    "RIPPERDOC"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/viktor-vektor-drop-your-illusions",
+   "attributesSource": "https://cyberpunktcg.com/cards/viktor-vektor-drop-your-illusions",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B058",
@@ -1292,13 +1451,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b058-viktorvektoryoumightfeelalittlepinch.jpg?v=1789055379",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-viktorvektoryoumightfeelalittlepinch-b058-uncommon",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 3,
+   "power": 3,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】從你的棄牌區免費打出一張費用為 2 以下的「義體（CYBERWARE）」裝備牌。該裝備只能裝備給另一個友方單位。",
+   "ruleVerified": false,
+   "nameZh": "維克・威科特：可能會有點刺痛",
+   "tags": [
+    "RIPPERDOC"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/viktor-vektor-you-might-feel-a-little-pinch",
+   "attributesSource": "https://cyberpunktcg.com/cards/viktor-vektor-you-might-feel-a-little-pinch",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B059",
@@ -1308,13 +1475,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b059-adrenalineconverter.jpg?v=1789055381",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-adrenalineconverter-b059-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Gear",
+   "cost": 2,
+   "power": 3,
+   "ram": 4,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）若對手控制的任務骰比你至少多 2 顆，裝備此卡的單位便具有【腎上腺素（Adrenaline）】。（該單位可以在打出的當回合攻擊。）",
+   "ruleVerified": false,
+   "nameZh": "腎上腺素轉換器",
+   "tags": [
+    "CYBERWARE",
+    "MEDTECH"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/adrenaline-converter",
+   "attributesSource": "https://cyberpunktcg.com/cards/adrenaline-converter",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B060",
@@ -1324,13 +1500,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b060-gorillaarms.jpg?v=1789055373",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-gorillaarms-b060-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Gear",
+   "cost": 4,
+   "power": 3,
+   "ram": 3,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）每回合此單位第一次奪取至少一顆任務骰時，再奪取一顆對手任務骰，其點數不得與任何友方任務骰相同。",
+   "ruleVerified": false,
+   "nameZh": "猩猩手臂",
+   "tags": [
+    "CYBERWARE"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/gorilla-arms",
+   "attributesSource": "https://cyberpunktcg.com/cards/gorilla-arms",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B061",
@@ -1340,13 +1524,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b061-kiroshioptics.jpg?v=1789055388",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-kiroshioptics-b061-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Gear",
+   "cost": 1,
+   "power": 1,
+   "ram": 1,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）【攻擊（Attack）】查看一名友方背面朝上的傳奇角色。（不要展示給對手。）",
+   "ruleVerified": false,
+   "nameZh": "喜呂志光學義眼",
+   "tags": [
+    "CYBERWARE"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/kiroshi-optics",
+   "attributesSource": "https://cyberpunktcg.com/cards/kiroshi-optics",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B062",
@@ -1356,13 +1548,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b062-mandibularupgrade.jpg?v=1789055360",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-mandibularupgrade-b062-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Gear",
+   "cost": 1,
+   "power": 0,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）【阻擋（Blocker）】你可以橫置此單位，改由其承受對手單位的攻擊。",
+   "ruleVerified": false,
+   "nameZh": "下顎升級組件",
+   "tags": [
+    "CYBERWARE"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/mandibular-upgrade",
+   "attributesSource": "https://cyberpunktcg.com/cards/mandibular-upgrade",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B063",
@@ -1372,13 +1572,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b063-therelicexperimentalbiochip.jpg?v=1789055388",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-therelicexperimentalbiochip-b063-epic",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Gear",
+   "cost": 5,
+   "power": 3,
+   "ram": 4,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【被擊敗（Defeated）】從你的棄牌區免費打出另一張費用為 9 以下的單位牌。然後，將此單位置於牌庫底。",
+   "ruleVerified": false,
+   "nameZh": "聖物：實驗性生物晶片",
+   "tags": [
+    "ARASAKA",
+    "CYBERWARE"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/the-relic-experimental-biochip",
+   "attributesSource": "https://cyberpunktcg.com/cards/the-relic-experimental-biochip",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B064",
@@ -1388,13 +1597,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b064-zetatechfaceplate.jpg?v=1789055374",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-zetatechfaceplate-b064-uncommon",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Gear",
+   "cost": 2,
+   "power": 2,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）每當此單位或傳奇角色橫置時，使一顆任務骰的點數最多調整 1。然後，若你控制至少 3 顆點數各不相同的任務骰，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "ZETA科技面罩",
+   "tags": [
+    "CYBERWARE",
+    "ZETATECH"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/zetatech-faceplate",
+   "attributesSource": "https://cyberpunktcg.com/cards/zetatech-faceplate",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B065",
@@ -1404,13 +1622,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b065-afterpartyatlizzies.jpg?v=1789055378",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-afterpartyatlizzies-b065-common",
    "color": null,
-   "type": null,
-   "cost": null,
+   "type": "Program",
+   "cost": 1,
    "power": null,
-   "ram": null,
+   "ram": 1,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "使一顆任務骰的點數最多調整 1。如果你控制至少 2 顆點數不同的任務骰，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "莉姿酒吧的續攤派對",
+   "tags": [
+    "BRAINDANCE",
+    "MOX"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/afterparty-at-lizzie-s",
+   "attributesSource": "https://cyberpunktcg.com/cards/afterparty-at-lizzie-s",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B066",
@@ -1420,13 +1647,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b066-bootlegblacksapphireshow.jpg?v=1789055378",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-bootlegblacksapphireshow-b066-uncommon",
    "color": null,
-   "type": null,
-   "cost": null,
+   "type": "Program",
+   "cost": 5,
    "power": null,
-   "ram": null,
+   "ram": 4,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "賣出你牌庫頂的一張牌。如果你同時控制一顆偶數點數與一顆奇數點數的任務骰，抽 2 張牌。",
+   "ruleVerified": false,
+   "nameZh": "黑藍寶石秀場盜錄",
+   "tags": [
+    "BRAINDANCE"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/bootleg-black-sapphire-show",
+   "attributesSource": "https://cyberpunktcg.com/cards/bootleg-black-sapphire-show",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B067",
@@ -1436,13 +1671,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b067-cyberpsychosis.jpg?v=1789055383",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-cyberpsychosis-b067-uncommon",
    "color": null,
-   "type": null,
-   "cost": null,
+   "type": "Program",
+   "cost": 3,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【快速（Quick）】本回合一個已裝備的單位，每裝備一張裝備牌便獲得 +3 戰力。如果該單位奪取任務骰或參與戰鬥，在本回合結束時擊敗它。",
+   "ruleVerified": false,
+   "nameZh": "網路精神病",
+   "tags": [
+    "QUICKHACK"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/cyberpsychosis",
+   "attributesSource": "https://cyberpunktcg.com/cards/cyberpsychosis",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B068",
@@ -1452,13 +1695,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b068-livewiththeaftermath.jpg?v=1789055369",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-livewiththeaftermath-b068-common",
    "color": null,
-   "type": null,
-   "cost": null,
+   "type": "Program",
+   "cost": 3,
    "power": null,
-   "ram": null,
+   "ram": 3,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "每位玩家各自擊敗一個自己控制的單位。",
+   "ruleVerified": false,
+   "nameZh": "承受餘波",
+   "tags": [
+    "PLAN"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/live-with-the-aftermath",
+   "attributesSource": "https://cyberpunktcg.com/cards/live-with-the-aftermath",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B069",
@@ -1468,13 +1719,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b069-safetyoverride.jpg?v=1789055390",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-safetyoverride-b069-common",
    "color": null,
-   "type": null,
-   "cost": null,
+   "type": "Program",
+   "cost": 2,
    "power": null,
-   "ram": null,
+   "ram": 3,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【快速（Quick）】本回合下一次友方單位在戰鬥中落敗時，擊敗與它交戰的對手單位。",
+   "ruleVerified": false,
+   "nameZh": "安全限制解除",
+   "tags": [
+    "QUICKHACK"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/safety-override",
+   "attributesSource": "https://cyberpunktcg.com/cards/safety-override",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B070",
@@ -1484,13 +1743,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b070-theheist.jpg?v=1789055370",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-theheist-b070-uncommon",
    "color": null,
-   "type": null,
-   "cost": null,
+   "type": "Program",
+   "cost": 2,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "將牌庫頂的 4 張牌置入棄牌區。從這些牌中選一張裝備牌加入手牌。如果該裝備牌的費用等於某顆友方任務骰的點數，你可以改為免費打出該裝備牌。",
+   "ruleVerified": false,
+   "nameZh": "大劫案",
+   "tags": [
+    "MERC"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/the-heist",
+   "attributesSource": "https://cyberpunktcg.com/cards/the-heist",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B071",
@@ -1500,13 +1767,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b071-gorotakemuravengefulbodyguard.jpg?v=1789055386",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-gorotakemuravengefulbodyguard-b071-rare",
    "color": null,
-   "type": null,
+   "type": "Legend",
    "cost": null,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【快速（Quick）】支付 1 €$ 並【橫置（Spend）】：使一個費用為 4 以下的友方單位在本回合獲得【阻擋（Blocker）】。若你控制一對點數相同的任務骰，該單位本回合戰力也 +1。每當友方單位使用【阻擋】時，你可以棄 1 張牌；若如此做，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "武村吾郎：復仇保鑣",
+   "tags": [
+    "ARASAKA",
+    "CORPO"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/goro-takemura-vengeful-bodyguard",
+   "attributesSource": "https://cyberpunktcg.com/cards/goro-takemura-vengeful-bodyguard",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B072",
@@ -1516,13 +1792,23 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b072-hanakoarasakadaughteroftheemperor.jpg?v=1789055390",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-hanakoarasakadaughteroftheemperor-b072-rare",
    "color": null,
-   "type": null,
+   "type": "Legend",
    "cost": null,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【橫置（Spend）】交換一顆友方任務骰與一顆對手任務骰。你的回合開始時，你每控制一對點數相同的友方任務骰，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "荒坂華子：天皇之女",
+   "tags": [
+    "ARASAKA",
+    "CORPO",
+    "NETRUNNER"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/hanako-arasaka-daughter-of-the-emperor",
+   "attributesSource": "https://cyberpunktcg.com/cards/hanako-arasaka-daughter-of-the-emperor",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B073",
@@ -1532,13 +1818,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b073-jackiewellesmamasfavorite.jpg?v=1789055373",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-jackiewellesmamasfavorite-b073-rare",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Legend",
+   "cost": 6,
+   "power": 8,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【獨闖（Go Solo）】支付此傳奇角色的費用，將其作為重置狀態的單位打出。本回合可以攻擊；離開戰場時將其移出遊戲。當一個友方單位即將被擊敗時，你可以支付 1 €$，改為擊敗此傳奇角色。（將其移出遊戲。）",
+   "ruleVerified": false,
+   "nameZh": "阿傑・威爾斯：媽媽的心頭肉",
+   "tags": [
+    "MERC"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/jackie-welles-mama-s-favorite",
+   "attributesSource": "https://cyberpunktcg.com/cards/jackie-welles-mama-s-favorite",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B074",
@@ -1548,13 +1842,23 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b074-padremanofthecross.jpg?v=1789055381",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-padremanofthecross-b074-rare",
    "color": null,
-   "type": null,
+   "type": "Legend",
    "cost": null,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【呼叫（Call）】選擇一項效果：橫置一個對手單位；或抽 1 張牌。【橫置（Spend）】將一名玩家控制的一顆任務骰點數，設定為另一名玩家所控制的一顆任務骰的點數。",
+   "ruleVerified": false,
+   "nameZh": "神父：信仰十字架之人",
+   "tags": [
+    "FIXER",
+    "GANGER",
+    "VALENTINO"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/padre-man-of-the-cross",
+   "attributesSource": "https://cyberpunktcg.com/cards/padre-man-of-the-cross",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B075",
@@ -1564,13 +1868,23 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b075-panampalmernomadcavalry.jpg?v=1789055362",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-panampalmernomadcavalry-b075-epic",
    "color": null,
-   "type": null,
+   "type": "Legend",
    "cost": null,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "支付 2 €$ 並【橫置（Spend）】：將此傳奇角色上的一張裝備牌移至一個尚未裝備的友方單位。若如此做，重置該單位。在你的回合結束時，若至少 5 個友方單位或傳奇角色已裝備，重置這些已裝備的角色。",
+   "ruleVerified": false,
+   "nameZh": "帕娜・帕瑪：遊牧騎兵",
+   "tags": [
+    "ALDECALDO",
+    "MERC",
+    "NOMAD"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/panam-palmer-nomad-cavalry",
+   "attributesSource": "https://cyberpunktcg.com/cards/panam-palmer-nomad-cavalry",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B076",
@@ -1580,13 +1894,21 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b076-corposecurity.jpg?v=1789055380",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-corposecurity-b076-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 2,
+   "power": 2,
+   "ram": 1,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "此單位不能攻擊。【阻擋（Blocker）】你可以橫置此單位，改由其承受對手單位的攻擊。",
+   "ruleVerified": false,
+   "nameZh": "企業保全",
+   "tags": [
+    "CORPO"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/corpo-security",
+   "attributesSource": "https://cyberpunktcg.com/cards/corpo-security",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B077",
@@ -1596,13 +1918,23 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b077-emergencyatlus.jpg?v=1789055383",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-emergencyatlus-b077-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 3,
+   "power": 4,
+   "ram": 1,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "無額外規則能力。（風味文字：「把保戶帶走，其他人就留給夜城的收屍車吧。」）",
+   "ruleVerified": false,
+   "nameZh": "緊急用阿特拉斯",
+   "tags": [
+    "TRAUMA TEAM",
+    "VEHICLE",
+    "ZETATECH"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/emergency-atlus",
+   "attributesSource": "https://cyberpunktcg.com/cards/emergency-atlus",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B078",
@@ -1612,13 +1944,23 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b078-fieldoperator.jpg?v=1789055372",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-fieldoperator-b078-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 3,
+   "power": 2,
+   "ram": 2,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】如果你的街頭聲望為偶數，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "外勤幹員",
+   "tags": [
+    "ARASAKA",
+    "CORPO",
+    "TECHIE"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/field-operator",
+   "attributesSource": "https://cyberpunktcg.com/cards/field-operator",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B079",
@@ -1628,13 +1970,22 @@
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b079-maelstromzealots.jpg?v=1789055391",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-maelstromzealots-b079-common",
    "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "type": "Unit",
+   "cost": 4,
+   "power": 0,
+   "ram": 1,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "每當此單位在戰鬥中落敗時，擊敗與它交戰的對手單位。（戰力為 0 的單位無法奪取任務骰。）",
+   "ruleVerified": false,
+   "nameZh": "漩戰幫狂信徒",
+   "tags": [
+    "GANGER",
+    "MAELSTROM"
+   ],
+   "abilitySource": "https://cyberpunktcg.com/cards/maelstrom-zealots",
+   "attributesSource": "https://cyberpunktcg.com/cards/maelstrom-zealots",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B080",
@@ -3227,5 +3578,11 @@
   "scope": "B001-B039 including B005A/B",
   "source": "Official Cyberpunk TCG Card Database",
   "notes": "COST/POW missing on selected Legends and POW missing on Programs are not printed fields; UI shows dash only for verified first batch. Tags are official classifications and are not all factions."
+ },
+ "translationBatch2": {
+  "count": 40,
+  "range": "B040-B079",
+  "source": "Official Cyberpunk TCG card database current English text",
+  "note": "Fan translation. Existing colors for first 40 retained; next 40 colors unverified. English current rules take precedence."
  }
 }
