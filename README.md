@@ -1,26 +1,39 @@
 # NIGHT CITY TRAINING
 
-繁體中文 Cyberpunk 2077 Trading Card Game 新手教學與單人 AI 對戰專案。
+Unofficial Traditional Chinese training website for **Cyberpunk Trading Card Game**.
 
-## 目前狀態
-- 已完成：CYBERDEX Type B Red 風格的響應式首頁、五段教學導覽、操作練習原型、規則入口、瀏覽器進度儲存。
-- 尚未完成：官方規則引擎、正式卡牌資料、完整互動教學、AI 對戰、正式牌組。
-- 操作練習中的卡牌均為虛構佔位內容，**不可視為正式遊戲規則或可遊玩版本**。
+Live site (when GitHub Pages finishes deploying): https://athcaga1225.github.io/cyberpunkTCG-trainer/
 
-## 開發原則
-1. 官方規則優先，效果與判定必須有測試。
-2. 新手可從零開始學習。
-3. 單人規則型 AI，不使用付費 LLM API。
-4. 不做多人連線。
-5. 與 CYBERDEX 圖鑑分開部署，視需要共用經驗證的卡牌資料。
+## What's implemented
 
-## 本機預覽
-直接開啟 index.html 即可預覽目前靜態原型。
+- Responsive CYBERDEX-inspired Type B Red design.
+- Six-step Traditional Chinese beginner guide grounded in the official gameplay guide.
+- **Seven playable rule exercises**: Gig roll-in, d20-last constraint, target validation, Power-based fights, stealing Gigs, Mantis Blades Power modifier, Blocker reaction, start-of-turn 7-Gig win, and Field Operator draw.
+- Verified-rule **partial engine** in `rules-core.js`, with **16 deterministic tests**.
+- Official starter deck manifests for **The Heist and Embracing Power**, each 3 Legends and 40 main-deck cards, plus comparison against locally imported JSON.
+- Eight official card summaries and direct official source URLs; cards are explicitly marked partly implemented/unimplemented.
+- Local JSON importer for card metadata.
+- The separate legacy `battle.js` is an **UNOFFICIAL experimental game** with invented hit points and mana. It must never be presented as Cyberpunk TCG official gameplay.
 
-## 部署
-可在 GitHub Settings → Pages → Deploy from a branch → main / root 啟用靜態部署。
+## Not implemented yet
 
-## 官方規則
-https://cyberpunktcg.com/comprehensive-rules
+Complete card effects, complete official rules engine, play/cost/payment processing, full Legend/Gear/Program interactions, Quick reaction windows, actual starter-deck AI games, complete AI strategies.
 
-非官方粉絲製作專案。
+## Run
+
+Open `index.html` in a browser, or deploy the `main` branch root via GitHub Pages. No backend/API key.
+
+## Test
+
+```bash
+node tests/rules-core.test.js
+```
+
+## Primary official references
+
+- https://cyberpunktcg.com/gameplay-guide
+- https://cyberpunktcg.com/comprehensive-rules
+- https://cyberpunktcg.com/blog/wnc-starter-decks
+- https://cyberpunktcg.com/errata
+
+Card descriptions in the trainer are abbreviated Traditional Chinese explanations, not an official translation. Official English text is authoritative.
