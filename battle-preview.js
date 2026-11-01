@@ -12,9 +12,25 @@ try{const prev=localStorage.getItem('nct-preview-deck');if(decks[prev])choice=pr
 select.value=choice;
 function lookup(k,name){return Object.entries(art[keyOf(k)]||{}).find(([n])=>norm(n)===norm(name)||(norm(name)==='tetratronicrippler'&&norm(n)==='tetratonicrippler'))?.[1]||null}
 function shuffle(k){const pool=[];for(const c of decks[k].main)for(let n=0;n<c.qty;n++)pool.push(c.name);for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}return pool.slice(0,6)}
-function card(k,name,back=false){
+function card(k,name,back=false,kind='standard'){
  const el=document.createElement('button');el.type='button';el.className='preview-art-card'+(back?' face-down':'');
- if(back){el.disabled=true;el.setAttribute('aria-label','蓋牌');const span=document.createElement('span');span.textContent='NCT';span.className='preview-back-design';el.append(span);return el}
+ if(back){
+  const isLegend=kind==='legend';
+  const src=isLegend?'https://chromeandgigs.com/card-backs/legend.png':'https://chromeandgigs.com/card-backs/standard.png';
+  el.disabled=true;
+  el.classList.add(isLegend?'legend-back':'standard-back');
+  el.setAttribute('aria-label',isLegend?'傳奇角色專用卡背':'一般卡牌卡背');
+  const fallback=document.createElement('span');
+  fallback.className='preview-back-design';
+  fallback.textContent='CYBERPUNK TCG';
+  el.append(fallback);
+  const image=document.createElement('img');
+  image.src=src;image.alt='';image.className='preview-card-back-image';
+  image.loading='lazy';image.decoding='async';
+  image.addEventListener('error',()=>{image.remove();el.classList.add('missing-back')});
+  el.append(image);
+  return el;
+ }
  const image=lookup(k,name);el.title=nameOf(name);el.setAttribute('aria-label','放大查看 '+nameOf(name));
  const fallback=document.createElement('span');fallback.className='preview-art-fallback';fallback.textContent=locale?.cardName(name)||name;el.append(fallback);
  if(image?.url){const img=document.createElement('img');img.src=image.url;img.alt=nameOf(name)+' 卡面';img.loading='lazy';img.decoding='async';img.addEventListener('error',()=>{img.remove();el.classList.add('missing-art')});el.append(img)}else el.classList.add('missing-art');
@@ -24,7 +40,7 @@ function open(k,name,image){const dlg=$('battleCardDialog');if(!dlg?.showModal)r
  const img=$('battleCardFullImage'),fallback=$('battleCardNoImage'),link=$('battleCardSource');
  if(image?.url){img.src=image.url;img.alt=nameOf(name);img.hidden=false;fallback.hidden=true}else{img.removeAttribute('src');img.hidden=true;fallback.hidden=false;fallback.textContent='此卡在 CYBERDEX 的來源資料中暫無可用卡圖。'}
  if(image?.source){link.href=image.source;link.hidden=false}else link.hidden=true;dlg.showModal()}
-function legend(k,who){const node=root.querySelector('.'+who+'-legends .cardbacks');if(!node)return;node.replaceChildren();for(const c of decks[k].legends)node.append(card(k,c.name,who==='opponent'||!showLegends))}
+function legend(k,who){const node=root.querySelector('.'+who+'-legends .cardbacks');if(!node)return;node.replaceChildren();for(const c of decks[k].legends)node.append(card(k,c.name,who==='opponent'||!showLegends,'legend'))}
 function render(){const other=choice==='theHeist'?'embracingPower':'theHeist';legend(choice,'player');legend(other,'opponent');
  const my=root.querySelector('.player-hand .hand-placeholder'),rival=root.querySelector('.opponent-hand .placeholder-label');
  if(!my||!rival)return;my.replaceChildren();rival.replaceChildren();my.classList.add('preview-card-rail');rival.classList.add('preview-card-rail');
