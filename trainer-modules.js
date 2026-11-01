@@ -39,25 +39,10 @@ function save(){try{localStorage.setItem(progressKey,String(completed))}catch{}}
 function load(i){if(i<0||i>=stages.length||i>completed)return;stage=i;game=stages[i].setup();notice='';passed=false;render()}
 function navChapters(){const root=$('chapterNav');if(!root)return;root.replaceChildren();stages.forEach((s,i)=>{const b=add(root,'button',String(i+1).padStart(2,'0'));b.type='button';b.title=lessonInfo[i].title;b.setAttribute('aria-label','第 '+(i+1)+' 課：'+lessonInfo[i].title);if(i===stage)b.setAttribute('aria-current','step');if(i<completed)b.classList.add('completed');b.disabled=i>completed;b.onclick=()=>load(i)})}
 
-function renderJourney(){
- const journey=$('lessonJourney');if(!journey)return;
- $('lessonJourneyTitle').textContent='第 '+(stage+1)+' 課／共 '+stages.length+' 課';
- $('lessonJourneyCount').textContent='已完成 '+completed+' / '+stages.length+' 課';
- const bar=$('lessonTotalProgress');bar.setAttribute('aria-valuenow',String(completed));
- $('lessonTotalFill').style.width=(100*completed/stages.length)+'%';
- const marks=$('lessonProgressDots');marks.replaceChildren();
- for(let i=0;i<stages.length;i++){
-  const mark=add(marks,'span',String(i+1).padStart(2,'0'));
-  if(i<completed)mark.classList.add('done');
-  if(i===stage)mark.classList.add('current');
-  mark.setAttribute('aria-label','第'+(i+1)+'課'+(i<completed?'已完成':i===stage?'目前進行':'尚未完成'));
- }
-}
-
 function render(){const st=stages[stage],container=$('labStage');if(!container)return;
-navChapters();renderJourney();container.replaceChildren();
+navChapters();container.replaceChildren();
 const header=add(container,'div','','chapter-progress');add(header,'strong','LESSON '+String(stage+1).padStart(2,'0')+' / '+String(stages.length).padStart(2,'0'),'number');add(header,'span','已完成 '+completed+' / '+stages.length+' 課','muted');
-const track=add(container,'div','','progress');const fill=add(track,'span','');fill.style.width=((completed/stages.length)*100)+'%';add(container,'p',stage<completed?'本課已完成，可複習前面的規則。':'目前第 '+(stage+1)+' 課；完成練習後將更新上方進度。','lesson-current-status');
+const track=add(container,'div','','progress');const fill=add(track,'span','');fill.style.width=(((stage+1)/stages.length)*100)+'%';track.setAttribute('role','progressbar');track.setAttribute('aria-label','目前教學步驟');track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax',String(stages.length));track.setAttribute('aria-valuenow',String(stage+1));
 add(container,'h2',lessonInfo[stage].title);
 const explain=add(container,'div','','chapter-learning');add(explain,'h3','先理解這個觀念');add(explain,'p',lessonInfo[stage].text);
 const question=add(container,'div','','chapter-quiz');add(question,'div','現在試著操作','number');add(question,'p',st.instruction);

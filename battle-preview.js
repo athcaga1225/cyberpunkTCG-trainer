@@ -82,10 +82,10 @@ function card(k,name,back=false,kind='standard'){
  el.addEventListener('click',()=>{hideHover();open(k,name,image)});
  return el;
 }
-function open(k,name,image){hideHover();const dlg=$('battleCardDialog');if(!dlg?.showModal)return;$('battleCardTitle').textContent=nameOf(name);
+function open(k,name,image){hideHover();const dlg=$('battleCardDialog');if(!dlg?.showModal)return;const english=name||'卡牌預覽';const chinese=locale?.cardName(english)||english;$('battleCardTitle').textContent=chinese;$('battleCardEnglish').textContent=chinese===english?'':english;
  const img=$('battleCardFullImage'),fallback=$('battleCardNoImage'),link=$('battleCardSource');
  if(image?.url){img.src=image.url;img.alt=nameOf(name);img.hidden=false;fallback.hidden=true}else{img.removeAttribute('src');img.hidden=true;fallback.hidden=false;fallback.textContent='此卡在 CYBERDEX 的來源資料中暫無可用卡圖。'}
- if(image?.source){link.href=image.source;link.hidden=false}else link.hidden=true;dlg.showModal()}
+ if(image?.source){link.href=image.source;link.hidden=false}else link.hidden=true;if(window.NCTCardModal)window.NCTCardModal.open(dlg);else dlg.showModal()}
 function legend(k,who){const node=root.querySelector('.'+who+'-legends .cardbacks');if(!node)return;node.replaceChildren();for(const c of decks[k].legends)node.append(card(k,c.name,who==='opponent'||!showLegends,'legend'))}
 
 function fitPreviewRails(){
