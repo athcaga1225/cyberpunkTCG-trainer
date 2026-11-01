@@ -34,9 +34,9 @@ function openCard(c){
  const visual=create('div','beta-detail-art');
  const img=document.createElement('img');img.loading='eager';img.src=c.imageUrl;img.alt=c.name+' 卡面';visual.append(img);
  const text=create('div','beta-detail-copy');
- const label=create('h4','',c.abilityZh?'卡牌能力 / 繁中參考翻譯':'卡牌能力 / 尚待翻譯');
+ const label=create('h4','',c.abilityZh?'卡牌能力':'卡牌能力 / 尚待翻譯');
  const ability=create('p','beta-ability-text',c.abilityZh||'這張卡的繁中能力翻譯尚未整理。可先查看英文卡圖。');
- const note=create('p','beta-detail-note',c.abilityZh?'此為非官方繁中參考翻譯，正式裁定以官方英文最新規則為準。':'卡牌功能與數值尚未核對，暫不提供推測翻譯。');
+ const note=create('p','beta-detail-note',c.abilityZh?'卡牌效果以官方英文版本為準。':'卡牌功能與數值尚未核對，暫不提供推測翻譯。');
  text.append(title,english,meta,label,ability,note);
  const links=create('div','beta-detail-links');
  const source=document.createElement('a');source.href=c.abilitySource||c.imageSource;source.target='_blank';source.rel='noopener noreferrer';source.textContent=c.abilitySource?'官方能力原文 ↗':'卡牌圖片來源 ↗';
@@ -63,8 +63,6 @@ function tile(c){
  const meta=create('span','beta-card-meta');
  meta.append(create('b','',c.id),create('span','',c.rarity));
  btn.append(visual,title,eng,meta);
- if(c.abilityZh)btn.append(create('span','beta-translation-tag','繁中能力已翻譯'));
- else btn.append(create('span','beta-translation-pending','能力翻譯待補'));
  btn.addEventListener('click',()=>openCard(c));
  return btn;
 }
