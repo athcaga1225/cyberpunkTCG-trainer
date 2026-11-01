@@ -19,8 +19,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【獨闖（Go Solo）】支付這張傳奇角色的費用，將其以重置狀態作為單位打出。本回合可以攻擊；離開戰場時，將其移出遊戲。【打出（Play）】擊敗一個對手單位。",
+   "ruleVerified": false,
+   "nameZh": "亞當・碎骨：傳奇終結者",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/adam-smasher-ender-of-legends"
   },
   {
    "id": "B002",
@@ -35,8 +38,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【呼叫（Call）】選擇一項效果：本回合一個友方單位戰力 +2；或抽 1 張牌。【橫置（Spend）】使一顆任務骰的點數最多提高 2。",
+   "ruleVerified": false,
+   "nameZh": "德克斯特・德尚：銷聲匿跡",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/dexter-deshawn-off-the-grid"
   },
   {
    "id": "B003",
@@ -51,8 +57,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "支付 2 歐元並【橫置】：一個友方單位在打出的當回合，可以攻擊已橫置的對手單位。如果該單位具有「搖滾客（ROCKER）」類別，本回合戰力再 +2。你每控制一顆點數為 8 以上的友方任務骰，此能力的費用便減少 1 歐元。",
+   "ruleVerified": false,
+   "nameZh": "銀手強尼：搖滾叛逆者",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/johnny-silverhand-rocking-renegade"
   },
   {
    "id": "B004",
@@ -67,8 +76,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【獨闖（Go Solo）】支付這張傳奇角色的費用，將其以重置狀態作為單位打出。本回合可以攻擊；離開戰場時，將其移出遊戲。在你的回合中，此傳奇角色每裝備一張裝備卡，戰力便 +2。",
+   "ruleVerified": false,
+   "nameZh": "羅伊斯：瀕臨瘋狂",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/royce-psycho-on-the-edge"
   },
   {
    "id": "B005A",
@@ -83,8 +95,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【呼叫（Call）】將牌庫頂的 3 張牌置入棄牌區，然後從自己的棄牌區選擇 1 張具有「幻舞（BRAINDANCE）」類別的程式牌加入手牌。【獨闖（Go Solo）】支付這張傳奇角色的費用，將其以重置狀態作為單位打出。本回合可以攻擊；離開戰場時，將其移出遊戲。",
+   "ruleVerified": false,
+   "nameZh": "V：街頭小子",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/v-streetkid"
   },
   {
    "id": "B005B",
@@ -99,8 +114,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【呼叫（Call）】將牌庫頂的 3 張牌置入棄牌區，然後從自己的棄牌區選擇 1 張具有「幻舞（BRAINDANCE）」類別的程式牌加入手牌。【獨闖（Go Solo）】支付這張傳奇角色的費用，將其以重置狀態作為單位打出。本回合可以攻擊；離開戰場時，將其移出遊戲。",
+   "ruleVerified": false,
+   "nameZh": "V：街頭小子",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/v-streetkid"
   },
   {
    "id": "B006",
@@ -115,8 +133,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "每當一個友方單位奪取一顆六面任務骰（d6），使一顆任務骰的點數最多提高 6。",
+   "ruleVerified": false,
+   "nameZh": "六街幫新兵",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/6th-street-recruits"
   },
   {
    "id": "B007",
@@ -131,8 +152,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "無額外卡牌能力。（風味文字：要像他們一樣粉碎骨頭，可得消耗不少能量。）",
+   "ruleVerified": false,
+   "nameZh": "蠻獸派破壞者",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/animals-wrecker"
   },
   {
    "id": "B008",
@@ -147,8 +171,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】直到你的下一回合開始之前，對手單位無法奪取點數高於其戰力的友方任務骰。",
+   "ruleVerified": false,
+   "nameZh": "鍍鉻獠牙",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/chrome-fang"
   },
   {
    "id": "B009",
@@ -163,8 +190,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【攻擊（Attack）】你可以支付 2 歐元。若如此做，本回合此單位獲得的額外戰力，等同於你控制的一顆最大點數任務骰的點數。",
+   "ruleVerified": false,
+   "nameZh": "El Sombrerón：緩慢的復仇",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/el-sombrero-n-la-venganza-lenta"
   },
   {
    "id": "B010",
@@ -179,8 +209,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】本回合使一個友方單位戰力 +2。（戰力為 0 的單位無法奪取任務骰。）",
+   "ruleVerified": false,
+   "nameZh": "日本街上忍",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/japantown-jonin"
   },
   {
    "id": "B011",
@@ -195,8 +228,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "每回合此單位第一次贏得戰鬥時，將其重置。此單位與具有「企業人員（CORPO）」類別的單位戰鬥時，必定獲勝。",
+   "ruleVerified": false,
+   "nameZh": "銀手強尼：戰鬥永不止息",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/johnny-silverhand-never-stop-fighting"
   },
   {
    "id": "B012",
@@ -211,8 +247,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【橫置（Spend）】如果你控制至少一顆點數為 8 以上的任務骰，抽 2 張牌。",
+   "ruleVerified": false,
+   "nameZh": "凱瑞・歐羅迪恩：最後的搖滾客",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/kerry-eurodyne-the-last-rockerboy"
   },
   {
    "id": "B013",
@@ -227,8 +266,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【阻擋（Blocker）】你可以將此單位橫置，改由它承受對手單位的攻擊。每當此單位使用【阻擋】，使一顆任務骰的點數最多提高 3。",
+   "ruleVerified": false,
+   "nameZh": "拉・尤羅娜：過往幽靈",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/la-llorona-ghost-of-the-past"
   },
   {
    "id": "B014",
@@ -243,8 +285,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【阻擋（Blocker）】此單位與傳奇角色戰鬥時，戰力 +2。每當對手調整或交換一顆以上的友方任務骰時，你可以從自己的棄牌區選擇一張卡加入手牌。",
+   "ruleVerified": false,
+   "nameZh": "梅若迪絲・史陶特：冷酷企業人",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/meredith-stout-stone-cold-corpo"
   },
   {
    "id": "B015",
@@ -259,8 +304,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "你每控制一顆點數為 8 以上的友方任務骰，打出此單位的費用便減少 1 歐元，最低為 1 歐元。",
+   "ruleVerified": false,
+   "nameZh": "八旋翼無人機",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/octant"
   },
   {
    "id": "B016",
@@ -275,8 +323,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】擊敗一個戰力 2 以下的對手單位。如果你的街頭聲望高於對手，改為擊敗一個戰力 3 以下的對手單位。",
+   "ruleVerified": false,
+   "nameZh": "羅伊斯：別叫我賽門",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/royce-don-t-call-me-simon"
   },
   {
    "id": "B017",
@@ -291,8 +342,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "此單位只能攻擊對手單位。（無法攻擊任務骰區。）",
+   "ruleVerified": false,
+   "nameZh": "狠毒混混",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/ruthless-lowlife"
   },
   {
    "id": "B018",
@@ -307,8 +361,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【被擊敗（Defeated）】從自己的棄牌區選擇另一張單位牌加入手牌。",
+   "ruleVerified": false,
+   "nameZh": "史克魯：為愛所困的傻瓜",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/screw-lovelorn-fool"
   },
   {
    "id": "B019",
@@ -323,8 +380,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【攻擊（Attack）】如果此單位戰力為 5 以上，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "精通刀劍的壯漢",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/swordwise-huscle"
   },
   {
    "id": "B020",
@@ -339,8 +399,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "每當此單位奪取一顆任務骰時，使該任務骰點數最多提高 5。在你的回合結束時，如果你控制至少兩顆點數為 8 以上的任務骰，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "V：惡地漫遊者",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/v-roamer-of-the-badlands"
   },
   {
    "id": "B021",
@@ -355,8 +418,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "如果你的街頭聲望高於對手，此單位可以攻擊具有【阻擋（Blocker）】能力且處於重置狀態的單位。",
+   "ruleVerified": false,
+   "nameZh": "瓦倫提諾幫戰士",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/valentino-guerrera"
   },
   {
    "id": "B022",
@@ -371,8 +437,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【打出（Play）】你可以從手牌或棄牌區免費打出一張費用 4 以下的單位牌；該單位本回合可以攻擊對手單位。每回合第一次有「荒坂（ARASAKA）」單位被擊敗時，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "荒坂賴宣：鋼鐵之龍",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/yorinobu-arasaka-steel-dragon"
   },
   {
    "id": "B023",
@@ -387,8 +456,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）每當裝備此卡的單位或傳奇角色橫置時，你可以查看自己一張背面朝上的傳奇角色。如果該角色具有「荒坂（ARASAKA）」類別或【獨闖（Go Solo）】能力，你可以免費呼叫該角色。（每回合只能呼叫一名傳奇角色。）",
+   "ruleVerified": false,
+   "nameZh": "荒坂緊急無線傳送站",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/arasaka-emergency-radioport"
   },
   {
    "id": "B024",
@@ -403,8 +475,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）如果裝備此卡的單位即將被擊敗，改為擊敗裝備在該單位上的「死亡訊號發射器」。",
+   "ruleVerified": false,
+   "nameZh": "死亡訊號發射器",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/deadman-transmitter"
   },
   {
    "id": "B025",
@@ -419,8 +494,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）無額外規則能力。（風味文字：「一刀，一命。」）",
+   "ruleVerified": false,
+   "nameZh": "螳螂刀",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/mantis-blades"
   },
   {
    "id": "B026",
@@ -435,8 +513,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）每當裝備此卡的單位贏得與對手單位的戰鬥時，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "覺：三郎之劍",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/satori-sword-of-saburo"
   },
   {
    "id": "B027",
@@ -451,8 +532,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "將牌庫頂的 3 張牌置入棄牌區。從這些牌中選擇一張單位牌加入手牌。",
+   "ruleVerified": false,
+   "nameZh": "一切盡失",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/all-is-lost"
   },
   {
    "id": "B028",
@@ -467,8 +551,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "本回合下一次有友方單位以至少高出對手 3 點的戰力贏得戰鬥時，該單位也會奪取一顆任務骰。",
+   "ruleVerified": false,
+   "nameZh": "毀滅的慾望",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/appetite-for-destruction"
   },
   {
    "id": "B029",
@@ -483,8 +570,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "擊敗一個戰力 4 以下的對手單位。如果對手控制的任務骰數量比你至少多 2 顆，你可以改為擊敗兩個符合條件的單位。",
+   "ruleVerified": false,
+   "nameZh": "雌雄大盜",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/bonnie-and-clyde"
   },
   {
    "id": "B030",
@@ -499,8 +589,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "你每控制一顆點數為 8 以上的友方任務骰，打出此程式牌的費用便減少 1 歐元，最低為 1 歐元。擊敗一個戰力低於某個友方單位的對手單位。",
+   "ruleVerified": false,
+   "nameZh": "競技場大屠殺",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/carnage-at-the-colosseum"
   },
   {
    "id": "B031",
@@ -515,8 +608,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【快速（Quick）】擊敗一張戰力 2 以下的對手裝備牌。",
+   "ruleVerified": false,
+   "nameZh": "引爆",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/detonate"
   },
   {
    "id": "B032",
@@ -531,8 +627,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "讓一個友方單位獲得下列兩項效果。如果你的街頭聲望低於對手，則改由對手為你選擇其中一項：① 該單位本回合下一次攻擊時，可以攻擊處於重置狀態的單位；② 本回合該單位戰力 +3。",
+   "ruleVerified": false,
+   "nameZh": "槍口外交",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/gunpoint-diplomacy"
   },
   {
    "id": "B033",
@@ -547,8 +646,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "使一顆任務骰的點數最多提高 4。如果你控制一顆點數為 8 以上的任務骰，抽 1 張牌。",
+   "ruleVerified": false,
+   "nameZh": "工業裝配",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/industrial-assembly"
   },
   {
    "id": "B034",
@@ -563,8 +665,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "擊敗一個戰力不高於你控制的一顆友方二十面任務骰（d20）點數的單位。",
+   "ruleVerified": false,
+   "nameZh": "瀕臨失控",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/over-the-edge"
   },
   {
    "id": "B035",
@@ -579,8 +684,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "雙方玩家各自棄掉所有手牌，然後可以各抽 5 張牌。如果這次棄掉的牌張數總和，等於你控制的一顆友方任務骰的點數，你再抽 2 張牌。",
+   "ruleVerified": false,
+   "nameZh": "破碎的記憶",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/shattered-memories"
   },
   {
    "id": "B036",
@@ -595,8 +703,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【呼叫（Call）】你可以擊敗一張友方裝備牌。若如此做，抽 2 張牌；否則抽 1 張牌。【快速（Quick）】支付 1 歐元並【橫置（Spend）】：本回合一個友方單位每裝備一張裝備牌，戰力便 +1。",
+   "ruleVerified": false,
+   "nameZh": "達姆達姆：漩戰幫槍手",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/dum-dum-maelstrom-triggerman"
   },
   {
    "id": "B037",
@@ -611,8 +722,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "每當你從合事佬區擲入一顆任務骰時，可以忽略結果並重新擲骰一次。每當你擲出一顆任務骰的最小或最大點數時，抽 1 張牌；如果那是二十面骰（d20），則改為抽 3 張。",
+   "ruleVerified": false,
+   "nameZh": "凱瑞・歐羅迪恩：吉他、態度、觀眾",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/kerry-eurodyne-axe-attitude-audience"
   },
   {
    "id": "B038",
@@ -627,8 +741,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【呼叫（Call）】選擇一項效果：本回合一個友方單位不會在戰鬥中被擊敗；或抽 1 張牌。【橫置（Spend）】將一顆任務骰的點數調整 1。",
+   "ruleVerified": false,
+   "nameZh": "穆阿瑪・雷耶斯：隊長",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/muamar-reyes-el-capita-n"
   },
   {
    "id": "B039",
@@ -643,8 +760,11 @@
    "power": null,
    "ram": null,
    "abilityEnglish": null,
-   "abilityZh": null,
-   "ruleVerified": false
+   "abilityZh": "【快速（Quick）】【橫置（Spend）】從手牌免費打出一張費用 2 以下的裝備牌。每當一個裝備了裝備牌的友方單位被擊敗時，查看牌庫頂的 2 張牌，並將其中 1 張置入棄牌區。",
+   "ruleVerified": false,
+   "nameZh": "瑞弗・瓦德：追查中的警探",
+   "translationStatus": "draft-reviewed-against-official-current-text",
+   "abilitySource": "https://cyberpunktcg.com/cards/river-ward-detective-on-the-hunt"
   },
   {
    "id": "B040",
@@ -2854,5 +2974,21 @@
    "abilityZh": null,
    "ruleVerified": false
   }
- ]
+ ],
+ "translationBatch": {
+  "batch": 1,
+  "translatedEntries": 40,
+  "scope": "B001–B039 including B005A/B",
+  "review": "Fan Traditional Chinese reference translation; official English controls discrepancies.",
+  "terminology": {
+   "Gig": "任務骰",
+   "Spend": "橫置",
+   "Call": "呼叫",
+   "Play": "打出",
+   "Quick": "快速",
+   "Blocker": "阻擋",
+   "Trash": "將牌庫頂指定張數置入棄牌區",
+   "Ready": "重置"
+  }
+ }
 }

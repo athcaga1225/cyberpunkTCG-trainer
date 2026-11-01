@@ -53,3 +53,9 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 - Browse by card number or English/available Traditional Chinese name; filter by print series and rarity; 24 lazy-loaded cards per page.
 - Only verified source fields (number, name, rarity, card image and image provenance) are populated. Card color, type, cost, power, RAM, and ability text remain null pending source verification. Images are remote and can fail independently.
 - This is a learning catalog, not a price database and not proof of playable card effects.
+
+## Beta Traditional Chinese translations — batch 1 (2026-11-02)
+
+- 40 catalog entries, B001–B039 including B005A/B, now include manually authored `nameZh`, `abilityZh`, `translationStatus`, and a source link to the official current English rules text.
+- Card effect translations are unofficial learning references. The English official card database and current rules take precedence.
+- The Beta gallery includes a separate, mobile-friendly card detail panel with Traditional Chinese card abilities. Untranslated cards remain explicitly pending. No battle engine behavior is inferred from translated text.
