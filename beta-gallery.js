@@ -22,13 +22,12 @@ function filter(){
  const q=search.value.toLowerCase().trim();
  const choice=rarity.value,set=series.value;
  filtered=all.filter(c=>(set==='all'||c.set===set)&&(choice==='all'||c.rarity===choice)&&(!q||c.id.toLowerCase().includes(q)||c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q)));
- page=0;detail.hidden=true;render();
+ page=0;render();
 }
 
 function openCard(c){
- // Beta cards need readable effects on small screens; use a page panel rather
- // than a cramped, non-scrollable image popup.
- detail.hidden=false;detailBody.replaceChildren();
+ // Use a scrollable modal for both desktop and mobile, not an inline panel.
+ detailBody.replaceChildren();
  const title=create('h3','beta-detail-title',zhName(c));
  const english=create('p','beta-detail-english',c.name);
  const meta=create('p','beta-detail-meta',c.id+' · '+c.rarity+' · '+(c.set==='topper'?'BOX TOPPER':'BETA'));
@@ -45,7 +44,12 @@ function openCard(c){
  const original=document.createElement('a');original.href=c.imageUrl;original.target='_blank';original.rel='noopener noreferrer';original.textContent='查看完整卡圖 ↗';links.append(original);
  text.append(links);detailBody.append(visual,text);
  root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.cardId===c.id)));
- detail.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+ if(!detail.open){
+  if(window.NCTCardModal)window.NCTCardModal.open(detail);
+  else detail.showModal();
+ }
+ detailBody.scrollTop=0;
+ document.getElementById('betaDetailHeading').focus({preventScroll:true});
 }
 function tile(c){
  const btn=create('button','beta-tile');btn.type='button';btn.dataset.cardId=c.id;btn.setAttribute('aria-pressed','false');btn.setAttribute('aria-label','檢視 '+c.id+' '+zhName(c));
@@ -65,7 +69,7 @@ function tile(c){
  return btn;
 }
 function render(){
- detail.hidden=true;
+ if(detail.open)detail.close();
  grid.replaceChildren();
  const start=page*PAGE_SIZE,items=filtered.slice(start,start+PAGE_SIZE);
  for(const c of items)grid.append(tile(c));
@@ -75,7 +79,9 @@ function render(){
  count.textContent='符合條件 '+filtered.length+' / '+all.length+' 張';
  if(!items.length)grid.append(create('p','beta-empty','沒有符合條件的卡牌。'));
 }
-document.getElementById('betaDetailClose').addEventListener('click',()=>{detail.hidden=true;root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed','false'))});
+document.getElementById('betaDetailClose').addEventListener('click',()=>detail.close());
+detail.addEventListener('click',event=>{if(event.target===detail)detail.close()});
+detail.addEventListener('close',()=>root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed','false')));
 search.addEventListener('input',filter);
 rarity.addEventListener('change',filter);
 series.addEventListener('change',filter);
