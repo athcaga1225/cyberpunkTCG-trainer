@@ -13,17 +13,35 @@ select.value=choice;
 function lookup(k,name){return Object.entries(art[keyOf(k)]||{}).find(([n])=>norm(n)===norm(name)||(norm(name)==='tetratronicrippler'&&norm(n)==='tetratonicrippler'))?.[1]||null}
 function shuffle(k){const pool=[];for(const c of decks[k].main)for(let n=0;n<c.qty;n++)pool.push(c.name);for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}return pool.slice(0,6)}
 
+
 const hoverBox=$('battleCardHover'),hoverImage=$('battleHoverImage'),
       hoverName=$('battleHoverName'),hoverFallback=$('battleHoverFallback');
-let hoverTarget=null;
+let hoverTarget=null, hoverToken=0, hoverLeaveTimer=null;
+const previewCache=new Map();
+function preloadPreview(src){
+ if(!src)return Promise.resolve(false);
+ if(previewCache.has(src))return previewCache.get(src);
+ const promise=new Promise(resolve=>{
+  const img=new Image();
+  img.onload=()=>resolve(true);
+  img.onerror=()=>resolve(false);
+  img.src=src;
+ });
+ previewCache.set(src,promise);
+ return promise;
+}
+function cancelHoverLeave(){if(hoverLeaveTimer!==null){clearTimeout(hoverLeaveTimer);hoverLeaveTimer=null}}
 function hideHover(){
+ cancelHoverLeave();
+ hoverToken++;
+ hoverTarget=null;
  if(!hoverBox)return;
- hoverTarget=null;hoverBox.classList.remove('hand-preview');hoverBox.hidden=true;hoverBox.setAttribute('aria-hidden','true');
+ hoverBox.classList.remove('hand-preview');
+ hoverBox.hidden=true;
+ hoverBox.setAttribute('aria-hidden','true');
 }
 function positionHover(anchor){
  if(!hoverBox||!anchor||hoverBox.hidden)return;
- // All hand cards use the same rail as positioning anchor, preventing the
- // large preview from jumping between overlapping cards.
  const base=anchor.classList.contains('hand-card')?(anchor.closest('.preview-card-rail')||anchor):anchor;
  const rect=base.getBoundingClientRect();
  const width=hoverBox.getBoundingClientRect().width;
@@ -32,33 +50,43 @@ function positionHover(anchor){
  let left=rect.right+16;
  if(left+width>innerWidth-pad)left=rect.left-width-16;
  if(left<pad)left=Math.max(pad,Math.round((innerWidth-width)/2));
- let top=rect.top-(height-rect.height)/2;
- top=Math.max(pad,Math.min(top,innerHeight-height-pad));
+ const top=Math.max(pad,Math.min(rect.top-(height-rect.height)/2,innerHeight-height-pad));
  hoverBox.style.left=Math.round(left)+'px';
  hoverBox.style.top=Math.round(top)+'px';
 }
 function showHover(anchor,k,name,image){
- if(!hoverBox||!image?.url||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+ if(!hoverBox||!image?.url||!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
+ cancelHoverLeave();
  if(hoverTarget===anchor&&!hoverBox.hidden)return;
+ const token=++hoverToken;
  hoverTarget=anchor;
- hoverBox.classList.toggle('hand-preview',anchor.classList.contains('hand-card'));
+ const handPreview=anchor.classList.contains('hand-card');
+ hoverBox.classList.toggle('hand-preview',handPreview);
  hoverName.textContent=nameOf(name);
- hoverFallback.hidden=true;
- hoverImage.hidden=false;
- if(hoverImage.getAttribute('src')!==image.url)hoverImage.src=image.url;
- hoverImage.alt=nameOf(name)+' 放大卡面';
- hoverBox.hidden=false;
- hoverBox.setAttribute('aria-hidden','false');
- requestAnimationFrame(()=>{if(hoverTarget===anchor)positionHover(anchor)});
+ hoverBox.hidden=false;hoverBox.setAttribute('aria-hidden','false');
+ // Keep the previous image on screen while the new image loads. Never blank
+ // the floating preview when traversing 1 -> 2 -> 3 through overlapping cards.
+ const src=image.url;
+ preloadPreview(src).then(ok=>{
+  if(token!==hoverToken||hoverTarget!==anchor)return;
+  hoverImage.hidden=!ok;
+  hoverFallback.hidden=ok;
+  if(ok&&hoverImage.getAttribute('src')!==src)hoverImage.src=src;
+  hoverImage.alt=nameOf(name)+' 放大卡面';
+  requestAnimationFrame(()=>{if(token===hoverToken)positionHover(anchor)});
+ });
+ requestAnimationFrame(()=>{if(token===hoverToken)positionHover(anchor)});
 }
-if(hoverImage)hoverImage.addEventListener('load',()=>{
- if(hoverTarget)requestAnimationFrame(()=>positionHover(hoverTarget));
-});
-if(hoverImage)hoverImage.addEventListener('error',()=>{
- hoverImage.hidden=true;hoverFallback.hidden=false;
- if(hoverTarget)requestAnimationFrame(()=>positionHover(hoverTarget));
-});
-window.addEventListener('scroll',hideHover,true);
+function scheduleHandHoverLeave(rail){
+ cancelHoverLeave();
+ hoverLeaveTimer=setTimeout(()=>{
+  hoverLeaveTimer=null;
+  // Browser focus and child pointer changes can briefly emit a leave event;
+  // hide only once the pointer truly leaves the entire hand rail.
+  if(!rail.matches(':hover'))hideHover();
+ },110);
+}
+window.addEventListener('scroll',()=>{if(!hoverTarget?.classList.contains('hand-card'))hideHover()},{passive:true});
 window.addEventListener('resize',hideHover);
 
 function card(k,name,back=false,kind='standard',isHand=false){
@@ -100,7 +128,7 @@ function card(k,name,back=false,kind='standard',isHand=false){
     if(el.matches(':focus-visible'))showHover(el,k,name,image);
    });
    el.addEventListener('blur',()=>{
-    if(hoverTarget===el&&!el.closest('.preview-card-rail')?.matches(':hover'))hideHover();
+    if(hoverTarget===el&&!el.closest('.preview-card-rail')?.matches(':hover'))scheduleHandHoverLeave(el.closest('.preview-card-rail'));
    });
    el.addEventListener('click',()=>selectHandCard(el));
  }else{
@@ -164,30 +192,35 @@ function selectHandCard(el){
 }
 // Use card slot x-coordinates, not event.target: stacked card DOM layers otherwise
 // make moving from card 1 to card 2 randomly retrigger/lose the hover.
+
 function hoverHandAt(rail,event){
  if(!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
+ cancelHoverLeave();
  const nodes=[...rail.querySelectorAll('.hand-card')];
  if(!nodes.length)return;
+ const rect=rail.getBoundingClientRect();
  const x=event.clientX;
- let index=0;
- for(let i=1;i<nodes.length;i++){
-  if(x>=nodes[i].getBoundingClientRect().left)index=i;
+ // Clamp inside the full rail. Card starts are stable; all six hit areas
+ // are determined by their x slots and NOT by pointerover child elements.
+ let i=0;
+ for(let n=1;n<nodes.length;n++){
+  if(x>=nodes[n].getBoundingClientRect().left)i=n;
  }
- const card=nodes[index];
- if(hoverTarget===card)return;
- showHover(card,choice,card.dataset.cardName,lookup(choice,card.dataset.cardName));
+ const current=nodes[i];
+ if(hoverTarget!==current||hoverBox.hidden){
+  showHover(current,choice,current.dataset.cardName,lookup(choice,current.dataset.cardName));
+ }
 }
 function bindHandHover(rail){
  if(rail.dataset.hoverBound)return;
  rail.dataset.hoverBound='true';
- rail.addEventListener('pointermove',event=>{if(event.pointerType==='mouse'||event.pointerType==='pen')hoverHandAt(rail,event)});
- rail.addEventListener('pointerleave',event=>{
-  const rect=rail.getBoundingClientRect();
-  const x=event.clientX,y=event.clientY;
-  // Ignore transient leave events caused by the stacked-card geometry.
-  if(x>=rect.left-1&&x<=rect.right+1&&y>=rect.top-1&&y<=rect.bottom+1)return;
-  hideHover();
+ rail.addEventListener('pointermove',event=>{
+  if(event.pointerType==='mouse'||event.pointerType==='pen')hoverHandAt(rail,event);
  });
+ rail.addEventListener('pointerenter',event=>{
+  if(event.pointerType==='mouse'||event.pointerType==='pen')hoverHandAt(rail,event);
+ });
+ rail.addEventListener('pointerleave',()=>scheduleHandHoverLeave(rail));
 }
 
 function render(){hideHover();selectedHandIndex=null;const other=choice==='theHeist'?'embracingPower':'theHeist';legend(choice,'player');legend(other,'opponent');
@@ -200,6 +233,7 @@ function render(){hideHover();selectedHandIndex=null;const other=choice==='theHe
   my.append(el);
  });
  bindHandHover(my);
+ for(const n of hand){const image=lookup(choice,n);if(image?.url)preloadPreview(image.url)}
  for(let i=0;i<6;i++)rival.append(card(other,'',true));
  requestAnimationFrame(fitPreviewRails);
  $('battleSelectedDeck').textContent='玩家：'+decks[choice].name;$('battleOpponentDeck').textContent='對手：'+decks[other].name;
@@ -209,27 +243,29 @@ function render(){hideHover();selectedHandIndex=null;const other=choice==='theHe
 }
 select.onchange=()=>{if(!decks[select.value])return;choice=select.value;showLegends=false;hand=shuffle(choice);try{localStorage.setItem('nct-preview-deck',choice)}catch{}render()};
 
+
 let redrawTimer=null;
 $('redrawBattleHand').onclick=()=>{
  const button=$('redrawBattleHand');
  if(button.disabled)return;
  const handZone=root.querySelector('.player-hand');
- const deckZone=root.querySelector('.player-deck');
- if(!handZone||!deckZone){hand=shuffle(choice);render();return}
- const nextHand=shuffle(choice);
+ if(!handZone){hand=shuffle(choice);render();return}
  button.disabled=true;
- handZone.classList.add('is-shuffling');deckZone.classList.add('is-shuffling');
- const caption=document.createElement('span');caption.className='hand-shuffle-caption';caption.textContent='洗牌中…';handZone.append(caption);
+ hideHover();
+ hand=shuffle(choice);
+ render();
  const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
- window.clearTimeout(redrawTimer);
- redrawTimer=window.setTimeout(()=>{
-   hand=nextHand;
-   handZone.classList.remove('is-shuffling');
-   deckZone.classList.remove('is-shuffling');
-   caption.remove();
-   render();
-   button.disabled=false;
- },reduced?0:600);
+ const rail=handZone.querySelector('.preview-card-rail');
+ if(!reduced&&rail){
+  // New cards deal in from left to right, with staggered 110ms starts.
+  // Animation does not change draw order or the 6-card game preview.
+  rail.classList.add('is-dealing');
+ }
+ clearTimeout(redrawTimer);
+ redrawTimer=setTimeout(()=>{
+  rail?.classList.remove('is-dealing');
+  button.disabled=false;
+ },reduced?0:1050);
 };
 $('toggleBattleLegends').onclick=()=>{showLegends=!showLegends;render()};
 $('closeBattleCard').onclick=()=>$('battleCardDialog')?.close();

@@ -1044,11 +1044,64 @@ body.battle-wide #battle .tour-coach .tour-coach-tools .tour-close-x{
  background:#081116;
 }
 #battle .player-hand .preview-card-rail{isolation:isolate}
-#battle .player-hand .hand-card{transform:none!important}
-#battle .player-hand .hand-card:hover{transform:none!important}
+#battle .player-hand .hand-card{transform:none}
+#battle .player-hand .hand-card:hover{transform:none}
 @media(max-width:840px){
  #battleCardHover.hand-preview{width:min(380px,calc(100vw - 18px))}
  #battleCardHover.hand-preview img{height:min(62vh,510px)}
+}
+
+/* Battle action menu: text-only cyan commands separated by vertical bars. */
+body.battle-wide #battle .battle-toolbar .board-tour-controls{
+ display:flex;align-items:center;justify-content:flex-end;
+ gap:0;flex-wrap:wrap;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn,
+body.battle-wide #battle .battle-toolbar #startBoardTour{
+ position:relative;min-height:40px;margin:0;
+ border:0;background:transparent;box-shadow:none;border-radius:0;
+ padding:9px 17px;color:#cce5e8;font-size:15px;font-weight:500;
+ transition:color .15s;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn+.btn::before{
+ content:"|";
+ position:absolute;left:0;top:50%;transform:translate(-50%,-50%);
+ color:#617d86;font-weight:400;pointer-events:none;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:hover,
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:focus-visible,
+body.battle-wide #battle .battle-toolbar #startBoardTour:hover{
+ color:#29ffff;background:transparent;border:0;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opacity:.45;cursor:wait}
+/* Never apply the old scatter-shuffle. Deal exactly six cards in order. */
+#battle .player-hand.is-shuffling .preview-art-card,
+#battle .player-deck.is-shuffling .deck-pile{animation:none!important}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card{
+ animation:nctDealCard .38s ease-out both;
+ transform-origin:bottom left;
+ pointer-events:none;
+}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(1){animation-delay:0ms}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(2){animation-delay:110ms}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(3){animation-delay:220ms}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(4){animation-delay:330ms}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(5){animation-delay:440ms}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(6){animation-delay:550ms}
+@keyframes nctDealCard{
+ 0%{opacity:0;transform:translateX(46px) translateY(10px) scale(.85)}
+ 100%{opacity:1;transform:translateX(0) translateY(0) scale(1)}
+}
+/* Avoid the old forced transform:none which canceled the spread animation. */
+#battle .player-hand .preview-card-rail.is-dealing .hand-card,
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:hover{
+ transform-origin:bottom left;
+}
+/* Hover is a single stable overlay. Pointer never interacts with it. */
+#battleCardHover{pointer-events:none!important;contain:layout style}
+#battleCardHover.hand-preview img{visibility:visible}
+@media(prefers-reduced-motion:reduce){
+ #battle .player-hand .preview-card-rail.is-dealing .hand-card{animation:none!important}
 }
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">初始牌組</button><button data-page="rules">規則資料</button></nav></header>
@@ -1143,7 +1196,7 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=11"></script><script src="board-tour.js?v=4"></script><script>
+</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=12"></script><script src="board-tour.js?v=4"></script><script>
 /* Image preview enhancement: cards remain clickable image links if JS is disabled. */
 (function(){
  const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');
