@@ -2,6 +2,9 @@
 (()=>{'use strict';
 const root=document.getElementById('betaCardCollection'),starter=document.getElementById('starterDeckGallery');
 if(!root||!starter)return;
+// Keep the shared dialog outside either tab's hidden subtree.
+const sharedDialog=document.getElementById('betaCardDetail');
+if(sharedDialog)document.getElementById('decks').append(sharedDialog);
 const buttons=[...document.querySelectorAll('[data-card-view]')];
 const search=document.getElementById('betaSearch'),rarity=document.getElementById('betaRarity'),series=document.getElementById('betaSeries');
 const grid=document.getElementById('betaResults'),count=document.getElementById('betaCount');
