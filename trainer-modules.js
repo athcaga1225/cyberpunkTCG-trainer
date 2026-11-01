@@ -5,39 +5,59 @@ const unit=(id,name,power,ready=true,extras={})=>({id,name,power,ready,lag:false
 const dice=(id,sides,value)=>({id,sides,value});
 const state=(p={},a={})=>({player:{units:[],gigs:[],fixer:[],deck:[],hand:[],...p},ai:{units:[],gigs:[],fixer:[],deck:[],hand:[],...a}});
 const stages=[
- {title:'01 / FIXER 與骰子',instruction:'回合開始抽牌後，從「和事佬區（Fixer Area）」挑一顆骰子擲出，放進自己的任務區。二十面骰（d20）必須最後才擲。你現在可以選哪一顆？',setup:()=>state({fixer:[4,6,20]}),
-  options:s=>s.player.fixer.map(side=>({label:'擲出 '+L.dieLabel(side),run:()=>R.rollIn(s,'player',side,Math.min(side,3)),done:side=>side!==20}))},
- {title:'02 / 哪些單位可以被攻擊？',instruction:'狠毒混混（Ruthless Lowlife）只能攻擊對手的角色，不能攻擊任務區搶骰子。而一般角色只能主動攻擊對手「已使用（Spent）」的角色。請選出合法目標。',setup:()=>state({units:[unit('r','Ruthless Lowlife',4)]},{units:[unit('ready','Field Operator',2),unit('spent','Field Operator',2,false)],gigs:[dice('g',4,3)]}),
+ {title:'01 / 從合事佬區擲骰',instruction:'回合開始抽牌後，從「合事佬區（Fixer Area）」挑一顆骰子擲出，放進自己的任務區。二十面骰（d20）必須最後才擲。你現在可以選哪一顆？',setup:()=>state({fixer:[4,6,20]}),
+  options:s=>s.player.fixer.map(side=>({label:'擲出 '+L.dieLabel(side),run:()=>R.rollIn(s,'player',side,Math.min(side,3)),done:r=>r.ok}))},
+ {title:'02 / 哪些角色可以被攻擊？',instruction:'狠毒混混（Ruthless Lowlife）只能攻擊對手的角色，不能攻擊任務區搶骰子。而一般角色只能主動攻擊對手「已使用（Spent）」的角色。請選出合法目標。',setup:()=>state({units:[unit('r','Ruthless Lowlife',4)]},{units:[unit('ready','Field Operator',2),unit('spent','Field Operator',2,false)],gigs:[dice('g',4,3)]}),
   options:s=>[{label:'攻擊對手就緒的角色（不合法）',run:()=>R.attack(s,'player','r',{kind:'unit',id:'ready'}),done:()=>false},{label:'攻擊對手已使用的角色',run:()=>R.attack(s,'player','r',{kind:'unit',id:'spent'}),done:()=>true},{label:'攻擊對手任務區（這張卡不允許）',run:()=>R.attack(s,'player','r',{kind:'gig'}),done:()=>false}]},
- {title:'03 / 搶奪 Gig',instruction:'外勤幹員（Field Operator）有 2 點戰力（Power）。攻擊對手的任務區，就可以從中搶走 1 顆任務骰。選擇你要搶哪顆。',setup:()=>state({units:[unit('f','Field Operator',2)]},{gigs:[dice('g1',4,1),dice('g2',6,6)]}),
+ {title:'03 / 搶走任務骰',instruction:'外勤幹員（Field Operator）有 2 點戰力（Power）。攻擊對手的任務區，就可以從中搶走 1 顆任務骰。選擇你要搶哪顆。',setup:()=>state({units:[unit('f','Field Operator',2)]},{gigs:[dice('g1',4,1),dice('g2',6,6)]}),
   options:s=>s.ai.gigs.map(d=>({label:'搶走 '+L.dieLabel(d.sides)+'（'+d.value+' 點）',run:()=>R.attack(s,'player','f',{kind:'gig'},{dieIds:[d.id]}),done:()=>true}))},
- {title:'04 / 裝備提高 Power',instruction:'牛頭怪（Minotaur）原本有 9 點戰力；裝上螳螂刀（Mantis Blades）增加 2 點，變成 11 點戰力。戰力達 10，可在一次攻擊中搶走兩顆任務骰。',setup:()=>state({units:[unit('m','Minotaur',9,true,{gear:[{name:'Mantis Blades',power:2}]})]},{gigs:[dice('g1',4,1),dice('g2',6,2),dice('g3',8,3)]}),
+ {title:'04 / 裝備提高戰力',instruction:'牛頭怪（Minotaur）原本有 9 點戰力；裝上螳螂刀（Mantis Blades）增加 2 點，變成 11 點戰力。戰力達 10，可在一次攻擊中搶走兩顆任務骰。',setup:()=>state({units:[unit('m','Minotaur',9,true,{gear:[{name:'Mantis Blades',power:2}]})]},{gigs:[dice('g1',4,1),dice('g2',6,2),dice('g3',8,3)]}),
   options:s=>[{label:'搶走四面骰（d4）與六面骰（d6）',run:()=>R.attack(s,'player','m',{kind:'gig'},{dieIds:['g1','g2']}),done:()=>true},{label:'只搶八面骰（d8）',run:()=>R.attack(s,'player','m',{kind:'gig'},{dieIds:['g3']}),done:()=>false}]},
- {title:'05 / BLOCKER 攔截',instruction:'對手有一張就緒（直立）的二手蜂型機器人（Secondhand Bombus），具備攔截（Blocker）能力。對手可以把它橫置，使攻擊轉向它，改成角色交戰（Fight），這次便搶不到任務骰。',setup:()=>state({units:[unit('f','Field Operator',2)]},{units:[unit('b','Secondhand Bombus',0,true,{blocker:true})],gigs:[dice('g1',4,4)]}),
+ {title:'05 / 攔截對手的攻擊',instruction:'對手有一張就緒（直立）的二手蜂型機器人（Secondhand Bombus），具備攔截（Blocker）能力。對手可以把它橫置，使攻擊轉向它，改成角色交戰（Fight），這次便搶不到任務骰。',setup:()=>state({units:[unit('f','Field Operator',2)]},{units:[unit('b','Secondhand Bombus',0,true,{blocker:true})],gigs:[dice('g1',4,4)]}),
   options:s=>[{label:'對手使用攔截能力',run:()=>R.attack(s,'player','f',{kind:'gig'},{blockWithId:'b'}),done:r=>r.ok&&r.state.player.gigs.length===0},{label:'對手選擇不攔截',run:()=>R.attack(s,'player','f',{kind:'gig'}),done:()=>false}]},
- {title:'06 / 真正的勝利條件',instruction:'一般情況下，剛搶到第 7 顆任務骰並不會立刻獲勝。必須等到自己的下一個回合開始時，還持有至少 7 顆才算贏。加時賽規則不同。',setup:()=>state({gigs:[1,2,3,4,5,6,7].map(n=>dice('g'+n,20,n))}),
-  options:s=>[{label:'等到自己的下一回合開始再檢查',run:()=>({ok:R.startWin(s,'player'),state:s,events:['回合開始時有 7 顆 Gig：符合勝利條件']}),done:()=>true},{label:'剛搶到第 7 顆就立即宣布勝利',run:()=>({ok:false,reason:'一般回合必須等到你的下一個回合開始才檢查；只有 Overtime 才即時獲勝'}),done:()=>false}]},
- {title:'07 / 真實卡牌的登場能力',instruction:'外勤幹員（Field Operator）登場時，如果街頭聲望是偶數，就抽 1 張牌。你有兩顆任務骰，點數是 2 和 4，所以街頭聲望是 6，屬於偶數。',setup:()=>state({gigs:[dice('g1',4,2),dice('g2',6,4)],hand:[],deck:[{name:'測試抽到的卡'}]}),
+ {title:'06 / 正確判定勝負',instruction:'一般情況下，剛搶到第 7 顆任務骰並不會立刻獲勝。必須等到自己的下一個回合開始時，還持有至少 7 顆才算贏。加時賽規則不同。',setup:()=>state({gigs:[1,2,3,4,5,6,7].map(n=>dice('g'+n,20,n))}),
+  options:s=>[{label:'等到自己的下一回合開始再檢查',run:()=>({ok:R.startWin(s,'player'),state:s,events:['回合開始時持有 7 顆任務骰，符合勝利條件']}),done:()=>true},{label:'剛搶到第 7 顆就立即宣布勝利',run:()=>({ok:false,reason:'一般回合必須等到你的下一個回合開始才檢查；只有加時賽才可能立刻獲勝'}),done:()=>false}]},
+ {title:'07 / 卡牌登場能力',instruction:'外勤幹員（Field Operator）登場時，如果街頭聲望是偶數，就抽 1 張牌。你有兩顆任務骰，點數是 2 和 4，所以街頭聲望是 6，屬於偶數。',setup:()=>state({gigs:[dice('g1',4,2),dice('g2',6,4)],hand:[],deck:[{name:'測試抽到的卡'}]}),
   options:s=>[{label:'使用外勤幹員的登場能力，抽 1 張牌',run:()=>R.playTrigger(s,'player',{name:'Field Operator'}),done:r=>r.ok&&r.state.player.hand.length===1},{label:'街頭聲望是偶數，所以不能抽牌',run:()=>({ok:false,reason:'官方卡牌效果指定偶數時抽牌，6 是偶數'}),done:()=>false}]}
 ];
-const saved='nct-rule-lab-v2';let completed=0;try{completed=Math.max(0,Math.min(stages.length,Number(localStorage.getItem(saved))||0))}catch{}
-let stage=Math.min(completed,stages.length-1),game=null,notice='';let passed=false;
-const add=(parent,tag,text,cls)=>{const e=document.createElement(tag);e.textContent=text;if(cls)e.className=cls;parent.append(e);return e};
-function load(i){stage=i;game=stages[i].setup();notice='';passed=false;render()}
-function render(){const st=stages[stage],container=$('labStage');if(!container)return;container.replaceChildren();const top=add(container,'div','LAB '+(stage+1)+' / '+stages.length,'number');const track=add(container,'div','','progress');const filled=add(track,'span','');filled.style.width=(((Math.max(completed,stage)+1)/stages.length)*100)+'%';add(container,'h2',st.title);add(container,'p',st.instruction);
- const scoreboard=add(container,'div','','arena');
- const panel=(label,who)=>{const div=add(scoreboard,'div','','zone');add(div,'div',label,'number');const p=game[who];add(div,'p','任務骰 '+p.gigs.length+' 顆 · 街頭聲望 '+(R.cred(p.gigs)??'Null'));add(div,'p','單位：'+(p.units.length?p.units.map(u=>L.cardTitle(u.name)+'（'+R.power(u)+' 戰力 / '+(u.ready?'就緒':'已使用')+(u.lag?', 新登場限制':'')+'）').join('、'):'無'));if(p.gigs.length)add(div,'p',p.gigs.map(d=>L.dieLabel(d.sides)+'：'+d.value).join(' · '));if(p.fixer.length)add(div,'p','和事佬區：'+p.fixer.map(x=>L.dieLabel(x)).join(' · '));};panel('PLAYER / 你的區域','player');panel('RIVAL / 對手區域','ai');
- add(container,'div','請選擇你的操作','number');const actions=add(container,'div','','actions');if(!passed){for(const o of st.options(game)){const b=add(actions,'button',o.label,'btn');b.addEventListener('click',()=>{const result=o.run();if(!result.ok){notice=result.reason;render();return}game=result.state;notice=result.events.join('；');if(o.done(result)){passed=true;completed=Math.max(completed,stage+1);try{localStorage.setItem(saved,String(completed))}catch{}}render()})}}else{add(actions,'strong','✓ 已通過這一關');if(stage<stages.length-1){const b=add(actions,'button','下一關 →','btn primary');b.addEventListener('click',()=>load(stage+1))}else add(actions,'strong','全部 7 關完成！')}
- const feedback=add(container,'div',notice||'請選擇一個操作。','notice');feedback.setAttribute('role','status');const nav=add(container,'div','','actions');if(stage>0){const prev=add(nav,'button','← 前一關','btn');prev.onclick=()=>load(stage-1)}const retry=add(nav,'button','重試本關','btn');retry.onclick=()=>load(stage);if(completed>=stages.length){const reset=add(nav,'button','重新開始整套練習','btn');reset.onclick=()=>{completed=0;try{localStorage.setItem(saved,'0')}catch{}load(0)}}add(container,'p','這裡是部分規則的教學練習，尚未包含完整的付費流程、快速反應（Quick）及全部卡牌效果。','muted');}
-function cards(){const root=$('verifiedCardList');if(!root)return;root.replaceChildren();for(const card of window.NCT_OFFICIAL_CARDS){const div=add(root,'div','','panel');const title=add(div,'h3',L.cardTitle(card.name));title.style.color='#29ffff';add(div,'p',card.type+' · COST '+card.cost+' · PWR '+card.power+' · RAM '+card.ram);add(div,'p',card.summary);add(div,'small',card.implemented.length?'已支援部分卡牌能力':'卡牌效果尚未加入對戰引擎');const link=add(div,'a','查看官方英文卡牌 ↗');link.href=card.source;link.target='_blank';link.rel='noopener noreferrer';}}
-function decks(){const sel=$('deckSelect');if(!sel)return;const keys=Object.keys(window.NCT_STARTER_DECKS);for(const key of keys){const opt=document.createElement('option');opt.value=key;opt.textContent=window.NCT_STARTER_DECKS[key].name;sel.append(opt)}
- const key=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/[‘’]/g,"'").replace(/[^a-z0-9]+/g,' ').trim();
- const cards=()=>{try{return JSON.parse(localStorage.getItem('nct-imported-cards-v1')||'[]')}catch{return []}};
- function update(){const d=window.NCT_STARTER_DECKS[sel.value];const list=$('deckRows');list.replaceChildren();const imported=cards();const lookup=new Map();for(const c of imported){const k=key(c.name);lookup.set(k,(lookup.get(k)||0)+1)}
- const combined=[...d.legends.map(c=>({...c,kind:'LEGEND'})),...d.main.map(c=>({...c,kind:'MAIN'}))];
- const total=d.main.reduce((a,c)=>a+c.qty,0),matches=combined.filter(c=>lookup.get(key(c.name))===1).length;
- $('deckSummary').textContent='3 Legend / '+total+' 張主牌組 · '+combined.length+' 種卡牌 · 本機匯入資料精確匹配 '+matches+'/'+combined.length+' 種 · 真正卡牌效果尚未全部實作';
- for(const c of combined){const div=add(list,'div','','panel');add(div,'div',c.kind+' / '+c.qty+' ×','number');add(div,'strong',c.name);add(div,'p',lookup.get(key(c.name))===1?'本機資料：已匹配':lookup.get(key(c.name))>1?'本機資料：同名多筆':'本機資料：未匹配');const known=window.NCT_OFFICIAL_CARDS.find(x=>key(x.name)===key(c.name));if(known){add(div,'small',known.summary);const a=add(div,'a','官方卡牌 ↗');a.href=known.source;a.target='_blank';a.rel='noopener noreferrer';}}}
- sel.addEventListener('change',update);$('auditDeck')?.addEventListener('click',update);update();}
-cards();decks();load(stage);
+const lessonInfo=[
+ {title:'任務骰從哪裡來？',text:'每回合開始時，從合事佬區（Fixer Area）選一顆骰子擲出，放進自己的任務區。骰子名稱 d4、d6 等代表面數；二十面骰（d20）必須留到最後。'},
+ {title:'就緒與已使用',text:'直立的角色叫「就緒（Ready）」，橫置的角色叫「已使用（Spent）」。一般主動攻擊只能選對手已使用的角色。特定卡牌還有自己的攻擊限制。'},
+ {title:'怎麼搶任務骰？',text:'可以攻擊對手的任務區，把骰子搶到自己這邊。能搶幾顆取決於戰力（Power）；戰力 1～9 通常搶 1 顆。'},
+ {title:'裝備讓戰力變高',text:'裝備（Gear）可以提高角色戰力。戰力達到 10，就能在單次攻擊時搶走 2 顆骰子；有更多戰力還可能搶更多。'},
+ {title:'對手可以攔截',text:'具有「攔截（Blocker）」的就緒角色可以橫置自己，讓攻擊改為與它交戰；因此原本要搶任務骰的攻擊會被攔下。'},
+ {title:'什麼時候才算贏？',text:'正常情況下，要在自己的回合開始時持有至少 7 顆任務骰才獲勝。注意：看的是骰子數量，而不是點數總和。'},
+ {title:'街頭聲望能觸發卡牌能力',text:'街頭聲望（Street Cred）是自己任務骰的點數總和，不是骰子數量。有些角色會依聲望條件發動登場能力。'}
+];
+const progressKey='nct-integrated-lessons-v1';
+const toProgress=x=>Math.max(0,Math.min(stages.length,Number.isFinite(Number(x))?Number(x):0));
+let completed=0;
+try{const own=localStorage.getItem(progressKey);completed=toProgress(own!==null?own:localStorage.getItem('nct-rule-lab-v2')||'0')}catch{}
+let stage=0,game=null,notice='',passed=false;
+const add=(parent,tag,text,cls)=>{const e=document.createElement(tag);e.textContent=text||'';if(cls)e.className=cls;parent.append(e);return e};
+function save(){try{localStorage.setItem(progressKey,String(completed))}catch{}}
+function load(i){if(i<0||i>=stages.length||i>completed)return;stage=i;game=stages[i].setup();notice='';passed=false;render()}
+function navChapters(){const root=$('chapterNav');if(!root)return;root.replaceChildren();stages.forEach((s,i)=>{const b=add(root,'button',String(i+1).padStart(2,'0'));b.type='button';b.title=lessonInfo[i].title;b.setAttribute('aria-label','第 '+(i+1)+' 課：'+lessonInfo[i].title);if(i===stage)b.setAttribute('aria-current','step');if(i<completed)b.classList.add('completed');b.disabled=i>completed;b.onclick=()=>load(i)})}
+function render(){const st=stages[stage],container=$('labStage');if(!container)return;
+navChapters();container.replaceChildren();
+const header=add(container,'div','','chapter-progress');add(header,'strong','LESSON '+String(stage+1).padStart(2,'0')+' / '+String(stages.length).padStart(2,'0'),'number');add(header,'span','已完成 '+completed+' / '+stages.length+' 課','muted');
+const track=add(container,'div','','progress');const fill=add(track,'span','');fill.style.width=((completed/stages.length)*100)+'%';
+add(container,'h2',lessonInfo[stage].title);
+const explain=add(container,'div','','chapter-learning');add(explain,'h3','先理解這個觀念');add(explain,'p',lessonInfo[stage].text);
+const question=add(container,'div','','chapter-quiz');add(question,'div','現在試著操作','number');add(question,'p',st.instruction);
+const scoreboard=add(container,'div','','arena');
+const panel=(label,who)=>{const div=add(scoreboard,'div','','zone');add(div,'div',label,'number');const p=game[who];add(div,'p','任務骰 '+p.gigs.length+' 顆 · 街頭聲望 '+(R.cred(p.gigs)??'尚無'));add(div,'p','角色：'+(p.units.length?p.units.map(u=>L.cardTitle(u.name)+'（'+R.power(u)+' 戰力 / '+(u.ready?'就緒':'已使用')+(u.lag?'，新登場限制':'')+'）').join('、'):'無'));if(p.gigs.length)add(div,'p',p.gigs.map(d=>L.dieLabel(d.sides)+'：'+d.value+' 點').join(' · '));if(p.fixer.length)add(div,'p','合事佬區：'+p.fixer.map(x=>L.dieLabel(x)).join(' · '));};panel('PLAYER / 你的區域','player');panel('RIVAL / 對手區域','ai');
+const actions=add(container,'div','','actions');const isDone=passed||stage<completed;
+if(!isDone){for(const o of st.options(game)){const b=add(actions,'button',o.label,'btn');b.onclick=()=>{const result=o.run();if(!result.ok){notice=result.reason||'這個操作不符合目前規則，請再試一次。';render();return}
+game=result.state;
+if(o.done(result)){passed=true;completed=Math.max(completed,stage+1);save();notice=(result.events||[]).join('；')+'。答對了，已解鎖下一課。'}
+else notice='這個動作可以執行，但不是這一題要你練習的選擇。請重新開始本課，試試其他操作。';
+render()}}}
+else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'muted');if(stage<stages.length-1){const next=add(actions,'button','下一課 →','btn primary');next.onclick=()=>load(stage+1)}else add(actions,'strong','恭喜完成全部 7 課！')}
+const feedback=add(container,'div',notice||'先閱讀上方解說，再選一個操作。','notice');feedback.setAttribute('role','status');
+const bottom=add(container,'div','','chapter-actions');if(stage>0){const prev=add(bottom,'button','← 上一課','btn');prev.onclick=()=>load(stage-1)}const retry=add(bottom,'button','重新練習這一課','btn');retry.onclick=()=>load(stage);if(completed>=stages.length){const reset=add(bottom,'button','重設教學進度','btn');reset.onclick=()=>{completed=0;save();load(0)}}
+add(container,'p','這些是官方規則的局部操作示範，尚未支援完整付費流程、快速反應（Quick）或完整 AI 對局。','muted');
+}
+function cards(){const root=$('verifiedCardList');if(!root)return;root.replaceChildren();for(const card of window.NCT_OFFICIAL_CARDS){const div=add(root,'div','','panel');add(div,'h3',L.cardTitle(card.name)).style.color='#29ffff';add(div,'p',(card.type==='Unit'?'角色單位':card.type==='Gear'?'裝備':card.type)+' · 費用 '+card.cost+' · 戰力 '+card.power+' · RAM '+card.ram);add(div,'p',card.summary);add(div,'small',card.implemented.length?'已支援部分卡牌能力':'卡牌效果尚未加入對戰引擎');const link=add(div,'a','查看官方英文卡牌 ↗');link.href=card.source;link.target='_blank';link.rel='noopener noreferrer';}}
+cards();load(0);
 })();

@@ -7,8 +7,9 @@ Live site (when GitHub Pages finishes deploying): https://athcaga1225.github.io/
 ## What's implemented
 
 - Responsive CYBERDEX-inspired Type B Red design.
-- Six-step Traditional Chinese beginner guide grounded in the official gameplay guide.
-- **Seven playable rule exercises**: Gig roll-in, d20-last constraint, target validation, Power-based fights, stealing Gigs, Mantis Blades Power modifier, Blocker reaction, start-of-turn 7-Gig win, and Field Operator draw.
+- All Fixer translations use the Cyberpunk 2077 Taiwan localization **合事佬**; former #practice URLs redirect to the combined #learn module.
+- Seven integrated Traditional Chinese learn-and-practice lessons grounded in the official gameplay guide; theory and one playable exercise share a single page.
+- **Seven playable, integrated teaching exercises**: Gig roll-in, d20-last constraint, target validation, Power-based fights, stealing Gigs, Mantis Blades Power modifier, Blocker reaction, start-of-turn 7-Gig win, and Field Operator draw.
 - Verified-rule **partial engine** in `rules-core.js`, with **16 deterministic tests**.
 - Official starter deck manifests for **The Heist and Embracing Power**, each 3 Legends and 40 main-deck cards, plus comparison against locally imported JSON.
 - Eight official card summaries and direct official source URLs; cards are explicitly marked partly implemented/unimplemented.
