@@ -62,10 +62,9 @@ function openCard(c){
  if(kind)names.append(kind);
  identity.append(accent,names);
  info.append(identity);
- // Full three-cell layout for cards verified against the official database.
- // Legends without printed Cost/PWR and Programs without PWR use an em dash.
- // Other unverified cards do not display pretend numbers.
- if(c.attributesStatus==='verified-official-card-database-2026-11-02'){
+ // Show the same three-cell COST / RAM / POW layout for every Beta card.
+ // Null means the value is not printed on that card and is shown as an em dash.
+ if(c.set==='beta' && Object.prototype.hasOwnProperty.call(c,'ram')){
   const stats=create('div','beta-detail-stats');
   for(const [label,value] of [['COST',c.cost],['RAM',c.ram],['POW',c.power]]){
    const stat=create('div','beta-detail-stat');
@@ -135,7 +134,7 @@ series.addEventListener('change',filter);
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
-fetch('./beta-cards.json?v=5',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
+fetch('./beta-cards.json?v=6',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
  const cards=data.cards||[];
  if(cards.length!==178||new Set(cards.map(x=>x.id)).size!==178)throw Error('Beta 卡牌清單不完整');
  all=cards;filtered=all.slice();
