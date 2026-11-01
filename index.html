@@ -758,6 +758,91 @@ body.battle-wide #battle .battle-toolbar{
  body.battle-wide #battle .preview-zone.player-fixer .mini-dice,
  body.battle-wide #battle .preview-zone.opponent-fixer .mini-dice{padding:2px 0;margin:0}
 }
+
+/* Single starter-deck picker, with comfortable right inset for the chevron. */
+body.battle-wide #battle .battle-toolbar{
+ grid-template-columns:minmax(220px,315px) minmax(0,1fr);
+ align-items:center;
+}
+#battle .battle-deck-picker{
+ width:100%;
+ display:flex;
+ flex-direction:column;
+ align-items:stretch;
+ gap:7px;
+ flex-wrap:nowrap;
+}
+body.battle-wide #battle .battle-deck-picker .preview-deck-label{
+ display:block;
+ width:100%;
+ font-size:14px;
+ font-weight:500;
+ color:#afcbd0;
+}
+body.battle-wide #battle .battle-deck-picker #battleDeckChoice{
+ display:block;
+ box-sizing:border-box;
+ width:100%;
+ min-width:0;
+ max-width:100%;
+ min-height:44px;
+ flex:none;
+ font-size:16px;
+ padding:9px 51px 9px 15px;
+ appearance:none;
+ -webkit-appearance:none;
+ border:1px solid #66c9d4;
+ border-radius:4px;
+ background-color:#10232a;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath d='M2 2l6 6 6-6' stroke='%23d8e9eb' stroke-width='2' fill='none' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+ background-repeat:no-repeat;
+ background-size:16px 10px;
+ background-position:right 20px center;
+}
+body.battle-wide #battle .battle-deck-picker #battleDeckChoice:focus-visible{
+ outline:2px solid #29ffff;
+ outline-offset:3px;
+}
+/* The guide changes height to accommodate text, but its outer width,
+   spacing, and button geometry stay constant across both states. */
+body.battle-wide #battle .tour-coach,
+body.battle-wide #battle .tour-coach:not(.is-compact){
+ box-sizing:border-box;
+ width:min(440px,calc(100% - 28px));
+ padding:18px 20px;
+ top:14px;
+ right:14px;
+ border-radius:10px;
+}
+#battle .tour-coach .tour-coach-tools{align-items:center;flex-wrap:nowrap;}
+#battle .tour-coach .tour-close-x{
+ display:grid;
+ place-items:center;
+ flex:0 0 39px;
+ width:39px;
+ height:39px;
+ min-width:39px;
+ padding:0;
+ font-size:26px;
+ line-height:1;
+}
+#battle .tour-coach .tour-close-x:hover,
+#battle .tour-coach .tour-close-x:focus-visible{
+ color:#29ffff;
+ border-color:#29ffff;
+}
+@media(max-width:840px){
+ body.battle-wide #battle .battle-toolbar{display:flex;flex-direction:column;align-items:stretch}
+ body.battle-wide #battle .battle-deck-picker{max-width:330px}
+ body.battle-wide #battle .tour-coach,
+ body.battle-wide #battle .tour-coach:not(.is-compact){
+  position:relative;
+  top:auto;right:auto;
+  width:100%;
+  margin:12px 0 0;
+  padding:16px;
+ }
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">初始牌組</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -775,7 +860,7 @@ body.battle-wide #battle .battle-toolbar{
 <div class="panel" id="labStage" aria-live="polite"><p>正在載入互動教學…</p></div>
 <p class="muted">詳細術語與完整規則參考：<a href="https://cyberpunktcg.com/gameplay-guide" target="_blank" rel="noopener noreferrer">官方 Gameplay Guide ↗</a></p>
 </section>
-<section id="battle" class="hide"><div class="battle-toolbar"><div class="battle-deck-picker"><span class="battle-picker-heading">選擇初始牌組</span><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select><div class="battle-deck-switch" role="group" aria-label="快速切換初始牌組"><button type="button" data-preview-deck="theHeist" class="selected" aria-pressed="true">The Heist</button><button type="button" data-preview-deck="embracingPower" aria-pressed="false">Embracing Power</button></div></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button><button class="btn" type="button" id="jumpToLessons">前往新手教學 ↗</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
+<section id="battle" class="hide"><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button><button class="btn" type="button" id="jumpToLessons">前往新手教學 ↗</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
  <div class="table-preview" id="tablePreview">
   <div class="preview-zone opponent-hand" data-tour-zone="opponent-hand"><small>OPPONENT / 手牌</small><div class="placeholder-label preview-card-rail">對手手牌 · 隱藏資訊</div></div>
   <div class="preview-zone opponent-legends" data-tour-zone="opponent-legends"><small>OPPONENT / 傳奇角色</small><div class="cardbacks"><div class="backcard">NCT</div><div class="backcard">NCT</div><div class="backcard">NCT</div></div></div>
@@ -793,7 +878,7 @@ body.battle-wide #battle .battle-toolbar{
   <div class="preview-zone player-legends" data-tour-zone="player-legends"><small>PLAYER / 傳奇角色</small><div class="cardbacks"><div class="backcard">NCT</div><div class="backcard">NCT</div><div class="backcard">NCT</div></div></div>
   <div class="preview-zone player-eddies" data-tour-zone="player-eddies"><small>PLAYER / EDDIES</small><div class="placeholder-label">我的資源區 · 0 €$</div></div>
  </div>
- <aside class="tour-coach is-compact" aria-live="polite"><div class="tour-coach-header"><span id="tourCounter">AREA 01 / 08</span><div class="tour-coach-tools"><button type="button" id="toggleBoardTip" class="tour-mini" aria-expanded="false" aria-controls="tourTipDetails">顯示解說</button><button type="button" id="closeBoardTour" class="tour-mini">關閉 ×</button></div></div>
+ <aside class="tour-coach is-compact" aria-live="polite"><div class="tour-coach-header"><span id="tourCounter">AREA 01 / 08</span><div class="tour-coach-tools"><button type="button" id="toggleBoardTip" class="tour-mini" aria-expanded="false" aria-controls="tourTipDetails">顯示解說</button><button type="button" id="closeBoardTour" class="tour-mini tour-close-x" aria-label="關閉桌面導覽" title="關閉">×</button></div></div>
  <h2 id="tourTitle"></h2><div id="tourTipDetails" class="tour-tip-details"><p id="tourDescription"></p><div class="tour-action" id="tourAction"></div><p id="tourDetail" class="tour-detail"></p>
  <div class="tour-coach-nav"><button class="btn" id="tourPrevious" type="button">← 上一步</button><button class="btn primary" id="tourContinue" type="button">下一步 →</button></div></div></aside>
 </div>
@@ -804,7 +889,7 @@ body.battle-wide #battle .battle-toolbar{
 const pages=[...document.querySelectorAll('main>section')],nav=[...document.querySelectorAll('[data-page]')];function show(page){if(page==='practice')page='learn';document.body.classList.toggle('battle-wide',page==='battle');pages.forEach(x=>x.classList.toggle('hide',x.id!==page));nav.forEach(x=>x.classList.toggle('active',x.dataset.page===page));location.hash=page;window.scrollTo(0,0)}nav.forEach(x=>x.addEventListener('click',()=>show(x.dataset.page)));document.querySelector('[data-rule-link]')?.addEventListener('click',e=>{e.preventDefault();show('rules')});document.querySelectorAll('[data-go]').forEach(x=>x.addEventListener('click',()=>show(x.dataset.go)));
 // 舊版課程進度由新版整合教學保留並轉換；此處只處理網站導覽。
 const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.slice(1);show(['home','learn','battle','decks','rules'].includes(requestedPage)?requestedPage:'home');
-</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated2"></script><script src="battle-preview.js?v=6"></script><script src="board-tour.js?v=3"></script><script>
+</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated2"></script><script src="battle-preview.js?v=7"></script><script src="board-tour.js?v=3"></script><script>
 /* Image preview enhancement: cards remain clickable image links if JS is disabled. */
 (function(){
  const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');
