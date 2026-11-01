@@ -119,7 +119,29 @@ function render(){hideHover();const other=choice==='theHeist'?'embracingPower':'
  $('battlePreviewStatus').textContent='顯示 '+decks[choice].name+' 的 6 張真實卡圖與 3 張傳奇角色。對手手牌與傳奇角色保持蓋牌。此為示意抽牌，不是正式對局。';
 }
 select.onchange=()=>{if(!decks[select.value])return;choice=select.value;showLegends=false;hand=shuffle(choice);try{localStorage.setItem('nct-preview-deck',choice)}catch{}render()};
-$('redrawBattleHand').onclick=()=>{hand=shuffle(choice);render()};
+
+let redrawTimer=null;
+$('redrawBattleHand').onclick=()=>{
+ const button=$('redrawBattleHand');
+ if(button.disabled)return;
+ const handZone=root.querySelector('.player-hand');
+ const deckZone=root.querySelector('.player-deck');
+ if(!handZone||!deckZone){hand=shuffle(choice);render();return}
+ const nextHand=shuffle(choice);
+ button.disabled=true;
+ handZone.classList.add('is-shuffling');deckZone.classList.add('is-shuffling');
+ const caption=document.createElement('span');caption.className='hand-shuffle-caption';caption.textContent='洗牌中…';handZone.append(caption);
+ const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+ window.clearTimeout(redrawTimer);
+ redrawTimer=window.setTimeout(()=>{
+   hand=nextHand;
+   handZone.classList.remove('is-shuffling');
+   deckZone.classList.remove('is-shuffling');
+   caption.remove();
+   render();
+   button.disabled=false;
+ },reduced?0:600);
+};
 $('toggleBattleLegends').onclick=()=>{showLegends=!showLegends;render()};
 $('closeBattleCard').onclick=()=>$('battleCardDialog')?.close();
 $('battleCardDialog').addEventListener('click',event=>{if(event.target.id==='battleCardDialog')event.target.close()});

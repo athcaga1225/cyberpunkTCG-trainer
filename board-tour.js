@@ -43,7 +43,6 @@ byId('toggleBoardTip').addEventListener('click',()=>expand(tip.classList.contain
 byId('closeBoardTour').addEventListener('click',close);
 byId('tourPrevious').addEventListener('click',()=>show(cursor-1));
 byId('tourContinue').addEventListener('click',()=>cursor===steps.length-1?close():show(cursor+1));
-byId('jumpToLessons').addEventListener('click',()=>document.querySelector('button[data-page="learn"]')?.click());
 wrap.querySelectorAll('[data-tour-zone]').forEach(el=>{
   el.addEventListener('click',()=>{const i=steps.findIndex(x=>x.zone===el.dataset.tourZone);if(i>=0){show(i);expand(true)}});
   el.style.cursor=steps.some(x=>x.zone===el.dataset.tourZone)?'pointer':'default';
