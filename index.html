@@ -1030,6 +1030,26 @@ body.battle-wide #battle .tour-coach .tour-coach-tools .tour-close-x{
 @media(max-width:840px){
  #battleCardHover.hand-preview{width:min(380px,calc(100vw - 18px))}
 }
+
+/* Stable hand preview: reserve image dimensions to prevent load-time jump. */
+#battleCardHover.hand-preview{
+ width:min(440px,calc(100vw - 28px));
+}
+#battleCardHover.hand-preview img{
+ display:block;
+ width:100%;
+ height:min(69vh,620px);
+ max-height:none;
+ object-fit:contain;
+ background:#081116;
+}
+#battle .player-hand .preview-card-rail{isolation:isolate}
+#battle .player-hand .hand-card{transform:none!important}
+#battle .player-hand .hand-card:hover{transform:none!important}
+@media(max-width:840px){
+ #battleCardHover.hand-preview{width:min(380px,calc(100vw - 18px))}
+ #battleCardHover.hand-preview img{height:min(62vh,510px)}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">初始牌組</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -1123,7 +1143,7 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=10"></script><script src="board-tour.js?v=4"></script><script>
+</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=11"></script><script src="board-tour.js?v=4"></script><script>
 /* Image preview enhancement: cards remain clickable image links if JS is disabled. */
 (function(){
  const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');
