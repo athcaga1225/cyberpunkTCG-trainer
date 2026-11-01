@@ -67,7 +67,7 @@ function openCard(c){
  info.append(identity);
  // Show the same three-cell COST / RAM / POW layout for every Beta card.
  // Null means the value is not printed on that card and is shown as an em dash.
- if((c.set==='beta'||c.set==='topper') && Object.prototype.hasOwnProperty.call(c,'ram')){
+ if(['beta','topper','starter'].includes(c.set) && Object.prototype.hasOwnProperty.call(c,'ram')){
   const stats=create('div','beta-detail-stats');
   for(const [label,value] of [['COST',c.cost],['RAM',c.ram],['POW',c.power]]){
    const stat=create('div','beta-detail-stat');
@@ -107,7 +107,7 @@ function openStarterCard(anchor){
  const card={name:english,nameZh:matching?.nameZh||window.NCTLocale?.cardName?.(english)||english,
   imageUrl:anchor.dataset.deckImage||anchor.href,
   imageSource:anchor.href,
-  set:'starter',type:null,color:null,tags:[],
+  set:'starter',type:null,color:null,tags:[],cost:null,ram:null,power:null,
   abilityZh:'初始牌組版本的能力與數值尚未逐張核對，請以左側實體卡面為準。'};
  openCard(card);
 }
@@ -157,10 +157,17 @@ series.addEventListener('change',filter);
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
-fetch('./beta-cards.json?v=13',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
+fetch('./beta-cards.json?v=14',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
  const cards=data.cards||[];
  if(cards.length!==178||new Set(cards.map(x=>x.id)).size!==178)throw Error('Beta 卡牌清單不完整');
  all=cards;filtered=all.slice();
+ // Keep starter card titles in sync with the canonical Beta translation.
+ starter.querySelectorAll('a[data-deck-image]').forEach(anchor=>{
+  const english=anchor.dataset.cardName||'';
+  const zh=cards.find(c=>c.name===english)?.nameZh||window.NCTLocale?.cardName?.(english)||english;
+  const label=anchor.querySelector('.deck-name');
+  if(label)label.textContent=zh;
+ });
  const rarityNames=[...new Set(cards.map(c=>c.rarity))];
  const order=['Common','Uncommon','Rare','Epic','Secret','Iconic Legend','Iconic Other','Iconic Secret','Nova Rare'];
  rarityNames.sort((a,b)=>order.indexOf(a)-order.indexOf(b));
