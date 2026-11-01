@@ -8,7 +8,7 @@ const grid=document.getElementById('betaResults'),count=document.getElementById(
 const pages=document.getElementById('betaPages'),pageSelect=document.getElementById('betaPageSelect'),prev=document.getElementById('betaPrevious'),next=document.getElementById('betaNext');
 const status=document.getElementById('betaLoadStatus'),detail=document.getElementById('betaCardDetail'),detailBody=document.getElementById('betaCardDetailBody');
 const PAGE_SIZE=24;
-let all=[],filtered=[],page=0,active='starter';
+let all=[],filtered=[],page=0,active='beta';
 const zhName=c=>c.nameZh||window.NCTLocale?.cardName?.(c.name)||c.name;
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
 const tagZh={
@@ -148,5 +148,5 @@ fetch('./beta-cards.json?v=6',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error(
  status.textContent='Beta 資料載入失敗：'+err.message+'。請檢查網路後重新整理。';
  count.textContent='資料暫時無法載入';
 });
-switchTo('starter');
+switchTo('beta');
 })();
