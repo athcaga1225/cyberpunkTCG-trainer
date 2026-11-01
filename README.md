@@ -45,3 +45,11 @@ The battle tab now opens with a responsive **visual tabletop tutorial** featurin
 ## Battle viewport update
 
 The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner. Instructions expand on request or when a field zone is selected. The old 12-life custom-rules demo and its `battle.js` source were removed; this is still a card-art/tabletop preview, not a complete official AI match.
+
+## Beta Card Guide — phase 1 (2026-11-02)
+
+- The card guide includes the original two starter decks and a new searchable 178-entry Beta catalog: 172 Beta main cards (including B005A/B005B) and 6 Beta Box Toppers (T001–T006 are local index IDs).
+- Catalog metadata and card art were imported from the CYBERDEX repository source files `card-catalog.json` and `card-images.json`; their source blob identifiers are stored in `beta-cards.json`.
+- Browse by card number or English/available Traditional Chinese name; filter by print series and rarity; 24 lazy-loaded cards per page.
+- Only verified source fields (number, name, rarity, card image and image provenance) are populated. Card color, type, cost, power, RAM, and ability text remain null pending source verification. Images are remote and can fail independently.
+- This is a learning catalog, not a price database and not proof of playable card effects.
