@@ -12,6 +12,47 @@ try{const prev=localStorage.getItem('nct-preview-deck');if(decks[prev])choice=pr
 select.value=choice;
 function lookup(k,name){return Object.entries(art[keyOf(k)]||{}).find(([n])=>norm(n)===norm(name)||(norm(name)==='tetratronicrippler'&&norm(n)==='tetratonicrippler'))?.[1]||null}
 function shuffle(k){const pool=[];for(const c of decks[k].main)for(let n=0;n<c.qty;n++)pool.push(c.name);for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}return pool.slice(0,6)}
+
+const hoverBox=$('battleCardHover'),hoverImage=$('battleHoverImage'),
+      hoverName=$('battleHoverName'),hoverFallback=$('battleHoverFallback');
+let hoverTarget=null;
+function hideHover(){
+ if(!hoverBox)return;
+ hoverTarget=null;hoverBox.hidden=true;hoverBox.setAttribute('aria-hidden','true');
+}
+function positionHover(anchor){
+ if(!hoverBox||!anchor||hoverBox.hidden)return;
+ const rect=anchor.getBoundingClientRect();
+ const width=hoverBox.getBoundingClientRect().width;
+ const height=hoverBox.getBoundingClientRect().height;
+ const pad=14;
+ let left=rect.right+16;
+ if(left+width>innerWidth-pad)left=rect.left-width-16;
+ if(left<pad)left=Math.max(pad,Math.round((innerWidth-width)/2));
+ let top=rect.top-(height-rect.height)/2;
+ top=Math.max(pad,Math.min(top,innerHeight-height-pad));
+ hoverBox.style.left=Math.round(left)+'px';
+ hoverBox.style.top=Math.round(top)+'px';
+}
+function showHover(anchor,k,name,image){
+ if(!hoverBox||!image?.url||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+ hoverTarget=anchor;
+ hoverName.textContent=nameOf(name);
+ hoverFallback.hidden=true;
+ hoverImage.hidden=false;
+ hoverImage.src=image.url;
+ hoverImage.alt=nameOf(name)+' 放大卡面';
+ hoverBox.hidden=false;
+ hoverBox.setAttribute('aria-hidden','false');
+ requestAnimationFrame(()=>{if(hoverTarget===anchor)positionHover(anchor)});
+}
+if(hoverImage)hoverImage.addEventListener('error',()=>{
+ hoverImage.hidden=true;hoverFallback.hidden=false;
+ if(hoverTarget)requestAnimationFrame(()=>positionHover(hoverTarget));
+});
+window.addEventListener('scroll',hideHover,true);
+window.addEventListener('resize',hideHover);
+
 function card(k,name,back=false,kind='standard'){
  const el=document.createElement('button');el.type='button';el.className='preview-art-card'+(back?' face-down':'');
  if(back){
@@ -34,14 +75,19 @@ function card(k,name,back=false,kind='standard'){
  const image=lookup(k,name);el.title=nameOf(name);el.setAttribute('aria-label','放大查看 '+nameOf(name));
  const fallback=document.createElement('span');fallback.className='preview-art-fallback';fallback.textContent=locale?.cardName(name)||name;el.append(fallback);
  if(image?.url){const img=document.createElement('img');img.src=image.url;img.alt=nameOf(name)+' 卡面';img.loading='lazy';img.decoding='async';img.addEventListener('error',()=>{img.remove();el.classList.add('missing-art')});el.append(img)}else el.classList.add('missing-art');
- el.addEventListener('click',()=>open(k,name,image));return el;
+ el.addEventListener('pointerenter',()=>showHover(el,k,name,image));
+ el.addEventListener('pointerleave',hideHover);
+ el.addEventListener('focus',()=>showHover(el,k,name,image));
+ el.addEventListener('blur',hideHover);
+ el.addEventListener('click',()=>{hideHover();open(k,name,image)});
+ return el;
 }
-function open(k,name,image){const dlg=$('battleCardDialog');if(!dlg?.showModal)return;$('battleCardTitle').textContent=nameOf(name);
+function open(k,name,image){hideHover();const dlg=$('battleCardDialog');if(!dlg?.showModal)return;$('battleCardTitle').textContent=nameOf(name);
  const img=$('battleCardFullImage'),fallback=$('battleCardNoImage'),link=$('battleCardSource');
  if(image?.url){img.src=image.url;img.alt=nameOf(name);img.hidden=false;fallback.hidden=true}else{img.removeAttribute('src');img.hidden=true;fallback.hidden=false;fallback.textContent='此卡在 CYBERDEX 的來源資料中暫無可用卡圖。'}
  if(image?.source){link.href=image.source;link.hidden=false}else link.hidden=true;dlg.showModal()}
 function legend(k,who){const node=root.querySelector('.'+who+'-legends .cardbacks');if(!node)return;node.replaceChildren();for(const c of decks[k].legends)node.append(card(k,c.name,who==='opponent'||!showLegends,'legend'))}
-function render(){const other=choice==='theHeist'?'embracingPower':'theHeist';legend(choice,'player');legend(other,'opponent');
+function render(){hideHover();const other=choice==='theHeist'?'embracingPower':'theHeist';legend(choice,'player');legend(other,'opponent');
  const my=root.querySelector('.player-hand .hand-placeholder'),rival=root.querySelector('.opponent-hand .placeholder-label');
  if(!my||!rival)return;my.replaceChildren();rival.replaceChildren();my.classList.add('preview-card-rail');rival.classList.add('preview-card-rail');
  for(const n of hand)my.append(card(choice,n));for(let i=0;i<6;i++)rival.append(card(other,'',true));
