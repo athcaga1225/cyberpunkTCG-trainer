@@ -1250,6 +1250,128 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
  #decks #betaCardDetail .beta-detail-art{max-width:240px;margin:0 auto}
  #decks #betaCardDetail .beta-detail-header button:focus-visible{outline:none;box-shadow:none}
 }
+
+/* Card-guide modal: visual hierarchy follows card image -> identity -> stats -> effect. */
+#decks #betaCardDetail.beta-card-dialog{
+ width:min(990px,calc(100vw - 28px));
+ max-width:calc(100vw - 28px);
+ border:1px solid #590a11;
+ border-left:2px solid #f8504a;
+}
+#decks #betaCardDetail .beta-detail-header{
+ background:#0b191f;
+ padding:10px 17px;
+}
+#decks #betaCardDetail .beta-detail-header strong{
+ color:#98bdc4;
+ font-size:14px;
+ font-weight:600;
+}
+#decks #betaCardDetail .beta-detail-body{
+ grid-template-columns:minmax(240px,360px) minmax(0,1fr);
+ gap:30px;
+ padding:24px;
+ align-items:start;
+}
+#decks #betaCardDetail .beta-detail-art{
+ position:relative;
+ max-width:none;
+ min-width:0;
+ margin:0;
+}
+#decks #betaCardDetail .beta-detail-image-frame{
+ width:100%;
+ aspect-ratio:5/7;
+ background:#0a141a;
+ border-radius:7px;
+ overflow:hidden;
+ border:1px solid #33414a;
+}
+#decks #betaCardDetail .beta-detail-image-frame img{
+ display:block;
+ width:100%;
+ height:100%;
+ object-fit:contain;
+}
+#decks #betaCardDetail .beta-detail-copy{min-width:0}
+#decks #betaCardDetail .beta-detail-eyebrow{
+ display:flex;flex-wrap:wrap;align-items:center;gap:9px;
+ margin:0 0 14px;
+}
+#decks #betaCardDetail .beta-detail-number,
+#decks #betaCardDetail .beta-detail-rarity{
+ display:inline-flex;align-items:center;
+ font-size:14px;line-height:1.3;
+ border:1px solid #536971;
+ padding:5px 9px;border-radius:3px;
+ color:#bad7dd;letter-spacing:.035em;
+}
+#decks #betaCardDetail .beta-detail-rarity{
+ border-color:#913944;color:#ff9d9f;
+}
+#decks #betaCardDetail .beta-detail-title{
+ font-size:clamp(23px,2.4vw,30px);line-height:1.35;
+ margin:0 0 6px;overflow-wrap:anywhere;
+ font-weight:500;
+}
+#decks #betaCardDetail .beta-detail-english{
+ margin:0 0 9px;font-size:17px;
+ line-height:1.5;color:#b5c5cc;
+ overflow-wrap:anywhere;
+}
+#decks #betaCardDetail .beta-detail-set{
+ font-size:14px;letter-spacing:.08em;color:#6f99a4;margin:0 0 22px;
+}
+#decks #betaCardDetail .beta-detail-stats{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:10px;margin:20px 0;
+}
+#decks #betaCardDetail .beta-detail-stat{
+ display:flex;flex-direction:column;gap:5px;align-items:center;
+ padding:10px 6px;border:1px solid #3b5660;
+ border-radius:5px;background:#111f25;
+}
+#decks #betaCardDetail .beta-detail-stat small{font-size:14px;color:#9fb1b9}
+#decks #betaCardDetail .beta-detail-stat strong{font-size:22px;font-weight:600}
+#decks #betaCardDetail .beta-detail-tags{
+ display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px;
+}
+#decks #betaCardDetail .beta-detail-tags span{
+ font-size:14px;border:1px solid #46636b;border-radius:14px;
+ padding:5px 11px;color:#c4d9de;
+}
+#decks #betaCardDetail .beta-detail-effect{
+ border-top:1px solid #30444b;
+ padding-top:18px;margin-top:4px;
+}
+#decks #betaCardDetail .beta-detail-effect h4{
+ font-size:16px;color:#29ffff;font-weight:500;
+ margin:0 0 10px;
+}
+#decks #betaCardDetail .beta-ability-text{
+ font-size:17px;line-height:1.85;
+ color:#e7f0f2;margin:0 0 20px;
+ white-space:pre-line;
+}
+#decks #betaCardDetail .beta-detail-links{
+ border-top:1px solid #283c44;
+ padding-top:16px;margin-top:2px;
+}
+@media(max-width:650px){
+ #decks #betaCardDetail.beta-card-dialog{
+  width:calc(100vw - 16px);max-width:calc(100vw - 16px);
+  max-height:calc(100dvh - 16px);
+ }
+ #decks #betaCardDetail .beta-detail-body{
+  grid-template-columns:minmax(0,1fr);
+  gap:17px;padding:15px 14px 22px;
+ }
+ #decks #betaCardDetail .beta-detail-art{width:min(100%,340px);max-width:none;margin:0 auto}
+ #decks #betaCardDetail .beta-detail-title{font-size:24px}
+ #decks #betaCardDetail .beta-detail-english{font-size:16px}
+ #decks #betaCardDetail .beta-ability-text{font-size:16px}
+ #decks #betaCardDetail .beta-detail-stats{margin:15px 0}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -1353,7 +1475,7 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=4"></script><script>
+</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=5"></script><script>
 /* Image preview enhancement: cards remain clickable image links if JS is disabled. */
 (function(){
  const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');

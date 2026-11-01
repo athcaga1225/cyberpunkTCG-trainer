@@ -26,23 +26,54 @@ function filter(){
 }
 
 function openCard(c){
- // Use a scrollable modal for both desktop and mobile, not an inline panel.
+ // Same native modal system as the starter deck; content is scrollable.
  detailBody.replaceChildren();
+ const visual=create('div','beta-detail-art');
+ const imageFrame=create('div','beta-detail-image-frame');
+ const img=document.createElement('img');
+ img.loading='eager';img.decoding='async';img.src=c.imageUrl;
+ img.alt=c.name+' 卡面';
+ imageFrame.append(img);visual.append(imageFrame);
+ const info=create('div','beta-detail-copy');
+ const eyebrow=create('div','beta-detail-eyebrow');
+ eyebrow.append(create('span','beta-detail-number',c.id),create('span','beta-detail-rarity',c.rarity));
  const title=create('h3','beta-detail-title',zhName(c));
  const english=create('p','beta-detail-english',c.name);
- const meta=create('p','beta-detail-meta',c.id+' · '+c.rarity+' · '+(c.set==='topper'?'BOX TOPPER':'BETA'));
- const visual=create('div','beta-detail-art');
- const img=document.createElement('img');img.loading='eager';img.src=c.imageUrl;img.alt=c.name+' 卡面';visual.append(img);
- const text=create('div','beta-detail-copy');
- const label=create('h4','',c.abilityZh?'卡牌能力':'卡牌能力 / 尚待翻譯');
- const ability=create('p','beta-ability-text',c.abilityZh||'這張卡的繁中能力翻譯尚未整理。可先查看英文卡圖。');
- const note=create('p','beta-detail-note',c.abilityZh?'卡牌效果以官方英文版本為準。':'卡牌功能與數值尚未核對，暫不提供推測翻譯。');
- text.append(title,english,meta,label,ability,note);
+ const subtype=create('p','beta-detail-set',c.set==='topper'?'BETA / BOX TOPPER':'WELCOME TO NIGHT CITY / BETA');
+ info.append(eyebrow,title,english,subtype);
+ // Only show verified card attributes. CYBERDEX does not yet supply these
+ // gameplay fields, so never display invented values or placeholder zeroes.
+ const metrics=[['COST',c.cost],['RAM',c.ram],['POW',c.power]];
+ const knownMetrics=metrics.filter(([,value])=>value!==null&&value!==undefined&&value!=='');
+ if(knownMetrics.length){
+  const row=create('div','beta-detail-stats');
+  for(const [key,val] of knownMetrics){
+   const stat=create('div','beta-detail-stat');
+   stat.append(create('small','',key),create('strong','',String(val)));
+   row.append(stat);
+  }
+  info.append(row);
+ }
+ if(c.color||c.type){
+  const tags=create('div','beta-detail-tags');
+  if(c.color)tags.append(create('span','beta-color-pill',String(c.color)));
+  if(c.type)tags.append(create('span','',String(c.type)));
+  info.append(tags);
+ }
+ const effect=create('section','beta-detail-effect');
+ effect.append(create('h4','', '卡牌能力'));
+ effect.append(create('p','beta-ability-text',c.abilityZh||'此卡的中文能力翻譯尚未完成，請參考卡面英文原文。'));
+ info.append(effect);
  const links=create('div','beta-detail-links');
- const source=document.createElement('a');source.href=c.abilitySource||c.imageSource;source.target='_blank';source.rel='noopener noreferrer';source.textContent=c.abilitySource?'官方能力原文 ↗':'卡牌圖片來源 ↗';
- links.append(source);
- const original=document.createElement('a');original.href=c.imageUrl;original.target='_blank';original.rel='noopener noreferrer';original.textContent='查看完整卡圖 ↗';links.append(original);
- text.append(links);detailBody.append(visual,text);
+ const source=create('a','','');
+ source.href=c.abilitySource||c.imageSource||c.imageUrl;
+ source.target='_blank';source.rel='noopener noreferrer';
+ source.textContent=c.abilitySource?'官方能力原文 ↗':'卡牌來源 ↗';
+ const original=create('a','','');
+ original.href=c.imageUrl;original.target='_blank';original.rel='noopener noreferrer';
+ original.textContent='開啟原始卡圖 ↗';
+ links.append(source,original);info.append(links);
+ detailBody.append(visual,info);
  root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.cardId===c.id)));
  if(!detail.open){
   if(window.NCTCardModal)window.NCTCardModal.open(detail);
