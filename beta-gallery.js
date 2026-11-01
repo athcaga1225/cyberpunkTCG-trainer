@@ -5,7 +5,7 @@ if(!root||!starter)return;
 const buttons=[...document.querySelectorAll('[data-card-view]')];
 const search=document.getElementById('betaSearch'),rarity=document.getElementById('betaRarity'),series=document.getElementById('betaSeries');
 const grid=document.getElementById('betaResults'),count=document.getElementById('betaCount');
-const pages=document.getElementById('betaPages'),prev=document.getElementById('betaPrevious'),next=document.getElementById('betaNext');
+const pages=document.getElementById('betaPages'),pageSelect=document.getElementById('betaPageSelect'),prev=document.getElementById('betaPrevious'),next=document.getElementById('betaNext');
 const status=document.getElementById('betaLoadStatus'),detail=document.getElementById('betaCardDetail'),detailBody=document.getElementById('betaCardDetailBody');
 const PAGE_SIZE=24;
 let all=[],filtered=[],page=0,active='starter';
@@ -17,7 +17,7 @@ const tagZh={
  'ANIMAL':'蠻獸派','ROCKER':'搖滾客','SAMURAI':'武士','VALENTINO':'瓦倫提諾',
  '6TH STREET':'六街遊俠','DRONE':'無人機','ZETATECH':'ZETA科技','CYBERWARE':'義體',
  'TRAUMA TEAM':'創傷小組','RIPPERDOC':'神機醫','VOODOO BOYS':'巫毒仔',
- 'SCAVENGER':'清道夫','MEDTECH':'醫療技師','MOX':'莫克斯幫','ALDECALDO':'阿德卡多',
+ 'SCAVENGER':'清道夫','MEDTECH':'醫療技師','MOX':'茉刺盟','ALDECALDO':'阿德卡多',
  'VEHICLE':'載具','TECHIE':'技師','WEAPON':'武器','BRAINDANCE':'幻舞','EXTREME':'極限',
  'QUICKHACK':'快速破解','PLAN':'計畫','NOMAD':'遊牧民','FIXER':'合事佬','NCPD':'夜城警察局'
 };
@@ -50,7 +50,7 @@ function openCard(c){
  const frame=create('div','beta-detail-image-frame');
  const img=document.createElement('img');
  img.loading='eager';img.decoding='async';img.src=c.imageUrl;img.alt=c.name+' 卡面';
- frame.append(img);visual.append(frame);
+ img.draggable=false;img.style.pointerEvents='none';frame.append(img);visual.append(frame);
  const info=create('div','beta-detail-copy');
  const identity=create('div','beta-card-identity');
  const accent=create('span','beta-title-accent');accent.setAttribute('aria-hidden','true');
@@ -121,7 +121,10 @@ function render(){
  const start=page*PAGE_SIZE,items=filtered.slice(start,start+PAGE_SIZE);
  for(const c of items)grid.append(tile(c));
  const totalPages=Math.max(1,Math.ceil(filtered.length/PAGE_SIZE));
- pages.textContent='第 '+(page+1)+' / '+totalPages+' 頁';
+ pages.textContent='共 '+totalPages+' 頁';
+ pageSelect.replaceChildren();
+ for(let n=1;n<=totalPages;n++){const option=create('option','',`第 ${n} 頁`);option.value=String(n-1);pageSelect.append(option)}
+ pageSelect.value=String(page);
  prev.disabled=page===0;next.disabled=page>=totalPages-1;
  count.textContent='符合條件 '+filtered.length+' / '+all.length+' 張';
  if(!items.length)grid.append(create('p','beta-empty','沒有符合條件的卡牌。'));
@@ -132,6 +135,7 @@ detail.addEventListener('close',()=>root.querySelectorAll('.beta-tile').forEach(
 search.addEventListener('input',filter);
 rarity.addEventListener('change',filter);
 series.addEventListener('change',filter);
+pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 fetch('./beta-cards.json?v=5',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
