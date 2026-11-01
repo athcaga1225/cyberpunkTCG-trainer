@@ -1003,7 +1003,7 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b040-rogueamendiarespreemsolo.jpg?v=1789055373",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-rogueamendiarespreemsolo-b040-rare",
-   "color": null,
+   "color": "Yellow",
    "type": "Legend",
    "cost": 7,
    "power": 7,
@@ -1011,14 +1011,15 @@
    "abilityEnglish": null,
    "abilityZh": "【獨闖（Go Solo）】支付此傳奇角色的費用，將其作為重置狀態的單位打出。本回合可以攻擊；離開戰場時將其移出遊戲。每當友方傳奇角色奪取任務骰時，若該骰點數為偶數，抽 1 張牌；若為奇數，則一名對手棄 1 張牌。",
    "ruleVerified": false,
-   "nameZh": "羅格・阿曼迪亞蕾絲：頂尖獨行俠",
+   "nameZh": "若惡・阿曼迪亞蕾絲：頂尖獨行俠",
    "tags": [
     "MERC"
    ],
    "abilitySource": "https://cyberpunktcg.com/cards/rogue-amendiares-preem-solo",
    "attributesSource": "https://cyberpunktcg.com/cards/rogue-amendiares-preem-solo",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B041",
@@ -1027,7 +1028,7 @@
    "rarity": "Epic",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b041-adamsmashermetalovermeat.jpg?v=1789055394",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-adamsmashermetalovermeat-b041-epic",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 9,
    "power": 15,
@@ -1043,7 +1044,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/adam-smasher-metal-over-meat",
    "attributesSource": "https://cyberpunktcg.com/cards/adam-smasher-metal-over-meat",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B042",
@@ -1052,7 +1054,7 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b042-altcunninghammotherofdaemons.jpg?v=1789055362",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-altcunninghammotherofdaemons-b042-rare",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 7,
    "power": 8,
@@ -1060,7 +1062,7 @@
    "abilityEnglish": null,
    "abilityZh": "每當一個已裝備的友方單位或傳奇角色橫置時，抽 1 張牌。當對手單位即將奪取任務骰時，你可以棄掉 1 張費用等於該骰點數的牌。若如此做，該任務骰便不會被奪取。",
    "ruleVerified": false,
-   "nameZh": "奧特・坎寧安：魔靈之母",
+   "nameZh": "艾特・坎寧安：魔靈之母",
    "tags": [
     "MERC",
     "NETRUNNER"
@@ -1068,7 +1070,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/alt-cunningham-mother-of-daemons",
    "attributesSource": "https://cyberpunktcg.com/cards/alt-cunningham-mother-of-daemons",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B043",
@@ -1077,7 +1080,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b043-augmentednegotiators.jpg?v=1789055364",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-augmentednegotiators-b043-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 3,
    "power": 2,
@@ -1093,7 +1096,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/augmented-negotiators",
    "attributesSource": "https://cyberpunktcg.com/cards/augmented-negotiators",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B044",
@@ -1102,7 +1106,7 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b044-calibertotentanzstopdog.jpg?v=1789055390",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-calibertotentanzstopdog-b044-rare",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 5,
    "power": 5,
@@ -1118,7 +1122,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/caliber-totentanz-s-top-dog",
    "attributesSource": "https://cyberpunktcg.com/cards/caliber-totentanz-s-top-dog",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B045",
@@ -1127,7 +1132,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b045-gildedmaton.jpg?v=1789055376",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-gildedmaton-b045-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 4,
    "power": 3,
@@ -1143,7 +1148,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/gilded-mato-n",
    "attributesSource": "https://cyberpunktcg.com/cards/gilded-mato-n",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B046",
@@ -1152,7 +1158,7 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b046-hanakoarasakainagildedcage.jpg?v=1789055384",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-hanakoarasakainagildedcage-b046-rare",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 4,
    "power": 1,
@@ -1169,7 +1175,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/hanako-arasaka-in-a-gilded-cage",
    "attributesSource": "https://cyberpunktcg.com/cards/hanako-arasaka-in-a-gilded-cage",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B047",
@@ -1178,7 +1185,7 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b047-heywoodripperdoc.jpg?v=1789055395",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-heywoodripperdoc-b047-uncommon",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 6,
    "power": 8,
@@ -1193,7 +1200,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/heywood-ripperdoc",
    "attributesSource": "https://cyberpunktcg.com/cards/heywood-ripperdoc",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B048",
@@ -1202,7 +1210,7 @@
    "rarity": "Epic",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b048-jackiewellesrideordiechoom.jpg?v=1789055394",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-jackiewellesrideordiechoom-b048-epic",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 6,
    "power": 8,
@@ -1218,7 +1226,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/jackie-welles-ride-or-die-choom",
    "attributesSource": "https://cyberpunktcg.com/cards/jackie-welles-ride-or-die-choom",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B049",
@@ -1227,7 +1236,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b049-maelstromgoons.jpg?v=1789055372",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-maelstromgoons-b049-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 3,
    "power": 3,
@@ -1243,7 +1252,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/maelstrom-goons",
    "attributesSource": "https://cyberpunktcg.com/cards/maelstrom-goons",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B050",
@@ -1252,7 +1262,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b050-maxtacsuppressionteam.jpg?v=1789055380",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-maxtacsuppressionteam-b050-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 5,
    "power": 7,
@@ -1267,7 +1277,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/maxtac-suppression-team",
    "attributesSource": "https://cyberpunktcg.com/cards/maxtac-suppression-team",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B051",
@@ -1276,7 +1287,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b051-offdutymalfini.jpg?v=1789055360",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-offdutymalfini-b051-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 4,
    "power": 5,
@@ -1292,7 +1303,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/offduty-malfini",
    "attributesSource": "https://cyberpunktcg.com/cards/offduty-malfini",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B052",
@@ -1301,7 +1313,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b052-rocknrockerboy.jpg?v=1789055379",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-rocknrockerboy-b052-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 5,
    "power": 8,
@@ -1316,7 +1328,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/rockn-rockerboy",
    "attributesSource": "https://cyberpunktcg.com/cards/rockn-rockerboy",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B053",
@@ -1325,7 +1338,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b053-secondhandbombus.jpg?v=1789055384",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-secondhandbombus-b053-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 2,
    "power": 0,
@@ -1341,7 +1354,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/secondhand-bombus",
    "attributesSource": "https://cyberpunktcg.com/cards/secondhand-bombus",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B054",
@@ -1350,7 +1364,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b054-sketchyripper.jpg?v=1789055362",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-sketchyripper-b054-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 2,
    "power": 0,
@@ -1367,7 +1381,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/sketchy-ripper",
    "attributesSource": "https://cyberpunktcg.com/cards/sketchy-ripper",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B055",
@@ -1376,7 +1391,7 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b055-tbugamateurphilosopher.jpg?v=1789055364",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-tbugamateurphilosopher-b055-uncommon",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 4,
    "power": 4,
@@ -1392,7 +1407,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/t-bug-amateur-philosopher",
    "attributesSource": "https://cyberpunktcg.com/cards/t-bug-amateur-philosopher",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B056",
@@ -1401,7 +1417,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b056-traumateamoperatives.jpg?v=1789055372",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-traumateamoperatives-b056-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 6,
    "power": 7,
@@ -1417,7 +1433,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/trauma-team-operatives",
    "attributesSource": "https://cyberpunktcg.com/cards/trauma-team-operatives",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B057",
@@ -1426,7 +1443,7 @@
    "rarity": "Epic",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b057-viktorvektordropyourillusions.jpg?v=1789055366",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-viktorvektordropyourillusions-b057-epic",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 5,
    "power": 5,
@@ -1441,7 +1458,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/viktor-vektor-drop-your-illusions",
    "attributesSource": "https://cyberpunktcg.com/cards/viktor-vektor-drop-your-illusions",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B058",
@@ -1450,7 +1468,7 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b058-viktorvektoryoumightfeelalittlepinch.jpg?v=1789055379",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-viktorvektoryoumightfeelalittlepinch-b058-uncommon",
-   "color": null,
+   "color": "Yellow",
    "type": "Unit",
    "cost": 3,
    "power": 3,
@@ -1465,7 +1483,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/viktor-vektor-you-might-feel-a-little-pinch",
    "attributesSource": "https://cyberpunktcg.com/cards/viktor-vektor-you-might-feel-a-little-pinch",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B059",
@@ -1474,7 +1493,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b059-adrenalineconverter.jpg?v=1789055381",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-adrenalineconverter-b059-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Gear",
    "cost": 2,
    "power": 3,
@@ -1490,7 +1509,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/adrenaline-converter",
    "attributesSource": "https://cyberpunktcg.com/cards/adrenaline-converter",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B060",
@@ -1499,7 +1519,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b060-gorillaarms.jpg?v=1789055373",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-gorillaarms-b060-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Gear",
    "cost": 4,
    "power": 3,
@@ -1514,7 +1534,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/gorilla-arms",
    "attributesSource": "https://cyberpunktcg.com/cards/gorilla-arms",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B061",
@@ -1523,7 +1544,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b061-kiroshioptics.jpg?v=1789055388",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-kiroshioptics-b061-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Gear",
    "cost": 1,
    "power": 1,
@@ -1538,7 +1559,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/kiroshi-optics",
    "attributesSource": "https://cyberpunktcg.com/cards/kiroshi-optics",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B062",
@@ -1547,7 +1569,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b062-mandibularupgrade.jpg?v=1789055360",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-mandibularupgrade-b062-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Gear",
    "cost": 1,
    "power": 0,
@@ -1562,7 +1584,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/mandibular-upgrade",
    "attributesSource": "https://cyberpunktcg.com/cards/mandibular-upgrade",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B063",
@@ -1571,7 +1594,7 @@
    "rarity": "Epic",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b063-therelicexperimentalbiochip.jpg?v=1789055388",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-therelicexperimentalbiochip-b063-epic",
-   "color": null,
+   "color": "Yellow",
    "type": "Gear",
    "cost": 5,
    "power": 3,
@@ -1587,7 +1610,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/the-relic-experimental-biochip",
    "attributesSource": "https://cyberpunktcg.com/cards/the-relic-experimental-biochip",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B064",
@@ -1596,7 +1620,7 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b064-zetatechfaceplate.jpg?v=1789055374",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-zetatechfaceplate-b064-uncommon",
-   "color": null,
+   "color": "Yellow",
    "type": "Gear",
    "cost": 2,
    "power": 2,
@@ -1612,7 +1636,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/zetatech-faceplate",
    "attributesSource": "https://cyberpunktcg.com/cards/zetatech-faceplate",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B065",
@@ -1621,7 +1646,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b065-afterpartyatlizzies.jpg?v=1789055378",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-afterpartyatlizzies-b065-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Program",
    "cost": 1,
    "power": null,
@@ -1637,7 +1662,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/afterparty-at-lizzie-s",
    "attributesSource": "https://cyberpunktcg.com/cards/afterparty-at-lizzie-s",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B066",
@@ -1646,7 +1672,7 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b066-bootlegblacksapphireshow.jpg?v=1789055378",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-bootlegblacksapphireshow-b066-uncommon",
-   "color": null,
+   "color": "Yellow",
    "type": "Program",
    "cost": 5,
    "power": null,
@@ -1661,7 +1687,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/bootleg-black-sapphire-show",
    "attributesSource": "https://cyberpunktcg.com/cards/bootleg-black-sapphire-show",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B067",
@@ -1670,7 +1697,7 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b067-cyberpsychosis.jpg?v=1789055383",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-cyberpsychosis-b067-uncommon",
-   "color": null,
+   "color": "Yellow",
    "type": "Program",
    "cost": 3,
    "power": null,
@@ -1678,14 +1705,15 @@
    "abilityEnglish": null,
    "abilityZh": "【快速（Quick）】本回合一個已裝備的單位，每裝備一張裝備牌便獲得 +3 戰力。如果該單位奪取任務骰或參與戰鬥，在本回合結束時擊敗它。",
    "ruleVerified": false,
-   "nameZh": "網路精神病",
+   "nameZh": "神機錯亂",
    "tags": [
     "QUICKHACK"
    ],
    "abilitySource": "https://cyberpunktcg.com/cards/cyberpsychosis",
    "attributesSource": "https://cyberpunktcg.com/cards/cyberpsychosis",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B068",
@@ -1694,7 +1722,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b068-livewiththeaftermath.jpg?v=1789055369",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-livewiththeaftermath-b068-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Program",
    "cost": 3,
    "power": null,
@@ -1709,7 +1737,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/live-with-the-aftermath",
    "attributesSource": "https://cyberpunktcg.com/cards/live-with-the-aftermath",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B069",
@@ -1718,7 +1747,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b069-safetyoverride.jpg?v=1789055390",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-safetyoverride-b069-common",
-   "color": null,
+   "color": "Yellow",
    "type": "Program",
    "cost": 2,
    "power": null,
@@ -1733,7 +1762,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/safety-override",
    "attributesSource": "https://cyberpunktcg.com/cards/safety-override",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B070",
@@ -1742,7 +1772,7 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b070-theheist.jpg?v=1789055370",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-theheist-b070-uncommon",
-   "color": null,
+   "color": "Yellow",
    "type": "Program",
    "cost": 2,
    "power": null,
@@ -1757,7 +1787,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/the-heist",
    "attributesSource": "https://cyberpunktcg.com/cards/the-heist",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B071",
@@ -1766,7 +1797,7 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b071-gorotakemuravengefulbodyguard.jpg?v=1789055386",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-gorotakemuravengefulbodyguard-b071-rare",
-   "color": null,
+   "color": "Green",
    "type": "Legend",
    "cost": null,
    "power": null,
@@ -1782,7 +1813,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/goro-takemura-vengeful-bodyguard",
    "attributesSource": "https://cyberpunktcg.com/cards/goro-takemura-vengeful-bodyguard",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B072",
@@ -1791,7 +1823,7 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b072-hanakoarasakadaughteroftheemperor.jpg?v=1789055390",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-hanakoarasakadaughteroftheemperor-b072-rare",
-   "color": null,
+   "color": "Green",
    "type": "Legend",
    "cost": null,
    "power": null,
@@ -1808,7 +1840,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/hanako-arasaka-daughter-of-the-emperor",
    "attributesSource": "https://cyberpunktcg.com/cards/hanako-arasaka-daughter-of-the-emperor",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B073",
@@ -1817,7 +1850,7 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b073-jackiewellesmamasfavorite.jpg?v=1789055373",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-jackiewellesmamasfavorite-b073-rare",
-   "color": null,
+   "color": "Green",
    "type": "Legend",
    "cost": 6,
    "power": 8,
@@ -1832,7 +1865,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/jackie-welles-mama-s-favorite",
    "attributesSource": "https://cyberpunktcg.com/cards/jackie-welles-mama-s-favorite",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B074",
@@ -1841,7 +1875,7 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b074-padremanofthecross.jpg?v=1789055381",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-padremanofthecross-b074-rare",
-   "color": null,
+   "color": "Green",
    "type": "Legend",
    "cost": null,
    "power": null,
@@ -1858,7 +1892,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/padre-man-of-the-cross",
    "attributesSource": "https://cyberpunktcg.com/cards/padre-man-of-the-cross",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B075",
@@ -1867,7 +1902,7 @@
    "rarity": "Epic",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b075-panampalmernomadcavalry.jpg?v=1789055362",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-panampalmernomadcavalry-b075-epic",
-   "color": null,
+   "color": "Green",
    "type": "Legend",
    "cost": null,
    "power": null,
@@ -1884,7 +1919,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/panam-palmer-nomad-cavalry",
    "attributesSource": "https://cyberpunktcg.com/cards/panam-palmer-nomad-cavalry",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B076",
@@ -1893,7 +1929,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b076-corposecurity.jpg?v=1789055380",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-corposecurity-b076-common",
-   "color": null,
+   "color": "Green",
    "type": "Unit",
    "cost": 2,
    "power": 2,
@@ -1908,7 +1944,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/corpo-security",
    "attributesSource": "https://cyberpunktcg.com/cards/corpo-security",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B077",
@@ -1917,7 +1954,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b077-emergencyatlus.jpg?v=1789055383",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-emergencyatlus-b077-common",
-   "color": null,
+   "color": "Green",
    "type": "Unit",
    "cost": 3,
    "power": 4,
@@ -1934,7 +1971,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/emergency-atlus",
    "attributesSource": "https://cyberpunktcg.com/cards/emergency-atlus",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B078",
@@ -1943,7 +1981,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b078-fieldoperator.jpg?v=1789055372",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-fieldoperator-b078-common",
-   "color": null,
+   "color": "Green",
    "type": "Unit",
    "cost": 3,
    "power": 2,
@@ -1960,7 +1998,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/field-operator",
    "attributesSource": "https://cyberpunktcg.com/cards/field-operator",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B079",
@@ -1969,7 +2008,7 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b079-maelstromzealots.jpg?v=1789055391",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-maelstromzealots-b079-common",
-   "color": null,
+   "color": "Green",
    "type": "Unit",
    "cost": 4,
    "power": 0,
@@ -1985,7 +2024,8 @@
    "abilitySource": "https://cyberpunktcg.com/cards/maelstrom-zealots",
    "attributesSource": "https://cyberpunktcg.com/cards/maelstrom-zealots",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "attributesStatus": "verified-official-card-database-2026-11-02"
+   "attributesStatus": "verified-official-card-database-2026-11-02",
+   "colorSource": "https://cyberpunktcg.wiki/cards/"
   },
   {
    "id": "B080",
@@ -3584,5 +3624,19 @@
   "range": "B040-B079",
   "source": "Official Cyberpunk TCG card database current English text",
   "note": "Fan translation. Existing colors for first 40 retained; next 40 colors unverified. English current rules take precedence."
+ },
+ "colorBatch2": {
+  "range": "B040-B079",
+  "yellow": "B040-B070",
+  "green": "B071-B079",
+  "verifiedExamples": [
+   "B040 Rogue Amendiares: Preem Solo",
+   "B042 Alt Cunningham: Mother of Daemons",
+   "B067 Cyberpsychosis",
+   "B070 The Heist",
+   "B071 Goro Takemura: Vengeful Bodyguard",
+   "B079 Maelstrom Zealots"
+  ],
+  "reference": "https://cyberpunktcg.wiki/cards/"
  }
 }

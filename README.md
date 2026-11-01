@@ -59,3 +59,8 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 - 40 catalog entries, B001–B039 including B005A/B, now include manually authored `nameZh`, `abilityZh`, `translationStatus`, and a source link to the official current English rules text.
 - Card effect translations are unofficial learning references. The English official card database and current rules take precedence.
 - The Beta gallery includes a separate, mobile-friendly card detail panel with Traditional Chinese card abilities. Untranslated cards remain explicitly pending. No battle engine behavior is inferred from translated text.
+
+## Beta colors and translation corrections — 2026-11-02
+
+- Confirmed B040–B070 as Yellow, B071–B079 as Green, based on cross-referenced card database entries; the popup derives its theme from `color` and now uses their proper yellow/green accents.
+- Updated B040 Rogue -> 若惡, B042 Alt -> 艾特, B067 Cyberpsychosis -> 神機錯亂. RIPPERDOC remains 神機醫.
