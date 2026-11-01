@@ -1904,6 +1904,27 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
  #decks #betaCardDetail .beta-detail-stat strong{font-size:20px!important}
  #decks #betaCardDetail .beta-detail-tags span{font-size:14px!important;padding:5px 8px!important}
 }
+
+/* Compact labels: card type (單位卡 etc.) and faction/class pills. */
+#decks #betaCardDetail .beta-card-kind{
+ font-size:14px!important;
+ line-height:1.25!important;
+ margin-top:7px!important;
+ letter-spacing:0!important;
+ font-weight:400;
+}
+#decks #betaCardDetail .beta-detail-tags{gap:5px!important}
+#decks #betaCardDetail .beta-detail-tags span{
+ font-size:14px!important;
+ line-height:1.2!important;
+ padding:3px 7px!important;
+ border-radius:13px!important;
+ font-weight:400;
+}
+@media(max-width:650px){
+ #decks #betaCardDetail .beta-card-kind{font-size:14px!important;margin-top:6px!important}
+ #decks #betaCardDetail .beta-detail-tags span{padding:3px 7px!important}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2007,7 +2028,7 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards3"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=9"></script><script>
+</script><script src="localization.js?v=zhcards3"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=10"></script><script>
 /* Image preview enhancement: cards remain clickable image links if JS is disabled. */
 (function(){
  const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');
