@@ -17,7 +17,7 @@ const stages=[
   options:s=>[{label:'對手使用攔截能力',run:()=>R.attack(s,'player','f',{kind:'gig'},{blockWithId:'b'}),done:r=>r.ok&&r.state.player.gigs.length===0},{label:'對手選擇不攔截',run:()=>R.attack(s,'player','f',{kind:'gig'}),done:()=>false}]},
  {title:'06 / 真正的勝利條件',instruction:'一般情況下，剛搶到第 7 顆任務骰並不會立刻獲勝。必須等到自己的下一個回合開始時，還持有至少 7 顆才算贏。加時賽規則不同。',setup:()=>state({gigs:[1,2,3,4,5,6,7].map(n=>dice('g'+n,20,n))}),
   options:s=>[{label:'等到自己的下一回合開始再檢查',run:()=>({ok:R.startWin(s,'player'),state:s,events:['回合開始時有 7 顆 Gig：符合勝利條件']}),done:()=>true},{label:'剛搶到第 7 顆就立即宣布勝利',run:()=>({ok:false,reason:'一般回合必須等到你的下一個回合開始才檢查；只有 Overtime 才即時獲勝'}),done:()=>false}]},
- {title:'07 / 真實卡牌的登場能力',instruction:'Field Operator 登場時，如果街頭聲望（Street Cred）是偶數，就抽 1 張牌。你有兩顆任務骰，點數是 2 和 4，所以街頭聲望是 6，屬於偶數。',setup:()=>state({gigs:[dice('g1',4,2),dice('g2',6,4)],hand:[],deck:[{name:'測試抽到的卡'}]}),
+ {title:'07 / 真實卡牌的登場能力',instruction:'Field Operator 登場時，如果街頭聲望是偶數，就抽 1 張牌。你有兩顆任務骰，點數是 2 和 4，所以街頭聲望是 6，屬於偶數。',setup:()=>state({gigs:[dice('g1',4,2),dice('g2',6,4)],hand:[],deck:[{name:'測試抽到的卡'}]}),
   options:s=>[{label:'使用 Field Operator 的登場能力，抽 1 張牌',run:()=>R.playTrigger(s,'player',{name:'Field Operator'}),done:r=>r.ok&&r.state.player.hand.length===1},{label:'街頭聲望是偶數，所以不能抽牌',run:()=>({ok:false,reason:'官方卡牌效果指定偶數時抽牌，6 是偶數'}),done:()=>false}]}
 ];
 const saved='nct-rule-lab-v2';let completed=0;try{completed=Math.max(0,Math.min(stages.length,Number(localStorage.getItem(saved))||0))}catch{}
