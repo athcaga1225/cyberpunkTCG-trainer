@@ -665,6 +665,99 @@ body.battle-wide #battle .tour-coach-nav button{font-size:16px}
  #battle .mini-dice .die-icon{width:clamp(35px,8vw,62px);height:clamp(35px,8vw,62px);max-width:62px;max-height:62px}
  #battle .mini-dice .die-icon svg{transform:scale(1.10)}
 }
+
+/* Fixer dice: retain icon dimensions and center the dice in each area. */
+body.battle-wide #battle .preview-zone.player-fixer,
+body.battle-wide #battle .preview-zone.opponent-fixer{
+ justify-content:flex-start;
+}
+body.battle-wide #battle .preview-zone.player-fixer .mini-dice,
+body.battle-wide #battle .preview-zone.opponent-fixer .mini-dice{
+ flex:1 1 auto;
+ min-height:0;
+ margin:0;
+ padding:0 9px 3px;
+ align-items:center;
+ justify-content:space-around;
+}
+body.battle-wide #battle .mini-dice .die-icon{
+ max-width:72px;
+ max-height:72px;
+ width:clamp(42px,4.5vw,72px);
+ height:clamp(42px,4.5vw,72px);
+ flex:0 1 72px;
+}
+body.battle-wide #battle .mini-dice .die-icon svg{
+ transform:scale(1.04);
+}
+body.battle-wide #battle .mini-dice .die-icon b{font-size:14px!important;}
+/* Give the deck selection an unmistakable, usable place above the tabletop. */
+body.battle-wide #battle .battle-toolbar{
+ grid-template-columns:minmax(290px,380px) minmax(0,1fr);
+ align-items:center;
+ gap:14px;
+ padding:11px 8px 14px;
+}
+#battle .battle-deck-picker{
+ min-width:0;
+ display:flex;
+ align-items:center;
+ gap:8px;
+ flex-wrap:wrap;
+}
+#battle .battle-picker-heading{
+ flex:0 0 100%;
+ color:#29ffff;
+ font-size:14px;
+ font-weight:650;
+ letter-spacing:.07em;
+}
+#battle .battle-deck-picker .preview-deck-label{font-size:14px;white-space:nowrap;width:auto;display:block;}
+#battle .battle-deck-picker #battleDeckChoice{
+ min-height:42px;
+ width:210px;
+ flex:1 1 170px;
+ color:#eff8f9;
+ background:#11252c;
+ border:1px solid #29ffff;
+}
+#battle .battle-deck-switch{
+ display:flex;
+ gap:6px;
+ flex:0 0 100%;
+}
+#battle .battle-deck-switch button{
+ min-height:36px;
+ padding:7px 12px;
+ background:#0e1e25;
+ border:1px solid #48616b;
+ border-radius:4px;
+ color:#bed5d9;
+ cursor:pointer;
+ font-size:14px;
+}
+#battle .battle-deck-switch button.selected,
+#battle .battle-deck-switch button[aria-pressed="true"]{
+ border-color:#29ffff;
+ color:#29ffff;
+ background:#133038;
+ font-weight:700;
+}
+#battle .battle-deck-switch button:focus-visible{outline:2px solid #ffe66b;outline-offset:2px}
+@media(max-width:1199px){
+ body.battle-wide #battle .battle-toolbar{grid-template-columns:minmax(260px,345px) minmax(0,1fr)}
+}
+@media(max-width:840px){
+ body.battle-wide #battle .battle-toolbar{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+ #battle .battle-deck-picker{width:100%}
+ #battle .battle-deck-switch{flex-wrap:wrap}
+ body.battle-wide #battle .mini-dice .die-icon{
+  width:clamp(32px,7vw,60px);height:clamp(32px,7vw,60px);
+  max-width:60px;max-height:60px;
+ }
+ body.battle-wide #battle .preview-zone.player-fixer .mini-dice,
+ body.battle-wide #battle .preview-zone.opponent-fixer .mini-dice{padding:2px 0;margin:0}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">初始牌組</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -682,7 +775,7 @@ body.battle-wide #battle .tour-coach-nav button{font-size:16px}
 <div class="panel" id="labStage" aria-live="polite"><p>正在載入互動教學…</p></div>
 <p class="muted">詳細術語與完整規則參考：<a href="https://cyberpunktcg.com/gameplay-guide" target="_blank" rel="noopener noreferrer">官方 Gameplay Guide ↗</a></p>
 </section>
-<section id="battle" class="hide"><div class="battle-toolbar"><label class="preview-deck-label">選擇牌組<select class="btn" id="battleDeckChoice" aria-label="選擇對戰預覽牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></label><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button><button class="btn" type="button" id="jumpToLessons">前往新手教學 ↗</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
+<section id="battle" class="hide"><div class="battle-toolbar"><div class="battle-deck-picker"><span class="battle-picker-heading">選擇初始牌組</span><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select><div class="battle-deck-switch" role="group" aria-label="快速切換初始牌組"><button type="button" data-preview-deck="theHeist" class="selected" aria-pressed="true">The Heist</button><button type="button" data-preview-deck="embracingPower" aria-pressed="false">Embracing Power</button></div></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button><button class="btn" type="button" id="jumpToLessons">前往新手教學 ↗</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
  <div class="table-preview" id="tablePreview">
   <div class="preview-zone opponent-hand" data-tour-zone="opponent-hand"><small>OPPONENT / 手牌</small><div class="placeholder-label preview-card-rail">對手手牌 · 隱藏資訊</div></div>
   <div class="preview-zone opponent-legends" data-tour-zone="opponent-legends"><small>OPPONENT / 傳奇角色</small><div class="cardbacks"><div class="backcard">NCT</div><div class="backcard">NCT</div><div class="backcard">NCT</div></div></div>
