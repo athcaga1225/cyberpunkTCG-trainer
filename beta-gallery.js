@@ -121,7 +121,7 @@ function render(){
  const start=page*PAGE_SIZE,items=filtered.slice(start,start+PAGE_SIZE);
  for(const c of items)grid.append(tile(c));
  const totalPages=Math.max(1,Math.ceil(filtered.length/PAGE_SIZE));
- pages.textContent='共 '+totalPages+' 頁';
+ pages.textContent='／共 '+totalPages+' 頁';
  pageSelect.replaceChildren();
  for(let n=1;n<=totalPages;n++){const option=create('option','',`第 ${n} 頁`);option.value=String(n-1);pageSelect.append(option)}
  pageSelect.value=String(page);
