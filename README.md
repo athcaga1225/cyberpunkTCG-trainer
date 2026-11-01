@@ -14,7 +14,6 @@ Live site (when GitHub Pages finishes deploying): https://athcaga1225.github.io/
 - Official starter deck manifests for **The Heist and Embracing Power**, each 3 Legends and 40 main-deck cards, plus comparison against locally imported JSON.
 - Eight official card summaries and direct official source URLs; cards are explicitly marked partly implemented/unimplemented.
 - Local JSON importer for card metadata.
-- The separate legacy `battle.js` is an **UNOFFICIAL experimental game** with invented hit points and mana. It must never be presented as Cyberpunk TCG official gameplay.
 
 ## Not implemented yet
 
@@ -41,4 +40,8 @@ Card descriptions in the trainer are abbreviated Traditional Chinese explanation
 
 ## Guided battlefield layout prototype
 
-The battle tab now opens with a responsive **visual tabletop tutorial** featuring 8 highlighted zones (Fixer, Field, Eddies, Gig, Legends, Hand, Opponent field, phase) and next/previous navigation. This is strictly an educational layout: no official turns or card effects execute there. The earlier 12-HP experimental engine remains accessible in a collapsed section for technical comparison, explicitly marked unofficial. No multiplayer, accounts or image assets are required.
+The battle tab now opens with a responsive **visual tabletop tutorial** featuring 8 highlighted zones (Fixer, Field, Eddies, Gig, Legends, Hand, Opponent field, phase) and next/previous navigation. This is strictly an educational layout: no official turns or card effects execute there. The retired 12-HP experimental battle has been removed. No multiplayer, accounts or image assets are required.
+
+## Battle viewport update
+
+The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner. Instructions expand on request or when a field zone is selected. The old 12-life custom-rules demo and its `battle.js` source were removed; this is still a card-art/tabletop preview, not a complete official AI match.

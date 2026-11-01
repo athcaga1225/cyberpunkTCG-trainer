@@ -8,12 +8,18 @@ const steps=[
  {zone:'player-legends',title:'我的傳奇角色 / LEGENDS',description:'開局有 3 張蓋牌的傳奇角色。它們是牌組的核心，也可能提供支付費用的資源或其他能力。',action:'玩家的三張傳奇角色預設蓋牌。可使用上方的「預覽我的傳奇角色」按鈕查看對應的真實卡面。',detail:'真正的對局會使用兩套官方初始牌組的對應傳奇角色。'},
  {zone:'player-hand',title:'我的手牌 / HAND',description:'你能看見自己手上的卡，依照時機與費用決定出牌，或把有賣牌標記的卡賣成 Eddies。',action:'找到左下的手牌區。現在會顯示六張來自官方初始牌組的 Beta 卡面；點擊可放大。正式出牌操作仍未實作。',detail:'對手手牌內容不會直接公開，避免透露原本隱藏的資訊。'},
  {zone:'opponent-field',title:'對手的場地 / RIVAL',description:'對手的角色與裝備會顯示在上半部。攻擊目標和 Blocker 攔截，都需要依照卡牌狀態與官方規則判斷。',action:'觀察對手在上方，自己的場地在下方，雙方位置互相對應。',detail:'這裡是場地配置示意，並沒有啟動真正的對手 AI。'},
- {zone:'turn-info',title:'回合與操作提示 / PHASE',description:'正式遊戲需要依序處理回合開始、主要階段、卡牌效果與回合結束等事項。遊戲會在這裡提示目前輪到誰、可以做什麼。',action:'桌面導覽已完成。接下來可回「新手教學」操作既有的七個規則練習。',detail:'現有 12 生命值測試引擎已移到下方收合區，不會被當成正式玩法。'}
+ {zone:'turn-info',title:'回合與操作提示 / PHASE',description:'正式遊戲需要依序處理回合開始、主要階段、卡牌效果與回合結束等事項。遊戲會在這裡提示目前輪到誰、可以做什麼。',action:'桌面導覽已完成。接下來可回「新手教學」操作既有的七個規則練習。',detail:'目前只展示場地配置與卡圖，尚未啟用正式 AI 對戰。'}
 ];
 const byId=id=>document.getElementById(id);
 const wrap=byId('battleTour'),tip=wrap?.querySelector('.tour-coach');
 if(!wrap||!tip)return;
 let cursor=0;
+function expand(open){
+ tip.classList.toggle('is-compact',!open);
+ const button=byId('toggleBoardTip');
+ button.setAttribute('aria-expanded',String(open));
+ button.textContent=open?'收合解說':'顯示解說';
+}
 function show(i){
  cursor=Math.max(0,Math.min(steps.length-1,i));
  const step=steps[cursor];
@@ -32,14 +38,16 @@ function show(i){
  if(window.matchMedia?.('(max-width:840px)').matches)tip.scrollIntoView({block:'nearest',behavior:'auto'});
 }
 function close(){tip.hidden=true;wrap.classList.remove('has-spotlight');wrap.querySelectorAll('[data-tour-zone]').forEach(e=>e.removeAttribute('data-tour-highlight'))}
-byId('startBoardTour').addEventListener('click',()=>show(0));
+byId('startBoardTour').addEventListener('click',()=>{show(0);expand(true)});
+byId('toggleBoardTip').addEventListener('click',()=>expand(tip.classList.contains('is-compact')));
 byId('closeBoardTour').addEventListener('click',close);
 byId('tourPrevious').addEventListener('click',()=>show(cursor-1));
 byId('tourContinue').addEventListener('click',()=>cursor===steps.length-1?close():show(cursor+1));
 byId('jumpToLessons').addEventListener('click',()=>document.querySelector('button[data-page="learn"]')?.click());
 wrap.querySelectorAll('[data-tour-zone]').forEach(el=>{
-  el.addEventListener('click',()=>{const i=steps.findIndex(x=>x.zone===el.dataset.tourZone);if(i>=0)show(i)});
+  el.addEventListener('click',()=>{const i=steps.findIndex(x=>x.zone===el.dataset.tourZone);if(i>=0){show(i);expand(true)}});
   el.style.cursor=steps.some(x=>x.zone===el.dataset.tourZone)?'pointer':'default';
 });
 show(0);
+expand(false);
 })();
