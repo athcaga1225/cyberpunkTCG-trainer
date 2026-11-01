@@ -22,7 +22,10 @@ function hideHover(){
 }
 function positionHover(anchor){
  if(!hoverBox||!anchor||hoverBox.hidden)return;
- const rect=anchor.getBoundingClientRect();
+ // All hand cards use the same rail as positioning anchor, preventing the
+ // large preview from jumping between overlapping cards.
+ const base=anchor.classList.contains('hand-card')?(anchor.closest('.preview-card-rail')||anchor):anchor;
+ const rect=base.getBoundingClientRect();
  const width=hoverBox.getBoundingClientRect().width;
  const height=hoverBox.getBoundingClientRect().height;
  const pad=14;
@@ -42,12 +45,15 @@ function showHover(anchor,k,name,image){
  hoverName.textContent=nameOf(name);
  hoverFallback.hidden=true;
  hoverImage.hidden=false;
- hoverImage.src=image.url;
+ if(hoverImage.getAttribute('src')!==image.url)hoverImage.src=image.url;
  hoverImage.alt=nameOf(name)+' 放大卡面';
  hoverBox.hidden=false;
  hoverBox.setAttribute('aria-hidden','false');
  requestAnimationFrame(()=>{if(hoverTarget===anchor)positionHover(anchor)});
 }
+if(hoverImage)hoverImage.addEventListener('load',()=>{
+ if(hoverTarget)requestAnimationFrame(()=>positionHover(hoverTarget));
+});
 if(hoverImage)hoverImage.addEventListener('error',()=>{
  hoverImage.hidden=true;hoverFallback.hidden=false;
  if(hoverTarget)requestAnimationFrame(()=>positionHover(hoverTarget));
@@ -88,8 +94,14 @@ function card(k,name,back=false,kind='standard',isHand=false){
  if(isHand){
    // Click/tap selects a card; no popup. Hover is delegated to the hand rail
    // so overlapping card hit regions never block switching to the next card.
-   el.addEventListener('focus',()=>showHover(el,k,name,image));
-   el.addEventListener('blur',hideHover);
+   // Mouse clicks change focus too. Restrict focus-driven previews to
+   // keyboard navigation so blur cannot hide the pointer preview mid-swipe.
+   el.addEventListener('focus',()=>{
+    if(el.matches(':focus-visible'))showHover(el,k,name,image);
+   });
+   el.addEventListener('blur',()=>{
+    if(hoverTarget===el&&!el.closest('.preview-card-rail')?.matches(':hover'))hideHover();
+   });
    el.addEventListener('click',()=>selectHandCard(el));
  }else{
    el.addEventListener('pointerenter',()=>showHover(el,k,name,image));
@@ -169,7 +181,13 @@ function bindHandHover(rail){
  if(rail.dataset.hoverBound)return;
  rail.dataset.hoverBound='true';
  rail.addEventListener('pointermove',event=>{if(event.pointerType==='mouse'||event.pointerType==='pen')hoverHandAt(rail,event)});
- rail.addEventListener('pointerleave',hideHover);
+ rail.addEventListener('pointerleave',event=>{
+  const rect=rail.getBoundingClientRect();
+  const x=event.clientX,y=event.clientY;
+  // Ignore transient leave events caused by the stacked-card geometry.
+  if(x>=rect.left-1&&x<=rect.right+1&&y>=rect.top-1&&y<=rect.bottom+1)return;
+  hideHover();
+ });
 }
 
 function render(){hideHover();selectedHandIndex=null;const other=choice==='theHeist'?'embracingPower':'theHeist';legend(choice,'player');legend(other,'opponent');
