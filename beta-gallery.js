@@ -39,6 +39,9 @@ function filter(){
 }
 
 function openCard(c){
+ // Verified cards use their own color accent; unverified cards remain neutral.
+ const color=String(c.color||'').toLowerCase();
+ detail.dataset.cardColor=['red','yellow','blue','green'].includes(color)?color:'neutral';
  detailBody.replaceChildren();
  // Use the same image-first hierarchy as the physical card and the reviewed mockup.
  const visual=create('div','beta-detail-art');
@@ -53,15 +56,9 @@ function openCard(c){
  const title=create('h3','beta-detail-title',zhName(c));
  const english=create('p','beta-detail-english',c.name);
  names.append(title,english);
- const badges=create('div','beta-detail-eyebrow');
- if(c.color){
-  const chip=create('span','beta-color-pill beta-chip-'+String(c.color).toLowerCase(),colorZh[c.color]||c.color);
-  badges.append(chip);
- }
- if(c.type)badges.append(create('span','beta-type-chip',(typeZh[c.type]||c.type)));
- badges.append(create('span','beta-detail-rarity',rarityZh[c.rarity]||c.rarity));
- badges.append(create('span','beta-detail-number',c.id));
- identity.append(accent,names,badges);
+ const kind=c.type?create('p','beta-card-kind',typeZh[c.type]||c.type):null;
+ if(kind)names.append(kind);
+ identity.append(accent,names);
  info.append(identity);
  // Full three-cell layout for cards verified against the official database.
  // Legends without printed Cost/PWR and Programs without PWR use an em dash.

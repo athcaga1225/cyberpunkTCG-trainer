@@ -1727,6 +1727,107 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
  #decks #betaCardDetail .beta-detail-effect{padding:16px 14px 20px}
  #decks #betaCardDetail .beta-ability-text{font-size:16px}
 }
+
+/* Clean card modal: card color drives the single accent system. */
+#decks #betaCardDetail.beta-card-dialog{
+ --card-accent:#8faeb7;
+ --card-accent-rgb:143,174,183;
+ border:2px solid var(--card-accent);
+ border-radius:14px 4px 14px 4px;
+ background:radial-gradient(ellipse at 20% 0%,rgba(var(--card-accent-rgb),.12),transparent 63%),#080c11;
+ box-shadow:0 0 0 1px rgba(var(--card-accent-rgb),.24),0 0 25px rgba(var(--card-accent-rgb),.19),0 22px 70px #000e;
+}
+#decks #betaCardDetail.beta-card-dialog[data-card-color="red"]{
+ --card-accent:#f8504a;--card-accent-rgb:248,80,74;
+}
+#decks #betaCardDetail.beta-card-dialog[data-card-color="yellow"]{
+ --card-accent:#e6bd45;--card-accent-rgb:230,189,69;
+}
+#decks #betaCardDetail.beta-card-dialog[data-card-color="blue"]{
+ --card-accent:#39a9e0;--card-accent-rgb:57,169,224;
+}
+#decks #betaCardDetail.beta-card-dialog[data-card-color="green"]{
+ --card-accent:#55bd83;--card-accent-rgb:85,189,131;
+}
+#decks #betaCardDetail .beta-title-accent{
+ background:var(--card-accent);
+ box-shadow:0 0 12px rgba(var(--card-accent-rgb),.24);
+}
+#decks #betaCardDetail .beta-card-identity{
+ grid-template-columns:7px minmax(0,1fr);
+ gap:12px;align-items:start;
+}
+#decks #betaCardDetail .beta-card-names{grid-column:2;grid-row:1}
+#decks #betaCardDetail .beta-title-accent{grid-column:1;grid-row:1;min-height:85px}
+#decks #betaCardDetail .beta-card-kind{
+ color:var(--card-accent);
+ font-size:16px;line-height:1.4;
+ font-weight:500;letter-spacing:.04em;
+ margin:13px 0 0;
+ padding:0;background:none;border:0;box-shadow:none;
+}
+#decks #betaCardDetail .beta-detail-header button{
+ border:1px solid var(--card-accent);
+ color:var(--card-accent);
+ background:rgba(var(--card-accent-rgb),.08);
+ box-shadow:none;
+}
+#decks #betaCardDetail .beta-detail-header button:hover{
+ border-color:var(--card-accent);
+ color:var(--card-accent);
+ background:rgba(var(--card-accent-rgb),.18);
+}
+#decks #betaCardDetail .beta-detail-header button:focus-visible{outline-color:var(--card-accent)}
+#decks #betaCardDetail .beta-detail-stats{gap:11px}
+#decks #betaCardDetail .beta-detail-stat{
+ border:1.5px solid var(--card-accent);
+ background:linear-gradient(160deg,rgba(var(--card-accent-rgb),.11),#101920);
+ box-shadow:inset 0 1px 0 rgba(var(--card-accent-rgb),.16);
+}
+#decks #betaCardDetail .beta-detail-stat small{color:#bdcbd0}
+#decks #betaCardDetail .beta-detail-tags span{
+ color:#e3eef0;
+ border-color:#70848b;
+ background:#0c1519;
+}
+#decks #betaCardDetail .beta-detail-effect{
+ border:0;
+ border-radius:0;
+ padding:12px 0 0;
+ margin:0;
+ background:none;
+ box-shadow:none;
+}
+#decks #betaCardDetail .beta-detail-effect h4{
+ display:block;
+ border:0;
+ padding:0;
+ margin:0 0 11px;
+ color:#fff;
+ font-size:18px;font-weight:500;
+ letter-spacing:0;
+}
+#decks #betaCardDetail .beta-ability-text{
+ color:#fff;
+ font-size:18px;
+ line-height:1.85;
+ margin:0;
+ padding:0;
+ background:none;
+ border:none;
+ box-shadow:none;
+}
+#decks #betaCardDetail .beta-detail-links a{color:var(--card-accent)}
+#decks #betaCardDetail .beta-detail-links a+a{border-left-color:rgba(var(--card-accent-rgb),.36)}
+@media(max-width:650px){
+ #decks #betaCardDetail .beta-card-identity{grid-template-columns:6px minmax(0,1fr)}
+ #decks #betaCardDetail .beta-title-accent{grid-column:1;grid-row:1;min-height:72px}
+ #decks #betaCardDetail .beta-card-names{grid-column:2;grid-row:1}
+ #decks #betaCardDetail .beta-card-kind{font-size:15px;margin-top:11px}
+ #decks #betaCardDetail .beta-detail-effect{padding:7px 0 0}
+ #decks #betaCardDetail .beta-detail-effect h4{font-size:16px}
+ #decks #betaCardDetail .beta-ability-text{font-size:16px}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -1830,7 +1931,7 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=7"></script><script>
+</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=8"></script><script>
 /* Image preview enhancement: cards remain clickable image links if JS is disabled. */
 (function(){
  const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');
