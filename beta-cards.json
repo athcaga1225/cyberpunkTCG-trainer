@@ -13,17 +13,23 @@
    "rarity": "Epic",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b001-adamsmasherenderoflegends.jpg?v=1789055363",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-adamsmasherenderoflegends-b001-epic",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Legend",
+   "cost": 9,
+   "power": 9,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【獨闖（Go Solo）】支付這張傳奇角色的費用，將其以重置狀態作為單位打出。本回合可以攻擊；離開戰場時，將其移出遊戲。【打出（Play）】擊敗一個對手單位。",
    "ruleVerified": false,
    "nameZh": "亞當・碎骨：傳奇終結者",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/adam-smasher-ender-of-legends"
+   "abilitySource": "https://cyberpunktcg.com/cards/adam-smasher-ender-of-legends",
+   "tags": [
+    "ARASAKA",
+    "MERC"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B002",
@@ -32,17 +38,22 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b002-dexterdeshawnoffthegrid.jpg?v=1789055376",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-dexterdeshawnoffthegrid-b002-rare",
-   "color": null,
-   "type": null,
+   "color": "Red",
+   "type": "Legend",
    "cost": null,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【呼叫（Call）】選擇一項效果：本回合一個友方單位戰力 +2；或抽 1 張牌。【橫置（Spend）】使一顆任務骰的點數最多提高 2。",
    "ruleVerified": false,
    "nameZh": "德克斯特・德尚：銷聲匿跡",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/dexter-deshawn-off-the-grid"
+   "abilitySource": "https://cyberpunktcg.com/cards/dexter-deshawn-off-the-grid",
+   "tags": [
+    "FIXER"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B003",
@@ -51,17 +62,24 @@
    "rarity": "Secret",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b003-johnnysilverhandrockingrenegade.jpg?v=1789055382",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-johnnysilverhandrockingrenegade-b003-secret",
-   "color": null,
-   "type": null,
+   "color": "Red",
+   "type": "Legend",
    "cost": null,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "支付 2 歐元並【橫置】：一個友方單位在打出的當回合，可以攻擊已橫置的對手單位。如果該單位具有「搖滾客（ROCKER）」類別，本回合戰力再 +2。你每控制一顆點數為 8 以上的友方任務骰，此能力的費用便減少 1 歐元。",
    "ruleVerified": false,
    "nameZh": "銀手強尼：搖滾叛逆者",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/johnny-silverhand-rocking-renegade"
+   "abilitySource": "https://cyberpunktcg.com/cards/johnny-silverhand-rocking-renegade",
+   "tags": [
+    "MERC",
+    "ROCKER",
+    "SAMURAI"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B004",
@@ -70,17 +88,23 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b004-roycepsychoontheedge.jpg?v=1789055370",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-roycepsychoontheedge-b004-rare",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Legend",
+   "cost": 6,
+   "power": 6,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【獨闖（Go Solo）】支付這張傳奇角色的費用，將其以重置狀態作為單位打出。本回合可以攻擊；離開戰場時，將其移出遊戲。在你的回合中，此傳奇角色每裝備一張裝備卡，戰力便 +2。",
    "ruleVerified": false,
    "nameZh": "羅伊斯：瀕臨瘋狂",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/royce-psycho-on-the-edge"
+   "abilitySource": "https://cyberpunktcg.com/cards/royce-psycho-on-the-edge",
+   "tags": [
+    "MAELSTROM",
+    "GANGER"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B005A",
@@ -89,17 +113,22 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b005a-vstreetkida.jpg?v=1789055372",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-vstreetkida-b005a-rare",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Legend",
+   "cost": 5,
+   "power": 6,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【呼叫（Call）】將牌庫頂的 3 張牌置入棄牌區，然後從自己的棄牌區選擇 1 張具有「幻舞（BRAINDANCE）」類別的程式牌加入手牌。【獨闖（Go Solo）】支付這張傳奇角色的費用，將其以重置狀態作為單位打出。本回合可以攻擊；離開戰場時，將其移出遊戲。",
    "ruleVerified": false,
    "nameZh": "V：街頭小子",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/v-streetkid"
+   "abilitySource": "https://cyberpunktcg.com/cards/v-streetkid",
+   "tags": [
+    "MERC"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B005B",
@@ -108,17 +137,22 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b005b-vstreetkidb.jpg?v=1789055389",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-vstreetkidb-b005b-rare",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Legend",
+   "cost": 5,
+   "power": 6,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【呼叫（Call）】將牌庫頂的 3 張牌置入棄牌區，然後從自己的棄牌區選擇 1 張具有「幻舞（BRAINDANCE）」類別的程式牌加入手牌。【獨闖（Go Solo）】支付這張傳奇角色的費用，將其以重置狀態作為單位打出。本回合可以攻擊；離開戰場時，將其移出遊戲。",
    "ruleVerified": false,
    "nameZh": "V：街頭小子",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/v-streetkid"
+   "abilitySource": "https://cyberpunktcg.com/cards/v-streetkid",
+   "tags": [
+    "MERC"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B006",
@@ -127,17 +161,23 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b006-6thstreetrecruits.jpg?v=1789055377",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-6thstreetrecruits-b006-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 4,
+   "power": 6,
+   "ram": 1,
    "abilityEnglish": null,
    "abilityZh": "每當一個友方單位奪取一顆六面任務骰（d6），使一顆任務骰的點數最多提高 6。",
    "ruleVerified": false,
    "nameZh": "六街幫新兵",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/6th-street-recruits"
+   "abilitySource": "https://cyberpunktcg.com/cards/6th-street-recruits",
+   "tags": [
+    "6TH STREET",
+    "GANGER"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B007",
@@ -146,17 +186,23 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b007-animalswrecker.jpg?v=1789055371",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-animalswrecker-b007-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 6,
+   "power": 10,
+   "ram": 3,
    "abilityEnglish": null,
    "abilityZh": "無額外卡牌能力。（風味文字：要像他們一樣粉碎骨頭，可得消耗不少能量。）",
    "ruleVerified": false,
    "nameZh": "蠻獸派破壞者",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/animals-wrecker"
+   "abilitySource": "https://cyberpunktcg.com/cards/animals-wrecker",
+   "tags": [
+    "ANIMAL",
+    "GANGER"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B008",
@@ -165,17 +211,24 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b008-chromefang.jpg?v=1789055364",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-chromefang-b008-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 5,
+   "power": 6,
+   "ram": 1,
    "abilityEnglish": null,
    "abilityZh": "【打出（Play）】直到你的下一回合開始之前，對手單位無法奪取點數高於其戰力的友方任務骰。",
    "ruleVerified": false,
    "nameZh": "鍍鉻獠牙",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/chrome-fang"
+   "abilitySource": "https://cyberpunktcg.com/cards/chrome-fang",
+   "tags": [
+    "GANGER",
+    "NETRUNNER",
+    "TYGER CLAWS"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B009",
@@ -184,17 +237,23 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b009-elsombreronlavenganzalenta.jpg?v=1789055378",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-elsombreronlavenganzalenta-b009-rare",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 5,
+   "power": 4,
+   "ram": 4,
    "abilityEnglish": null,
    "abilityZh": "【攻擊（Attack）】你可以支付 2 歐元。若如此做，本回合此單位獲得的額外戰力，等同於你控制的一顆最大點數任務骰的點數。",
    "ruleVerified": false,
    "nameZh": "El Sombrerón：緩慢的復仇",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/el-sombrero-n-la-venganza-lenta"
+   "abilitySource": "https://cyberpunktcg.com/cards/el-sombrero-n-la-venganza-lenta",
+   "tags": [
+    "GANGER",
+    "VALENTINO"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B010",
@@ -203,17 +262,22 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b010-japantownjonin.jpg?v=1789055368",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-japantownjonin-b010-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 2,
+   "power": 0,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【打出（Play）】本回合使一個友方單位戰力 +2。（戰力為 0 的單位無法奪取任務骰。）",
    "ruleVerified": false,
    "nameZh": "日本街上忍",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/japantown-jonin"
+   "abilitySource": "https://cyberpunktcg.com/cards/japantown-jonin",
+   "tags": [
+    "TYGER CLAWS"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B011",
@@ -222,17 +286,24 @@
    "rarity": "Epic",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b011-johnnysilverhandneverstopfighting.jpg?v=1789055395",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-johnnysilverhandneverstopfighting-b011-epic",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 6,
+   "power": 8,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "每回合此單位第一次贏得戰鬥時，將其重置。此單位與具有「企業人員（CORPO）」類別的單位戰鬥時，必定獲勝。",
    "ruleVerified": false,
    "nameZh": "銀手強尼：戰鬥永不止息",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/johnny-silverhand-never-stop-fighting"
+   "abilitySource": "https://cyberpunktcg.com/cards/johnny-silverhand-never-stop-fighting",
+   "tags": [
+    "MERC",
+    "ROCKER",
+    "SAMURAI"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B012",
@@ -241,17 +312,23 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b012-kerryeurodynethelastrockerboy.jpg?v=1789055384",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-kerryeurodynethelastrockerboy-b012-uncommon",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 4,
+   "power": 5,
+   "ram": 1,
    "abilityEnglish": null,
    "abilityZh": "【橫置（Spend）】如果你控制至少一顆點數為 8 以上的任務骰，抽 2 張牌。",
    "ruleVerified": false,
    "nameZh": "凱瑞・歐羅迪恩：最後的搖滾客",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/kerry-eurodyne-the-last-rockerboy"
+   "abilitySource": "https://cyberpunktcg.com/cards/kerry-eurodyne-the-last-rockerboy",
+   "tags": [
+    "ROCKER",
+    "SAMURAI"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B013",
@@ -260,17 +337,23 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b013-lalloronaghostofthepast.jpg?v=1789055382",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-lalloronaghostofthepast-b013-uncommon",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 3,
+   "power": 3,
+   "ram": 1,
    "abilityEnglish": null,
    "abilityZh": "【阻擋（Blocker）】你可以將此單位橫置，改由它承受對手單位的攻擊。每當此單位使用【阻擋】，使一顆任務骰的點數最多提高 3。",
    "ruleVerified": false,
    "nameZh": "拉・尤羅娜：過往幽靈",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/la-llorona-ghost-of-the-past"
+   "abilitySource": "https://cyberpunktcg.com/cards/la-llorona-ghost-of-the-past",
+   "tags": [
+    "GANGER",
+    "VALENTINO"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B014",
@@ -279,17 +362,23 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b014-meredithstoutstonecoldcorpo.jpg?v=1789055374",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-meredithstoutstonecoldcorpo-b014-rare",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 4,
+   "power": 5,
+   "ram": 1,
    "abilityEnglish": null,
    "abilityZh": "【阻擋（Blocker）】此單位與傳奇角色戰鬥時，戰力 +2。每當對手調整或交換一顆以上的友方任務骰時，你可以從自己的棄牌區選擇一張卡加入手牌。",
    "ruleVerified": false,
    "nameZh": "梅若迪絲・史陶特：冷酷企業人",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/meredith-stout-stone-cold-corpo"
+   "abilitySource": "https://cyberpunktcg.com/cards/meredith-stout-stone-cold-corpo",
+   "tags": [
+    "CORPO",
+    "MILITECH"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B015",
@@ -298,17 +387,24 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b015-octant.jpg?v=1789055368",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-octant-b015-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 7,
+   "power": 8,
+   "ram": 4,
    "abilityEnglish": null,
    "abilityZh": "你每控制一顆點數為 8 以上的友方任務骰，打出此單位的費用便減少 1 歐元，最低為 1 歐元。",
    "ruleVerified": false,
    "nameZh": "八旋翼無人機",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/octant"
+   "abilitySource": "https://cyberpunktcg.com/cards/octant",
+   "tags": [
+    "DRONE",
+    "MILITECH",
+    "ZETATECH"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B016",
@@ -317,17 +413,23 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b016-roycedontcallmesimon.jpg?v=1789055368",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-roycedontcallmesimon-b016-uncommon",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 5,
+   "power": 4,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【打出（Play）】擊敗一個戰力 2 以下的對手單位。如果你的街頭聲望高於對手，改為擊敗一個戰力 3 以下的對手單位。",
    "ruleVerified": false,
    "nameZh": "羅伊斯：別叫我賽門",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/royce-don-t-call-me-simon"
+   "abilitySource": "https://cyberpunktcg.com/cards/royce-don-t-call-me-simon",
+   "tags": [
+    "GANGER",
+    "MAELSTROM"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B017",
@@ -336,17 +438,23 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b017-ruthlesslowlife.jpg?v=1789055377",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-ruthlesslowlife-b017-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 2,
+   "power": 4,
+   "ram": 1,
    "abilityEnglish": null,
    "abilityZh": "此單位只能攻擊對手單位。（無法攻擊任務骰區。）",
    "ruleVerified": false,
    "nameZh": "狠毒混混",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/ruthless-lowlife"
+   "abilitySource": "https://cyberpunktcg.com/cards/ruthless-lowlife",
+   "tags": [
+    "GANGER",
+    "MAELSTROM"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B018",
@@ -355,17 +463,23 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b018-screwlovelornfool.jpg?v=1789055382",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-screwlovelornfool-b018-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 5,
+   "power": 7,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【被擊敗（Defeated）】從自己的棄牌區選擇另一張單位牌加入手牌。",
    "ruleVerified": false,
    "nameZh": "史克魯：為愛所困的傻瓜",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/screw-lovelorn-fool"
+   "abilitySource": "https://cyberpunktcg.com/cards/screw-lovelorn-fool",
+   "tags": [
+    "GANGER",
+    "MAELSTROM"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B019",
@@ -374,17 +488,22 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b019-swordwisehuscle.jpg?v=1789055384",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-swordwisehuscle-b019-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 3,
+   "power": 3,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【攻擊（Attack）】如果此單位戰力為 5 以上，抽 1 張牌。",
    "ruleVerified": false,
    "nameZh": "精通刀劍的壯漢",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/swordwise-huscle"
+   "abilitySource": "https://cyberpunktcg.com/cards/swordwise-huscle",
+   "tags": [
+    "MERC"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B020",
@@ -393,17 +512,23 @@
    "rarity": "Epic",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b020-vroamerofthebadlands.jpg?v=1789055363",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-vroamerofthebadlands-b020-epic",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 5,
+   "power": 6,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "每當此單位奪取一顆任務骰時，使該任務骰點數最多提高 5。在你的回合結束時，如果你控制至少兩顆點數為 8 以上的任務骰，抽 1 張牌。",
    "ruleVerified": false,
    "nameZh": "V：惡地漫遊者",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/v-roamer-of-the-badlands"
+   "abilitySource": "https://cyberpunktcg.com/cards/v-roamer-of-the-badlands",
+   "tags": [
+    "MERC",
+    "NOMAD"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B021",
@@ -412,17 +537,23 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b021-valentinoguerrera.jpg?v=1789055380",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-valentinoguerrera-b021-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 3,
+   "power": 4,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "如果你的街頭聲望高於對手，此單位可以攻擊具有【阻擋（Blocker）】能力且處於重置狀態的單位。",
    "ruleVerified": false,
    "nameZh": "瓦倫提諾幫戰士",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/valentino-guerrera"
+   "abilitySource": "https://cyberpunktcg.com/cards/valentino-guerrera",
+   "tags": [
+    "GANGER",
+    "VALENTINO"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B022",
@@ -431,17 +562,23 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b022-yorinobuarasakasteeldragon.jpg?v=1789055375",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-yorinobuarasakasteeldragon-b022-rare",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Unit",
+   "cost": 7,
+   "power": 9,
+   "ram": 3,
    "abilityEnglish": null,
    "abilityZh": "【打出（Play）】你可以從手牌或棄牌區免費打出一張費用 4 以下的單位牌；該單位本回合可以攻擊對手單位。每回合第一次有「荒坂（ARASAKA）」單位被擊敗時，抽 1 張牌。",
    "ruleVerified": false,
    "nameZh": "荒坂賴宣：鋼鐵之龍",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/yorinobu-arasaka-steel-dragon"
+   "abilitySource": "https://cyberpunktcg.com/cards/yorinobu-arasaka-steel-dragon",
+   "tags": [
+    "ARASAKA",
+    "CORPO"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B023",
@@ -450,17 +587,23 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b023-arasakaemergencyradioport.jpg?v=1789055384",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-arasakaemergencyradioport-b023-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Gear",
+   "cost": 2,
+   "power": 2,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）每當裝備此卡的單位或傳奇角色橫置時，你可以查看自己一張背面朝上的傳奇角色。如果該角色具有「荒坂（ARASAKA）」類別或【獨闖（Go Solo）】能力，你可以免費呼叫該角色。（每回合只能呼叫一名傳奇角色。）",
    "ruleVerified": false,
    "nameZh": "荒坂緊急無線傳送站",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/arasaka-emergency-radioport"
+   "abilitySource": "https://cyberpunktcg.com/cards/arasaka-emergency-radioport",
+   "tags": [
+    "ARASAKA",
+    "CYBERWARE"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B024",
@@ -469,17 +612,23 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b024-deadmantransmitter.jpg?v=1789055392",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-deadmantransmitter-b024-uncommon",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Gear",
+   "cost": 3,
+   "power": 1,
+   "ram": 3,
    "abilityEnglish": null,
    "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）如果裝備此卡的單位即將被擊敗，改為擊敗裝備在該單位上的「死亡訊號發射器」。",
    "ruleVerified": false,
    "nameZh": "死亡訊號發射器",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/deadman-transmitter"
+   "abilitySource": "https://cyberpunktcg.com/cards/deadman-transmitter",
+   "tags": [
+    "CYBERWARE",
+    "TRAUMA TEAM"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B025",
@@ -488,17 +637,22 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b025-mantisblades.jpg?v=1789055388",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-mantisblades-b025-common",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Gear",
+   "cost": 1,
+   "power": 2,
+   "ram": 1,
    "abilityEnglish": null,
    "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）無額外規則能力。（風味文字：「一刀，一命。」）",
    "ruleVerified": false,
    "nameZh": "螳螂刀",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/mantis-blades"
+   "abilitySource": "https://cyberpunktcg.com/cards/mantis-blades",
+   "tags": [
+    "CYBERWARE"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B026",
@@ -507,17 +661,23 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b026-satoriswordofsaburo.jpg?v=1789055401",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-satoriswordofsaburo-b026-uncommon",
-   "color": null,
-   "type": null,
-   "cost": null,
-   "power": null,
-   "ram": null,
+   "color": "Red",
+   "type": "Gear",
+   "cost": 2,
+   "power": 2,
+   "ram": 1,
    "abilityEnglish": null,
    "abilityZh": "（裝備給友方單位或正面朝上的傳奇角色。）每當裝備此卡的單位贏得與對手單位的戰鬥時，抽 1 張牌。",
    "ruleVerified": false,
    "nameZh": "覺：三郎之劍",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/satori-sword-of-saburo"
+   "abilitySource": "https://cyberpunktcg.com/cards/satori-sword-of-saburo",
+   "tags": [
+    "ARASAKA",
+    "WEAPON"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B027",
@@ -526,17 +686,22 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b027-allislost.jpg?v=1789055398",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-allislost-b027-common",
-   "color": null,
-   "type": null,
-   "cost": null,
+   "color": "Red",
+   "type": "Program",
+   "cost": 1,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "將牌庫頂的 3 張牌置入棄牌區。從這些牌中選擇一張單位牌加入手牌。",
    "ruleVerified": false,
    "nameZh": "一切盡失",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/all-is-lost"
+   "abilitySource": "https://cyberpunktcg.com/cards/all-is-lost",
+   "tags": [
+    "ZETATECH"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B028",
@@ -545,17 +710,22 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b028-appetitefordestruction.jpg?v=1789055388",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-appetitefordestruction-b028-uncommon",
-   "color": null,
-   "type": null,
-   "cost": null,
+   "color": "Red",
+   "type": "Program",
+   "cost": 3,
    "power": null,
-   "ram": null,
+   "ram": 4,
    "abilityEnglish": null,
    "abilityZh": "本回合下一次有友方單位以至少高出對手 3 點的戰力贏得戰鬥時，該單位也會奪取一顆任務骰。",
    "ruleVerified": false,
    "nameZh": "毀滅的慾望",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/appetite-for-destruction"
+   "abilitySource": "https://cyberpunktcg.com/cards/appetite-for-destruction",
+   "tags": [
+    "GANGER"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B029",
@@ -564,17 +734,22 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b029-bonnieandclyde.jpg?v=1789055378",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-bonnieandclyde-b029-uncommon",
-   "color": null,
-   "type": null,
-   "cost": null,
+   "color": "Red",
+   "type": "Program",
+   "cost": 3,
    "power": null,
-   "ram": null,
+   "ram": 3,
    "abilityEnglish": null,
    "abilityZh": "擊敗一個戰力 4 以下的對手單位。如果對手控制的任務骰數量比你至少多 2 顆，你可以改為擊敗兩個符合條件的單位。",
    "ruleVerified": false,
    "nameZh": "雌雄大盜",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/bonnie-and-clyde"
+   "abilitySource": "https://cyberpunktcg.com/cards/bonnie-and-clyde",
+   "tags": [
+    "BRAINDANCE"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B030",
@@ -583,17 +758,23 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b030-carnageatthecolosseum.jpg?v=1789055373",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-carnageatthecolosseum-b030-common",
-   "color": null,
-   "type": null,
-   "cost": null,
+   "color": "Red",
+   "type": "Program",
+   "cost": 6,
    "power": null,
-   "ram": null,
+   "ram": 3,
    "abilityEnglish": null,
    "abilityZh": "你每控制一顆點數為 8 以上的友方任務骰，打出此程式牌的費用便減少 1 歐元，最低為 1 歐元。擊敗一個戰力低於某個友方單位的對手單位。",
    "ruleVerified": false,
    "nameZh": "競技場大屠殺",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/carnage-at-the-colosseum"
+   "abilitySource": "https://cyberpunktcg.com/cards/carnage-at-the-colosseum",
+   "tags": [
+    "BRAINDANCE",
+    "EXTREME"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B031",
@@ -602,17 +783,22 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b031-detonate.jpg?v=1789055362",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-detonate-b031-common",
-   "color": null,
-   "type": null,
-   "cost": null,
+   "color": "Red",
+   "type": "Program",
+   "cost": 1,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【快速（Quick）】擊敗一張戰力 2 以下的對手裝備牌。",
    "ruleVerified": false,
    "nameZh": "引爆",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/detonate"
+   "abilitySource": "https://cyberpunktcg.com/cards/detonate",
+   "tags": [
+    "QUICKHACK"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B032",
@@ -621,17 +807,23 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b032-gunpointdiplomacy.jpg?v=1789055376",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-gunpointdiplomacy-b032-uncommon",
-   "color": null,
-   "type": null,
-   "cost": null,
+   "color": "Red",
+   "type": "Program",
+   "cost": 4,
    "power": null,
-   "ram": null,
+   "ram": 3,
    "abilityEnglish": null,
    "abilityZh": "讓一個友方單位獲得下列兩項效果。如果你的街頭聲望低於對手，則改由對手為你選擇其中一項：① 該單位本回合下一次攻擊時，可以攻擊處於重置狀態的單位；② 本回合該單位戰力 +3。",
    "ruleVerified": false,
    "nameZh": "槍口外交",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/gunpoint-diplomacy"
+   "abilitySource": "https://cyberpunktcg.com/cards/gunpoint-diplomacy",
+   "tags": [
+    "GANGER",
+    "PLAN"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B033",
@@ -640,17 +832,23 @@
    "rarity": "Uncommon",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b033-industrialassembly.jpg?v=1789055384",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-industrialassembly-b033-uncommon",
-   "color": null,
-   "type": null,
-   "cost": null,
+   "color": "Red",
+   "type": "Program",
+   "cost": 1,
    "power": null,
-   "ram": null,
+   "ram": 1,
    "abilityEnglish": null,
    "abilityZh": "使一顆任務骰的點數最多提高 4。如果你控制一顆點數為 8 以上的任務骰，抽 1 張牌。",
    "ruleVerified": false,
    "nameZh": "工業裝配",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/industrial-assembly"
+   "abilitySource": "https://cyberpunktcg.com/cards/industrial-assembly",
+   "tags": [
+    "ARASAKA",
+    "BRAINDANCE"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B034",
@@ -659,17 +857,22 @@
    "rarity": "Common",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b034-overtheedge.jpg?v=1789055383",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-overtheedge-b034-common",
-   "color": null,
-   "type": null,
-   "cost": null,
+   "color": "Red",
+   "type": "Program",
+   "cost": 3,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "擊敗一個戰力不高於你控制的一顆友方二十面任務骰（d20）點數的單位。",
    "ruleVerified": false,
    "nameZh": "瀕臨失控",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/over-the-edge"
+   "abilitySource": "https://cyberpunktcg.com/cards/over-the-edge",
+   "tags": [
+    "MERC"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B035",
@@ -678,17 +881,22 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b035-shatteredmemories.jpg?v=1789055376",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-shatteredmemories-b035-rare",
-   "color": null,
-   "type": null,
-   "cost": null,
+   "color": "Red",
+   "type": "Program",
+   "cost": 4,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "雙方玩家各自棄掉所有手牌，然後可以各抽 5 張牌。如果這次棄掉的牌張數總和，等於你控制的一顆友方任務骰的點數，你再抽 2 張牌。",
    "ruleVerified": false,
    "nameZh": "破碎的記憶",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/shattered-memories"
+   "abilitySource": "https://cyberpunktcg.com/cards/shattered-memories",
+   "tags": [
+    "BRAINDANCE"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B036",
@@ -697,17 +905,23 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b036-dumdummaelstromtriggerman.jpg?v=1789055394",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-dumdummaelstromtriggerman-b036-rare",
-   "color": null,
-   "type": null,
+   "color": "Yellow",
+   "type": "Legend",
    "cost": null,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【呼叫（Call）】你可以擊敗一張友方裝備牌。若如此做，抽 2 張牌；否則抽 1 張牌。【快速（Quick）】支付 1 歐元並【橫置（Spend）】：本回合一個友方單位每裝備一張裝備牌，戰力便 +1。",
    "ruleVerified": false,
    "nameZh": "達姆達姆：漩戰幫槍手",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/dum-dum-maelstrom-triggerman"
+   "abilitySource": "https://cyberpunktcg.com/cards/dum-dum-maelstrom-triggerman",
+   "tags": [
+    "GANGER",
+    "MAELSTROM"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B037",
@@ -716,17 +930,23 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b037-kerryeurodyneaxeattitudeaudience.jpg?v=1789055362",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-kerryeurodyneaxeattitudeaudience-b037-rare",
-   "color": null,
-   "type": null,
+   "color": "Yellow",
+   "type": "Legend",
    "cost": null,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "每當你從合事佬區擲入一顆任務骰時，可以忽略結果並重新擲骰一次。每當你擲出一顆任務骰的最小或最大點數時，抽 1 張牌；如果那是二十面骰（d20），則改為抽 3 張。",
    "ruleVerified": false,
    "nameZh": "凱瑞・歐羅迪恩：吉他、態度、觀眾",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/kerry-eurodyne-axe-attitude-audience"
+   "abilitySource": "https://cyberpunktcg.com/cards/kerry-eurodyne-axe-attitude-audience",
+   "tags": [
+    "ROCKER",
+    "SAMURAI"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B038",
@@ -735,17 +955,22 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b038-muamarreyeselcapitan.jpg?v=1789055376",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-muamarreyeselcapitan-b038-rare",
-   "color": null,
-   "type": null,
+   "color": "Yellow",
+   "type": "Legend",
    "cost": null,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【呼叫（Call）】選擇一項效果：本回合一個友方單位不會在戰鬥中被擊敗；或抽 1 張牌。【橫置（Spend）】將一顆任務骰的點數調整 1。",
    "ruleVerified": false,
    "nameZh": "穆阿瑪・雷耶斯：隊長",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/muamar-reyes-el-capita-n"
+   "abilitySource": "https://cyberpunktcg.com/cards/muamar-reyes-el-capita-n",
+   "tags": [
+    "FIXER"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B039",
@@ -754,17 +979,22 @@
    "rarity": "Rare",
    "imageUrl": "https://cdn.shopify.com/s/files/1/0811/4641/3357/files/b039-riverwarddetectiveonthehunt.jpg?v=1789055380",
    "imageSource": "https://spellboundgames.co.uk/products/cyberpunk-singles-wnb-riverwarddetectiveonthehunt-b039-rare",
-   "color": null,
-   "type": null,
+   "color": "Yellow",
+   "type": "Legend",
    "cost": null,
    "power": null,
-   "ram": null,
+   "ram": 2,
    "abilityEnglish": null,
    "abilityZh": "【快速（Quick）】【橫置（Spend）】從手牌免費打出一張費用 2 以下的裝備牌。每當一個裝備了裝備牌的友方單位被擊敗時，查看牌庫頂的 2 張牌，並將其中 1 張置入棄牌區。",
    "ruleVerified": false,
    "nameZh": "瑞弗・瓦德：追查中的警探",
    "translationStatus": "draft-reviewed-against-official-current-text",
-   "abilitySource": "https://cyberpunktcg.com/cards/river-ward-detective-on-the-hunt"
+   "abilitySource": "https://cyberpunktcg.com/cards/river-ward-detective-on-the-hunt",
+   "tags": [
+    "NCPD"
+   ],
+   "attributesSource": "https://cyberpunktcg.com/cards",
+   "attributesStatus": "verified-official-card-database-2026-11-02"
   },
   {
    "id": "B040",
@@ -2990,5 +3220,12 @@
    "Trash": "將牌庫頂指定張數置入棄牌區",
    "Ready": "重置"
   }
+ },
+ "attributesBatch": {
+  "date": "2026-11-02",
+  "count": 40,
+  "scope": "B001-B039 including B005A/B",
+  "source": "Official Cyberpunk TCG Card Database",
+  "notes": "COST/POW missing on selected Legends and POW missing on Programs are not printed fields; UI shows dash only for verified first batch. Tags are official classifications and are not all factions."
  }
 }

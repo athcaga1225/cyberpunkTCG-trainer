@@ -11,6 +11,19 @@ const PAGE_SIZE=24;
 let all=[],filtered=[],page=0,active='starter';
 const zhName=c=>c.nameZh||window.NCTLocale?.cardName?.(c.name)||c.name;
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
+const tagZh={
+ 'ARASAKA':'荒坂','MERC':'傭兵','GANGER':'幫派成員','NETRUNNER':'網路駭客',
+ 'TYGER CLAWS':'虎鉤眾','CORPO':'企業人士','MILITECH':'軍用科技','MAELSTROM':'漩戰幫',
+ 'ANIMAL':'蠻獸派','ROCKER':'搖滾客','SAMURAI':'武士','VALENTINO':'瓦倫提諾',
+ '6TH STREET':'六街幫','DRONE':'無人機','ZETATECH':'澤塔科技','CYBERWARE':'義體',
+ 'TRAUMA TEAM':'創傷小組','WEAPON':'武器','BRAINDANCE':'幻舞','EXTREME':'極限',
+ 'QUICKHACK':'快速破解','PLAN':'計畫','NOMAD':'遊牧民','FIXER':'合事佬','NCPD':'夜城警察局'
+};
+const typeZh={Legend:'傳奇卡',Unit:'單位卡',Gear:'裝備卡',Program:'程式卡'};
+const colorZh={Red:'紅色',Yellow:'黃色',Blue:'藍色',Green:'綠色'};
+const rarityZh={Common:'普通',Uncommon:'非普通',Rare:'稀有',Epic:'史詩',Secret:'秘密',
+ 'Iconic Legend':'標誌性傳奇','Iconic Other':'標誌性特殊','Iconic Secret':'標誌性秘密','Nova Rare':'新星稀有'};
+const translatedTag=t=>(tagZh[String(t).toUpperCase()]||t)+'（'+t+'）';
 function switchTo(view){
  active=view==='beta'?'beta':'starter';
  root.hidden=active!=='beta';
@@ -41,25 +54,30 @@ function openCard(c){
  const english=create('p','beta-detail-english',c.name);
  names.append(title,english);
  const badges=create('div','beta-detail-eyebrow');
- badges.append(create('span','beta-detail-rarity',c.rarity.toUpperCase()),create('span','beta-detail-number',c.id));
+ if(c.color){
+  const chip=create('span','beta-color-pill beta-chip-'+String(c.color).toLowerCase(),colorZh[c.color]||c.color);
+  badges.append(chip);
+ }
+ if(c.type)badges.append(create('span','beta-type-chip',(typeZh[c.type]||c.type)));
+ badges.append(create('span','beta-detail-rarity',rarityZh[c.rarity]||c.rarity));
+ badges.append(create('span','beta-detail-number',c.id));
  identity.append(accent,names,badges);
  info.append(identity);
- // Color, type and numbers require verified card data. Do not invent them.
- const values=[['COST',c.cost],['RAM',c.ram],['POW',c.power]];
- const verified=values.filter(([,v])=>v!==null&&v!==undefined&&v!=='');
- if(verified.length){
+ // Full three-cell layout for cards verified against the official database.
+ // Legends without printed Cost/PWR and Programs without PWR use an em dash.
+ // Other unverified cards do not display pretend numbers.
+ if(c.attributesStatus==='verified-official-card-database-2026-11-02'){
   const stats=create('div','beta-detail-stats');
-  for(const [label,value] of verified){
+  for(const [label,value] of [['COST',c.cost],['RAM',c.ram],['POW',c.power]]){
    const stat=create('div','beta-detail-stat');
-   stat.append(create('small','',label),create('strong','',String(value)));
+   stat.append(create('small','',label),create('strong','',value===null||value===undefined?'—':String(value)));
    stats.append(stat);
   }
   info.append(stats);
  }
- if(c.color||c.type){
+ if(Array.isArray(c.tags)&&c.tags.length){
   const tags=create('div','beta-detail-tags');
-  if(c.color)tags.append(create('span','beta-color-pill',String(c.color)));
-  if(c.type)tags.append(create('span','',String(c.type)));
+  for(const tag of c.tags)tags.append(create('span','',translatedTag(tag)));
   info.append(tags);
  }
  const effect=create('section','beta-detail-effect');

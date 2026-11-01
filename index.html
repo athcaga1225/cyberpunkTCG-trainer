@@ -1576,6 +1576,157 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
  #decks #betaCardDetail .beta-detail-header button:focus,
  #decks #betaCardDetail .beta-detail-header button:focus-visible{outline:none;box-shadow:none}
 }
+
+/* Final screenshot-inspired NCT Beta card popup: card front, Chinese name, stat cells,
+   translated faction/class tags, framed effect block. */
+#decks #betaCardDetail.beta-card-dialog{
+ border:2px solid #e43148;
+ border-radius:16px 4px 16px 4px;
+ background:radial-gradient(ellipse at 20% 0%,#5d101b43,transparent 60%),#080c11;
+ box-shadow:0 0 0 1px #51111c,0 0 26px #f22f4b48,0 25px 70px #000e;
+}
+#decks #betaCardDetail .beta-detail-body{gap:21px}
+#decks #betaCardDetail .beta-detail-image-frame{
+ border-color:#bd984f;
+ border-radius:12px;
+ box-shadow:0 0 0 1px #79632b,0 16px 36px #000a;
+}
+#decks #betaCardDetail .beta-card-identity{
+ grid-template-columns:7px minmax(0,1fr) auto;
+ gap:12px;
+ align-items:start;
+}
+#decks #betaCardDetail .beta-title-accent{
+ grid-column:1;grid-row:1/span 2;
+ width:7px;min-height:88px;
+ background:#f8504a;
+}
+#decks #betaCardDetail .beta-card-names{grid-column:2;grid-row:1}
+#decks #betaCardDetail .beta-detail-title{
+ font-weight:500;
+ font-size:clamp(24px,3.4vw,33px);
+ line-height:1.37;
+}
+#decks #betaCardDetail .beta-detail-english{
+ color:#b3cbd0;
+ font-size:16px;
+ letter-spacing:.02em;
+}
+#decks #betaCardDetail .beta-detail-eyebrow{
+ grid-column:3;grid-row:1;
+ margin:0;
+ max-width:205px;
+ justify-content:flex-end;
+ align-items:flex-start;
+ gap:5px;
+}
+#decks #betaCardDetail .beta-detail-eyebrow span{
+ font-size:14px;
+ padding:5px 8px;
+ border-radius:5px 2px 5px 2px;
+ font-weight:500;
+ white-space:nowrap;
+}
+#decks #betaCardDetail .beta-detail-eyebrow .beta-chip-red{
+ border-color:#ef4356;
+ color:#ffb0b6;
+ background:#42131b;
+}
+#decks #betaCardDetail .beta-detail-eyebrow .beta-chip-yellow{
+ border-color:#d7b94e;
+ color:#ffe58d;
+ background:#393019;
+}
+#decks #betaCardDetail .beta-detail-eyebrow .beta-chip-blue{
+ border-color:#3f98cd;color:#8dd4f3;background:#14334b;
+}
+#decks #betaCardDetail .beta-detail-eyebrow .beta-chip-green{
+ border-color:#48ad7d;color:#9be7c2;background:#173a2c;
+}
+#decks #betaCardDetail .beta-type-chip{
+ border:1px solid #647e86;
+ background:#122028;
+ color:#dae8ec;
+}
+#decks #betaCardDetail .beta-detail-rarity{
+ border-color:#c7a34e;
+ color:#ffe17e;
+ background:#2d2515;
+}
+#decks #betaCardDetail .beta-detail-number{
+ border-color:#347887;
+ color:#94d9e3;
+ background:#0c2630;
+}
+#decks #betaCardDetail .beta-detail-stats{
+ gap:11px;
+}
+#decks #betaCardDetail .beta-detail-stat{
+ min-height:86px;
+ border:1.5px solid #ee334c;
+ background:linear-gradient(160deg,#29202a,#101920);
+ border-radius:12px 3px 12px 3px;
+}
+#decks #betaCardDetail .beta-detail-stat strong{
+ font-size:29px;font-weight:600;
+}
+#decks #betaCardDetail .beta-detail-tags{
+ display:flex;flex-wrap:wrap;gap:9px;
+}
+#decks #betaCardDetail .beta-detail-tags span{
+ border:1px solid #77939a;
+ background:#0c1519;
+ color:#e3eef0;
+ border-radius:30px;
+ padding:8px 13px;
+ line-height:1.4;
+ font-size:15px;
+}
+#decks #betaCardDetail .beta-detail-effect{
+ border:1.5px solid #29ffff;
+ background:linear-gradient(145deg,#06303a91,#051b238f);
+ box-shadow:inset 0 0 22px #29ffff10,0 0 13px #29ffff12;
+ border-radius:12px 3px 12px 3px;
+}
+#decks #betaCardDetail .beta-detail-effect h4{
+ font-size:20px;
+ color:#29ffff;
+ border-bottom:2px solid #29ffff;
+ margin-bottom:14px;
+}
+#decks #betaCardDetail .beta-ability-text{
+ font-size:18px;
+ line-height:1.8;
+}
+@media(max-width:650px){
+ #decks #betaCardDetail .beta-detail-body{
+  gap:20px;padding:8px 16px 24px;
+ }
+ #decks #betaCardDetail .beta-detail-art{
+  width:min(100%,370px);margin:0 auto;
+ }
+ #decks #betaCardDetail .beta-card-identity{
+  grid-template-columns:6px minmax(0,1fr);
+  gap:11px;
+ }
+ #decks #betaCardDetail .beta-card-names{grid-column:2;grid-row:1}
+ #decks #betaCardDetail .beta-detail-eyebrow{
+  grid-column:2;grid-row:2;
+  max-width:none;
+  justify-content:flex-start;
+  margin-top:-2px;
+ }
+ #decks #betaCardDetail .beta-title-accent{
+  grid-column:1;grid-row:1/span 2;min-height:72px;
+ }
+ #decks #betaCardDetail .beta-detail-title{font-size:26px}
+ #decks #betaCardDetail .beta-detail-stats{gap:9px}
+ #decks #betaCardDetail .beta-detail-stat{min-height:77px;padding:8px 4px}
+ #decks #betaCardDetail .beta-detail-stat strong{font-size:26px}
+ #decks #betaCardDetail .beta-detail-tags span{padding:7px 10px;font-size:14px}
+ #decks #betaCardDetail .beta-detail-effect{padding:16px 14px 20px}
+ #decks #betaCardDetail .beta-ability-text{font-size:16px}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -1679,7 +1830,7 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=6"></script><script>
+</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=7"></script><script>
 /* Image preview enhancement: cards remain clickable image links if JS is disabled. */
 (function(){
  const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');
