@@ -990,6 +990,46 @@ body.battle-wide #battle .tour-coach .tour-coach-tools .tour-mini{
 body.battle-wide #battle .tour-coach .tour-coach-tools .tour-close-x{
  flex:0 0 40px;width:40px;min-width:40px;padding:0;font-size:26px;
 }
+
+/* Playable-looking hand: hover inspects; click/tap selects rather than opens a modal. */
+#battle .player-hand .hand-card{
+ cursor:pointer;
+ touch-action:manipulation;
+ outline:0 solid transparent;
+ outline-offset:-3px;
+ transition:outline-color .12s,box-shadow .12s;
+}
+#battle .player-hand .hand-card.is-selected{
+ outline:3px solid #29ffff;
+ box-shadow:0 0 0 1px #071015,0 0 14px #29ffff80;
+}
+#battle .player-hand .hand-card:focus-visible{
+ outline:3px solid #ffe66b;
+}
+#battle .preview-zone .preview-card-rail .hand-card:hover:not(:disabled){
+ transform:none!important;
+ z-index:inherit!important;
+}
+#battleCardHover.hand-preview{
+ width:min(470px,calc(100vw - 28px));
+ padding:8px;
+ border:1px solid #567c85;
+ border-radius:9px;
+ background:#071015f8;
+ box-shadow:0 16px 44px #000d;
+}
+#battleCardHover.hand-preview img{
+ display:block;
+ width:100%;
+ max-height:min(78vh,700px);
+ object-fit:contain;
+}
+#battleCardHover.hand-preview p{
+ margin:5px 0 0;font-size:14px;
+}
+@media(max-width:840px){
+ #battleCardHover.hand-preview{width:min(380px,calc(100vw - 18px))}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">初始牌組</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -1083,7 +1123,7 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=9"></script><script src="board-tour.js?v=4"></script><script>
+</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=10"></script><script src="board-tour.js?v=4"></script><script>
 /* Image preview enhancement: cards remain clickable image links if JS is disabled. */
 (function(){
  const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');

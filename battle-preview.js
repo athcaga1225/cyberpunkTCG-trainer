@@ -18,7 +18,7 @@ const hoverBox=$('battleCardHover'),hoverImage=$('battleHoverImage'),
 let hoverTarget=null;
 function hideHover(){
  if(!hoverBox)return;
- hoverTarget=null;hoverBox.hidden=true;hoverBox.setAttribute('aria-hidden','true');
+ hoverTarget=null;hoverBox.classList.remove('hand-preview');hoverBox.hidden=true;hoverBox.setAttribute('aria-hidden','true');
 }
 function positionHover(anchor){
  if(!hoverBox||!anchor||hoverBox.hidden)return;
@@ -36,7 +36,9 @@ function positionHover(anchor){
 }
 function showHover(anchor,k,name,image){
  if(!hoverBox||!image?.url||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+ if(hoverTarget===anchor&&!hoverBox.hidden)return;
  hoverTarget=anchor;
+ hoverBox.classList.toggle('hand-preview',anchor.classList.contains('hand-card'));
  hoverName.textContent=nameOf(name);
  hoverFallback.hidden=true;
  hoverImage.hidden=false;
@@ -53,7 +55,7 @@ if(hoverImage)hoverImage.addEventListener('error',()=>{
 window.addEventListener('scroll',hideHover,true);
 window.addEventListener('resize',hideHover);
 
-function card(k,name,back=false,kind='standard'){
+function card(k,name,back=false,kind='standard',isHand=false){
  const el=document.createElement('button');el.type='button';el.className='preview-art-card'+(back?' face-down':'');
  if(back){
   const isLegend=kind==='legend';
@@ -72,14 +74,30 @@ function card(k,name,back=false,kind='standard'){
   el.append(image);
   return el;
  }
- const image=lookup(k,name);el.title=nameOf(name);el.setAttribute('aria-label','放大查看 '+nameOf(name));
+ const image=lookup(k,name);
+ el.title=nameOf(name);
+ if(isHand){
+  el.classList.add('hand-card');
+  el.setAttribute('aria-label','選取手牌 '+nameOf(name));
+  el.setAttribute('aria-pressed','false');
+ }else{
+  el.setAttribute('aria-label','放大查看 '+nameOf(name));
+ }
  const fallback=document.createElement('span');fallback.className='preview-art-fallback';fallback.textContent=locale?.cardName(name)||name;el.append(fallback);
  if(image?.url){const img=document.createElement('img');img.src=image.url;img.alt=nameOf(name)+' 卡面';img.loading='lazy';img.decoding='async';img.addEventListener('error',()=>{img.remove();el.classList.add('missing-art')});el.append(img)}else el.classList.add('missing-art');
- el.addEventListener('pointerenter',()=>showHover(el,k,name,image));
- el.addEventListener('pointerleave',hideHover);
- el.addEventListener('focus',()=>showHover(el,k,name,image));
- el.addEventListener('blur',hideHover);
- el.addEventListener('click',()=>{hideHover();open(k,name,image)});
+ if(isHand){
+   // Click/tap selects a card; no popup. Hover is delegated to the hand rail
+   // so overlapping card hit regions never block switching to the next card.
+   el.addEventListener('focus',()=>showHover(el,k,name,image));
+   el.addEventListener('blur',hideHover);
+   el.addEventListener('click',()=>selectHandCard(el));
+ }else{
+   el.addEventListener('pointerenter',()=>showHover(el,k,name,image));
+   el.addEventListener('pointerleave',hideHover);
+   el.addEventListener('focus',()=>showHover(el,k,name,image));
+   el.addEventListener('blur',hideHover);
+   el.addEventListener('click',()=>{hideHover();open(k,name,image)});
+ }
  return el;
 }
 function open(k,name,image){hideHover();const dlg=$('battleCardDialog');if(!dlg?.showModal)return;const english=name||'卡牌預覽';const chinese=locale?.cardName(english)||english;$('battleCardTitle').textContent=chinese;$('battleCardEnglish').textContent=chinese===english?'':english;
@@ -108,15 +126,68 @@ if(typeof ResizeObserver!=='undefined'){
 }
 window.addEventListener('resize',()=>requestAnimationFrame(fitPreviewRails));
 
-function render(){hideHover();const other=choice==='theHeist'?'embracingPower':'theHeist';legend(choice,'player');legend(other,'opponent');
+
+let selectedHandIndex=null;
+function refreshHandSelection(){
+ const nodes=[...root.querySelectorAll('.player-hand .hand-card')];
+ nodes.forEach((el,i)=>{
+  const selected=i===selectedHandIndex;
+  el.classList.toggle('is-selected',selected);
+  el.setAttribute('aria-pressed',String(selected));
+ });
+ const notice=$('battlePreviewStatus');
+ if(!notice)return;
+ if(selectedHandIndex===null){
+  notice.textContent='目前為示意手牌。點擊可選取卡牌；正式出牌、費用與回合判定尚未啟用。';
+ }else{
+  const card=nodes[selectedHandIndex];
+  notice.textContent=card?'已選取：'+(card.dataset.cardName||'手牌')+'。目前只能選取，尚未實作正式出牌。':'尚未選取卡牌。';
+ }
+}
+function selectHandCard(el){
+ const index=Number(el.dataset.handIndex);
+ if(!Number.isInteger(index))return;
+ selectedHandIndex=selectedHandIndex===index?null:index;
+ refreshHandSelection();
+}
+// Use card slot x-coordinates, not event.target: stacked card DOM layers otherwise
+// make moving from card 1 to card 2 randomly retrigger/lose the hover.
+function hoverHandAt(rail,event){
+ if(!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
+ const nodes=[...rail.querySelectorAll('.hand-card')];
+ if(!nodes.length)return;
+ const x=event.clientX;
+ let index=0;
+ for(let i=1;i<nodes.length;i++){
+  if(x>=nodes[i].getBoundingClientRect().left)index=i;
+ }
+ const card=nodes[index];
+ if(hoverTarget===card)return;
+ showHover(card,choice,card.dataset.cardName,lookup(choice,card.dataset.cardName));
+}
+function bindHandHover(rail){
+ if(rail.dataset.hoverBound)return;
+ rail.dataset.hoverBound='true';
+ rail.addEventListener('pointermove',event=>{if(event.pointerType==='mouse'||event.pointerType==='pen')hoverHandAt(rail,event)});
+ rail.addEventListener('pointerleave',hideHover);
+}
+
+function render(){hideHover();selectedHandIndex=null;const other=choice==='theHeist'?'embracingPower':'theHeist';legend(choice,'player');legend(other,'opponent');
  const my=root.querySelector('.player-hand .hand-placeholder'),rival=root.querySelector('.opponent-hand .placeholder-label');
  if(!my||!rival)return;my.replaceChildren();rival.replaceChildren();my.classList.add('preview-card-rail');rival.classList.add('preview-card-rail');
- for(const n of hand)my.append(card(choice,n));for(let i=0;i<6;i++)rival.append(card(other,'',true));
+ hand.forEach((n,i)=>{
+  const el=card(choice,n,false,'standard',true);
+  el.dataset.handIndex=String(i);
+  el.dataset.cardName=n;
+  my.append(el);
+ });
+ bindHandHover(my);
+ for(let i=0;i<6;i++)rival.append(card(other,'',true));
  requestAnimationFrame(fitPreviewRails);
  $('battleSelectedDeck').textContent='玩家：'+decks[choice].name;$('battleOpponentDeck').textContent='對手：'+decks[other].name;
  for(const side of ['player','opponent']){const v=root.querySelector('.'+side+'-deck .deck-pile');if(v){v.replaceChildren(document.createTextNode('34'));const lbl=document.createElement('span');lbl.textContent='DECK';v.append(lbl)}}
  $('toggleBattleLegends').textContent=showLegends?'收起傳奇角色預覽':'預覽我的傳奇角色';
- $('battlePreviewStatus').textContent='顯示 '+decks[choice].name+' 的 6 張真實卡圖與 3 張傳奇角色。對手手牌與傳奇角色保持蓋牌。此為示意抽牌，不是正式對局。';
+ refreshHandSelection();
 }
 select.onchange=()=>{if(!decks[select.value])return;choice=select.value;showLegends=false;hand=shuffle(choice);try{localStorage.setItem('nct-preview-deck',choice)}catch{}render()};
 
