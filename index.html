@@ -466,6 +466,39 @@ body.battle-wide #battle .tour-coach-nav button{min-width:auto;padding:9px 14px}
  #battle .preview-zone .preview-card-rail .preview-art-card{max-height:160px}
  #battle .preview-zone .cardbacks .preview-art-card{max-height:160px}
 }
+
+/* Card fan sized to preserve a fully visible final card. */
+@media(min-width:841px){
+ body.battle-wide #battle .table-preview{
+ grid-template-rows:minmax(0,1.58fr) minmax(0,.72fr) minmax(0,.70fr) minmax(0,.70fr) minmax(0,.72fr) minmax(0,1.95fr);
+ }
+ body.battle-wide #battle .player-hand,
+ body.battle-wide #battle .opponent-hand,
+ body.battle-wide #battle .player-legends,
+ body.battle-wide #battle .opponent-legends{padding:5px 8px}
+}
+#battle .preview-zone .preview-card-rail{align-items:center;justify-content:flex-start;overflow:hidden;flex-wrap:nowrap;gap:0}
+#battle .preview-zone .preview-card-rail .preview-art-card{
+ position:relative;flex:0 0 auto;max-height:100%;min-height:0;max-width:none;
+ height:100%;width:auto;aspect-ratio:5 / 7;
+ margin-right:calc(-1 * var(--preview-stack-overlap, 54px));
+ border-radius:5px;
+}
+#battle .preview-zone .preview-card-rail .preview-art-card:last-child{margin-right:0}
+#battle .preview-zone .preview-card-rail .preview-art-card:hover:not(:disabled){z-index:20!important;transform:translateY(-3px)}
+#battle .mini-dice .die-icon{width:clamp(56px,5.15vw,84px);height:clamp(56px,5.15vw,84px);max-width:84px;max-height:84px;flex:1 1 0}
+#battle .mini-dice .die-icon svg{stroke:#9ebdce;stroke-width:2.4}
+#battle .mini-dice .die-icon b{font-size:14px!important;letter-spacing:0;text-shadow:0 1px 2px #061017}
+#battle .preview-zone .preview-art-card.face-down{border-color:#d8c246;background:#080b10;box-shadow:0 3px 12px #000b}
+#battle .preview-zone .preview-art-card.face-down .preview-card-back-image{
+ filter:saturate(.7) contrast(1.24) brightness(.94)!important;
+ opacity:1!important;mix-blend-mode:normal!important;
+}
+#battle .preview-zone .preview-art-card.face-down .preview-back-design{background:#05080d;color:#e4d252}
+@media(max-width:840px){
+ #battle .mini-dice .die-icon{width:clamp(34px,8vw,58px);height:clamp(34px,8vw,58px);max-width:58px;max-height:58px}
+ #battle .preview-zone .preview-card-rail .preview-art-card{max-height:100%;min-height:0}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="cards">卡牌資料庫</button><button data-page="decks">初始牌組</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -516,7 +549,7 @@ body.battle-wide #battle .tour-coach-nav button{min-width:auto;padding:9px 14px}
 const pages=[...document.querySelectorAll('main>section')],nav=[...document.querySelectorAll('[data-page]')];function show(page){if(page==='practice')page='learn';document.body.classList.toggle('battle-wide',page==='battle');pages.forEach(x=>x.classList.toggle('hide',x.id!==page));nav.forEach(x=>x.classList.toggle('active',x.dataset.page===page));location.hash=page;window.scrollTo(0,0)}nav.forEach(x=>x.addEventListener('click',()=>show(x.dataset.page)));document.querySelector('[data-rule-link]')?.addEventListener('click',e=>{e.preventDefault();show('rules')});document.querySelectorAll('[data-go]').forEach(x=>x.addEventListener('click',()=>show(x.dataset.go)));
 // 舊版課程進度由新版整合教學保留並轉換；此處只處理網站導覽。
 const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.slice(1);show(['home','learn','battle','cards','decks','rules'].includes(requestedPage)?requestedPage:'home');
-</script><script src="localization.js?v=zhcards1"></script><script src="cards.js?v=zhcards1"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated2"></script><script src="battle-preview.js?v=3"></script><script src="board-tour.js?v=3"></script><script>
+</script><script src="localization.js?v=zhcards1"></script><script src="cards.js?v=zhcards1"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated2"></script><script src="battle-preview.js?v=4"></script><script src="board-tour.js?v=3"></script><script>
 /* Image preview enhancement: cards remain clickable image links if JS is disabled. */
 (function(){
  const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');

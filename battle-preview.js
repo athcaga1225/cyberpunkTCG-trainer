@@ -87,10 +87,32 @@ function open(k,name,image){hideHover();const dlg=$('battleCardDialog');if(!dlg?
  if(image?.url){img.src=image.url;img.alt=nameOf(name);img.hidden=false;fallback.hidden=true}else{img.removeAttribute('src');img.hidden=true;fallback.hidden=false;fallback.textContent='此卡在 CYBERDEX 的來源資料中暫無可用卡圖。'}
  if(image?.source){link.href=image.source;link.hidden=false}else link.hidden=true;dlg.showModal()}
 function legend(k,who){const node=root.querySelector('.'+who+'-legends .cardbacks');if(!node)return;node.replaceChildren();for(const c of decks[k].legends)node.append(card(k,c.name,who==='opponent'||!showLegends,'legend'))}
+
+function fitPreviewRails(){
+ for(const rail of root.querySelectorAll('.preview-card-rail')){
+  const list=[...rail.querySelectorAll('.preview-art-card')];
+  if(list.length===0||rail.clientWidth<=0)continue;
+  const width=rail.clientWidth;
+  const maxHeight=Math.max(56,rail.clientHeight);
+  const cardHeight=Math.max(28,Math.min(maxHeight,(width-Math.max(0,list.length-1)*12)*7/5));
+  const cardWidth=cardHeight*5/7;
+  const overlapRequired=Math.max(0,(cardWidth*list.length-width)/Math.max(1,list.length-1));
+  const overlap=Math.min(cardWidth-12,Math.max(overlapRequired,cardWidth*.55));
+  rail.style.setProperty('--preview-stack-overlap',overlap.toFixed(2)+'px');
+  list.forEach((el,i)=>{el.style.height=cardHeight+'px';el.style.width=cardWidth+'px';el.style.zIndex=String(i+1)});
+ }
+}
+if(typeof ResizeObserver!=='undefined'){
+ const resizer=new ResizeObserver(()=>requestAnimationFrame(fitPreviewRails));
+ root.querySelectorAll('.preview-card-rail').forEach(el=>resizer.observe(el));
+}
+window.addEventListener('resize',()=>requestAnimationFrame(fitPreviewRails));
+
 function render(){hideHover();const other=choice==='theHeist'?'embracingPower':'theHeist';legend(choice,'player');legend(other,'opponent');
  const my=root.querySelector('.player-hand .hand-placeholder'),rival=root.querySelector('.opponent-hand .placeholder-label');
  if(!my||!rival)return;my.replaceChildren();rival.replaceChildren();my.classList.add('preview-card-rail');rival.classList.add('preview-card-rail');
  for(const n of hand)my.append(card(choice,n));for(let i=0;i<6;i++)rival.append(card(other,'',true));
+ requestAnimationFrame(fitPreviewRails);
  $('battleSelectedDeck').textContent='玩家：'+decks[choice].name;$('battleOpponentDeck').textContent='對手：'+decks[other].name;
  for(const side of ['player','opponent']){const v=root.querySelector('.'+side+'-deck .deck-pile');if(v){v.replaceChildren(document.createTextNode('34'));const lbl=document.createElement('span');lbl.textContent='DECK';v.append(lbl)}}
  $('toggleBattleLegends').textContent=showLegends?'收起傳奇角色預覽':'預覽我的傳奇角色';
