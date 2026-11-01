@@ -87,10 +87,7 @@ function openCard(c){
  source.href=c.abilitySource||c.imageSource||c.imageUrl;
  source.target='_blank';source.rel='noopener noreferrer';
  source.textContent=c.abilitySource?'官方能力原文 ↗':'卡牌來源 ↗';
- const original=create('a','');
- original.href=c.imageUrl;original.target='_blank';original.rel='noopener noreferrer';
- original.textContent='開啟原始卡圖 ↗';
- links.append(source,original);info.append(links);
+ links.append(source);info.append(links);
  detailBody.append(visual,info);
  root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.cardId===c.id)));
  if(!detail.open){
