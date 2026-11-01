@@ -38,3 +38,7 @@ node tests/rules-core.test.js
 - https://cyberpunktcg.com/errata
 
 Card descriptions in the trainer are abbreviated Traditional Chinese explanations, not an official translation. Official English text is authoritative.
+
+## Guided battlefield layout prototype
+
+The battle tab now opens with a responsive **visual tabletop tutorial** featuring 8 highlighted zones (Fixer, Field, Eddies, Gig, Legends, Hand, Opponent field, phase) and next/previous navigation. This is strictly an educational layout: no official turns or card effects execute there. The earlier 12-HP experimental engine remains accessible in a collapsed section for technical comparison, explicitly marked unofficial. No multiplayer, accounts or image assets are required.
