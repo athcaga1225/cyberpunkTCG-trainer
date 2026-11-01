@@ -10,20 +10,6 @@ const keyOf=k=>k==='theHeist'?'heist':'power';
 let choice='theHeist',hand=[],showLegends=false;
 try{const prev=localStorage.getItem('nct-preview-deck');if(decks[prev])choice=prev}catch{}
 select.value=choice;
-const deckButtons=[...root.querySelectorAll('[data-preview-deck]')];
-function syncDeckButtons(){
- deckButtons.forEach(button=>{
-  const selected=button.dataset.previewDeck===choice;
-  button.classList.toggle('selected',selected);
-  button.setAttribute('aria-pressed',String(selected));
- });
-}
-deckButtons.forEach(button=>button.addEventListener('click',()=>{
- if(!decks[button.dataset.previewDeck]||button.dataset.previewDeck===choice)return;
- select.value=button.dataset.previewDeck;
- select.dispatchEvent(new Event('change',{bubbles:true}));
-}));
-syncDeckButtons();
 function lookup(k,name){return Object.entries(art[keyOf(k)]||{}).find(([n])=>norm(n)===norm(name)||(norm(name)==='tetratronicrippler'&&norm(n)==='tetratonicrippler'))?.[1]||null}
 function shuffle(k){const pool=[];for(const c of decks[k].main)for(let n=0;n<c.qty;n++)pool.push(c.name);for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}return pool.slice(0,6)}
 
@@ -132,7 +118,7 @@ function render(){hideHover();const other=choice==='theHeist'?'embracingPower':'
  $('toggleBattleLegends').textContent=showLegends?'收起傳奇角色預覽':'預覽我的傳奇角色';
  $('battlePreviewStatus').textContent='顯示 '+decks[choice].name+' 的 6 張真實卡圖與 3 張傳奇角色。對手手牌與傳奇角色保持蓋牌。此為示意抽牌，不是正式對局。';
 }
-select.onchange=()=>{if(!decks[select.value])return;choice=select.value;showLegends=false;hand=shuffle(choice);try{localStorage.setItem('nct-preview-deck',choice)}catch{}syncDeckButtons();render()};
+select.onchange=()=>{if(!decks[select.value])return;choice=select.value;showLegends=false;hand=shuffle(choice);try{localStorage.setItem('nct-preview-deck',choice)}catch{}render()};
 $('redrawBattleHand').onclick=()=>{hand=shuffle(choice);render()};
 $('toggleBattleLegends').onclick=()=>{showLegends=!showLegends;render()};
 $('closeBattleCard').onclick=()=>$('battleCardDialog')?.close();
