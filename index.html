@@ -1828,6 +1828,82 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
  #decks #betaCardDetail .beta-detail-effect h4{font-size:16px}
  #decks #betaCardDetail .beta-ability-text{font-size:16px}
 }
+
+/* Compact, monochrome stats and tags; unframed image and clean close icon. */
+#decks #betaCardDetail .beta-detail-image-frame{
+ border:0!important;
+ outline:0!important;
+ background:transparent;
+ box-shadow:none!important;
+ border-radius:0;
+ overflow:hidden;
+}
+#decks #betaCardDetail .beta-detail-art{
+ border:0;box-shadow:none;background:transparent;
+}
+#decks #betaCardDetail .beta-detail-header button{
+ -webkit-appearance:none;
+ appearance:none;
+ width:38px;height:38px;min-width:38px;min-height:38px;
+ padding:0;
+ border:0!important;
+ border-radius:0;
+ background:transparent!important;
+ box-shadow:none!important;
+ outline:none;
+ color:#fff!important;
+ font-size:29px;line-height:1;
+ cursor:pointer;
+}
+#decks #betaCardDetail .beta-detail-header button:hover{color:#e2e6e8!important}
+#decks #betaCardDetail .beta-detail-header button:focus-visible{
+ outline:2px solid #fff;outline-offset:2px;
+}
+#decks #betaCardDetail .beta-detail-stats{
+ gap:9px;margin:0;
+}
+#decks #betaCardDetail .beta-detail-stat{
+ min-height:60px!important;
+ padding:7px 5px!important;
+ border:1px solid rgba(var(--card-accent-rgb),.6);
+ border-radius:7px;
+ background:linear-gradient(135deg,#0a0b0e,#16181d 58%,#05070a)!important;
+ box-shadow:none!important;
+ gap:3px!important;
+}
+#decks #betaCardDetail .beta-detail-stat small{
+ font-size:14px;
+ line-height:1.25;
+ color:#acb7bd;
+}
+#decks #betaCardDetail .beta-detail-stat strong{
+ font-size:21px!important;
+ line-height:1.1;
+ font-weight:550;
+}
+#decks #betaCardDetail .beta-detail-tags{
+ gap:6px;
+}
+#decks #betaCardDetail .beta-detail-tags span{
+ font-size:14px!important;
+ line-height:1.3;
+ padding:5px 9px!important;
+ border:1px solid #60717a;
+ border-radius:18px;
+}
+#decks #betaCardDetail .beta-detail-effect{
+ padding:0!important;
+ border:0!important;
+ background:transparent!important;
+ box-shadow:none!important;
+}
+#decks #betaCardDetail .beta-detail-effect h4{display:none!important}
+#decks #betaCardDetail .beta-ability-text{color:#fff}
+@media(max-width:650px){
+ #decks #betaCardDetail .beta-detail-stat{min-height:56px!important}
+ #decks #betaCardDetail .beta-detail-stat strong{font-size:20px!important}
+ #decks #betaCardDetail .beta-detail-tags span{font-size:14px!important;padding:5px 8px!important}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -1931,7 +2007,7 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards2"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=8"></script><script>
+</script><script src="localization.js?v=zhcards3"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=9"></script><script>
 /* Image preview enhancement: cards remain clickable image links if JS is disabled. */
 (function(){
  const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');

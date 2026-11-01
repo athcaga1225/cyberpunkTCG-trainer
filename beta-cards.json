@@ -913,7 +913,7 @@
    "abilityEnglish": null,
    "abilityZh": "【呼叫（Call）】你可以擊敗一張友方裝備牌。若如此做，抽 2 張牌；否則抽 1 張牌。【快速（Quick）】支付 1 歐元並【橫置（Spend）】：本回合一個友方單位每裝備一張裝備牌，戰力便 +1。",
    "ruleVerified": false,
-   "nameZh": "達姆達姆：漩戰幫槍手",
+   "nameZh": "傻傻：漩戰幫槍手",
    "translationStatus": "draft-reviewed-against-official-current-text",
    "abilitySource": "https://cyberpunktcg.com/cards/dum-dum-maelstrom-triggerman",
    "tags": [
@@ -963,7 +963,7 @@
    "abilityEnglish": null,
    "abilityZh": "【呼叫（Call）】選擇一項效果：本回合一個友方單位不會在戰鬥中被擊敗；或抽 1 張牌。【橫置（Spend）】將一顆任務骰的點數調整 1。",
    "ruleVerified": false,
-   "nameZh": "穆阿瑪・雷耶斯：隊長",
+   "nameZh": "穆阿瑪・雷耶斯：酋長",
    "translationStatus": "draft-reviewed-against-official-current-text",
    "abilitySource": "https://cyberpunktcg.com/cards/muamar-reyes-el-capita-n",
    "tags": [
@@ -987,7 +987,7 @@
    "abilityEnglish": null,
    "abilityZh": "【快速（Quick）】【橫置（Spend）】從手牌免費打出一張費用 2 以下的裝備牌。每當一個裝備了裝備牌的友方單位被擊敗時，查看牌庫頂的 2 張牌，並將其中 1 張置入棄牌區。",
    "ruleVerified": false,
-   "nameZh": "瑞弗・瓦德：追查中的警探",
+   "nameZh": "大河・瓦德：追查中的警探",
    "translationStatus": "draft-reviewed-against-official-current-text",
    "abilitySource": "https://cyberpunktcg.com/cards/river-ward-detective-on-the-hunt",
    "tags": [

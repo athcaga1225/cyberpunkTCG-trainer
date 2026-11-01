@@ -12,10 +12,10 @@ let all=[],filtered=[],page=0,active='starter';
 const zhName=c=>c.nameZh||window.NCTLocale?.cardName?.(c.name)||c.name;
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
 const tagZh={
- 'ARASAKA':'荒坂','MERC':'傭兵','GANGER':'幫派成員','NETRUNNER':'網路駭客',
- 'TYGER CLAWS':'虎鉤眾','CORPO':'企業人士','MILITECH':'軍用科技','MAELSTROM':'漩戰幫',
+ 'ARASAKA':'荒坂','MERC':'傭兵','GANGER':'幫派成員','NETRUNNER':'竄網使',
+ 'TYGER CLAWS':'虎鉤眾','CORPO':'企業人士','MILITECH':'軍武科技','MAELSTROM':'漩戰幫',
  'ANIMAL':'蠻獸派','ROCKER':'搖滾客','SAMURAI':'武士','VALENTINO':'瓦倫提諾',
- '6TH STREET':'六街幫','DRONE':'無人機','ZETATECH':'澤塔科技','CYBERWARE':'義體',
+ '6TH STREET':'六街遊俠','DRONE':'無人機','ZETATECH':'ZETA科技','CYBERWARE':'義體',
  'TRAUMA TEAM':'創傷小組','WEAPON':'武器','BRAINDANCE':'幻舞','EXTREME':'極限',
  'QUICKHACK':'快速破解','PLAN':'計畫','NOMAD':'遊牧民','FIXER':'合事佬','NCPD':'夜城警察局'
 };
@@ -78,7 +78,6 @@ function openCard(c){
   info.append(tags);
  }
  const effect=create('section','beta-detail-effect');
- effect.append(create('h4','', '效果'));
  effect.append(create('p','beta-ability-text',c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。'));
  info.append(effect);
  const links=create('div','beta-detail-links');
