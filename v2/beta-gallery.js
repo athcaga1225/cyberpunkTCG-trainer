@@ -105,10 +105,10 @@ function openCard(c){
  info.append(effect);
  const links=create('div','beta-detail-links');
  const source=create('a','');
- source.href=c.abilitySource||c.imageSource||c.imageUrl;
+ source.href=c.printingUrl||c.abilitySource||c.imageSource||c.imageUrl;
  source.target='_blank';source.rel='noopener noreferrer';
  source.className='beta-source-link';
- source.append(create('span','beta-source-label',c.abilitySource?'官方原文':'卡牌來源'));
+ source.append(create('span','beta-source-label',c.printingUrl?'官方印刷版本':(c.abilitySource?'官方原文':'卡牌來源')));
  const arrow=create('span','beta-source-arrow','↗');
  arrow.setAttribute('aria-hidden','true');
  source.append(arrow);
@@ -199,7 +199,7 @@ series.addEventListener('change',filter);
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
-fetch('./beta-cards.json?v=22',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
+fetch('./beta-cards.json?v=23',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
  const cards=data.cards||[];
  // Validate the actual Beta numbering: B005 has two printings (A/B);
  // B172 is not part of this 178-card index. The six T cards are Box Toppers.
