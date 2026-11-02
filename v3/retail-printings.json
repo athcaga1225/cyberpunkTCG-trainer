@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "set": "Welcome to Night City — Retail",
+  "status": "in-progress",
+  "notes": "Only printings explicitly confirmed on official card pages are listed. Image URLs are intentionally not copied from Beta. Do not render Retail cards until the Retail image has been verified.",
+  "cards": [
+    {
+      "id": "005A",
+      "name": "V: Streetkid",
+      "betaId": "B005A",
+      "officialUrl": "https://cyberpunktcg.com/cards/v-streetkid",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "027",
+      "name": "All is Lost",
+      "betaId": "B027",
+      "officialUrl": "https://cyberpunktcg.com/cards/all-is-lost",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "035",
+      "name": "Shattered Memories",
+      "betaId": "B035",
+      "officialUrl": "https://cyberpunktcg.com/cards/shattered-memories",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "037",
+      "name": "Kerry Eurodyne: Axe, Attitude, Audience",
+      "betaId": "B037",
+      "officialUrl": "https://cyberpunktcg.com/cards/kerry-eurodyne-axe-attitude-audience",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "046",
+      "name": "Hanako Arasaka: In a Gilded Cage",
+      "betaId": "B046",
+      "officialUrl": "https://cyberpunktcg.com/cards/hanako-arasaka-in-a-gilded-cage",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "066",
+      "name": "Bootleg Black Sapphire Show",
+      "betaId": "B066",
+      "officialUrl": "https://cyberpunktcg.com/cards/bootleg-black-sapphire-show",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "068",
+      "name": "Live with the Aftermath",
+      "betaId": "B068",
+      "officialUrl": "https://cyberpunktcg.com/cards/live-with-the-aftermath",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "103",
+      "name": "Take Control",
+      "betaId": "B103",
+      "officialUrl": "https://cyberpunktcg.com/cards/take-control",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "114",
+      "name": "Hacked Corpo",
+      "betaId": "B114",
+      "officialUrl": "https://cyberpunktcg.com/cards/hacked-corpo",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "131",
+      "name": "Chrome Reverie",
+      "betaId": "B131",
+      "officialUrl": "https://cyberpunktcg.com/cards/chrome-reverie",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "137",
+      "name": "Three Mouths, One Desire",
+      "betaId": "B137",
+      "officialUrl": "https://cyberpunktcg.com/cards/three-mouths-one-desire",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    }
+  ]
+}
