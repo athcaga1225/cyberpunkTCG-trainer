@@ -25,6 +25,9 @@ const samePrintingFamily=(a,b)=>{
  return !!a.abilityZh && a.abilityZh===b.abilityZh;
 };
 const zhName=c=>c.nameZh||window.NCTLocale?.cardName?.(c.name)||c.name;
+// T001–T006 are internal identifiers; the actual Box Topper Beta printings read β001–β006.
+const printedNumber=c=>c.set==='topper'?'β'+c.id.slice(1):c.id;
+const printingLabel=c=>c.set==='topper'?'BOX TOPPER '+printedNumber(c):c.set==='starter'?((c.deck==='heist'?'HEIST ':'POWER ')+c.id):c.id;
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
 const setDisplayTitle=(el,name)=>{const i=String(name).indexOf('：');if(i<0){el.textContent=name;return}el.textContent=String(name).slice(0,i);el.append(create('span','card-title-subline',String(name).slice(i+1).trim()))};
 const setEnglishTitle=(el,name)=>{const value=String(name||'');const i=value.indexOf(':');if(i<0){el.textContent=value;return}el.textContent=value.slice(0,i).trim();const subtitle=value.slice(i+1).trim();if(subtitle)el.append(create('span','card-english-subline',subtitle))};
@@ -79,7 +82,7 @@ function openCard(c){
  if(kind)names.append(kind);
  identity.append(accent,names);
  const meta=create('div','beta-detail-meta-line');
- meta.append(create('strong','',c.id||'STARTER'),create('span','',c.set==='beta'?'BETA':c.set==='topper'?'BOX TOPPER':c.set==='starter'?'STARTER':String(c.set||'').toUpperCase()));
+ meta.append(create('strong','',printedNumber(c)||'STARTER'),create('span','',c.set==='beta'?'BETA':c.set==='topper'?'BOX TOPPER':c.set==='starter'?'STARTER':String(c.set||'').toUpperCase()));
  if(c.rarity)meta.append(create('span','',c.rarity));
  info.append(meta,identity);
  // Show the same three-cell COST / RAM / POW layout for every Beta card.
@@ -102,7 +105,7 @@ function openCard(c){
  const effect=create('section','beta-detail-effect');
  effect.append(create('h4','beta-detail-section-label','EFFECTS / 卡牌能力'));
  effect.append(create('p','beta-ability-text',c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。'));
- if(c.set==='starter')effect.append(create('p','beta-detail-note',c.starterTextStatus==='official-current-manual'?'內容依官方現行規則整理；實體 Beta Starter 印刷逐字差異仍待核對。':'中文能力與數值依同名卡資料整理；實體 Beta Starter 印刷逐字差異仍待核對。'));
+ if(c.set==='starter')effect.append(create('p','beta-detail-note','依官方現行卡牌規則資料整理；歷史實體卡面文字可能存在版本差異。'));
  info.append(effect);
  const links=create('div','beta-detail-links');
  const addSourceLink=(href,label)=>{
@@ -121,7 +124,7 @@ function openCard(c){
  if(c.set==='beta'||c.set==='topper'||c.set==='starter'){
   // Only one link, bound to the currently selected printing.
   addSourceLink(c.printingUrl||c.imageSource||c.imageUrl,
-   c.printingUrl?'官方印刷版本':'這張印刷版本');
+   c.printingUrl?'官方說明':'卡牌來源');
  }else{
   addSourceLink(c.imageSource||c.imageUrl,'卡牌來源');
  }
@@ -140,7 +143,7 @@ function openCard(c){
    const button=create('button','beta-printing-option');button.type='button';
    if(variant.id===c.id && variant.set===c.set && variant.deck===c.deck){button.classList.add('selected');button.setAttribute('aria-current','true')}
    const thumbnail=create('img','');thumbnail.src=variant.imageUrl;thumbnail.alt=variant.id+' 卡面';thumbnail.loading='lazy';
-   const variantLabel=variant.set==='starter'?((variant.deck==='heist'?'HEIST':'POWER')+' '+variant.id):(variant.id||'STARTER');
+   const variantLabel=printingLabel(variant)||'STARTER';
    button.append(thumbnail,create('span','',variantLabel));
    button.setAttribute('aria-label','切換至 '+variantLabel+' 印刷版本');
    button.addEventListener('click',()=>openCard(variant));strip.append(button);
@@ -226,7 +229,7 @@ function starterCardFromAnchor(anchor,cards){
   imageSource:anchor.dataset.deckImage||anchor.href,
   printingUrl:anchor.dataset.printingUrl||null,
   type:source.type||(isLegend?'Legend':null),
-  color:source.color||null,rarity:source.rarity||(isLegend?'Epic':null),
+  color:source.color||null,rarity:isLegend?'Epic':source.rarity||null,
   tags:source.tags||[],cost:source.cost??null,ram:source.ram??null,power:source.power??null,
   abilityEnglish:source.abilityEnglish||'',
   abilityZh:source.abilityZh||'尚無校對過的中文規則內容，請參考官方卡牌頁。',
@@ -248,7 +251,7 @@ starter.addEventListener('click',event=>{
 },true);
 
 function tile(c){
- const btn=create('button','beta-tile');btn.type='button';btn.dataset.cardId=c.id;btn.setAttribute('aria-pressed','false');btn.setAttribute('aria-label','檢視 '+c.id+' '+zhName(c));
+ const btn=create('button','beta-tile');btn.type='button';btn.dataset.cardId=c.id;btn.setAttribute('aria-pressed','false');btn.setAttribute('aria-label','檢視 '+printingLabel(c)+' '+zhName(c));
  const visual=create('span','beta-card-art');
  const img=document.createElement('img');img.loading='lazy';img.decoding='async';img.src=c.imageUrl;img.alt=c.name+' 卡圖';
  const fallback=create('span','beta-art-fallback','圖片無法顯示');
@@ -257,7 +260,7 @@ function tile(c){
  const title=create('strong','beta-card-title');setDisplayTitle(title,zhName(c));
  const eng=create('span','beta-card-english');setEnglishTitle(eng,c.name);
  const meta=create('span','beta-card-meta');
- meta.append(create('b','',c.id),create('span','',c.rarity));
+ meta.append(create('b','',printedNumber(c)),create('span','',c.rarity));
  btn.append(visual,title,eng,meta);
  btn.addEventListener('click',()=>openCard(c));
  return btn;
