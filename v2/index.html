@@ -2242,19 +2242,26 @@ header nav button.active{font-weight:400}
  #decks #betaCardDetail .beta-source-arrow{transition:none}
 }
 
-/* Keep Beta card number, set label and rarity anchored during printing changes. */
+/* Tightly group card ID, BETA and rarity; natural text widths prevent large spaces. */
 #decks #betaCardDetail .beta-detail-meta-line{
- display:grid;
- grid-template-columns:56px 45px minmax(0,1fr);
- align-items:center;
- column-gap:5px;
- row-gap:4px;
+ display:inline-flex!important;
+ width:max-content!important;
+ max-width:100%!important;
+ justify-content:flex-start!important;
+ align-items:baseline!important;
+ flex-wrap:nowrap!important;
+ gap:6px!important;
 }
 #decks #betaCardDetail .beta-detail-meta-line > strong,
-#decks #betaCardDetail .beta-detail-meta-line > span{min-width:0;white-space:nowrap}
-#decks #betaCardDetail .beta-detail-meta-line > span+span::before{margin-right:8px}
+#decks #betaCardDetail .beta-detail-meta-line > span{
+ flex:0 0 auto!important;
+ min-width:0;
+ white-space:nowrap;
+}
+#decks #betaCardDetail .beta-detail-meta-line > span+span::before{margin-right:6px!important}
 @media(max-width:380px){
- #decks #betaCardDetail .beta-detail-meta-line{grid-template-columns:53px 43px minmax(0,1fr);column-gap:4px;letter-spacing:.5px}
+ #decks #betaCardDetail .beta-detail-meta-line{gap:5px!important;letter-spacing:.5px}
+ #decks #betaCardDetail .beta-detail-meta-line > span+span::before{margin-right:5px!important}
 }
 /* Compact mobile printing-to-details spacing; desktop card layout unchanged. */
 @media(max-width:899px){
