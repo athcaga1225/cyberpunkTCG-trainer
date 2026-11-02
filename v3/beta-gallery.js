@@ -17,7 +17,7 @@ const quickChoices=[['all','ALL CARDS'],['beta','BETA BOOSTER'],['retail','RETAI
 for(const [value,label] of quickChoices){
  const b=document.createElement('button');b.type='button';b.className='v3-quick-filter';b.dataset.v3View=value;
  b.textContent=label;b.setAttribute('aria-pressed',String(value==='all'));
- if(value==='retail'){b.disabled=true;b.title='RETAIL 正式卡圖尚未核實'}
+ if(value==='retail'){b.disabled=true;b.title='RETAIL 卡牌列表載入中'}
  b.addEventListener('click',()=>{active=value;series.value='all';filter()});quickBar.append(b);
 }
 root.querySelector('.beta-filters').before(quickBar);
@@ -121,7 +121,7 @@ const zhName=c=>localizedCardName(c);
 // T001–T006 are internal identifiers; the actual Box Topper Beta printings read β001–β006.
 const printedNumber=c=>c.set==='topper'?'β'+c.id.slice(1):c.id;
 const printingLabel=c=>c.set==='topper'?'BOX TOPPER '+printedNumber(c):c.set==='starter'?((c.deck==='heist'?'HEIST ':'POWER ')+c.id):c.id;
-const collectionLabel=c=>c.set==='topper'?'BOX TOPPER':c.set==='starter'?(c.deck==='heist'?'THE HEIST':'EMBRACING POWER'):'BETA BOOSTER';
+const collectionLabel=c=>c.set==='retail'?'RETAIL':c.set==='topper'?'BOX TOPPER':c.set==='starter'?(c.deck==='heist'?'THE HEIST':'EMBRACING POWER'):'BETA BOOSTER';
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
 const betaArtChoices=new Map();
 function alternativeBetaImage(c){
@@ -182,6 +182,7 @@ function setBestArt(c,img){
   img.src=c.imageUrl;
   return;
  }
+ if(c.set==='retail'&&!c.imageUrl){img.removeAttribute('src');img.hidden=true;return}
  img.src=c.imageUrl;
  if(c.set!=='beta')return;
  bestBetaImage(c).then(url=>{
@@ -278,7 +279,7 @@ function openCard(c){
  const frame=create('div','beta-detail-image-frame');
  const img=document.createElement('img');
  img.loading='eager';img.decoding='async';setBestArt(c,img);img.alt=c.name+' 卡面';
- img.draggable=false;img.style.pointerEvents='none';frame.append(img);visual.append(frame);
+ img.draggable=false;img.style.pointerEvents='none';frame.append(img);if(c.set==='retail'&&!c.imageUrl)frame.append(create('span','beta-art-fallback','RETAIL 正式卡圖待補'));visual.append(frame);
  const info=create('div','beta-detail-copy');
  const identity=create('div','beta-card-identity');
  const accent=create('span','beta-title-accent');accent.setAttribute('aria-hidden','true');
@@ -295,7 +296,7 @@ function openCard(c){
  info.append(meta,identity);
  // Show the same three-cell COST / RAM / POW layout for every Beta card.
  // Null means the value is not printed on that card and is shown as an em dash.
- if(['beta','topper','starter'].includes(c.set) && Object.prototype.hasOwnProperty.call(c,'ram')){
+ if(['beta','topper','starter','retail'].includes(c.set) && Object.prototype.hasOwnProperty.call(c,'ram')){
   const stats=create('div','beta-detail-stats');
   for(const [label,value] of [['COST',c.cost],['RAM',c.ram],['POW',c.power]]){
    const stat=create('div','beta-detail-stat');
@@ -334,7 +335,7 @@ function openCard(c){
   addSourceLink(c.printingUrl||c.imageSource||c.imageUrl,
    c.printingUrl?'官方說明':'卡牌來源');
  }else{
-  addSourceLink(c.imageSource||c.imageUrl,'卡牌來源');
+  addSourceLink(c.officialUrl||c.imageSource||c.imageUrl,c.set==='retail'?'官方卡牌頁面':'卡牌來源');
  }
  info.append(links);
  // Show only verified matching printings; never infer from title alone.
@@ -463,9 +464,9 @@ function tile(c){
  const btn=create('button','beta-tile');btn.type='button';btn.dataset.cardId=c.id;btn.setAttribute('aria-pressed','false');btn.setAttribute('aria-label','檢視 '+printingLabel(c)+' '+zhName(c));
  const visual=create('span','beta-card-art');
  const img=document.createElement('img');img.loading='lazy';img.decoding='async';setBestArt(c,img);img.alt=c.name+' 卡圖';
- const fallback=create('span','beta-art-fallback','圖片無法顯示');
+ const fallback=create('span','beta-art-fallback',c.set==='retail'&&!c.imageUrl?'RETAIL 正式卡圖待補':'圖片無法顯示');
  img.addEventListener('error',()=>{if(c.imageBackupUrl)return;img.hidden=true;fallback.hidden=false});
- fallback.hidden=true;visual.append(img,fallback);
+ fallback.hidden=!(c.set==='retail'&&!c.imageUrl);visual.append(img,fallback);
  const title=create('strong','beta-card-title');setDisplayTitle(title,zhName(c));
  const eng=create('span','beta-card-english');setEnglishTitle(eng,c.name);
  const collection=create('span','v3-card-series',collectionLabel(c));
@@ -547,10 +548,10 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
   if(!r.ok)throw Error('Retail manifest HTTP '+r.status);
   return r.json();
  }).then(manifest=>{
-  const retail=(manifest.cards||[]).filter(entry=>entry.retailImageUrl&&entry.imageStatus==='verified').map(entry=>{
+  const retail=(manifest.cards||[]).map(entry=>{
    const base=cards.find(c=>c.id===entry.betaId&&c.name===entry.name);
    if(!base)return null;
-   return {...base,id:'R'+entry.id,set:'retail',imageUrl:entry.retailImageUrl,officialUrl:entry.officialUrl,retailNumber:entry.id};
+   return {...base,id:'R'+entry.id,set:'retail',imageUrl:entry.imageStatus==='verified'?entry.retailImageUrl:null,officialUrl:entry.officialUrl,retailNumber:entry.id};
   }).filter(Boolean);
   if(!retail.length)return;
   all.push(...retail);
