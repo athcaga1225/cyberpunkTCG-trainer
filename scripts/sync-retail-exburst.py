@@ -51,6 +51,12 @@ def main():
             _, body = request(page)
             parser = Metadata()
             parser.feed(body.decode("utf-8","replace"))
+            if card_id == "141":
+                page_text = body.decode("utf-8","replace")
+                print("141 HTML bytes:",len(body),"render occurrences:",page_text.count("render-"),"og:image occurrences:",page_text.count("og:image"))
+                for marker in ("cdn.exburst.dev","render-","og:image"):
+                    pos=page_text.find(marker)
+                    if pos>=0: print("141",marker,"context:",page_text[max(0,pos-160):pos+250])
             matches = [html.unescape(x) for x in parser.images if valid(x)]
             matches = list(dict.fromkeys(matches))
             if len(matches) != 1:
