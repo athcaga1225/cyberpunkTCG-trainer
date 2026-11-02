@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "set": "Welcome to Night City — Retail",
   "status": "retail-checklist-provisional-art-pending",
-  "notes": "Retail 001–171 checklist scaffold (including 005A/B) from matching Beta numbered entries. The Retail and Beta main booster checklists share numbering per HoloHoard and official reference guides; individual Retail printing, rules, and illustration have NOT been verified for newly inferred rows. Never use Beta art as Retail. Official URLs are card-family links, not guaranteed Retail printing selectors.",
+  "notes": "Retail 001–171 checklist scaffold (including 005A/B) from matching Beta numbered entries. The Retail and Beta main booster checklists share numbering per HoloHoard and official reference guides; individual Retail printing, rules, and illustration have NOT been verified for newly inferred rows. Never use Beta art as Retail. Official URLs are card-family links, not guaranteed Retail printing selectors. Iconic 141–171 collector numbers/rarity cross-checked against mTCG Retail all-variants listing; this does not verify image or text.",
   "cards": [
     {
       "id": "001",
@@ -1588,7 +1588,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/adam-smasher-ender-of-legends",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "142",
@@ -1597,7 +1600,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/dexter-deshawn-off-the-grid",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "143",
@@ -1606,7 +1612,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/royce-psycho-on-the-edge",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "144",
@@ -1614,7 +1623,10 @@
       "betaId": "B144",
       "officialUrl": "https://cyberpunktcg.com/cards/v-streetkid",
       "retailImageUrl": null,
-      "imageStatus": "pending-verification"
+      "imageStatus": "pending-verification",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "145",
@@ -1623,7 +1635,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/dum-dum-maelstrom-triggerman",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "146",
@@ -1632,7 +1647,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/kerry-eurodyne-axe-attitude-audience",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "147",
@@ -1641,7 +1659,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/muamar-reyes-el-capita-n",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "148",
@@ -1651,11 +1672,13 @@
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
       "mappingStatus": "official-printing-verified",
-      "retailRarity": "Rare",
+      "retailRarity": "Iconic Legend",
       "retailCost": null,
       "retailRam": 2,
       "retailPower": null,
-      "officialRulesEnglish": "{Quick} {Spend} Play a Gear with cost 2 or less from your hand for free. When a friendly equipped Unit is defeated, search the top 2 cards of your deck and trash 1."
+      "officialRulesEnglish": "{Quick} {Spend} Play a Gear with cost 2 or less from your hand for free. When a friendly equipped Unit is defeated, search the top 2 cards of your deck and trash 1.",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "149",
@@ -1664,7 +1687,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/rogue-amendiares-preem-solo",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "150",
@@ -1673,7 +1699,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/goro-takemura-vengeful-bodyguard",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "151",
@@ -1682,7 +1711,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/hanako-arasaka-daughter-of-the-emperor",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "152",
@@ -1691,7 +1723,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/jackie-welles-mama-s-favorite",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "153",
@@ -1700,7 +1735,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/padre-man-of-the-cross",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "154",
@@ -1709,7 +1747,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/panam-palmer-nomad-cavalry",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "155",
@@ -1718,7 +1759,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/alt-cunningham-soulkiller-architect",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "156",
@@ -1727,7 +1771,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/evelyn-parker-beautiful-enigma",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "157",
@@ -1736,7 +1783,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/judy-a-lvarez-braindance-maestro",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "158",
@@ -1745,7 +1795,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/wakako-okada-peace-and-harmony",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Legend",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "159",
@@ -1754,7 +1807,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/johnny-silverhand-never-stop-fighting",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Other",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "160",
@@ -1763,7 +1819,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/adam-smasher-metal-over-meat",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Other",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "161",
@@ -1772,7 +1831,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/alt-cunningham-mother-of-daemons",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Other",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "162",
@@ -1781,7 +1843,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/hanako-arasaka-in-a-gilded-cage",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Other",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "163",
@@ -1790,7 +1855,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/the-relic-experimental-biochip",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Other",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "164",
@@ -1799,7 +1867,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/sandayu-oda-hanako-s-guardian",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Other",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "165",
@@ -1808,7 +1879,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/overwatch-panam-s-gift",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Other",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "166",
@@ -1817,7 +1891,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/rogue-amendiares-queen-of-the-afterlife",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Other",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "167",
@@ -1826,7 +1903,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/towerfall",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Other",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "168",
@@ -1835,7 +1915,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/johnny-silverhand-rocking-renegade",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Secret",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "169",
@@ -1844,7 +1927,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/sasha-yakovleva-won-t-let-you-down",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Secret",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "170",
@@ -1853,7 +1939,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/panam-palmer-strength-through-family",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Secret",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     },
     {
       "id": "171",
@@ -1862,7 +1951,10 @@
       "officialUrl": "https://cyberpunktcg.com/cards/judy-a-lvarez-nothing-to-doubt",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "provisional-from-beta-number",
+      "retailRarity": "Iconic Secret",
+      "raritySource": "mTCG Welcome to Night City Retail variant listing",
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
     }
   ],
   "sources": [
