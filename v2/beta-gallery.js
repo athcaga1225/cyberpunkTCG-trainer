@@ -46,16 +46,23 @@ function imageDimensions(src){
   probe.src=src;
  });
 }
-// Try only same-number Beta art; retain the known-good original unless the
-// alternate loads and offers at least 20% more pixels at the same aspect ratio.
+// Target cards reported blurry in V2. A lossless-looking WebP can be
+// visibly sharper than a heavily compressed JPG even at matching dimensions.
+// Keep all other Beta cards on the previous strict +20% pixel rule.
+const priorityBetaArt=new Set(['B031','B038','B045','B080','B081','B104','B108','B116','B133',
+ ...Array.from({length:31},(_,i)=>'B'+String(i+141))]);
 function bestBetaImage(c){
  const fallback=c.imageUrl,candidate=alternativeBetaImage(c);
  if(!candidate)return Promise.resolve(fallback);
  if(!betaArtChoices.has(c.id)){
   const task=Promise.all([imageDimensions(fallback),imageDimensions(candidate)]).then(([oldSize,newSize])=>{
-   if(!newSize||!oldSize)return fallback;
+   if(!newSize)return fallback;
+   if(!oldSize)return candidate;
+   const oldPixels=oldSize.width*oldSize.height,newPixels=newSize.width*newSize.height;
    const oldRatio=oldSize.width/oldSize.height,newRatio=newSize.width/newSize.height;
-   return newSize.width*newSize.height>oldSize.width*oldSize.height*1.2&&Math.abs(oldRatio-newRatio)<0.04?candidate:fallback;
+   if(Math.abs(oldRatio-newRatio)>=0.04)return fallback;
+   const minPixels=priorityBetaArt.has(c.id)?oldPixels*0.95:oldPixels*1.2;
+   return newPixels>=minPixels?candidate:fallback;
   }).catch(()=>fallback);
   betaArtChoices.set(c.id,task);
  }
