@@ -1333,13 +1333,8 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
 }
 #decks #betaCardDetail .beta-detail-stat small{font-size:14px;color:#9fb1b9}
 #decks #betaCardDetail .beta-detail-stat strong{font-size:22px;font-weight:600}
-#decks #betaCardDetail .beta-detail-tags{
- display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px;
-}
-#decks #betaCardDetail .beta-detail-tags > span{
- font-size:14px;border:1px solid #46636b;border-radius:14px;
- padding:5px 11px;color:#c4d9de;
-}
+
+
 #decks #betaCardDetail .beta-detail-effect{
  border-top:1px solid #30444b;
  padding-top:18px;margin-top:4px;
@@ -1503,14 +1498,8 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
 #decks #betaCardDetail .beta-detail-stat strong{
  font-size:25px;line-height:1.1;color:#eef6f7;
 }
-#decks #betaCardDetail .beta-detail-tags{margin:0;gap:8px}
-#decks #betaCardDetail .beta-detail-tags > span{
- border-color:#7a8c98;
- border-radius:22px;
- padding:7px 12px;
- font-size:14px;
- background:#071015;
-}
+
+
 #decks #betaCardDetail .beta-detail-effect{
  margin:0;
  padding:16px 17px 18px;
@@ -1670,18 +1659,8 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
 #decks #betaCardDetail .beta-detail-stat strong{
  font-size:29px;font-weight:600;
 }
-#decks #betaCardDetail .beta-detail-tags{
- display:flex;flex-wrap:wrap;gap:9px;
-}
-#decks #betaCardDetail .beta-detail-tags > span{
- border:1px solid #77939a;
- background:#0c1519;
- color:#e3eef0;
- border-radius:30px;
- padding:8px 13px;
- line-height:1.4;
- font-size:15px;
-}
+
+
 #decks #betaCardDetail .beta-detail-effect{
  border:1.5px solid #29ffff;
  background:linear-gradient(145deg,#06303a91,#051b238f);
@@ -1723,7 +1702,7 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
  #decks #betaCardDetail .beta-detail-stats{gap:9px}
  #decks #betaCardDetail .beta-detail-stat{min-height:77px;padding:8px 4px}
  #decks #betaCardDetail .beta-detail-stat strong{font-size:26px}
- #decks #betaCardDetail .beta-detail-tags > span{padding:7px 10px;font-size:14px}
+ 
  #decks #betaCardDetail .beta-detail-effect{padding:16px 14px 20px}
  #decks #betaCardDetail .beta-ability-text{font-size:16px}
 }
@@ -1785,11 +1764,7 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
  box-shadow:inset 0 1px 0 rgba(var(--card-accent-rgb),.16);
 }
 #decks #betaCardDetail .beta-detail-stat small{color:#bdcbd0}
-#decks #betaCardDetail .beta-detail-tags > span{
- color:#e3eef0;
- border-color:#70848b;
- background:#0c1519;
-}
+
 #decks #betaCardDetail .beta-detail-effect{
  border:0;
  border-radius:0;
@@ -1881,16 +1856,8 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
  line-height:1.1;
  font-weight:550;
 }
-#decks #betaCardDetail .beta-detail-tags{
- gap:6px;
-}
-#decks #betaCardDetail .beta-detail-tags > span{
- font-size:14px!important;
- line-height:1.3;
- padding:5px 9px!important;
- border:1px solid #60717a;
- border-radius:18px;
-}
+
+
 #decks #betaCardDetail .beta-detail-effect{
  padding:0!important;
  border:0!important;
@@ -1902,7 +1869,7 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
 @media(max-width:650px){
  #decks #betaCardDetail .beta-detail-stat{min-height:56px!important}
  #decks #betaCardDetail .beta-detail-stat strong{font-size:20px!important}
- #decks #betaCardDetail .beta-detail-tags > span{font-size:14px!important;padding:5px 8px!important}
+ 
 }
 
 /* Compact labels: card type (單位卡 etc.) and faction/class pills. */
@@ -1913,17 +1880,11 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
  letter-spacing:0!important;
  font-weight:400;
 }
-#decks #betaCardDetail .beta-detail-tags{gap:5px!important}
-#decks #betaCardDetail .beta-detail-tags > span{
- font-size:12px!important;
- line-height:1.2!important;
- padding:3px 7px!important;
- border-radius:13px!important;
- font-weight:400;
-}
+
+
 @media(max-width:650px){
  #decks #betaCardDetail .beta-card-kind{font-size:14px!important;margin-top:6px!important}
- #decks #betaCardDetail .beta-detail-tags > span{padding:3px 7px!important}
+ 
 }
 
 /* Round the card itself and crop the tiny pale corner pixels in source JPGs. */
@@ -2055,36 +2016,33 @@ header nav button.active{font-weight:400}
  #decks #betaCardDetail .beta-detail-body::-webkit-scrollbar{width:6px}
  #decks #betaCardDetail .beta-detail-body::-webkit-scrollbar-track{background:transparent}
  #decks #betaCardDetail .beta-detail-body::-webkit-scrollbar-thumb{background:#4b6068;border-radius:8px}
- #decks #betaCardDetail .beta-detail-tags > span{
-  display:inline-flex;align-items:center;justify-content:center;text-align:center;
-  vertical-align:middle;min-height:28px;box-sizing:border-box;
- }
+ 
 }
 
 /* Center the whole desktop tag row, not only text within each pill. */
 @media (min-width:768px){
- #decks #betaCardDetail .beta-detail-tags{justify-content:center;align-items:center}
+ 
 }
 
 /* Tag alignment on both mobile and desktop, without changing pill dimensions. */
-#decks #betaCardDetail .beta-detail-tags{justify-content:center;align-items:center}
-#decks #betaCardDetail .beta-detail-tags > span{display:inline-flex;align-items:center;justify-content:center;text-align:center;vertical-align:middle;box-sizing:border-box}
+
+
 
 /* Tag row stays left-aligned; only text inside each pill is centered. */
-#decks #betaCardDetail .beta-detail-tags{justify-content:flex-start;align-items:center}
-#decks #betaCardDetail .beta-detail-tags > span{display:inline-flex;align-items:center;justify-content:center;text-align:center;vertical-align:middle}
+
+
 
 /* Optical centering of tag text within its own pill; tag row stays left aligned. */
-#decks #betaCardDetail .beta-detail-tags{justify-content:flex-start}
-#decks #betaCardDetail .beta-detail-tags > span{display:inline-grid;place-items:center;text-align:center;line-height:1;}
-#decks #betaCardDetail .beta-detail-tags .beta-tag-label{display:block;line-height:1.2;transform:translateY(1px);white-space:nowrap}
+
+
+
 
 /* Inner label is plain text, never a second pill. */
-#decks #betaCardDetail .beta-detail-tags > span > .beta-tag-label{display:block;border:0;background:none;border-radius:0;padding:0;margin:0;box-shadow:none;min-height:0;width:auto;font-size:inherit;font-weight:inherit;color:inherit;line-height:inherit;transform:none}
+
 
 /* One pill, one text node: remove nested label and center using symmetrical padding. */
-#decks #betaCardDetail .beta-detail-tags{justify-content:flex-start;align-items:center}
-#decks #betaCardDetail .beta-detail-tags > span{display:inline-flex;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;line-height:1.4;min-height:30px;padding:4px 10px!important}
+
+
 
 /* Restore compact mobile card tiles; desktop reserved rows do not apply on phones. */
 @media (max-width:767px){
@@ -2118,18 +2076,42 @@ header nav button.active{font-weight:400}
 #decks .deck-tile .deck-original .card-english-subline,#decks .beta-card-english .card-english-subline{font-size:1em;line-height:1.2;letter-spacing:inherit}
 
 /* Card attribute pills: neutral outline and generous, balanced spacing. */
-#decks #betaCardDetail .beta-detail-tags{justify-content:flex-start;align-items:center;gap:10px}
-#decks #betaCardDetail .beta-detail-tags > span{
- display:inline-flex;align-items:center;justify-content:center;
- width:auto;min-height:38px;box-sizing:border-box;
- padding:6px 18px!important;border:1.5px solid #51525b;
- border-radius:999px;background:transparent;color:#dedee3;
- font-weight:400;font-size:14px;line-height:1.35;text-align:center;
- white-space:nowrap;letter-spacing:0;
-}
+
+
 
 /* Fully rounded tag pills, including legacy border-radius overrides. */
-#decks #betaCardDetail .beta-detail-tags > span{border-radius:9999px!important;overflow:hidden}
+
+
+/* V2: single source of truth for card attribute tags.
+   Adjust --tag-padding-y to change vertical padding. */
+#decks #betaCardDetail .beta-detail-tags{
+ --tag-padding-y:3px;
+ --tag-padding-x:14px;
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:flex-start;
+ align-items:center;
+ gap:8px;
+ margin:0;
+}
+#decks #betaCardDetail .beta-detail-tags > span{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ box-sizing:border-box;
+ min-height:0;
+ padding:var(--tag-padding-y) var(--tag-padding-x);
+ border:1.5px solid #51525b;
+ border-radius:9999px;
+ background:transparent;
+ color:#dedee3;
+ font-size:14px;
+ font-weight:400;
+ line-height:1.35;
+ letter-spacing:0;
+ text-align:center;
+ white-space:nowrap;
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
