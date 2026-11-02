@@ -2107,6 +2107,11 @@ header nav button.active{font-weight:400}
 #decks .deck-tile .deck-original,#decks .beta-card-english{line-height:1.25}
 #decks .deck-tile .deck-original .card-english-subline,
 #decks .beta-card-english .card-english-subline{display:block;font-size:.85em;font-weight:400;line-height:1.2;letter-spacing:.5px;margin-top:1px}
+
+/* Desktop English card-name space: reserve two compact lines. */
+@media (min-width:768px){
+ #decks .beta-card-english{min-height:calc(1em * 2)}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
