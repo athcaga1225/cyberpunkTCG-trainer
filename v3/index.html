@@ -2522,6 +2522,20 @@ header nav button.active{font-weight:400}
  border:1px solid rgba(248,80,74,.28);border-left:2px solid #f8504a;
  border-radius:5px;font-size:14px;line-height:1.6;
 }
+
+/* V3: compact mobile search and explicit clear affordance */
+#decks .beta-filters .v3-search-field{display:block;position:relative;width:100%;min-width:0}
+#decks .beta-filters .v3-search-field input{width:100%;padding-right:48px}
+#decks .beta-filters .v3-search-field input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;display:none}
+#decks .beta-filters #v3SearchClear{
+ position:absolute;right:8px;top:50%;transform:translateY(-50%);
+ width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+ padding:0;border:0;background:transparent;color:#c5dce1;
+ font-family:inherit;font-size:26px;font-weight:400;line-height:1;
+ cursor:pointer;border-radius:4px;
+}
+#decks .beta-filters #v3SearchClear[hidden]{display:none!important}
+#decks .beta-filters #v3SearchClear:hover,#decks .beta-filters #v3SearchClear:focus-visible{color:#29ffff;background:rgba(41,255,255,.1);outline-offset:2px}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2568,7 +2582,7 @@ header nav button.active{font-weight:400}
 <section id="betaCardCollection" class="beta-browser" hidden aria-label="Beta 卡牌">
 <div class="beta-browser-intro"><div><p id="betaLoadStatus" role="status">正在載入 Beta 卡牌…</p></div><span id="betaCount" class="beta-counter">載入中</span></div>
 
-<div class="beta-filters"><label>搜尋卡名或卡號<input id="betaSearch" type="search" placeholder="中文、英文、卡號、TAGS（例：001、茉刺盟）"></label><label>系列<select id="betaSeries"><option value="all">ALL SERIES</option><option value="heist">The Heist</option><option value="power">Embracing Power</option><option value="beta">Beta Booster</option><option value="topper">Box Topper</option></select></label><label>稀有度<select id="betaRarity"><option value="all">全部稀有度</option></select></label></div>
+<div class="beta-filters"><label>搜尋卡名或卡號<span class="v3-search-field"><input id="betaSearch" type="search" placeholder="搜尋卡名、卡號或 TAGS" autocomplete="off"><button type="button" id="v3SearchClear" aria-label="清除搜尋" title="清除搜尋" hidden>×</button></span></label><label>系列<select id="betaSeries"><option value="all">ALL SERIES</option><option value="heist">The Heist</option><option value="power">Embracing Power</option><option value="beta">Beta Booster</option><option value="topper">Box Topper</option></select></label><label>稀有度<select id="betaRarity"><option value="all">全部稀有度</option></select></label></div>
 <dialog id="betaCardDetail" class="beta-detail-panel beta-card-dialog" aria-label="卡牌詳細資訊"><div class="beta-detail-header"><strong id="betaDetailHeading" tabindex="-1">CARD DETAILS / 卡牌能力</strong><button type="button" id="betaDetailClose" aria-label="關閉卡牌詳細資訊" title="關閉">×</button></div><div id="betaCardDetailBody" class="beta-detail-body"></div></dialog><div id="betaResults" class="beta-results" aria-live="polite"></div>
 <div class="beta-pages"><button id="betaPrevious" type="button" disabled>← 上一頁</button><span class="beta-page-center"><span class="beta-page-select-wrap"><select id="betaPageSelect" aria-label="跳至頁數"><option value="0">第 1 頁</option></select></span><span id="betaPages" aria-live="polite">／共 8 頁</span></span><button id="betaNext" type="button">下一頁 →</button></div>
 </section>
@@ -2625,4 +2639,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v3/beta-gallery.js?v=19"></script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v3/beta-gallery.js?v=20"></script></body></html>
