@@ -9,581 +9,709 @@
       "name": "Adam Smasher: Ender of Legends",
       "betaId": "B001",
       "officialUrl": "https://cyberpunktcg.com/cards/adam-smasher-ender-of-legends",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715007_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715007"
     },
     {
       "id": "002",
       "name": "Dexter DeShawn: Off the Grid",
       "betaId": "B002",
       "officialUrl": "https://cyberpunktcg.com/cards/dexter-deshawn-off-the-grid",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715031_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715031"
     },
     {
       "id": "003",
       "name": "Johnny Silverhand: Rocking Renegade",
       "betaId": "B003",
       "officialUrl": "https://cyberpunktcg.com/cards/johnny-silverhand-rocking-renegade",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715055_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715055"
     },
     {
       "id": "004",
       "name": "Royce: Psycho on the Edge",
       "betaId": "B004",
       "officialUrl": "https://cyberpunktcg.com/cards/royce-psycho-on-the-edge",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715106_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715106"
     },
     {
       "id": "005A",
       "name": "V: Streetkid",
       "betaId": "B005A",
       "officialUrl": "https://cyberpunktcg.com/cards/v-streetkid",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715133_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715133"
     },
     {
       "id": "005B",
       "name": "V: Streetkid",
       "betaId": "B005B",
       "officialUrl": "https://cyberpunktcg.com/cards/v-streetkid",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715134_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715134"
     },
     {
       "id": "006",
       "name": "6th Street Recruits",
       "betaId": "B006",
       "officialUrl": "https://cyberpunktcg.com/cards/6th-street-recruits",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715006_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715006"
     },
     {
       "id": "007",
       "name": "Animals Wrecker",
       "betaId": "B007",
       "officialUrl": "https://cyberpunktcg.com/cards/animals-wrecker",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715014_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715014"
     },
     {
       "id": "008",
       "name": "Chrome Fang",
       "betaId": "B008",
       "officialUrl": "https://cyberpunktcg.com/cards/chrome-fang",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715022_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715022"
     },
     {
       "id": "009",
       "name": "El Sombrerón: La Venganza Lenta",
       "betaId": "B009",
       "officialUrl": "https://cyberpunktcg.com/cards/el-sombrero-n-la-venganza-lenta",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715034_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715034"
     },
     {
       "id": "010",
       "name": "Japantown Jonin",
       "betaId": "B010",
       "officialUrl": "https://cyberpunktcg.com/cards/japantown-jonin",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715053_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715053"
     },
     {
       "id": "011",
       "name": "Johnny Silverhand: Never Stop Fighting",
       "betaId": "B011",
       "officialUrl": "https://cyberpunktcg.com/cards/johnny-silverhand-never-stop-fighting",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715054_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715054"
     },
     {
       "id": "012",
       "name": "Kerry Eurodyne: The Last Rockerboy",
       "betaId": "B012",
       "officialUrl": "https://cyberpunktcg.com/cards/kerry-eurodyne-the-last-rockerboy",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715059_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715059"
     },
     {
       "id": "013",
       "name": "La Llorona: Ghost of the Past",
       "betaId": "B013",
       "officialUrl": "https://cyberpunktcg.com/cards/la-llorona-ghost-of-the-past",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715061_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715061"
     },
     {
       "id": "014",
       "name": "Meredith Stout: Stone Cold Corpo",
       "betaId": "B014",
       "officialUrl": "https://cyberpunktcg.com/cards/meredith-stout-stone-cold-corpo",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715075_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715075"
     },
     {
       "id": "015",
       "name": "Octant",
       "betaId": "B015",
       "officialUrl": "https://cyberpunktcg.com/cards/octant",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715084_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715084"
     },
     {
       "id": "016",
       "name": "Royce: Don't Call Me Simon",
       "betaId": "B016",
       "officialUrl": "https://cyberpunktcg.com/cards/royce-don-t-call-me-simon",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715105_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715105"
     },
     {
       "id": "017",
       "name": "Ruthless Lowlife",
       "betaId": "B017",
       "officialUrl": "https://cyberpunktcg.com/cards/ruthless-lowlife",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715107_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715107"
     },
     {
       "id": "018",
       "name": "Screw: Lovelorn Fool",
       "betaId": "B018",
       "officialUrl": "https://cyberpunktcg.com/cards/screw-lovelorn-fool",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715114_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715114"
     },
     {
       "id": "019",
       "name": "Swordwise Huscle",
       "betaId": "B019",
       "officialUrl": "https://cyberpunktcg.com/cards/swordwise-huscle",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715118_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715118"
     },
     {
       "id": "020",
       "name": "V: Roamer of the Badlands",
       "betaId": "B020",
       "officialUrl": "https://cyberpunktcg.com/cards/v-roamer-of-the-badlands",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715132_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715132"
     },
     {
       "id": "021",
       "name": "Valentino Guerrera",
       "betaId": "B021",
       "officialUrl": "https://cyberpunktcg.com/cards/valentino-guerrera",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715135_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715135"
     },
     {
       "id": "022",
       "name": "Yorinobu Arasaka: Steel Dragon",
       "betaId": "B022",
       "officialUrl": "https://cyberpunktcg.com/cards/yorinobu-arasaka-steel-dragon",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715144_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715144"
     },
     {
       "id": "023",
       "name": "Arasaka Emergency Radioport",
       "betaId": "B023",
       "officialUrl": "https://cyberpunktcg.com/cards/arasaka-emergency-radioport",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715016_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715016"
     },
     {
       "id": "024",
       "name": "Deadman Transmitter",
       "betaId": "B024",
       "officialUrl": "https://cyberpunktcg.com/cards/deadman-transmitter",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715027_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715027"
     },
     {
       "id": "025",
       "name": "Mantis Blades",
       "betaId": "B025",
       "officialUrl": "https://cyberpunktcg.com/cards/mantis-blades",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715069_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715069"
     },
     {
       "id": "026",
       "name": "Satori: Sword of Saburo",
       "betaId": "B026",
       "officialUrl": "https://cyberpunktcg.com/cards/satori-sword-of-saburo",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715112_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715112"
     },
     {
       "id": "027",
       "name": "All is Lost",
       "betaId": "B027",
       "officialUrl": "https://cyberpunktcg.com/cards/all-is-lost",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715011_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715011"
     },
     {
       "id": "028",
       "name": "Appetite for Destruction",
       "betaId": "B028",
       "officialUrl": "https://cyberpunktcg.com/cards/appetite-for-destruction",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715015_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715015"
     },
     {
       "id": "029",
       "name": "Bonnie and Clyde",
       "betaId": "B029",
       "officialUrl": "https://cyberpunktcg.com/cards/bonnie-and-clyde",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715018_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715018"
     },
     {
       "id": "030",
       "name": "Carnage at the Colosseum",
       "betaId": "B030",
       "officialUrl": "https://cyberpunktcg.com/cards/carnage-at-the-colosseum",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715021_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715021"
     },
     {
       "id": "031",
       "name": "Detonate",
       "betaId": "B031",
       "officialUrl": "https://cyberpunktcg.com/cards/detonate",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715030_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715030"
     },
     {
       "id": "032",
       "name": "Gunpoint Diplomacy",
       "betaId": "B032",
       "officialUrl": "https://cyberpunktcg.com/cards/gunpoint-diplomacy",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715044_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715044"
     },
     {
       "id": "033",
       "name": "Industrial Assembly",
       "betaId": "B033",
       "officialUrl": "https://cyberpunktcg.com/cards/industrial-assembly",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715049_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715049"
     },
     {
       "id": "034",
       "name": "Over the Edge",
       "betaId": "B034",
       "officialUrl": "https://cyberpunktcg.com/cards/over-the-edge",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715086_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715086"
     },
     {
       "id": "035",
       "name": "Shattered Memories",
       "betaId": "B035",
       "officialUrl": "https://cyberpunktcg.com/cards/shattered-memories",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715116_original.jpg",
+      "imageStatus": "catalogue-matched",
       "mappingStatus": "official-printing-verified",
       "retailRarity": "Rare",
       "retailCost": 4,
       "retailRam": 2,
       "retailPower": null,
-      "officialRulesEnglish": "Each player discards their hand and may draw 5. If the total number of discarded cards equals the value of a friendly Gig, draw 2."
+      "officialRulesEnglish": "Each player discards their hand and may draw 5. If the total number of discarded cards equals the value of a friendly Gig, draw 2.",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715116"
     },
     {
       "id": "036",
       "name": "Dum Dum: Maelstrom Triggerman",
       "betaId": "B036",
       "officialUrl": "https://cyberpunktcg.com/cards/dum-dum-maelstrom-triggerman",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715032_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715032"
     },
     {
       "id": "037",
       "name": "Kerry Eurodyne: Axe, Attitude, Audience",
       "betaId": "B037",
       "officialUrl": "https://cyberpunktcg.com/cards/kerry-eurodyne-axe-attitude-audience",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715058_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715058"
     },
     {
       "id": "038",
       "name": "Muamar Reyes: El Capitán",
       "betaId": "B038",
       "officialUrl": "https://cyberpunktcg.com/cards/muamar-reyes-el-capita-n",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715080_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715080"
     },
     {
       "id": "039",
       "name": "River Ward: Detective on the Hunt",
       "betaId": "B039",
       "officialUrl": "https://cyberpunktcg.com/cards/river-ward-detective-on-the-hunt",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715101_original.jpg",
+      "imageStatus": "catalogue-matched",
       "mappingStatus": "official-printing-verified",
       "retailRarity": "Rare",
       "retailCost": null,
       "retailRam": 2,
       "retailPower": null,
-      "officialRulesEnglish": "{Quick} {Spend} Play a Gear with cost 2 or less from your hand for free. When a friendly equipped Unit is defeated, search the top 2 cards of your deck and trash 1."
+      "officialRulesEnglish": "{Quick} {Spend} Play a Gear with cost 2 or less from your hand for free. When a friendly equipped Unit is defeated, search the top 2 cards of your deck and trash 1.",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715101"
     },
     {
       "id": "040",
       "name": "Rogue Amendiares: Preem Solo",
       "betaId": "B040",
       "officialUrl": "https://cyberpunktcg.com/cards/rogue-amendiares-preem-solo",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715103_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715103"
     },
     {
       "id": "041",
       "name": "Adam Smasher: Metal Over Meat",
       "betaId": "B041",
       "officialUrl": "https://cyberpunktcg.com/cards/adam-smasher-metal-over-meat",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715008_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715008"
     },
     {
       "id": "042",
       "name": "Alt Cunningham: Mother of Daemons",
       "betaId": "B042",
       "officialUrl": "https://cyberpunktcg.com/cards/alt-cunningham-mother-of-daemons",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715012_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715012"
     },
     {
       "id": "043",
       "name": "Augmented Negotiators",
       "betaId": "B043",
       "officialUrl": "https://cyberpunktcg.com/cards/augmented-negotiators",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715017_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715017"
     },
     {
       "id": "044",
       "name": "Caliber: Totentanz's Top Dog",
       "betaId": "B044",
       "officialUrl": "https://cyberpunktcg.com/cards/caliber-totentanz-s-top-dog",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715020_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715020"
     },
     {
       "id": "045",
       "name": "Gilded Matón",
       "betaId": "B045",
       "officialUrl": "https://cyberpunktcg.com/cards/gilded-mato-n",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715041_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715041"
     },
     {
       "id": "046",
       "name": "Hanako Arasaka: In a Gilded Cage",
       "betaId": "B046",
       "officialUrl": "https://cyberpunktcg.com/cards/hanako-arasaka-in-a-gilded-cage",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715047_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715047"
     },
     {
       "id": "047",
       "name": "Heywood Ripperdoc",
       "betaId": "B047",
       "officialUrl": "https://cyberpunktcg.com/cards/heywood-ripperdoc",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715048_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715048"
     },
     {
       "id": "048",
       "name": "Jackie Welles: Ride or Die Choom",
       "betaId": "B048",
       "officialUrl": "https://cyberpunktcg.com/cards/jackie-welles-ride-or-die-choom",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715052_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715052"
     },
     {
       "id": "049",
       "name": "Maelstrom Goons",
       "betaId": "B049",
       "officialUrl": "https://cyberpunktcg.com/cards/maelstrom-goons",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715065_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715065"
     },
     {
       "id": "050",
       "name": "MaxTac Suppression Team",
       "betaId": "B050",
       "officialUrl": "https://cyberpunktcg.com/cards/maxtac-suppression-team",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715073_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715073"
     },
     {
       "id": "051",
       "name": "Offduty Malfini",
       "betaId": "B051",
       "officialUrl": "https://cyberpunktcg.com/cards/offduty-malfini",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715085_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715085"
     },
     {
       "id": "052",
       "name": "Rockn' Rockerboy",
       "betaId": "B052",
       "officialUrl": "https://cyberpunktcg.com/cards/rockn-rockerboy",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715102_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715102"
     },
     {
       "id": "053",
       "name": "Secondhand Bombus",
       "betaId": "B053",
       "officialUrl": "https://cyberpunktcg.com/cards/secondhand-bombus",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715115_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715115"
     },
     {
       "id": "054",
       "name": "Sketchy Ripper",
       "betaId": "B054",
       "officialUrl": "https://cyberpunktcg.com/cards/sketchy-ripper",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715117_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715117"
     },
     {
       "id": "055",
       "name": "T-Bug: Amateur Philosopher",
       "betaId": "B055",
       "officialUrl": "https://cyberpunktcg.com/cards/t-bug-amateur-philosopher",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715120_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715120"
     },
     {
       "id": "056",
       "name": "Trauma Team Operatives",
       "betaId": "B056",
       "officialUrl": "https://cyberpunktcg.com/cards/trauma-team-operatives",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715128_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715128"
     },
     {
       "id": "057",
       "name": "Viktor Vektor: Drop Your Illusions",
       "betaId": "B057",
       "officialUrl": "https://cyberpunktcg.com/cards/viktor-vektor-drop-your-illusions",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715137_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715137"
     },
     {
       "id": "058",
       "name": "Viktor Vektor: You Might Feel a Little Pinch",
       "betaId": "B058",
       "officialUrl": "https://cyberpunktcg.com/cards/viktor-vektor-you-might-feel-a-little-pinch",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715138_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715138"
     },
     {
       "id": "059",
       "name": "Adrenaline Converter",
       "betaId": "B059",
       "officialUrl": "https://cyberpunktcg.com/cards/adrenaline-converter",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715009_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715009"
     },
     {
       "id": "060",
       "name": "Gorilla Arms",
       "betaId": "B060",
       "officialUrl": "https://cyberpunktcg.com/cards/gorilla-arms",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715042_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715042"
     },
     {
       "id": "061",
       "name": "Kiroshi Optics",
       "betaId": "B061",
       "officialUrl": "https://cyberpunktcg.com/cards/kiroshi-optics",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715060_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715060"
     },
     {
       "id": "062",
       "name": "Mandibular Upgrade",
       "betaId": "B062",
       "officialUrl": "https://cyberpunktcg.com/cards/mandibular-upgrade",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715068_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715068"
     },
     {
       "id": "063",
       "name": "The Relic: Experimental Biochip",
       "betaId": "B063",
       "officialUrl": "https://cyberpunktcg.com/cards/the-relic-experimental-biochip",
-      "retailImageUrl": null,
-      "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "retailImageUrl": "https://tcgplayer-cdn.tcgplayer.com/product/715124_original.jpg",
+      "imageStatus": "catalogue-matched",
+      "mappingStatus": "provisional-from-beta-number",
+      "imageSource": "TCGplayer retail catalogue via tcg.directory",
+      "imageSourceUrl": "https://tcg.directory/card/715124"
     },
     {
       "id": "064",
@@ -1586,5 +1714,6 @@
   "sources": [
     "https://holohoard.app/news/cyberpunk-tcg-welcome-to-night-city-retail-release",
     "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained"
-  ]
+  ],
+  "imageNotes": "Retail scans follow catalogued TCGplayer retail product IDs cross-referenced through tcg.directory. catalogue-matched means product-to-set-and-number matched, NOT every scan visually inspected. Broken image URLs fall back to missing image UI."
 }
