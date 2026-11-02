@@ -56,7 +56,10 @@ const verifiedCharacterNames={
  'Muamar Reyes':'「酋長」穆瑪．雷耶斯',
  'Sandayu Oda':'織田',
  'Misty Olszewski':'迷霧',
- 'Rogue Amendiares':'若惡'
+ 'Rogue Amendiares':'若惡',
+ 'Royce':'萊斯',
+ // La Llorona is a moniker, not a personal name; do not label the card Teresa.
+ 'La Llorona':'哭泣的女人'
 };
 const localizedCardName=c=>{
  const english=String(c.name||'');
