@@ -66,7 +66,7 @@ const localizedCardName=c=>{
  const split=english.indexOf(':');
  const character=split>=0?english.slice(0,split).trim():english;
  const localized=verifiedCharacterNames[character];
- if(!localized)return c.nameZh||window.NCTLocale?.cardName?.(english)||english;
+ if(!localized)return String(c.nameZh||window.NCTLocale?.cardName?.(english)||english).replaceAll('瓦倫提諾幫','瓦倫提諾會');
  const existing=String(c.nameZh||'');
  const subtitle=existing.includes('：')?existing.slice(existing.indexOf('：')+1):'';
  return localized+(subtitle&&!(character==='Muamar Reyes'&&subtitle==='酋長')?'：'+subtitle:'');
@@ -148,7 +148,7 @@ const setEnglishTitle=(el,name)=>{const value=String(name||'');const i=value.ind
 const tagZh={
  'ARASAKA':'荒坂','MERC':'傭兵','GANGER':'幫派成員','NETRUNNER':'竄網使',
  'TYGER CLAWS':'虎鉤眾','CORPO':'企業人士','MILITECH':'軍武科技','MAELSTROM':'漩戰幫',
- 'ANIMAL':'蠻獸派','ROCKER':'搖滾客','SAMURAI':'武士','VALENTINO':'瓦倫提諾',
+ 'ANIMAL':'蠻獸派','ROCKER':'搖滾客','SAMURAI':'武士','VALENTINO':'瓦倫提諾會',
  '6TH STREET':'六街遊俠','DRONE':'無人機','ZETATECH':'ZETA科技','CYBERWARE':'義體',
  'TRAUMA TEAM':'創傷小組','RIPPERDOC':'神機醫','VOODOO BOYS':'巫毒仔',
  'SCAVENGER':'清道夫','MEDTECH':'醫療技師','MOX':'茉刺盟','DOLL':'玩偶','MAINE\'S CREW':'魅音小隊','MYSTIC':'秘術師','ALDECALDO':'阿德卡多族',
