@@ -100,17 +100,18 @@ function openCard(c){
  links.append(source);info.append(links);
  // Show only verified matching printings; never infer from title alone.
  const variants=all.filter(other=>samePrintingFamily(c,other));
+ if(!variants.some(other=>other.id===c.id && other.set===c.set))variants.unshift(c);
  let versions=null;
- if(variants.length>1){
+ {
   versions=create('section','beta-printings');
   versions.append(create('h4','','VERSIONS / 印刷版本'));
   const strip=create('div','beta-printing-strip');
   for(const variant of variants){
    const button=create('button','beta-printing-option');button.type='button';
-   if(variant.id===c.id){button.classList.add('selected');button.setAttribute('aria-current','true')}
+   if(variant.id===c.id && variant.set===c.set){button.classList.add('selected');button.setAttribute('aria-current','true')}
    const thumbnail=create('img','');thumbnail.src=variant.imageUrl;thumbnail.alt=variant.id+' 卡面';thumbnail.loading='lazy';
-   button.append(thumbnail,create('span','',variant.id));
-   button.setAttribute('aria-label','切換至 '+variant.id+' 印刷版本');
+   button.append(thumbnail,create('span','',variant.id||'STARTER'));
+   button.setAttribute('aria-label','切換至 '+(variant.id||'STARTER')+' 印刷版本');
    button.addEventListener('click',()=>openCard(variant));strip.append(button);
   }
   versions.append(strip);visual.append(versions);
