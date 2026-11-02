@@ -162,7 +162,7 @@ const starterPrintingUrls={"heist":["https://cyberpunktcg.com/cards/viktor-vekto
 const starterLinkFor=anchor=>{
  const group=anchor.closest('.deck-collection');
  const deck=group?.querySelector('summary strong')?.textContent?.trim()==='The Heist'?'heist':'power';
- const number=Number(anchor.querySelector('.deck-meta span')?.textContent?.match(/B(\\d{3})/)?.[1]);
+ const number=Number(anchor.querySelector('.deck-meta span')?.textContent?.match(/B(\d{3})/)?.[1]);
  return number>=1&&number<=20?starterPrintingUrls[deck][number-1]:null;
 };
 starter.querySelectorAll('a[data-deck-image]').forEach(anchor=>{
