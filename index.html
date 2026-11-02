@@ -1991,6 +1991,32 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
  #decks .beta-browser-intro p{font-size:14px;line-height:1.5}
  #decks .beta-counter{font-size:14px;white-space:normal}
 }
+
+/* Identical starter/Beta card tile geometry and static borders. */
+#decks .deck-visual-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+#decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(5,minmax(0,1fr));max-width:none}
+#decks .deck-tile{padding:9px;gap:5px;min-width:0;transform:none!important;transition:none!important}
+#decks .deck-tile .deck-name{font-size:18px;line-height:1.4;margin:7px 0 0;padding:0;font-weight:500}
+#decks .deck-tile .deck-original{font-size:15px;line-height:1.45;margin:0;padding:0;min-height:0}
+#decks .deck-tile .deck-meta{font-size:14px;line-height:1.4;margin-top:auto;padding-top:8px}
+#decks .deck-tile:hover,#decks .deck-tile:focus-visible,
+#decks .beta-tile:hover,#decks .beta-tile:focus-visible{border-color:#4a3037!important;transform:none!important}
+#decks .deck-tile:focus-visible,#decks .beta-tile:focus-visible{outline:2px solid #8baab2;outline-offset:2px}
+#decks .deck-tile:active,#decks .beta-tile:active{border-color:#4a3037!important;transform:none!important}
+#decks .deck-tile .deck-name .card-title-subline,
+#decks .beta-card-title .card-title-subline{display:block}
+@media(max-width:950px){
+ #decks .deck-visual-grid,#decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:700px){
+ #decks .deck-visual-grid,#decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+ #decks .deck-tile{padding:7px}
+ #decks .deck-tile .deck-name{font-size:16px}
+ #decks .deck-tile .deck-original{font-size:14px}
+}
+@media(max-width:460px){
+ #decks .deck-visual-grid,#decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2094,4 +2120,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=34"></script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=35"></script></body></html>
