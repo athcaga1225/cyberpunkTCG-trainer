@@ -2245,16 +2245,22 @@ header nav button.active{font-weight:400}
 /* Keep Beta card number, set label and rarity anchored during printing changes. */
 #decks #betaCardDetail .beta-detail-meta-line{
  display:grid;
- grid-template-columns:72px 56px minmax(0,1fr);
+ grid-template-columns:56px 45px minmax(0,1fr);
  align-items:center;
- column-gap:8px;
+ column-gap:5px;
  row-gap:4px;
 }
 #decks #betaCardDetail .beta-detail-meta-line > strong,
 #decks #betaCardDetail .beta-detail-meta-line > span{min-width:0;white-space:nowrap}
 #decks #betaCardDetail .beta-detail-meta-line > span+span::before{margin-right:8px}
 @media(max-width:380px){
- #decks #betaCardDetail .beta-detail-meta-line{grid-template-columns:64px 52px minmax(0,1fr);column-gap:6px;letter-spacing:.5px}
+ #decks #betaCardDetail .beta-detail-meta-line{grid-template-columns:53px 43px minmax(0,1fr);column-gap:4px;letter-spacing:.5px}
+}
+/* Compact mobile printing-to-details spacing; desktop card layout unchanged. */
+@media(max-width:899px){
+ #decks #betaCardDetail .beta-detail-body{gap:8px!important}
+ #decks #betaCardDetail .beta-detail-art{margin-bottom:0!important}
+ #decks #betaCardDetail .beta-detail-copy{padding-top:4px!important}
 }
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
