@@ -67,7 +67,10 @@ function openCard(c){
  const kind=c.type?create('p','beta-card-kind',typeZh[c.type]||c.type):null;
  if(kind)names.append(kind);
  identity.append(accent,names);
- info.append(identity);
+ const meta=create('div','beta-detail-meta-line');
+ meta.append(create('strong','',c.id||'STARTER'),create('span','',c.set==='beta'?'BETA':c.set==='topper'?'BOX TOPPER':c.set==='starter'?'STARTER':String(c.set||'').toUpperCase()));
+ if(c.rarity)meta.append(create('span','',c.rarity));
+ info.append(meta,identity);
  // Show the same three-cell COST / RAM / POW layout for every Beta card.
  // Null means the value is not printed on that card and is shown as an em dash.
  if(['beta','topper','starter'].includes(c.set) && Object.prototype.hasOwnProperty.call(c,'ram')){
@@ -81,10 +84,12 @@ function openCard(c){
  }
  if(Array.isArray(c.tags)&&c.tags.length){
   const tags=create('div','beta-detail-tags');
+  tags.append(create('h4','beta-detail-section-label','KEYWORDS / 關鍵字'));
   for(const tag of c.tags)tags.append(create('span','',translatedTag(tag)));
   info.append(tags);
  }
  const effect=create('section','beta-detail-effect');
+ effect.append(create('h4','beta-detail-section-label','EFFECTS / 卡牌能力'));
  effect.append(create('p','beta-ability-text',c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。'));
  info.append(effect);
  const links=create('div','beta-detail-links');
