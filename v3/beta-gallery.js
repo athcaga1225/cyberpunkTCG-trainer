@@ -119,7 +119,7 @@ const localizedCardName=c=>{
 };
 const zhName=c=>localizedCardName(c);
 // T001–T006 are internal identifiers; the actual Box Topper Beta printings read β001–β006.
-const printedNumber=c=>c.set==='topper'?'β'+c.id.slice(1):c.id;
+const printedNumber=c=>c.set==='topper'?'β'+c.id.slice(1):c.set==='retail'?(c.retailNumber||c.id.replace(/^R/,'')):c.id;
 const printingLabel=c=>c.set==='topper'?'BOX TOPPER '+printedNumber(c):c.set==='starter'?((c.deck==='heist'?'HEIST ':'POWER ')+c.id):c.id;
 const collectionLabel=c=>c.set==='retail'?'RETAIL':c.set==='topper'?'BOX TOPPER':c.set==='starter'?(c.deck==='heist'?'THE HEIST':'EMBRACING POWER'):'BETA BOOSTER';
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
@@ -182,7 +182,7 @@ function setBestArt(c,img){
   img.src=c.imageUrl;
   return;
  }
- if(c.set==='retail'&&!c.imageUrl){img.removeAttribute('src');img.hidden=true;return}
+ if(c.set==='retail'&&!c.imageUrl){img.removeAttribute('src');img.hidden=true;img.style.display='none';return}
  img.src=c.imageUrl;
  if(c.set!=='beta')return;
  bestBetaImage(c).then(url=>{
@@ -467,7 +467,7 @@ function tile(c){
  const img=document.createElement('img');img.loading='lazy';img.decoding='async';setBestArt(c,img);img.alt=c.name+' 卡圖';
  const fallback=create('span','beta-art-fallback',c.set==='retail'&&!c.imageUrl?'RETAIL 正式卡圖待補':'圖片無法顯示');
  img.addEventListener('error',()=>{if(c.imageBackupUrl)return;img.hidden=true;fallback.hidden=false});
- fallback.hidden=!(c.set==='retail'&&!c.imageUrl);visual.append(img,fallback);
+ fallback.hidden=!(c.set==='retail'&&!c.imageUrl);if(c.set==='retail'&&!c.imageUrl){visual.classList.add('retail-art-pending');img.style.display='none';}visual.append(img,fallback);
  const title=create('strong','beta-card-title');setDisplayTitle(title,zhName(c));
  const eng=create('span','beta-card-english');setEnglishTitle(eng,c.name);
  const collection=create('span','v3-card-series',collectionLabel(c));
