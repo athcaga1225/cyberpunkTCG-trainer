@@ -55,7 +55,7 @@ const verifiedCharacterNames={
  'Saul Bright':'紹爾．布萊特',
  'Johnny Silverhand':'銀手強尼',
  'Muamar Reyes':'「酋長」穆瑪．雷耶斯',
- 'Sandayu Oda':'織田',
+ 'Sandayu Oda':'織田三太夫',
  'Misty Olszewski':'迷霧．歐爾雪夫斯基',
  'Rogue Amendiares':'若惡．亞門迪亞雷斯',
  'Royce':'萊斯',
@@ -75,6 +75,11 @@ const localizedCardOverrides={
  'Zetatech Berserk':'ZETA科技狂暴',
  'Kiroshi Optics':'喜呂志光學裝置',
  'Reboot Optics':'視覺重啟',
+ 'Animals Wrecker':'蠻獸派攻擊種',
+ 'Japantown Jonin':'日本城上忍',
+ 'Octant':'南極座',
+ 'Trauma Team Operatives':'搶救團隊隊員',
+ 'Overwatch: Panam\'s Gift':'掩護：帕娜的贈禮',
  'Pacifica Netrunner':'太平洋竄網使'
 };
 const refineCardChineseName=value=>String(value||'')
@@ -82,7 +87,10 @@ const refineCardChineseName=value=>String(value||'')
  .replaceAll('緊急用阿特拉斯','緊急用 Atlus')
  .replaceAll('華子的護衛','華子的貼身保鏢')
  .replaceAll('保鑣','保鏢')
- .replaceAll('搖滾叛逆者','搖滾反叛份子');
+ .replaceAll('搖滾叛逆者','搖滾反叛份子')
+ .replaceAll('街頭小子','街頑')
+ .replaceAll('幻舞','幻智之舞')
+ .replaceAll('冷酷企業人','冷酷企業人士');
 const localizedCardName=c=>{
  const english=String(c.name||'');
  if(localizedCardOverrides[english])return localizedCardOverrides[english];
@@ -173,9 +181,9 @@ const tagZh={
  'TYGER CLAWS':'虎鉤眾','CORPO':'企業人士','MILITECH':'軍武科技','MAELSTROM':'漩戰幫',
  'ANIMAL':'蠻獸派','ROCKER':'搖滾客','SAMURAI':'武士','VALENTINO':'瓦倫提諾會',
  '6TH STREET':'六街遊俠','DRONE':'無人機','ZETATECH':'ZETA科技','CYBERWARE':'義體',
- 'TRAUMA TEAM':'創傷小組','RIPPERDOC':'神機醫','VOODOO BOYS':'巫毒仔',
+ 'TRAUMA TEAM':'搶救團隊','RIPPERDOC':'神機醫','VOODOO BOYS':'巫毒仔',
  'SCAVENGER':'清道夫','MEDTECH':'醫療技師','MOX':'茉刺盟','DOLL':'玩偶','MAINE\'S CREW':'魅音小隊','MYSTIC':'秘術師','ALDECALDO':'阿德卡多族',
- 'VEHICLE':'載具','TECHIE':'械鬥匠','WEAPON':'武器','BRAINDANCE':'幻舞','EXTREME':'極限',
+ 'VEHICLE':'載具','TECHIE':'械鬥匠','WEAPON':'武器','BRAINDANCE':'幻智之舞','EXTREME':'極限',
  'QUICKHACK':'快速破解','PLAN':'計畫','NOMAD':'遊牧民','FIXER':'合事佬','NCPD':'夜城警察局','RAFFEN SHIV':'劫戮民','AI':'人工智慧','NETWATCH':'衛網監理'
 };
 const typeZh={Legend:'傳奇卡',Unit:'單位卡',Gear:'裝備卡',Program:'程式卡'};
@@ -190,7 +198,7 @@ const matchesCardTag=(card,query)=>{
  return (card.tags||[]).some(tag=>{
   const english=String(tag||'').trim();
   const chinese=tagZh[english.toUpperCase()]||'';
-  return [english,chinese,translatedTag(english)].some(label=>normalizeTagSearch(label).includes(term));
+  return [english,chinese,translatedTag(english),english.toUpperCase()==='BRAINDANCE'?'幻舞':'',english.toUpperCase()==='TRAUMA TEAM'?'創傷小組':''].some(label=>normalizeTagSearch(label).includes(term));
  });
 };
 // V3 uses a single visible catalogue; the original Starter gallery is an
@@ -220,7 +228,7 @@ function filter(){
   const matchesTag=matchesCardTag(c,q);
   return ids.some(id=>id.includes(q))||
    (!!englishQuery&&normalizedCardName(c).includes(englishQuery))||
-   c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q)||
+   c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q)||String(c.nameZh||'').toLowerCase().includes(q)||
    matchesTag;
  });
  // Explicit card-number searches always return EVERY physical printing.
@@ -288,7 +296,7 @@ function openCard(c){
  }
  const effect=create('section','beta-detail-effect');
  effect.append(create('h4','beta-detail-section-label','EFFECTS / 卡牌能力'));
- effect.append(create('p','beta-ability-text',c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。'));
+ effect.append(create('p','beta-ability-text',String(c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。').replaceAll('幻舞','幻智之舞')));
  
  info.append(effect);
  const links=create('div','beta-detail-links');
