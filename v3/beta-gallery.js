@@ -128,6 +128,16 @@ const colorZh={Red:'紅色',Yellow:'黃色',Blue:'藍色',Green:'綠色'};
 const rarityZh={Common:'普通',Uncommon:'非普通',Rare:'稀有',Epic:'史詩',Secret:'秘密',
  'Iconic Legend':'標誌性傳奇','Iconic Other':'標誌性特殊','Iconic Secret':'標誌性秘密','Nova Rare':'新星稀有'};
 const translatedTag=t=>(tagZh[String(t).toUpperCase()]||t)+'（'+t+'）';
+const normalizeTagSearch=v=>String(v||'').normalize('NFKC').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('en').replace(/\s+/g,' ').trim();
+const matchesCardTag=(card,query)=>{
+ const term=normalizeTagSearch(query);
+ if(!term)return false;
+ return (card.tags||[]).some(tag=>{
+  const english=String(tag||'').trim();
+  const chinese=tagZh[english.toUpperCase()]||'';
+  return [english,chinese,translatedTag(english)].some(label=>normalizeTagSearch(label).includes(term));
+ });
+};
 // V3 uses a single visible catalogue; the original Starter gallery is an
 // audited, hidden source of 40 real printing records.
 function switchTo(){
@@ -152,12 +162,7 @@ function filter(){
   // Only normalize English terms for English-name matching. A Chinese query
   // must never become an empty ASCII string (which matches every card).
   const englishQuery=q.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
-  const matchesTag=Array.isArray(c.tags)&&c.tags.some(tag=>{
-   const raw=String(tag||'');
-   const chinese=tagZh[raw.toUpperCase()]||'';
-   const english=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-   return (!!englishQuery&&english.includes(englishQuery))||raw.toLowerCase().includes(q)||chinese.includes(q);
-  });
+  const matchesTag=matchesCardTag(c,q);
   return ids.some(id=>id.includes(q))||
    (!!englishQuery&&normalizedCardName(c).includes(englishQuery))||
    c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q)||
