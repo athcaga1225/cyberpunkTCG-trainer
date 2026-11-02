@@ -80,5 +80,26 @@ def main():
     if changed:
         MANIFEST.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n")
     print("new sources:",changed, "remaining:",sum(not c.get("retailImageUrl") for c in manifest["cards"]))
+    # Audit availability across all source providers without rewriting verified
+    # card-to-printing mappings based on transient CDN or crawler errors.
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    def audit(item):
+        url=item.get("retailImageUrl")
+        if not url:
+            return item["id"],"missing"
+        try:
+            headers,_=request(url,"HEAD")
+            content_type=headers.get("content-type","")
+            return item["id"],"ok" if content_type.startswith("image/") else "not-image "+content_type
+        except Exception as exc:
+            return item["id"],"failed "+str(exc)[:130]
+    checks={}
+    with ThreadPoolExecutor(max_workers=16) as pool:
+        for future in as_completed([pool.submit(audit,c) for c in manifest["cards"]]):
+            card_id,state=future.result()
+            checks[card_id]=state
+    failed={k:v for k,v in sorted(checks.items()) if v!="ok"}
+    print("AUDIT image HEAD passed:",sum(v=="ok" for v in checks.values()),"of",len(checks))
+    print("AUDIT unresolved:",json.dumps(failed,ensure_ascii=False))
 if __name__=="__main__":
     main()
