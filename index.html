@@ -2025,12 +2025,13 @@ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opac
 #decks .deck-tile .deck-original,#decks .beta-card-english{box-sizing:border-box;flex:0 0 auto;min-height:calc(1.45em * 3);line-height:1.45;margin:0;padding:0;overflow-wrap:anywhere}
 #decks .deck-tile .deck-meta,#decks .beta-card-meta{flex:0 0 auto;margin-top:auto;padding-top:8px;min-height:calc(1.4em + 8px)}
 
-/* Desktop-only typography: leave mobile heading and navigation weights unchanged. */
-@media (min-width:768px){
- #home .grid .panel h2,
- #home .grid .panel h2:is(:hover,:focus),
- header nav button,
- header nav button.active{font-weight:400!important}
+/* Regular weight by default; preserve original bold styling on mobile. */
+#home .grid .panel h2,
+header nav button,
+header nav button.active{font-weight:400}
+@media (max-width:767px){
+ #home .grid .panel h2{font-weight:700}
+ header nav button.active{font-weight:700}
 }
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
