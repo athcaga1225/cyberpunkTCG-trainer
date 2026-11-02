@@ -61,15 +61,29 @@ const verifiedCharacterNames={
  // La Llorona is a moniker, not a personal name; do not label the card Teresa.
  'La Llorona':'哭泣的女人'
 };
+// V3-only Taiwanese localization refinements; the shared Beta file and V2 remain unchanged.
+const localizedCardOverrides={
+ 'Valentino Street Racer':'瓦倫提諾會街頭車手',
+ 'Placide: Voodoo Sentinel':'泰然：巫毒哨兵',
+ 'Secondhand Bombus':'二手熊蜂無人機',
+ 'Pacifica Netrunner':'太平洋竄網使'
+};
+const refineCardChineseName=value=>String(value||'')
+ .replaceAll('瓦倫提諾幫','瓦倫提諾會')
+ .replaceAll('緊急用阿特拉斯','緊急用 Atlus')
+ .replaceAll('華子的護衛','華子的貼身保鏢')
+ .replaceAll('保鑣','保鏢')
+ .replaceAll('搖滾叛逆者','搖滾反叛分子');
 const localizedCardName=c=>{
  const english=String(c.name||'');
+ if(localizedCardOverrides[english])return localizedCardOverrides[english];
  const split=english.indexOf(':');
  const character=split>=0?english.slice(0,split).trim():english;
  const localized=verifiedCharacterNames[character];
- if(!localized)return String(c.nameZh||window.NCTLocale?.cardName?.(english)||english).replaceAll('瓦倫提諾幫','瓦倫提諾會').replaceAll('緊急用阿特拉斯','緊急用 Atlus');
- const existing=String(c.nameZh||'');
+ const existing=String(c.nameZh||window.NCTLocale?.cardName?.(english)||english);
+ if(!localized)return refineCardChineseName(existing);
  const subtitle=existing.includes('：')?existing.slice(existing.indexOf('：')+1):'';
- return localized+(subtitle&&!(character==='Muamar Reyes'&&subtitle==='酋長')?'：'+subtitle:'');
+ return refineCardChineseName(localized+(subtitle&&!(character==='Muamar Reyes'&&subtitle==='酋長')?'：'+subtitle:''));
 };
 const zhName=c=>localizedCardName(c);
 // T001–T006 are internal identifiers; the actual Box Topper Beta printings read β001–β006.
