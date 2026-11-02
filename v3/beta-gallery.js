@@ -72,7 +72,7 @@ const localizedCardOverrides={
  'We Gotta Live Together':'我們必須一起活下去',
  'Wild in the Streets':'狂野街頭',
  'Westbrook Netrunner':'西流區竄網使',
- 'Jackie Welles: Pour One Out For Me':'阿傑：替我敬一杯',
+ 'Jackie Welles: Pour One Out For Me':'阿傑・威爾斯：替我敬一杯',
  'V: Corporate Exile':'V：企業流放者',
  'Valentino Street Racer':'瓦倫提諾會街頭車手',
  'Placide: Voodoo Sentinel':'泰然：巫毒哨兵',
