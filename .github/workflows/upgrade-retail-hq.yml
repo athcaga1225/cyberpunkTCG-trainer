@@ -1,0 +1,33 @@
+name: Upgrade Retail Iconic artwork HQ
+on:
+  push:
+    paths:
+      - scripts/upgrade-retail-hq.py
+      - .github/workflows/upgrade-retail-hq.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install Pillow==11.3.0
+      - name: Fetch and compare high-resolution RETAIL renderings
+        run: python scripts/upgrade-retail-hq.py
+      - name: Commit only genuinely sharper images
+        run: |
+          if git diff --quiet -- v3/retail-printings.json && [ -z "$(git ls-files --others --exclude-standard v3/retail-art)" ]; then
+            echo "No high-resolution replacements passed validation"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v3/retail-printings.json v3/retail-art
+          git commit -m "assets(v3): replace Retail 148-171 with inspected high-resolution scans"
+          git pull --rebase origin main
+          git push origin HEAD:main
