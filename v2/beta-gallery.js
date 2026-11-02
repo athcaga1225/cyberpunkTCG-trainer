@@ -105,7 +105,7 @@ function openCard(c){
  const effect=create('section','beta-detail-effect');
  effect.append(create('h4','beta-detail-section-label','EFFECTS / 卡牌能力'));
  effect.append(create('p','beta-ability-text',c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。'));
- if(c.set==='starter')effect.append(create('p','beta-detail-note','依官方現行卡牌規則資料整理；歷史實體卡面文字可能存在版本差異。'));
+ 
  info.append(effect);
  const links=create('div','beta-detail-links');
  const addSourceLink=(href,label)=>{
