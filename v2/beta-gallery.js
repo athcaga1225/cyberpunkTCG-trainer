@@ -29,6 +29,46 @@ const zhName=c=>c.nameZh||window.NCTLocale?.cardName?.(c.name)||c.name;
 const printedNumber=c=>c.set==='topper'?'β'+c.id.slice(1):c.id;
 const printingLabel=c=>c.set==='topper'?'BOX TOPPER '+printedNumber(c):c.set==='starter'?((c.deck==='heist'?'HEIST ':'POWER ')+c.id):c.id;
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
+const betaArtChoices=new Map();
+function alternativeBetaImage(c){
+ if(c.set!=='beta'||!/^B[0-9]{3}[AB]?$/.test(c.id))return null;
+ const slug=c.printingUrl?.split('/cards/')[1]?.split('?')[0];
+ if(!slug)return null;
+ return 'https://holohoard.app/api/img/cards/cyberpunk-tcg/welcome-to-night-city-beta/webp/'+c.id.toLowerCase()+'-'+slug+'.webp';
+}
+function imageDimensions(src){
+ return new Promise(resolve=>{
+  const probe=new Image();
+  probe.onload=()=>resolve({width:probe.naturalWidth,height:probe.naturalHeight});
+  probe.onerror=()=>resolve(null);
+  probe.src=src;
+ });
+}
+// Try only same-number Beta art; retain the known-good original unless the
+// alternate loads and offers at least 20% more pixels at the same aspect ratio.
+function bestBetaImage(c){
+ const fallback=c.imageUrl,candidate=alternativeBetaImage(c);
+ if(!candidate)return Promise.resolve(fallback);
+ if(!betaArtChoices.has(c.id)){
+  const task=Promise.all([imageDimensions(fallback),imageDimensions(candidate)]).then(([oldSize,newSize])=>{
+   if(!newSize||!oldSize)return fallback;
+   const oldRatio=oldSize.width/oldSize.height,newRatio=newSize.width/newSize.height;
+   return newSize.width*newSize.height>oldSize.width*oldSize.height*1.2&&Math.abs(oldRatio-newRatio)<0.04?candidate:fallback;
+  }).catch(()=>fallback);
+  betaArtChoices.set(c.id,task);
+ }
+ return betaArtChoices.get(c.id);
+}
+function setBestArt(c,img){
+ const key=c.set+':'+c.id;
+ img.dataset.artKey=key;
+ img.src=c.imageUrl;
+ if(c.set!=='beta')return;
+ bestBetaImage(c).then(url=>{
+  if(img.isConnected&&img.dataset.artKey===key&&url!==img.src)img.src=url;
+ });
+}
+
 const setDisplayTitle=(el,name)=>{const i=String(name).indexOf('：');if(i<0){el.textContent=name;return}el.textContent=String(name).slice(0,i);el.append(create('span','card-title-subline',String(name).slice(i+1).trim()))};
 const setEnglishTitle=(el,name)=>{const value=String(name||'');const i=value.indexOf(':');if(i<0){el.textContent=value;return}el.textContent=value.slice(0,i).trim();const subtitle=value.slice(i+1).trim();if(subtitle)el.append(create('span','card-english-subline',subtitle))};
 const tagZh={
@@ -69,7 +109,7 @@ function openCard(c){
  const visual=create('div','beta-detail-art');
  const frame=create('div','beta-detail-image-frame');
  const img=document.createElement('img');
- img.loading='eager';img.decoding='async';img.src=c.imageUrl;img.alt=c.name+' 卡面';
+ img.loading='eager';img.decoding='async';setBestArt(c,img);img.alt=c.name+' 卡面';
  img.draggable=false;img.style.pointerEvents='none';frame.append(img);visual.append(frame);
  const info=create('div','beta-detail-copy');
  const identity=create('div','beta-card-identity');
@@ -142,7 +182,7 @@ function openCard(c){
   for(const variant of variants){
    const button=create('button','beta-printing-option');button.type='button';
    if(variant.id===c.id && variant.set===c.set && variant.deck===c.deck){button.classList.add('selected');button.setAttribute('aria-current','true')}
-   const thumbnail=create('img','');thumbnail.src=variant.imageUrl;thumbnail.alt=variant.id+' 卡面';thumbnail.loading='lazy';
+   const thumbnail=create('img','');setBestArt(variant,thumbnail);thumbnail.alt=variant.id+' 卡面';thumbnail.loading='lazy';
    const variantLabel=printingLabel(variant)||'STARTER';
    button.append(thumbnail,create('span','',variantLabel));
    button.setAttribute('aria-label','切換至 '+variantLabel+' 印刷版本');
@@ -253,7 +293,7 @@ starter.addEventListener('click',event=>{
 function tile(c){
  const btn=create('button','beta-tile');btn.type='button';btn.dataset.cardId=c.id;btn.setAttribute('aria-pressed','false');btn.setAttribute('aria-label','檢視 '+printingLabel(c)+' '+zhName(c));
  const visual=create('span','beta-card-art');
- const img=document.createElement('img');img.loading='lazy';img.decoding='async';img.src=c.imageUrl;img.alt=c.name+' 卡圖';
+ const img=document.createElement('img');img.loading='lazy';img.decoding='async';setBestArt(c,img);img.alt=c.name+' 卡圖';
  const fallback=create('span','beta-art-fallback','圖片無法顯示');
  img.addEventListener('error',()=>{img.hidden=true;fallback.hidden=false});
  fallback.hidden=true;visual.append(img,fallback);
