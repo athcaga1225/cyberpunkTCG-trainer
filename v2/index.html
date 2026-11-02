@@ -2233,6 +2233,14 @@ header nav button.active{font-weight:400}
 /* Neutral white expand/collapse symbols for both Starter Decks. */
 #decks #starterDeckGallery .deck-summaryhint .when-closed,
 #decks #starterDeckGallery .deck-summaryhint .when-open{color:#fff!important}
+/* V2 source link: restrained arrow motion on hover and keyboard focus. */
+#decks #betaCardDetail .beta-source-link{display:inline-flex;align-items:center;gap:4px}
+#decks #betaCardDetail .beta-source-arrow{display:inline-block;transition:transform .22s ease;will-change:transform}
+#decks #betaCardDetail .beta-source-link:hover .beta-source-arrow,
+#decks #betaCardDetail .beta-source-link:focus-visible .beta-source-arrow{transform:translate(3px,-3px)}
+@media(prefers-reduced-motion:reduce){
+ #decks #betaCardDetail .beta-source-arrow{transition:none}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2336,4 +2344,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v2/beta-gallery.js?v=7"></script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v2/beta-gallery.js?v=8"></script></body></html>
