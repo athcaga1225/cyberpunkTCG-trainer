@@ -102,3 +102,13 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 - Thirteen special printings have COST/PWR null as printed for Legends; six have numeric COST and PWR. Do not convert null to 0.
 - These checks concern the current official card data / documented relationships, not a full independent examination of every Beta physical card, translated effect, card image or rarity.
 - Cumulative current-value audit coverage: 160 of 178 Beta index entries; remaining B160–B171 and T001–T006 (18).
+
+
+## Beta COST / RAM / POW audit — B160–B171 and T001–T006 (2026-11-02)
+
+- Final 18 entries examined: B160–B171 (12 special Beta printings) plus T001–T006 (6 Beta Box Toppers). All contain defined `cost`, `ram`, `power`, `type`, `color` fields; absent numeric values are explicitly `null`. Current published official card values and existing catalog data are consistent for the verified matches. No numeric changes needed.
+- B160–B171 each correspond by normalized English name to exactly one earlier base card: B041, B042, B046, B063, B088, B093, B126, B138, B003, B109, B085, B116 respectively. All 12 pairs match in type/color/COST/RAM/PWR. The Chinese ability differs in wording between B116 and B171 and remains a separate translation-review item; do not treat matching numerical fields as effect validation.
+- Special numeric cases: B168 Johnny Silverhand COST/PWR absent (null); B169 Sasha COST 5, PWR 0, RAM 2; B167 Towerfall is a Program with null PWR. Other B160–B171 values are numeric.
+- T001 Yorinobu, T002 Viktor, T004 Saburo, T005 Jackie: Legend with no printed COST/PWR (null), RAM 2. T003 Goro: COST 5/PWR 7/RAM 2. T006 V: Corporate Exile: COST 5/PWR 8/RAM 2. Official card pages list their **Beta Box Toppers** printings. T00x numbers are local catalog identifiers.
+- The official errata notes a misprinted artist credit on T001 Yorinobu's Beta Box Topper; this is not a numeric-card-stat discrepancy and belongs to the later image / attribution audit.
+- Completion: **178/178 catalog entries reviewed for current COST / RAM / PWR values or their absence**. This is not certification of all historical physical Beta prints, images, rarity, tags, translation or effects. Special-printing values may derive from matching official card identity rather than separately legible physical print photographs.
