@@ -16,11 +16,14 @@ let all=[],filtered=[],page=0,active='beta';
 // identity. English accents vary across catalog sources (Álvarez / Alvarez),
 // and Chinese wording may differ even when the original rules are identical.
 const normalizedCardName=c=>String(c.name||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-const samePrintingFamily=(a,b)=>a.set===b.set &&
- normalizedCardName(a)===normalizedCardName(b) &&
- a.type===b.type && a.color===b.color &&
- a.cost===b.cost && a.ram===b.ram && a.power===b.power &&
- ((!!a.abilityEnglish && !!b.abilityEnglish && a.abilityEnglish===b.abilityEnglish) || (!a.abilityEnglish && !b.abilityEnglish && !!a.abilityZh && a.abilityZh===b.abilityZh));
+const samePrintingFamily=(a,b)=>{
+ if(a.set!==b.set || normalizedCardName(a)!==normalizedCardName(b))return false;
+ if(a.type!==b.type || a.color!==b.color || a.cost!==b.cost || a.ram!==b.ram || a.power!==b.power)return false;
+ // If both official English rules are present, compare them. When either is
+ // absent, require identical translated effects; never join on name alone.
+ if(a.abilityEnglish && b.abilityEnglish)return a.abilityEnglish.trim()===b.abilityEnglish.trim();
+ return !!a.abilityZh && a.abilityZh===b.abilityZh;
+};
 const zhName=c=>c.nameZh||window.NCTLocale?.cardName?.(c.name)||c.name;
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
 const setDisplayTitle=(el,name)=>{const i=String(name).indexOf('：');if(i<0){el.textContent=name;return}el.textContent=String(name).slice(0,i);el.append(create('span','card-title-subline',String(name).slice(i+1).trim()))};
