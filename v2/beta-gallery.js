@@ -186,7 +186,19 @@ prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoVie
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 fetch('./beta-cards.json?v=20',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
  const cards=data.cards||[];
- if(cards.length!==178||new Set(cards.map(x=>x.id)).size!==178)throw Error('Beta 卡牌清單不完整');
+ // Validate the actual Beta numbering: B005 has two printings (A/B);
+ // B172 is not part of this 178-card index. The six T cards are Box Toppers.
+ const expectedIds=[
+  ...Array.from({length:171},(_,i)=>'B'+String(i+1).padStart(3,'0')).filter(id=>id!=='B005'),
+  'B005A','B005B',
+  ...Array.from({length:6},(_,i)=>'T'+String(i+1).padStart(3,'0'))
+ ];
+ const actualIds=new Set(cards.map(x=>x.id));
+ if(cards.length!==178||actualIds.size!==178||expectedIds.some(id=>!actualIds.has(id)))
+  throw Error('Beta 卡牌編號不完整或重複');
+ if(cards.some(c=>!c.name||!c.nameZh||!c.imageUrl||!c.rarity||!c.type||!Array.isArray(c.tags)||!c.abilityZh||c.ram===undefined))
+  throw Error('Beta 卡牌必要欄位缺漏');
+
  all=cards;filtered=all.slice();
  // Keep starter card titles in sync with the canonical Beta translation.
  starter.querySelectorAll('a[data-deck-image]').forEach(anchor=>{
