@@ -73,7 +73,7 @@ const refineCardChineseName=value=>String(value||'')
  .replaceAll('緊急用阿特拉斯','緊急用 Atlus')
  .replaceAll('華子的護衛','華子的貼身保鏢')
  .replaceAll('保鑣','保鏢')
- .replaceAll('搖滾叛逆者','搖滾反叛分子');
+ .replaceAll('搖滾叛逆者','搖滾反叛份子');
 const localizedCardName=c=>{
  const english=String(c.name||'');
  if(localizedCardOverrides[english])return localizedCardOverrides[english];
