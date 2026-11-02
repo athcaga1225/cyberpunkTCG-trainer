@@ -2311,13 +2311,19 @@ header nav button.active{font-weight:400}
  }
 }
 /* Match Popup micro-label typography across desktop and mobile. */
-#decks #betaCardDetail .beta-detail-header strong,
 #decks #betaCardDetail .beta-printings h4,
 #decks #betaCardDetail .beta-printing-option,
 #decks #betaCardDetail .beta-detail-meta-line,
 #decks #betaCardDetail .beta-detail-section-label,
 #decks #betaCardDetail .beta-detail-effect h4.beta-detail-section-label{
  font-size:11px!important;
+ line-height:1.4;
+ -webkit-text-size-adjust:100%;
+ text-size-adjust:100%;
+}
+/* CARD DETAILS heading is independent of 11px metadata labels on all screens. */
+#decks #betaCardDetail .beta-detail-header strong{
+ font-size:14px!important;
  line-height:1.4;
  -webkit-text-size-adjust:100%;
  text-size-adjust:100%;
