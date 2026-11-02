@@ -322,7 +322,13 @@
       "betaId": "B035",
       "officialUrl": "https://cyberpunktcg.com/cards/shattered-memories",
       "retailImageUrl": null,
-      "imageStatus": "pending-verification"
+      "imageStatus": "pending-verification",
+      "mappingStatus": "official-printing-verified",
+      "retailRarity": "Rare",
+      "retailCost": 4,
+      "retailRam": 2,
+      "retailPower": null,
+      "officialRulesEnglish": "Each player discards their hand and may draw 5. If the total number of discarded cards equals the value of a friendly Gig, draw 2."
     },
     {
       "id": "036",
@@ -357,7 +363,12 @@
       "officialUrl": "https://cyberpunktcg.com/cards/river-ward-detective-on-the-hunt",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "official-printing-verified",
+      "retailRarity": "Rare",
+      "retailCost": null,
+      "retailRam": 2,
+      "retailPower": null,
+      "officialRulesEnglish": "{Quick} {Spend} Play a Gear with cost 2 or less from your hand for free. When a friendly equipped Unit is defeated, search the top 2 cards of your deck and trash 1."
     },
     {
       "id": "040",
@@ -615,7 +626,13 @@
       "betaId": "B068",
       "officialUrl": "https://cyberpunktcg.com/cards/live-with-the-aftermath",
       "retailImageUrl": null,
-      "imageStatus": "pending-verification"
+      "imageStatus": "pending-verification",
+      "mappingStatus": "official-printing-verified",
+      "retailRarity": "Common",
+      "retailCost": 3,
+      "retailRam": 3,
+      "retailPower": null,
+      "officialRulesEnglish": "Each player defeats one of their Units."
     },
     {
       "id": "069",
@@ -633,7 +650,12 @@
       "officialUrl": "https://cyberpunktcg.com/cards/the-heist",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "official-printing-verified",
+      "retailRarity": "Uncommon",
+      "retailCost": 2,
+      "retailRam": 2,
+      "retailPower": null,
+      "officialRulesEnglish": "Trash 4. Add a Gear from among them to your hand. If that Gear's cost equals the value of a friendly Gig, you may play it for free instead."
     },
     {
       "id": "071",
@@ -885,7 +907,12 @@
       "officialUrl": "https://cyberpunktcg.com/cards/don-t-fear-the-reaper",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "official-printing-verified",
+      "retailRarity": "Rare",
+      "retailCost": 7,
+      "retailRam": 3,
+      "retailPower": null,
+      "officialRulesEnglish": "Spend all rival Units. Then, defeat a spent Unit."
     },
     {
       "id": "099",
@@ -929,7 +956,13 @@
       "betaId": "B103",
       "officialUrl": "https://cyberpunktcg.com/cards/take-control",
       "retailImageUrl": null,
-      "imageStatus": "pending-verification"
+      "imageStatus": "pending-verification",
+      "mappingStatus": "official-printing-verified",
+      "retailRarity": "Uncommon",
+      "retailCost": 2,
+      "retailRam": 2,
+      "retailPower": null,
+      "officialRulesEnglish": "{Quick} A rival Unit steals 1 fewer Gig this turn. If that Unit is an AI, DRONE, or VEHICLE, draw 1."
     },
     {
       "id": "104",
@@ -1117,7 +1150,12 @@
       "officialUrl": "https://cyberpunktcg.com/cards/psycho-squad",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "official-printing-verified",
+      "retailRarity": "Common",
+      "retailCost": 4,
+      "retailRam": 1,
+      "retailPower": 6,
+      "officialRulesEnglish": "[Flavour] Their protocol stops at “shoot first.”"
     },
     {
       "id": "125",
@@ -1330,7 +1368,12 @@
       "officialUrl": "https://cyberpunktcg.com/cards/river-ward-detective-on-the-hunt",
       "retailImageUrl": null,
       "imageStatus": "pending-verification",
-      "mappingStatus": "provisional-from-beta-number"
+      "mappingStatus": "official-printing-verified",
+      "retailRarity": "Rare",
+      "retailCost": null,
+      "retailRam": 2,
+      "retailPower": null,
+      "officialRulesEnglish": "{Quick} {Spend} Play a Gear with cost 2 or less from your hand for free. When a friendly equipped Unit is defeated, search the top 2 cards of your deck and trash 1."
     },
     {
       "id": "149",
