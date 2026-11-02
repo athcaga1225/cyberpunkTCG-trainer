@@ -82,3 +82,13 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 - Valid printed zero PWR is preserved on B053, B054, B062 and B079.
 - Scope: cross-check to the official **current** English card database with matching Beta printings listed. This does **not** independently validate historical Beta physical-card differences, translation accuracy, tags, rarity, images or effects.
 - Progress for current-value checks: 80/178 (prior B001–B039 40 printings, plus this B040–B079 40 printings).
+
+
+## Beta COST / RAM / POW audit — B080–B119 (2026-11-02)
+
+- Reviewed the 40 sequential Beta card entries B080–B119 in `beta-cards.json` and checked each corresponding currently published official card detail (including Beta printing listed on the card page): COST, RAM, PWR, card type and presence/absence of printed values. No numerical discrepancies identified; no edits to the card JSON required.
+- B080–B105 have Green card color; B106–B119 have Blue card color. Counts: 22 Units, 4 Gear, 9 Programs, 5 Legends.
+- Nine Program entries B097–B105 have no PWR; four Legends B106–B108 and B110 have no COST or PWR. These fields must stay `null`, rather than be displayed as 0.
+- Valid zero PWR values confirmed for B090, B109, B111, B113 and B119. B109 (Sasha Yakovleva) is a Legend with COST 5, RAM 2 and PWR 0; it must not be grouped with the costless Legends.
+- Scope: verified against the official *current English card database*. The site's default view may be Retail but includes links for the matching Beta printing. Historical printed Beta-specific deviations, card art, rarity, tags and translated effects remain separate audit tasks.
+- Current-stat audit cumulative coverage: 120/178 entries (B001–B119, with B005A and B005B both counted).
