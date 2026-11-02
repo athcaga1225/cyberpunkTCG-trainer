@@ -211,7 +211,7 @@ series.addEventListener('change',filter);
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
-fetch('./beta-cards.json?v=29',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
+fetch('./beta-cards.json?v=30',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
  const cards=data.cards||[];
  // Validate the actual Beta numbering: B005 has two printings (A/B);
  // B172 is not part of this 178-card index. The six T cards are Box Toppers.
