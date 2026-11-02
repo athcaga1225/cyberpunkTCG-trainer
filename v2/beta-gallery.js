@@ -96,7 +96,11 @@ function openCard(c){
  const source=create('a','');
  source.href=c.abilitySource||c.imageSource||c.imageUrl;
  source.target='_blank';source.rel='noopener noreferrer';
- source.textContent=c.abilitySource?'官方能力原文 ↗':'卡牌來源 ↗';
+ source.className='beta-source-link';
+ source.append(create('span','beta-source-label',c.abilitySource?'官方原文':'卡牌來源'));
+ const arrow=create('span','beta-source-arrow','↗');
+ arrow.setAttribute('aria-hidden','true');
+ source.append(arrow);
  links.append(source);info.append(links);
  // Show only verified matching printings; never infer from title alone.
  const variants=all.filter(other=>samePrintingFamily(c,other));
