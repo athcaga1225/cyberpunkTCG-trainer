@@ -16,14 +16,18 @@ let all=[],starterCards=[],filtered=[],page=0,active='beta';
 // identity. English accents vary across catalog sources (Álvarez / Alvarez),
 // and Chinese wording may differ even when the original rules are identical.
 const normalizedCardName=c=>String(c.name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+// Normalize superficial whitespace differences without ever merging different
+// gameplay text, types, colors or stats just because the names are the same.
+const normalizedRules=value=>String(value||'').replace(/\s+/g,' ').trim();
 const samePrintingFamily=(a,b)=>{
  if(normalizedCardName(a)!==normalizedCardName(b))return false;
  if(a.type!==b.type || a.color!==b.color || a.cost!==b.cost || a.ram!==b.ram || a.power!==b.power)return false;
- // If both official English rules are present, compare them. When either is
- // absent, require identical translated effects; never join on name alone.
- if(a.abilityEnglish && b.abilityEnglish)return a.abilityEnglish.trim()===b.abilityEnglish.trim();
- return !!a.abilityZh && a.abilityZh===b.abilityZh;
+ if(a.abilityEnglish && b.abilityEnglish)return normalizedRules(a.abilityEnglish)===normalizedRules(b.abilityEnglish);
+ return !!a.abilityZh && normalizedRules(a.abilityZh)===normalizedRules(b.abilityZh);
 };
+const samePrinting=(a,b)=>a.id===b.id&&a.set===b.set&&a.deck===b.deck;
+const searchIdentifiers=c=>[c.id,printedNumber(c),c.set==='topper'?'B'+c.id.slice(1):'']
+ .filter(Boolean).map(x=>x.toLowerCase().replace(/^β/,'b'));
 const zhName=c=>c.nameZh||window.NCTLocale?.cardName?.(c.name)||c.name;
 // T001–T006 are internal identifiers; the actual Box Topper Beta printings read β001–β006.
 const printedNumber=c=>c.set==='topper'?'β'+c.id.slice(1):c.id;
@@ -120,9 +124,12 @@ function switchTo(view){
 }
 buttons.forEach(btn=>btn.addEventListener('click',()=>switchTo(btn.dataset.cardView)));
 function filter(){
- const q=search.value.toLowerCase().trim();
+ const q=search.value.toLowerCase().trim().replace(/^β/,'b');
  const choice=rarity.value,set=series.value;
- filtered=all.filter(c=>(set==='all'||c.set===set)&&(choice==='all'||c.rarity===choice)&&(!q||c.id.toLowerCase().includes(q)||(c.set==='topper'&&('b'+c.id.slice(1)).includes(q))||c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q)));
+ const cardNumberQuery=/^(?:b|t)?\d{1,3}[ab]?$/.test(q);
+ filtered=all.filter(c=>(set==='all'||c.set===set)&&(choice==='all'||c.rarity===choice)&&
+  (!q||(cardNumberQuery?searchIdentifiers(c).some(id=>id===q||id.replace(/^[bt]/,'')===q||(/^[bt]\d{3}[ab]?$/.test(q)&&id.startsWith(q))):
+    searchIdentifiers(c).some(id=>id.includes(q))||c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q))));
  page=0;render();
 }
 
@@ -199,7 +206,7 @@ function openCard(c){
  // A shared card identity can have booster, Box Topper, and starter printings.
  // Confirm a matching canonical rules identity; printing-specific fields stay separate.
  const variants=[...all,...starterCards].filter(other=>samePrintingFamily(c,other));
- if(!variants.some(other=>other.id===c.id && other.set===c.set && other.deck===c.deck))variants.unshift(c);
+ if(!variants.some(other=>samePrinting(other,c)))variants.unshift(c);
  let versions=null;
  {
   versions=create('section','beta-printings');
@@ -207,7 +214,7 @@ function openCard(c){
   const strip=create('div','beta-printing-strip');
   for(const variant of variants){
    const button=create('button','beta-printing-option');button.type='button';
-   if(variant.id===c.id && variant.set===c.set && variant.deck===c.deck){button.classList.add('selected');button.setAttribute('aria-current','true')}
+   if(samePrinting(variant,c)){button.classList.add('selected');button.setAttribute('aria-current','true')}
    const thumbnail=create('img','');setBestArt(variant,thumbnail);thumbnail.alt=variant.id+' 卡面';thumbnail.loading='lazy';
    const variantLabel=printingLabel(variant)||'STARTER';
    button.append(thumbnail,create('span','',variantLabel));
@@ -217,7 +224,8 @@ function openCard(c){
   versions.append(strip);visual.append(versions);
  }
  detailBody.append(visual,info);
- root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.cardId===c.id)));
+ root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed',String(c.set!=='starter'&&el.dataset.cardId===c.id)));
+ starter.querySelectorAll('a[data-starter-key]').forEach(el=>el.setAttribute('aria-current',String(c.set==='starter'&&el.dataset.starterKey===c.starterKey)));
  if(!detail.open){
   if(window.NCTCardModal)window.NCTCardModal.open(detail);
   else detail.showModal();
@@ -347,7 +355,10 @@ function render(){
 }
 document.getElementById('betaDetailClose').addEventListener('click',()=>detail.close());
 detail.addEventListener('click',event=>{if(event.target!==detail)return;const r=detail.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)detail.close()});
-detail.addEventListener('close',()=>root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed','false')));
+detail.addEventListener('close',()=>{
+ root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed','false'));
+ starter.querySelectorAll('a[data-starter-key]').forEach(el=>el.removeAttribute('aria-current'));
+});
 search.addEventListener('input',filter);
 rarity.addEventListener('change',filter);
 series.addEventListener('change',filter);
