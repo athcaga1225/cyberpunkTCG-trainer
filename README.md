@@ -72,3 +72,13 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 - Null COST / POW on applicable Legends and null POW on Programs are intentional printed dashes / absent values, not numeric zero.
 - This is a current-official-card-database value audit; it does not independently establish every historical Beta printing's physical stats or validate card effects, image, rarity, and translations.
 - Popup V2: B116 / B171 number, set, and rarity now occupy stable grid columns; visual browser acceptance is still pending.
+
+
+## Beta COST / RAM / POW audit — B040–B079 (2026-11-02)
+
+- Checked 40 consecutive Beta index entries (B040–B079) against each matching official cyberpunktcg.com card detail page for current **COST, RAM, PWR** and printed card type. All 40 entries matched the currently published official values; no data value changes required.
+- B040–B070 are Yellow; B071–B079 are Green. The full batch has 1 Yellow Legend, 18 Yellow Units, 6 Yellow Gears, 6 Yellow Programs, 5 Green Legends and 4 Green Units.
+- Deliberate nulls: B065–B070 (Programs) have no printed PWR; B071, B072, B074, B075 (Legends) have no printed COST or PWR. These remain `null` to display an em dash rather than zero.
+- Valid printed zero PWR is preserved on B053, B054, B062 and B079.
+- Scope: cross-check to the official **current** English card database with matching Beta printings listed. This does **not** independently validate historical Beta physical-card differences, translation accuracy, tags, rarity, images or effects.
+- Progress for current-value checks: 80/178 (prior B001–B039 40 printings, plus this B040–B079 40 printings).
