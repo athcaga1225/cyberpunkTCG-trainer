@@ -2217,8 +2217,10 @@ header nav button.active{font-weight:400}
  }
  #decks #betaCardDetail .beta-detail-image-frame img{border-radius:10px!important}
  #decks #betaCardDetail .beta-printings{
-  width:100%!important;max-width:none!important;
-  margin:12px 0 0!important;
+  /* Artwork column has 12px horizontal padding; detail text has 28px.
+     Inset the heading by 16px on each side to share the same left edge. */
+  width:calc(100% - 32px)!important;max-width:none!important;
+  margin:12px 16px 0!important;
   padding-top:11px!important;
  }
  #decks #betaCardDetail .beta-printings h4{
