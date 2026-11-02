@@ -55,8 +55,8 @@ const verifiedCharacterNames={
  'Johnny Silverhand':'銀手強尼',
  'Muamar Reyes':'「酋長」穆瑪．雷耶斯',
  'Sandayu Oda':'織田',
- 'Misty Olszewski':'迷霧',
- 'Rogue Amendiares':'若惡',
+ 'Misty Olszewski':'迷霧．歐爾雪夫斯基',
+ 'Rogue Amendiares':'若惡．亞門迪亞雷斯',
  'Royce':'萊斯',
  // La Llorona is a moniker, not a personal name; do not label the card Teresa.
  'La Llorona':'哭泣的女人'
@@ -66,6 +66,14 @@ const localizedCardOverrides={
  'Valentino Street Racer':'瓦倫提諾會街頭車手',
  'Placide: Voodoo Sentinel':'泰然：巫毒哨兵',
  'Secondhand Bombus':'二手熊蜂無人機',
+ 'Rita Wheeler: No Stupid Questions':'莉塔．惠勒：沒有蠢問題',
+ 'Pepe Najarro: Working Doubles':'佩裴．納傑羅：連上兩班',
+ '6th Street Recruits':'六街遊俠新兵',
+ 'Valentino Guerrera':'瓦倫提諾會英雄',
+ 'Tetratronic Rippler':'肆強電子波紋戌型',
+ 'Zetatech Berserk':'ZETA科技狂暴',
+ 'Kiroshi Optics':'喜呂志光學裝置',
+ 'Reboot Optics':'視覺重啟',
  'Pacifica Netrunner':'太平洋竄網使'
 };
 const refineCardChineseName=value=>String(value||'')
