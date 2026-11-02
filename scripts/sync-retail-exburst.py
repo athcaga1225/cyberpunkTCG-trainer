@@ -51,13 +51,18 @@ def main():
             _, body = request(page)
             parser = Metadata()
             parser.feed(body.decode("utf-8","replace"))
-            if card_id == "141":
-                page_text = body.decode("utf-8","replace")
-                print("141 HTML bytes:",len(body),"render occurrences:",page_text.count("render-"),"og:image occurrences:",page_text.count("og:image"))
-                for marker in ("cdn.exburst.dev","render-","og:image"):
-                    pos=page_text.find(marker)
-                    if pos>=0: print("141",marker,"context:",page_text[max(0,pos-160):pos+250])
-            matches = [html.unescape(x) for x in parser.images if valid(x)]
+            # ExBurst's social preview is not the card art. JSON-LD carries the
+            # per-printing actual render URL (not the og:image preview).
+            page_text = body.decode("utf-8","replace")
+            candidates = []
+            for match in re.findall(r'<script[^>]+type=["\\']application/ld\\+json["\\'][^>]*>(.*?)</script>',page_text,re.S|re.I):
+                try:
+                    record=json.loads(html.unescape(match))
+                    if isinstance(record,dict) and record.get("identifier")==f"MS01-{card_id}" and isinstance(record.get("image"),str):
+                        candidates.append(record["image"])
+                except (ValueError,TypeError):
+                    continue
+            matches = [html.unescape(x) for x in candidates if valid(x)]
             matches = list(dict.fromkeys(matches))
             if len(matches) != 1:
                 print(card_id, "not uniquely matched og:image",len(matches))
