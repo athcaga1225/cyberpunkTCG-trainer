@@ -152,9 +152,16 @@ function filter(){
   // Only normalize English terms for English-name matching. A Chinese query
   // must never become an empty ASCII string (which matches every card).
   const englishQuery=q.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+  const matchesTag=Array.isArray(c.tags)&&c.tags.some(tag=>{
+   const raw=String(tag||'');
+   const chinese=tagZh[raw.toUpperCase()]||'';
+   const english=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+   return (!!englishQuery&&english.includes(englishQuery))||raw.toLowerCase().includes(q)||chinese.includes(q);
+  });
   return ids.some(id=>id.includes(q))||
    (!!englishQuery&&normalizedCardName(c).includes(englishQuery))||
-   c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q);
+   c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q)||
+   matchesTag;
  });
  // Explicit card-number searches always return EVERY physical printing.
  // Name browsing, search and rarity filtering otherwise collapse only genuine
