@@ -2321,6 +2321,109 @@ header nav button.active{font-weight:400}
  -webkit-text-size-adjust:100%;
  text-size-adjust:100%;
 }
+
+/* V2 starter deck gallery: share Beta booster tile geometry and type scale.
+   Quantity belongs to the physical deck list and is overlaid, not a new row. */
+#decks #starterDeckGallery .deck-visual-grid{
+ display:grid;
+ grid-template-columns:repeat(5,minmax(0,1fr));
+ gap:16px;
+}
+#decks #starterDeckGallery .deck-tile{
+ position:relative;
+ display:flex;
+ flex-direction:column;
+ align-items:stretch;
+ min-width:0;
+ gap:5px;
+ padding:9px;
+ background:linear-gradient(150deg,#19161d,#0c1d22);
+ border:1px solid #4a3037;
+ border-radius:4px;
+ color:#eff8f9;
+ text-align:left;
+ text-decoration:none;
+ box-sizing:border-box;
+}
+#decks #starterDeckGallery .deck-tile:hover,
+#decks #starterDeckGallery .deck-tile:focus-visible{
+ transform:none;
+ border-color:#29ffff;
+ outline-offset:2px;
+}
+#decks #starterDeckGallery .deck-art{
+ width:100%;
+ aspect-ratio:5/7;
+ background:#0b1319;
+ border-radius:0;
+ overflow:hidden;
+}
+#decks #starterDeckGallery .deck-art img{object-fit:contain}
+#decks #starterDeckGallery .deck-tile .deck-name{
+ font-size:18px;
+ line-height:1.4;
+ font-weight:500;
+ min-height:0;
+ margin-top:7px;
+ padding:0;
+ overflow-wrap:anywhere;
+}
+#decks #starterDeckGallery .deck-tile .deck-original{
+ font-size:15px;
+ line-height:1.45;
+ color:#acbdc2;
+ min-height:0;
+ margin:0;
+ padding:0;
+ overflow-wrap:anywhere;
+}
+#decks #starterDeckGallery .deck-tile .deck-meta{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:6px;
+ font-size:14px;
+ line-height:1.4;
+ color:#abc1c7;
+ margin-top:auto;
+ padding-top:8px;
+}
+#decks #starterDeckGallery .deck-tile .deck-meta b{
+ position:absolute;
+ z-index:2;
+ top:16px;
+ right:16px;
+ min-width:33px;
+ height:33px;
+ border:1px solid rgba(248,80,74,.72);
+ border-radius:50%;
+ background:rgba(7,16,21,.94);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ box-sizing:border-box;
+ padding:0 5px;
+ font-size:12px;
+ line-height:1;
+ font-weight:600;
+ color:#f8fbfc;
+ letter-spacing:-.04em;
+ box-shadow:0 2px 10px rgba(0,0,0,.35);
+}
+@media(max-width:950px){
+ #decks #starterDeckGallery .deck-visual-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:700px){
+ #decks #starterDeckGallery .deck-visual-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+ #decks #starterDeckGallery .deck-tile{padding:7px}
+ #decks #starterDeckGallery .deck-tile .deck-name{font-size:16px}
+ #decks #starterDeckGallery .deck-tile .deck-original{font-size:14px}
+ #decks #starterDeckGallery .deck-tile .deck-meta b{top:12px;right:12px;min-width:29px;height:29px;font-size:11px}
+}
+@media(max-width:460px){
+ #decks #starterDeckGallery .deck-visual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2424,4 +2527,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v2/beta-gallery.js?v=21"></script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v2/beta-gallery.js?v=22"></script></body></html>
