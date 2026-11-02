@@ -32,7 +32,9 @@ const create=(tag,className,text)=>{const el=document.createElement(tag);if(clas
 const betaArtChoices=new Map();
 function alternativeBetaImage(c){
  if(c.set!=='beta'||!/^B[0-9]{3}[AB]?$/.test(c.id))return null;
- const slug=c.printingUrl?.split('/cards/')[1]?.split('?')[0];
+ const officialSlug=c.printingUrl?.split('/cards/')[1]?.split('?')[0];
+ const nameSlug=String(c.name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+ const slug=nameSlug||officialSlug;
  if(!slug)return null;
  return 'https://holohoard.app/api/img/cards/cyberpunk-tcg/welcome-to-night-city-beta/webp/'+c.id.toLowerCase()+'-'+slug+'.webp';
 }
