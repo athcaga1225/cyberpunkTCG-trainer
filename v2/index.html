@@ -2084,9 +2084,9 @@ header nav button.active{font-weight:400}
 
 
 /* V2: single source of truth for card attribute tags.
-   Adjust --tag-padding-y to change vertical padding. */
+   Adjust --tag-height to change pill height. */
 #decks #betaCardDetail .beta-detail-tags{
- --tag-padding-y:3px;
+ --tag-height:30px;
  --tag-padding-x:14px;
  display:flex;
  flex-wrap:wrap;
@@ -2100,15 +2100,16 @@ header nav button.active{font-weight:400}
  align-items:center;
  justify-content:center;
  box-sizing:border-box;
+ height:var(--tag-height);
  min-height:0;
- padding:var(--tag-padding-y) var(--tag-padding-x);
+ padding:0 var(--tag-padding-x);
  border:1.5px solid #51525b;
  border-radius:9999px;
  background:transparent;
  color:#dedee3;
  font-size:14px;
  font-weight:400;
- line-height:1.35;
+ line-height:1;
  letter-spacing:0;
  text-align:center;
  white-space:nowrap;
