@@ -486,7 +486,16 @@ detail.addEventListener('close',()=>{
  root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed','false'));
  starter.querySelectorAll('a[data-starter-key]').forEach(el=>el.removeAttribute('aria-current'));
 });
-search.addEventListener('input',filter);
+const clearSearch=document.getElementById('v3SearchClear');
+const syncClearSearch=()=>{if(clearSearch)clearSearch.hidden=!search.value.length};
+search.addEventListener('input',()=>{syncClearSearch();filter()});
+if(clearSearch)clearSearch.addEventListener('click',()=>{
+ search.value='';
+ syncClearSearch();
+ filter();
+ search.focus();
+});
+syncClearSearch();
 rarity.addEventListener('change',filter);
 series.addEventListener('change',()=>{
  // SERIES is a complete selector: switching from a quick category to
