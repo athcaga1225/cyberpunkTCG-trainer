@@ -375,7 +375,7 @@ function render(){
  for(let n=1;n<=totalPages;n++){const option=create('option','',`第 ${n} 頁`);option.value=String(n-1);pageSelect.append(option)}
  pageSelect.value=String(page);
  prev.disabled=page===0;next.disabled=page>=totalPages-1;
- count.textContent='顯示 '+filtered.length+' 張卡牌（'+(all.length+starterCards.length)+' 種印刷版本）';
+ count.textContent='顯示 '+filtered.length+' 張卡牌';
  if(!items.length)grid.append(create('p','beta-empty','沒有符合條件的卡牌。'));
 }
 document.getElementById('betaDetailClose').addEventListener('click',()=>detail.close());
