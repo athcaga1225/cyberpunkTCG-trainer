@@ -552,7 +552,7 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
   const retail=(manifest.cards||[]).map(entry=>{
    const base=cards.find(c=>c.id===entry.betaId&&c.name===entry.name);
    if(!base)return null;
-   return {...base,id:'R'+entry.id,set:'retail',imageUrl:entry.imageStatus==='verified'?entry.retailImageUrl:null,officialUrl:entry.officialUrl,retailNumber:entry.id};
+   return {...base,id:'R'+entry.id,set:'retail',imageUrl:entry.imageStatus==='verified'?entry.retailImageUrl:null,officialUrl:entry.officialUrl,retailNumber:entry.id,rarity:entry.retailRarity??base.rarity,cost:entry.retailCost!==undefined?entry.retailCost:base.cost,ram:entry.retailRam!==undefined?entry.retailRam:base.ram,power:entry.retailPower!==undefined?entry.retailPower:base.power,abilityEnglish:entry.officialRulesEnglish??base.abilityEnglish,retailVerification:entry.mappingStatus||'provisional'};
   }).filter(Boolean);
   if(!retail.length)return;
   all.push(...retail);
