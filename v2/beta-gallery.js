@@ -20,7 +20,7 @@ const samePrintingFamily=(a,b)=>a.set===b.set &&
  normalizedCardName(a)===normalizedCardName(b) &&
  a.type===b.type && a.color===b.color &&
  a.cost===b.cost && a.ram===b.ram && a.power===b.power &&
- !!a.abilityEnglish && a.abilityEnglish===b.abilityEnglish;
+ ((!!a.abilityEnglish && !!b.abilityEnglish && a.abilityEnglish===b.abilityEnglish) || (!a.abilityEnglish && !b.abilityEnglish && !!a.abilityZh && a.abilityZh===b.abilityZh));
 const zhName=c=>c.nameZh||window.NCTLocale?.cardName?.(c.name)||c.name;
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
 const setDisplayTitle=(el,name)=>{const i=String(name).indexOf('：');if(i<0){el.textContent=name;return}el.textContent=String(name).slice(0,i);el.append(create('span','card-title-subline',String(name).slice(i+1).trim()))};
