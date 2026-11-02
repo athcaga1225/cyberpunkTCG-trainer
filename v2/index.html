@@ -1,0 +1,2219 @@
+<!doctype html>
+<html lang="zh-Hant"><head>
+<base href="../"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#071015"><title>NIGHT CITY TRAINING // Cyberpunk TCG</title>
+<style>
+:root{font-family:"PingFang TC","Noto Sans TC",system-ui,sans-serif;color:#e9eff0;background:#071015;font-weight:400}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 85% 12%,#4a101c55,transparent 40%),#071015;min-height:100vh}button{font:inherit;cursor:pointer}header{display:flex;justify-content:space-between;align-items:center;padding:24px max(24px,5vw);border-bottom:1px solid #590a11}.brand{color:#29ffff;font-weight:750;letter-spacing:.15em}.tag{font-size:14px;letter-spacing:.22em;color:#f8504a}nav{display:flex;gap:12px;flex-wrap:wrap}nav button,.btn{border:1px solid #723039;background:#131314;color:#e9eff0;padding:11px 17px;border-radius:3px}nav button.active,.btn.primary{background:#f8504a;color:#071015;border-color:#f8504a;font-weight:700}.wrap{max-width:1180px;margin:auto;padding:48px 24px}h1{font-size:clamp(36px,6vw,72px);line-height:1.06;margin:14px 0 18px;letter-spacing:-.04em}h2{font-size:28px;color:#29ffff}p{color:#aebcc0;line-height:1.85}.lead{max-width:700px;font-size:18px}.panel{background:rgba(19,19,20,.7);border:1px solid #590a11;border-left:2px solid #f8504a;padding:24px;border-radius:3px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0}.number{color:#f8504a;font-size:14px;letter-spacing:.2em}.muted{color:#94a3a7}.hide{display:none!important}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.progress{height:4px;background:#29363a;margin:20px 0}.progress span{display:block;background:#f8504a;height:100%;transition:width .25s}.arena{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}.zone{min-height:220px;border:1px dashed #547076;padding:20px;background:#0b171c}.card{width:145px;min-height:195px;background:linear-gradient(145deg,#35131c,#101c22);border:1px solid #f8504a;padding:13px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 12px 35px #0008}.card strong{color:#29ffff}.card small{color:#b8c9cd}.hand{display:flex;gap:12px;flex-wrap:wrap}.notice{border-left:2px solid #29ffff;padding:12px 18px;background:#0e2328;margin-top:18px;color:#b9d6da}.footer{border-top:1px solid #304044;padding:24px 5vw;color:#84969a;font-size:14px}a{color:#29ffff}@media(max-width:750px){header{align-items:flex-start;gap:18px;flex-direction:column}.grid,.arena{grid-template-columns:1fr}.wrap{padding-top:30px}.card{width:135px}}
+ .lab-choice{border:1px solid #590a11} .panel h3{margin:8px 0;font-size:17px} .panel select{max-width:100%} .panel strong{line-height:1.5} #labStage .zone{min-height:150px} #deckRows .panel{padding:16px} #verifiedCardList .panel{padding:15px}/* STARTER DECK GALLERY - static HTML first; works without JS */
+.deck-collection{margin:26px 0 38px;border:1px solid #590a11;border-left:2px solid #f8504a;background:rgba(19,19,20,.75);border-radius:4px;overflow:hidden}
+.deck-collection:nth-of-type(even){border-left-color:#29ffff}
+.deck-collection summary{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;list-style:none;cursor:pointer;padding:24px;background:linear-gradient(100deg,#36131b99,#091318);border-bottom:1px solid #3c1d22}
+.deck-collection summary::-webkit-details-marker{display:none}.deck-label{color:#f8504a;font-size:14px;letter-spacing:.15em}.deck-summaryline{display:flex;flex-direction:column;gap:5px;flex:1;min-width:160px}.deck-summaryline strong{font-size:clamp(24px,3vw,34px);color:#eff8f9}.deck-summaryline small{font-size:14px;letter-spacing:.1em;color:#98b1b5}.deck-summaryhint{font-size:14px;color:#90a5aa}.deck-summaryhint span{font-size:22px;margin-left:4px;color:#29ffff}.deck-inner{padding:24px}.deck-inner>h2{font-size:20px;letter-spacing:.12em;margin:30px 0 14px}.deck-inner>h2 small{font-size:14px;color:#87999e}.deck-visual-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:16px}.deck-tile{min-width:0;color:inherit;text-decoration:none;display:flex;flex-direction:column;background:linear-gradient(145deg,#19151b,#0c1c23);border:1px solid #4a3037;padding:9px;border-radius:4px;transition:transform .2s,border-color .2s}.deck-tile:hover,.deck-tile:focus-visible{transform:translateY(-3px);border-color:#f8504a;outline-offset:3px}.deck-art{width:100%;aspect-ratio:0.72;position:relative;background:linear-gradient(150deg,#591720,#152830);border-radius:2px;overflow:hidden;display:flex;align-items:center;justify-content:center}.deck-art img{width:100%;height:100%;object-fit:contain;position:absolute;inset:0}.deck-art-fallback{font-weight:700;font-size:14px;text-align:center;color:#29ffff;padding:8px;letter-spacing:.04em}.deck-art-fallback span{display:block;font-weight:400;font-size:14px;margin-top:12px;line-height:1.4;color:#ccd}.deck-name{font-size:14px;line-height:1.45;min-height:39px;padding:10px 1px 5px;color:#eff8f9;font-weight:500}.deck-meta{display:flex;justify-content:space-between;gap:4px;align-items:center;margin-top:auto;font-size:14px;letter-spacing:.04em;color:#91acb1}.deck-meta b{font-size:16px;color:#f8504a}#deckImageDialog{border:1px solid #f8504a;background:#071015;color:#eee;max-width:min(94vw,550px);max-height:95vh;padding:18px}#deckImageDialog::backdrop{background:rgba(0,0,0,.85)}.deck-dialog-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}.deck-dialog-wrap img{max-width:100%;max-height:70vh;object-fit:contain}.deck-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:24px;width:100%;font-size:14px}@media(max-width:650px){.deck-inner{padding:12px}.deck-collection summary{padding:15px}.deck-visual-grid{grid-template-columns:repeat(auto-fill,minmax(126px,1fr));gap:9px}.deck-tile{padding:6px}}
+.terminology-compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}.terminology-compare>div{padding:18px;border:1px solid #2b4248;background:#0b1d22}.terminology-compare strong{display:block;color:#29ffff;font-size:18px;margin-top:8px}.terminology-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0 32px}.term-entry{background:rgba(19,19,20,.7);border:1px solid #590a11;border-left:2px solid #f8504a}.term-entry summary{padding:15px;cursor:pointer;display:flex;justify-content:space-between;gap:12px;list-style:none;color:#e9eff0}.term-entry summary::-webkit-details-marker{display:none}.term-entry summary span{color:#f8504a}.term-entry>div{border-top:1px solid #3d2328;padding:4px 16px 14px}.term-entry>div p{margin:10px 0}.term-example{background:#0d242b;border-left:2px solid #29ffff;padding:12px;font-size:14px}@media(max-width:740px){.terminology-compare,.terminology-list{grid-template-columns:1fr}}.deck-original{color:#91a9ae;font-size:14px;line-height:1.35;padding:0 1px 9px;min-height:30px;overflow-wrap:anywhere}.deck-tile .deck-name{min-height:0;font-size:14px}.deck-tile .deck-original{margin-top:-2px}.learning-overview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}.learning-overview h2{font-size:20px}.learning-overview .panel{padding:20px}.chapter-nav{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}.chapter-nav button{border:1px solid #6b383f;background:#11181d;color:#eef0f1;padding:10px 13px;border-radius:3px;min-width:42px}.chapter-nav button[aria-current="step"]{background:#f8504a;border-color:#f8504a;color:#071015;font-weight:700}.chapter-nav button[disabled]{opacity:.4;cursor:not-allowed}.chapter-nav button.completed:not([aria-current="step"]){border-color:#29ffff;color:#29ffff}.chapter-progress{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.chapter-learning{border:1px solid #27515b;border-left:3px solid #29ffff;background:#0b1f27;padding:18px 20px;margin:18px 0}.chapter-learning h3{margin:0 0 8px;color:#29ffff;font-size:19px}.chapter-learning p{margin:0 0 4px}.chapter-quiz{margin-top:22px;border-top:1px solid #34454c;padding-top:18px}.chapter-actions{display:flex;gap:12px;flex-wrap:wrap}.chapter-actions .btn[disabled]{opacity:.5;cursor:not-allowed}@media(max-width:750px){.learning-overview{grid-template-columns:1fr}.chapter-nav{gap:7px}.chapter-nav button{min-width:35px;padding:8px 9px}}
+/* Experimental battle readability: browser button defaults were black on dark cards. */
+#battle .hand{gap:14px;align-items:stretch}
+#battle button.card{
+  appearance:none;
+  -webkit-appearance:none;
+  display:flex;
+  align-items:flex-start;
+  justify-content:flex-start;
+  gap:16px;
+  width:166px;
+  min-height:202px;
+  padding:16px 14px;
+  color:#e8f7f8;
+  background:linear-gradient(155deg,#36141e 0%,#15252d 82%);
+  border:1px solid #c84651;
+  border-left:2px solid #f8504a;
+  border-radius:4px;
+  text-align:left;
+  white-space:pre-line;
+  overflow-wrap:anywhere;
+  line-height:1.6;
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:.012em;
+  text-shadow:none;
+  box-shadow:0 12px 28px #0007;
+}
+#battle button.card:hover:not(:disabled),#battle button.card:focus-visible:not(:disabled){
+  border-color:#29ffff;
+  box-shadow:0 0 0 1px #29ffff55,0 12px 28px #0007;
+  transform:translateY(-2px);
+}
+#battle button.card:disabled{
+  color:#b4c8cb;
+  background:linear-gradient(155deg,#25161d,#102026);
+  border-color:#77444a;
+  opacity:.76;
+  cursor:not-allowed;
+  box-shadow:none;
+}
+#battle .zone{min-height:190px}
+#battle #battleHand{margin-top:14px}
+#battle #battleStatus{font-size:14px}
+#battle #endTurn:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:750px){#battle button.card{width:calc(50% - 8px);min-width:138px;max-width:188px;min-height:170px}}
+@media(prefers-reduced-motion:no-preference){#battle button.card{transition:transform .15s,border-color .15s,box-shadow .15s}}
+
+/* PLAYFIELD TOUR - zones arranged like a tabletop; no invented gameplay mechanics. */
+#battle .board-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:18px}
+#battle .board-intro h1{margin:10px 0 6px;font-size:clamp(34px,5vw,60px)}
+#battle .board-intro p{max-width:680px}
+#battle .board-tour-controls{display:flex;gap:10px;flex-wrap:wrap}
+#battle .board-tour{position:relative;isolation:isolate;margin:20px 0 16px;border:1px solid #590a11;background:linear-gradient(135deg,#05131b,#11141c 40%,#0b1d23);padding:12px;border-radius:8px;min-height:730px}
+#battle .table-preview{display:grid;grid-template-columns:1.03fr 1.85fr 1.06fr;grid-template-areas:
+"opp-hand opp-legends opp-eddies"
+"opp-fixer opp-field opp-deck"
+"opp-gigs opp-field turn"
+"p-gigs p-field turn"
+"p-fixer p-field p-deck"
+"p-hand p-legends p-eddies";grid-auto-rows:minmax(98px,auto);gap:6px}
+#battle .board-tour.has-spotlight::before{content:"";pointer-events:none;position:absolute;inset:0;z-index:1;background:#02060cb8;border-radius:8px}
+#battle .preview-zone{background:#0b1921;border:1px solid #2f5964;border-radius:5px;padding:13px;display:flex;flex-direction:column;gap:8px;position:relative;min-width:0}
+#battle .preview-zone small{font-size:14px;letter-spacing:.08em;color:#88acb4}
+#battle .preview-zone .placeholder-label{font-size:14px;color:#b4c6cc}
+#battle .preview-zone[data-tour-highlight]{z-index:2;outline:3px solid #ffe66b;outline-offset:-3px;box-shadow:0 0 20px #ffe66b33;background:#182f36}
+#battle .preview-zone[data-tour-highlight] small{color:#ffe66b}
+#battle .preview-zone strong{font-size:19px;color:#29ffff}
+#battle .preview-zone span{font-size:14px;color:#a6bdc4}
+#battle .opponent-hand{grid-area:opp-hand}#battle .opponent-legends{grid-area:opp-legends}#battle .opponent-eddies{grid-area:opp-eddies}
+#battle .opponent-fixer{grid-area:opp-fixer}#battle .opponent-field{grid-area:opp-field}#battle .opponent-deck{grid-area:opp-deck}#battle .opponent-gigs{grid-area:opp-gigs}
+#battle .turn-info{grid-area:turn;justify-content:center;text-align:center;background:#20161f}#battle .turn-info strong{color:#f8504a}
+#battle .player-hand{grid-area:p-hand}#battle .player-legends{grid-area:p-legends}#battle .player-eddies{grid-area:p-eddies}
+#battle .player-fixer{grid-area:p-fixer}#battle .player-field{grid-area:p-field}#battle .player-deck{grid-area:p-deck}#battle .player-gigs{grid-area:p-gigs}
+#battle .cardbacks{display:flex;gap:8px;max-width:100%;height:115px;align-items:stretch}
+#battle .backcard{background:repeating-linear-gradient(145deg,#071015 0 14px,#0d2530 14px 18px,#071015 18px 28px);border:1px solid #e55456;border-radius:3px;flex:1;max-width:75px;min-width:0;color:#f8504a;display:grid;place-items:center;font-size:19px;letter-spacing:.11em;font-weight:800;text-shadow:0 1px 3px #000;transform:none}
+#battle .mini-dice{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:auto 0}
+#battle .mini-dice span{display:grid;place-items:center;min-width:31px;height:35px;border:1px solid #83a5b0;clip-path:polygon(50% 0,100% 28%,100% 72%,50% 100%,0 72%,0 28%);font-size:14px;color:#d6e8eb}
+#battle .field-slots{display:flex;gap:8px;min-height:164px;flex:1;align-items:stretch}
+#battle .field-slots div{border:1px dashed #406575;background:#10232b;border-radius:3px;flex:1;display:grid;place-items:center;text-align:center;font-size:14px;color:#86a0a7;padding:7px}
+#battle .deck-pile{font-size:24px;color:#29ffff;letter-spacing:.1em;border:1px solid #3f626d;border-radius:3px;align-self:center;text-align:center;padding:14px;min-width:78px}
+#battle .deck-pile span{font-size:14px}
+#battle .hand-placeholder{display:flex;gap:7px;min-height:85px}
+#battle .hand-placeholder span{display:grid;place-items:center;background:#2c1b23;border:1px solid #6d3942;border-radius:3px;flex:1;font-size:14px}
+#battle .tour-coach{position:absolute;z-index:3;right:28px;top:28px;width:min(470px,calc(100% - 56px));background:#071015f5;border:2px solid #ffe66b;box-shadow:0 18px 55px #000d;border-radius:8px;padding:24px;max-height:min(85%,640px);overflow:auto}
+#battle .tour-coach[hidden]{display:none}
+#battle .tour-coach h2{font-size:27px;color:#f5f6f7;margin:10px 0}
+#battle .tour-coach p{line-height:1.8}
+#battle .tour-coach-header{display:flex;justify-content:space-between;align-items:center;gap:12px}
+#battle .tour-coach-header span{color:#ffe66b;font-size:14px;letter-spacing:.16em;font-weight:700}
+#battle .tour-mini{background:transparent;border:1px solid #38474c;color:#c7d8dc;padding:7px 9px;border-radius:3px;font-size:14px}
+#battle .tour-action{background:#ffe66b;color:#101418;font-weight:650;padding:15px;margin:16px 0;font-size:14px;line-height:1.6}
+#battle .tour-detail{font-size:14px;color:#9ec9d1}
+#battle .tour-coach-nav{display:flex;gap:10px;flex-wrap:wrap}
+#battle .tour-coach-nav button{min-width:100px}
+#battle .tour-coach-nav .primary{background:#ffe66b;color:#0c1721;border-color:#ffe66b}
+#battle .legacy-lab{border:1px solid #485459;background:#101a21;margin:25px 0}
+#battle .legacy-lab>summary{cursor:pointer;padding:15px 20px;color:#c5d0d2}
+#battle .legacy-lab .legacy-inner{padding:20px}
+@media(max-width:840px){#battle .board-tour{min-height:0}#battle .tour-coach{position:relative;inset:auto;top:auto;right:auto;margin:14px 0 0;width:100%;max-height:none;padding:18px}#battle .board-tour.has-spotlight::before{background:#01070b6b}#battle .table-preview{grid-template-columns:1fr 1.8fr 1fr;grid-auto-rows:minmax(80px,auto)}#battle .preview-zone{padding:8px}#battle .cardbacks{height:100px}#battle .field-slots{min-height:105px}}
+@media(max-width:530px){#battle .table-preview{grid-template-columns:1fr 1.3fr;grid-template-areas:
+"opp-hand opp-legends"
+"opp-eddies opp-fixer"
+"opp-gigs opp-deck"
+"opp-field opp-field"
+"turn turn"
+"p-field p-field"
+"p-gigs p-deck"
+"p-fixer p-eddies"
+"p-hand p-legends";gap:5px}
+#battle .table-preview .preview-zone{min-height:72px}
+#battle .cardbacks{height:80px}
+#battle .field-slots{min-height:100px}
+#battle .turn-info{min-height:78px}
+#battle .backcard{font-size:14px}
+#battle .mini-dice span{min-width:27px;height:29px;font-size:14px}
+#battle .preview-zone small{font-size:14px}
+#battle .tour-coach{padding:15px}
+#battle .tour-coach h2{font-size:23px}
+}
+/* WIDE DESKTOP BATTLEFIELD: only the battle view expands; other pages keep 1180px. */
+body.battle-wide .wrap{
+  max-width:1920px;
+  width:calc(100% - 36px);
+  padding:32px 0 56px;
+}
+body.battle-wide #battle .board-intro{
+  padding:0 10px 4px;
+}
+body.battle-wide #battle .board-tour{
+  width:100%;
+  padding:16px;
+  min-height:820px;
+}
+body.battle-wide #battle .table-preview{gap:9px}
+body.battle-wide #battle .preview-zone{padding:16px}
+body.battle-wide #battle .preview-zone small{font-size:14px}
+body.battle-wide #battle .preview-zone .placeholder-label{font-size:14px}
+body.battle-wide #battle .tour-coach{width:min(530px,calc(100% - 64px));top:32px;right:32px}
+@media(min-width:1200px){
+ body.battle-wide #battle .table-preview{
+   grid-template-columns:minmax(0,1.15fr) minmax(0,2.2fr) minmax(0,1.15fr);
+   grid-auto-rows:minmax(126px,auto);
+   gap:10px;
+ }
+ body.battle-wide #battle .cardbacks{height:148px;gap:12px}
+ body.battle-wide #battle .backcard{max-width:104px;font-size:23px}
+ body.battle-wide #battle .field-slots{min-height:236px;gap:12px}
+ body.battle-wide #battle .field-slots div{font-size:14px}
+ body.battle-wide #battle .hand-placeholder{min-height:112px}
+ body.battle-wide #battle .mini-dice span{min-width:37px;height:42px;font-size:14px}
+}
+@media(max-width:1199px){
+ body.battle-wide #battle .table-preview{grid-auto-rows:minmax(94px,auto)}
+ body.battle-wide #battle .preview-zone{padding:10px}
+}
+@media(max-width:840px){
+ body.battle-wide .wrap{width:calc(100% - 24px);padding:26px 0 45px}
+ body.battle-wide #battle .board-tour{padding:10px;min-height:0}
+ body.battle-wide #battle .tour-coach{position:relative;width:100%;max-height:none;top:auto;right:auto}
+ body.battle-wide #battle .table-preview{grid-auto-rows:minmax(78px,auto);gap:6px}
+}
+@media(max-width:530px){
+ body.battle-wide .wrap{width:calc(100% - 16px)}
+ body.battle-wide #battle .board-tour{padding:7px}
+ body.battle-wide #battle .preview-zone{padding:8px}
+ body.battle-wide #battle .table-preview{grid-auto-rows:minmax(72px,auto);gap:5px}
+ body.battle-wide #battle .cardbacks{height:80px}
+ body.battle-wide #battle .field-slots{min-height:100px}
+}
+
+/* Fixed viewport-proportional tabletop on desktop, content-sized on phones. */
+@media(min-width:841px){
+ body.battle-wide #battle .board-tour{height:85vh;min-height:0;padding:10px}
+ body.battle-wide #battle .table-preview{height:100%;min-height:0;grid-template-rows:repeat(6,minmax(0,1fr));grid-auto-rows:auto;gap:7px}
+ body.battle-wide #battle .preview-zone{min-height:0;padding:7px 10px;overflow:hidden}
+ body.battle-wide #battle .preview-zone small{font-size:14px;line-height:1.2}
+ body.battle-wide #battle .cardbacks{height:100%;max-height:100%;min-height:0;gap:5px}
+ body.battle-wide #battle .field-slots{min-height:0;height:100%;gap:7px}
+ body.battle-wide #battle .hand-placeholder{height:100%;min-height:0}
+ body.battle-wide #battle .deck-pile{min-width:55px;padding:5px 10px;font-size:19px}
+}
+#battle .preview-deck-label{display:flex;flex-direction:column;gap:4px;color:#9cb7bb;font-size:14px}
+#battle #battleDeckChoice{background:#0a1d24;color:#ecf4f5;min-width:160px}
+#battle .battle-preview-deckline{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:16px 10px 0;color:#29ffff;font-size:14px}
+#battle .preview-card-rail{display:flex;align-items:stretch;justify-content:flex-start;gap:0;overflow:hidden;width:100%;min-height:0;flex:1}
+#battle .preview-card-rail .preview-art-card{flex:0 0 27%;margin-right:-11%}
+#battle .preview-card-rail .preview-art-card:last-child{margin-right:0}
+#battle .preview-art-card{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;height:100%;max-height:160px;aspect-ratio:.71;padding:0;border:1px solid #9d4b52;border-radius:3px;background:#15212a;color:#e9f1f3;cursor:zoom-in;box-shadow:0 5px 12px #0008;overflow:hidden}
+#battle .preview-art-card img{width:100%;height:100%;position:absolute;inset:0;object-fit:contain;background:#101820}
+#battle .preview-art-card:hover:not(:disabled),#battle .preview-art-card:focus-visible:not(:disabled){transform:translateY(-3px);outline:2px solid #29ffff;outline-offset:-2px;z-index:3}
+#battle .preview-art-card.face-down{cursor:default;background:repeating-linear-gradient(135deg,#071015 0 9px,#d0b541 9px 18px,#090d13 18px 27px);border-color:#d5be50}
+#battle .preview-back-design{font-weight:800;color:#fff36a;text-shadow:0 2px #111;font-size:17px;transform:rotate(-30deg)}
+#battle .preview-art-fallback{font-size:14px;line-height:1.25;text-align:center;padding:4px;overflow-wrap:anywhere;color:#cbd7da}
+#battle .preview-art-card.missing-art{border-style:dashed;border-color:#ea8e65}
+#battle .cardbacks{width:100%;min-height:0}
+#battle .cardbacks .preview-art-card{flex:1;max-width:105px;margin-right:0}
+#battle .battle-card-dialog{border:2px solid #f8504a;background:#071015;color:#e4eef0;padding:16px;max-width:min(94vw,580px);max-height:95vh}
+#battle .battle-card-dialog::backdrop{background:#000d}
+#battle .battle-card-dialog-head{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px}
+#battle .battle-card-dialog img{display:block;max-height:70vh;max-width:100%;margin:0 auto;object-fit:contain}
+#battle .battle-card-dialog [hidden]{display:none}
+@media(max-width:840px){
+ body.battle-wide #battle .board-tour{height:auto;min-height:0}
+ #battle .preview-card-rail{min-height:86px}
+ #battle .preview-art-card{min-height:75px;max-height:120px}
+ #battle .cardbacks .preview-art-card{min-height:72px}
+}
+@media(max-width:530px){
+ #battle .preview-art-card{min-height:62px;max-height:88px}
+ #battle .preview-card-rail{min-height:76px}
+ #battle .preview-back-design{font-size:14px}
+ #battle .preview-art-fallback{font-size:14px}
+}
+
+/* Real Cyberpunk TCG reverse designs: Legends have a different back. */
+#battle .preview-art-card.face-down{
+  background:#0c1420;
+  border:1px solid #e9d65b;
+  box-shadow:0 5px 13px #0009;
+}
+#battle .preview-art-card.face-down .preview-back-design{
+  position:absolute;inset:0;display:flex;justify-content:center;align-items:center;
+  padding:6px;text-align:center;line-height:1.2;font-size:14px;transform:none;
+  letter-spacing:.03em;color:#ffe65e;font-weight:800;
+  background:#111c25;
+}
+#battle .preview-art-card.face-down .preview-card-back-image{
+  position:absolute;
+  left:50%;top:50%;width:141%;height:71%;
+  max-width:none;max-height:none;
+  transform:translate(-50%,-50%) rotate(-90deg);
+  object-fit:fill;
+  display:block;
+  background:transparent;
+  pointer-events:none;
+}
+#battle .preview-art-card.face-down.missing-back{
+  border-style:dashed;
+  border-color:#f8504a;
+}
+
+/* Card artwork hover: enlarged card floats above the board; click still opens a dialog. */
+#battleCardHover{
+ position:fixed;z-index:9998;pointer-events:none;
+ width:min(340px,calc(100vw - 32px));
+ box-sizing:border-box;padding:10px;
+ background:#071015f5;border:2px solid #29ffff;border-radius:8px;
+ box-shadow:0 18px 55px #000d,0 0 24px #29ffff26;
+ color:#eff8fa;
+}
+#battleCardHover[hidden]{display:none}
+#battleCardHover img{display:block;width:100%;max-height:min(67vh,480px);object-fit:contain}
+#battleCardHover img[hidden],#battleCardHover p[hidden]{display:none}
+#battleCardHover p{font-size:14px;line-height:1.45;text-align:center;margin:9px 1px 1px}
+#battleCardHover #battleHoverFallback{color:#b3c8cd}
+#battle .preview-art-card:not(.face-down){cursor:zoom-in}
+@media(hover:none), (pointer:coarse){#battleCardHover{display:none!important}}
+small{font-size:14px}#battle .preview-zone small{font-size:14px}#battle .preview-art-fallback{font-size:14px}#battle .preview-art-card .preview-back-design{font-size:14px}#battle .preview-art-card .preview-cardback{font-size:14px}
+body.battle-wide .wrap{padding-top:16px;padding-bottom:32px}
+body.battle-wide #battle .board-intro{align-items:center;margin-bottom:4px;gap:14px}
+body.battle-wide #battle .board-intro h1{font-size:clamp(28px,2.4vw,38px);line-height:1.1;margin:5px 0}
+body.battle-wide #battle .board-intro p{font-size:14px;line-height:1.55;margin:6px 0;max-width:720px}
+body.battle-wide #battle .board-tour-controls{gap:8px;align-items:center}
+body.battle-wide #battle .board-tour-controls .btn{padding:8px 11px}
+body.battle-wide #battle .battle-preview-deckline{margin-top:9px;margin-bottom:-6px}
+body.battle-wide #battle .board-tour{margin-top:12px}
+body.battle-wide #battle .tour-coach{width:min(380px,calc(100% - 30px));top:14px;right:14px;padding:14px 16px;max-height:calc(100% - 28px);border-width:1px;border-radius:10px;box-shadow:0 12px 35px #000c}
+body.battle-wide #battle .tour-coach h2{font-size:20px;line-height:1.35;margin:8px 0 3px;color:#f7f9fa}
+body.battle-wide #battle .tour-coach-header{gap:8px;align-items:flex-start}
+body.battle-wide #battle .tour-coach-tools{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+body.battle-wide #battle .tour-mini{padding:6px 8px;font-size:14px}
+body.battle-wide #battle .tour-coach.is-compact .tour-tip-details{display:none}
+body.battle-wide #battle .tour-tip-details{padding-top:4px}
+body.battle-wide #battle .tour-tip-details p{font-size:14px;line-height:1.55;margin:8px 0}
+body.battle-wide #battle .tour-action{margin:11px 0;padding:11px 12px;font-size:14px;line-height:1.5}
+body.battle-wide #battle .tour-coach-nav{gap:8px;margin-top:12px}
+body.battle-wide #battle .tour-coach-nav button{min-width:auto;padding:9px 14px}
+@media(max-width:840px){body.battle-wide #battle .tour-coach{position:relative;inset:auto;max-height:none;width:100%;margin:12px 0 0;padding:14px}body.battle-wide #battle .board-intro{align-items:stretch}body.battle-wide #battle .board-intro h1{font-size:30px}}
+
+/* All physical-card surfaces keep a portrait 5:7 aspect ratio, even inside CSS grid. */
+#battle { --tcg-card-ratio: 5 / 7; }
+#battle .preview-zone .field-slots {
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:clamp(6px,0.8vw,12px);
+  min-height:0;
+  height:auto;
+  flex:1 1 auto;
+  overflow:hidden;
+}
+#battle .preview-zone .field-slots > div {
+  flex:0 0 auto;
+  width:auto;
+  height:min(100%, 180px);
+  max-width:none;
+  aspect-ratio:var(--tcg-card-ratio);
+  border-radius:5px;
+  padding:7px;
+  overflow:hidden;
+  font-size:14px;
+  line-height:1.35;
+}
+#battle .preview-zone .cardbacks {
+  display:flex;
+  flex:1 1 auto;
+  align-items:center;
+  justify-content:flex-start;
+  gap:clamp(4px,0.6vw,10px);
+  height:auto;
+  max-height:100%;
+  min-height:0;
+  overflow:hidden;
+}
+#battle .preview-zone .cardbacks .preview-art-card,
+#battle .preview-zone .cardbacks .backcard {
+  flex:0 0 auto;
+  width:auto;
+  height:100%;
+  max-width:none;
+  max-height:100%;
+  min-width:0;
+  aspect-ratio:var(--tcg-card-ratio);
+  margin:0;
+  align-self:center;
+  border-radius:5px;
+}
+#battle .preview-zone .preview-card-rail {
+  align-items:center;
+  height:auto;
+  flex:1 1 auto;
+  max-height:100%;
+  min-height:0;
+  overflow:hidden;
+}
+#battle .preview-zone .preview-card-rail .preview-art-card {
+  box-sizing:border-box;
+  flex:0 0 auto;
+  height:100%;
+  width:auto;
+  max-height:100%;
+  max-width:none;
+  min-height:0;
+  aspect-ratio:var(--tcg-card-ratio);
+  margin-right:calc(-1 * clamp(14px,2.15vw,32px));
+  border-radius:5px;
+  align-self:center;
+}
+#battle .preview-zone .preview-card-rail .preview-art-card:last-child { margin-right:0; }
+#battle .preview-zone .preview-art-card img:not(.preview-card-back-image) {
+  object-fit:contain;
+}
+@media(max-width:840px){
+  #battle .preview-zone .field-slots > div { height:min(100%,130px);max-width:none; }
+  #battle .preview-zone .preview-card-rail .preview-art-card { min-height:0;max-height:100%; }
+  #battle .preview-zone .cardbacks .preview-art-card { min-height:0;max-height:100%; }
+}
+
+/* PLAYFIELD CLARITY V2 — visual hierarchy inspired by tabletop ergonomics. */
+@media(min-width:841px){
+ body.battle-wide #battle .table-preview{
+  grid-template-rows:minmax(0,1.5fr) minmax(0,.64fr) minmax(0,.78fr) minmax(0,.78fr) minmax(0,.64fr) minmax(0,1.5fr);
+  gap:6px;
+ }
+ body.battle-wide #battle .preview-zone{
+  gap:4px;
+  padding:5px 10px;
+ }
+ body.battle-wide #battle .preview-zone small{line-height:1.2;}
+ body.battle-wide #battle .preview-zone .preview-card-rail,
+ body.battle-wide #battle .preview-zone .cardbacks{align-items:stretch;min-height:0;max-height:100%;height:100%}
+ body.battle-wide #battle .preview-zone .preview-card-rail .preview-art-card,
+ body.battle-wide #battle .preview-zone .cardbacks .preview-art-card{
+  align-self:stretch;
+  max-height:none;
+  height:100%;
+  aspect-ratio:5 / 7;
+ }
+ body.battle-wide #battle .preview-zone .field-slots{height:100%;align-items:center;}
+ body.battle-wide #battle .preview-zone .field-slots>div{height:min(100%,185px);max-height:100%;aspect-ratio:5 / 7}
+}
+#battle .mini-dice{
+ display:flex;
+ flex-wrap:nowrap;
+ gap:clamp(4px,.7vw,12px);
+ align-items:center;
+ justify-content:space-evenly;
+ min-width:0;
+ width:100%;
+ margin:0;
+ padding:0 2px;
+}
+#battle .mini-dice .die-icon{
+ display:grid;
+ place-items:center;
+ position:relative;
+ width:clamp(40px,4vw,62px);
+ height:clamp(40px,4vw,62px);
+ min-width:0;
+ flex:1 1 0;
+ max-width:64px;
+ clip-path:none;
+ border:0;
+ color:#c5d9e5;
+ background:transparent;
+ overflow:visible;
+}
+#battle .mini-dice .die-icon svg{
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ fill:none;
+ stroke:#85a8b8;
+ stroke-width:2.3;
+ stroke-linejoin:round;
+ vector-effect:non-scaling-stroke;
+ filter:drop-shadow(0 0 2px #3b74883a);
+}
+#battle .mini-dice .die-icon b{
+ z-index:1;
+ font-size:14px;
+ font-weight:750;
+ line-height:1;
+ letter-spacing:0;
+ color:#dbeef4;
+}
+#battle .board-tour.has-spotlight::before{
+ display:none !important;
+}
+#battle .preview-zone[data-tour-highlight]{
+ outline:3px solid #ffe66b;
+ outline-offset:-2px;
+ z-index:2;
+ box-shadow:inset 0 0 0 1px #ffe66b55,0 0 17px #ffe66b25;
+ background:#11242e;
+}
+#battle .preview-zone .preview-art-card.face-down{
+ opacity:1!important;
+ filter:none!important;
+ background:#090d13;
+ border-color:#f6dc5d;
+}
+#battle .preview-zone .preview-art-card.face-down .preview-card-back-image{
+ opacity:1!important;
+ filter:none!important;
+ mix-blend-mode:normal!important;
+}
+#battle .preview-zone .preview-art-card.face-down .preview-back-design{
+ color:#ffe14d;
+ background:#0a0d13;
+}
+@media(max-width:840px){
+ #battle .mini-dice{gap:3px;justify-content:space-between}
+ #battle .mini-dice .die-icon{width:clamp(28px,8vw,50px);height:clamp(28px,8vw,50px)}
+ #battle .preview-zone .preview-card-rail .preview-art-card{max-height:160px}
+ #battle .preview-zone .cardbacks .preview-art-card{max-height:160px}
+}
+
+/* Card fan sized to preserve a fully visible final card. */
+@media(min-width:841px){
+ body.battle-wide #battle .table-preview{
+ grid-template-rows:minmax(0,1.58fr) minmax(0,.72fr) minmax(0,.70fr) minmax(0,.70fr) minmax(0,.72fr) minmax(0,1.95fr);
+ }
+ body.battle-wide #battle .player-hand,
+ body.battle-wide #battle .opponent-hand,
+ body.battle-wide #battle .player-legends,
+ body.battle-wide #battle .opponent-legends{padding:5px 8px}
+}
+#battle .preview-zone .preview-card-rail{align-items:center;justify-content:flex-start;overflow:hidden;flex-wrap:nowrap;gap:0}
+#battle .preview-zone .preview-card-rail .preview-art-card{
+ position:relative;flex:0 0 auto;max-height:100%;min-height:0;max-width:none;
+ height:100%;width:auto;aspect-ratio:5 / 7;
+ margin-right:calc(-1 * var(--preview-stack-overlap, 54px));
+ border-radius:5px;
+}
+#battle .preview-zone .preview-card-rail .preview-art-card:last-child{margin-right:0}
+#battle .preview-zone .preview-card-rail .preview-art-card:hover:not(:disabled){z-index:20!important;transform:translateY(-3px)}
+#battle .mini-dice .die-icon{width:clamp(56px,5.15vw,84px);height:clamp(56px,5.15vw,84px);max-width:84px;max-height:84px;flex:1 1 0}
+#battle .mini-dice .die-icon svg{stroke:#9ebdce;stroke-width:2.4}
+#battle .mini-dice .die-icon b{font-size:14px!important;letter-spacing:0;text-shadow:0 1px 2px #061017}
+#battle .preview-zone .preview-art-card.face-down{border-color:#d8c246;background:#080b10;box-shadow:0 3px 12px #000b}
+#battle .preview-zone .preview-art-card.face-down .preview-card-back-image{
+ filter:saturate(.7) contrast(1.24) brightness(.94)!important;
+ opacity:1!important;mix-blend-mode:normal!important;
+}
+#battle .preview-zone .preview-art-card.face-down .preview-back-design{background:#05080d;color:#e4d252}
+@media(max-width:840px){
+ #battle .mini-dice .die-icon{width:clamp(34px,8vw,58px);height:clamp(34px,8vw,58px);max-width:58px;max-height:58px}
+ #battle .preview-zone .preview-card-rail .preview-art-card{max-height:100%;min-height:0}
+}
+
+/* Unified navigation: the global header is the only page header on the tabletop. */
+#battle .battle-toolbar{display:flex;justify-content:flex-end;align-items:center;margin:0 0 4px;padding:0 3px}
+#battle .battle-toolbar .board-tour-controls{justify-content:flex-end}
+body.battle-wide .wrap{padding-top:12px}
+body.battle-wide #battle .battle-preview-deckline{margin:6px 4px 7px}
+body.battle-wide #battle .board-tour{margin-top:0}
+/* Larger readable starter gallery. Five main cards per desktop row, three legends. */
+#decks .deck-visual-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:17px}
+#decks .deck-inner>h2:first-of-type + .deck-visual-grid{
+ grid-template-columns:repeat(3,minmax(0,1fr));max-width:790px;
+}
+#decks .deck-tile{padding:11px;gap:0}
+#decks .deck-art{aspect-ratio:5 / 7}
+#decks .deck-tile .deck-name{font-size:18px;line-height:1.45;padding:13px 2px 5px;font-weight:500}
+#decks .deck-tile .deck-original{font-size:16px;line-height:1.45;min-height:0;padding:0 2px 12px;margin:0}
+#decks .deck-tile .deck-meta{font-size:14px;line-height:1.4}
+#decks .deck-tile .deck-meta b{font-size:16px}
+#decks .deck-collection summary{gap:15px}
+#decks .deck-summaryline{min-width:0}
+#decks .deck-summaryhint{margin-left:auto;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid #48595c;border-radius:4px}
+#decks .deck-summaryhint span{margin:0;color:#29ffff;font-size:26px;line-height:1}
+#decks .deck-collection[open] .deck-summaryhint .when-closed{display:none}
+#decks .deck-collection:not([open]) .deck-summaryhint .when-open{display:none}
+@media(max-width:950px){
+ #decks .deck-visual-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+ #decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(3,minmax(0,1fr));max-width:none}
+}
+@media(max-width:700px){
+ #decks .deck-visual-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+ #decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ #decks .deck-tile{padding:7px}
+ #decks .deck-tile .deck-name{font-size:16px}
+ #decks .deck-tile .deck-original{font-size:14px}
+ #battle .battle-toolbar{justify-content:flex-start}
+ #battle .battle-toolbar .board-tour-controls{justify-content:flex-start}
+}
+@media(max-width:460px){
+ #decks .deck-visual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Larger popup title and compact accessible close control. */
+#deckImageDialog .deck-dialog-head{
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:10px;
+}
+#deckImageDialog #deckDialogTitle{
+  font-size:clamp(20px,2vw,25px);
+  line-height:1.45;
+  letter-spacing:0;
+  font-weight:650;
+  color:#eff8f9;
+  overflow-wrap:anywhere;
+}
+#deckImageDialog .deck-dialog-close{
+  appearance:none;
+  flex:0 0 42px;
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  background:transparent;
+  border:1px solid #6b3c43;
+  border-radius:4px;
+  font-size:27px;
+  line-height:1;
+  color:#edf5f5;
+  cursor:pointer;
+}
+#deckImageDialog .deck-dialog-close:hover,
+#deckImageDialog .deck-dialog-close:focus-visible{
+  color:#29ffff;
+  border-color:#29ffff;
+  outline-offset:2px;
+}
+@media(max-width:650px){
+ #deckImageDialog #deckDialogTitle{font-size:20px}
+ #deckImageDialog .deck-dialog-head{gap:10px}
+}
+
+/* Polish: independent deck picker + responsive controls, no overlap with board. */
+body.battle-wide #battle .battle-toolbar {
+ display:grid;grid-template-columns:minmax(175px,225px) minmax(0,1fr);
+ gap:clamp(12px,2vw,28px);
+ align-items:end;justify-content:stretch;
+ padding:10px 6px 14px;
+ margin:0;
+ border-bottom:1px solid #34434a;
+}
+body.battle-wide #battle .battle-toolbar .preview-deck-label {
+ width:100%;min-width:0;
+ display:flex;flex-direction:column;gap:6px;
+ font-size:14px;
+}
+body.battle-wide #battle .battle-toolbar #battleDeckChoice {
+ width:100%;max-width:100%;
+ min-width:0;min-height:44px;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls {
+ display:flex;flex-wrap:wrap;
+ gap:9px;justify-content:flex-end;
+ align-items:center;min-width:0;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn {
+ min-height:44px;white-space:normal;
+ padding:9px 12px;font-size:14px;line-height:1.4;
+}
+body.battle-wide #battle .battle-preview-deckline{margin:10px 6px 7px;}
+/* Separate the translated name and English card title in the picture modal. */
+#deckImageDialog .deck-dialog-head{align-items:flex-start}
+#deckImageDialog .deck-popup-titles{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+#deckImageDialog #deckDialogTitle{
+ display:block;font-size:clamp(21px,2.25vw,27px);
+ font-weight:650;line-height:1.35;overflow-wrap:anywhere;
+}
+#deckImageDialog .deck-dialog-english{
+ display:block;font-size:16px;font-weight:400;
+ line-height:1.45;color:#9db6bc;overflow-wrap:anywhere;
+}
+#deckImageDialog .deck-dialog-english:empty{display:none}
+/* Legible tour text while retaining the compact title-only mode. */
+body.battle-wide #battle .tour-coach:not(.is-compact){
+ width:min(440px,calc(100% - 28px));padding:18px 20px;
+}
+body.battle-wide #battle .tour-coach h2{font-size:23px;line-height:1.4}
+body.battle-wide #battle .tour-tip-details p{
+ font-size:17px;line-height:1.72;margin:12px 0;
+}
+body.battle-wide #battle .tour-action{
+ font-size:17px;line-height:1.65;padding:13px 15px;
+}
+body.battle-wide #battle .tour-detail{font-size:16px;line-height:1.65;}
+body.battle-wide #battle .tour-coach-nav button{font-size:16px}
+/* Fixer = unrolled dice area. Enlarge geometric outlines, not the d4–d20 labels. */
+#battle .mini-dice{gap:clamp(4px,.65vw,10px);align-items:center;justify-content:space-between}
+#battle .mini-dice .die-icon{
+ width:clamp(51px,4.9vw,78px);height:clamp(51px,4.9vw,78px);
+ min-width:0;max-width:78px;max-height:78px;
+ flex:1 1 0;overflow:visible;
+}
+#battle .mini-dice .die-icon svg{
+ width:100%;height:100%;
+ transform:scale(1.16);
+ transform-origin:center;
+ stroke-width:2.3;
+}
+#battle .mini-dice .die-icon b{font-size:14px!important;transform:none;line-height:1}
+@media(min-width:841px){
+ body.battle-wide #battle .table-preview{
+  grid-template-rows:minmax(0,1.52fr) minmax(0,.88fr) minmax(0,.64fr) minmax(0,.64fr) minmax(0,.88fr) minmax(0,1.83fr);
+ }
+}
+@media(max-width:1199px){
+ body.battle-wide #battle .battle-toolbar{grid-template-columns:minmax(175px,220px) minmax(0,1fr)}
+ body.battle-wide #battle .battle-toolbar .board-tour-controls{justify-content:flex-start}
+}
+@media(max-width:840px){
+ body.battle-wide #battle .battle-toolbar{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:8px 3px 12px}
+ body.battle-wide #battle .battle-toolbar .preview-deck-label{max-width:330px}
+ body.battle-wide #battle .tour-coach:not(.is-compact){width:100%;padding:16px}
+ #battle .mini-dice .die-icon{width:clamp(35px,8vw,62px);height:clamp(35px,8vw,62px);max-width:62px;max-height:62px}
+ #battle .mini-dice .die-icon svg{transform:scale(1.10)}
+}
+
+/* Fixer dice: retain icon dimensions and center the dice in each area. */
+body.battle-wide #battle .preview-zone.player-fixer,
+body.battle-wide #battle .preview-zone.opponent-fixer{
+ justify-content:flex-start;
+}
+body.battle-wide #battle .preview-zone.player-fixer .mini-dice,
+body.battle-wide #battle .preview-zone.opponent-fixer .mini-dice{
+ flex:1 1 auto;
+ min-height:0;
+ margin:0;
+ padding:0 9px 3px;
+ align-items:center;
+ justify-content:space-around;
+}
+body.battle-wide #battle .mini-dice .die-icon{
+ max-width:72px;
+ max-height:72px;
+ width:clamp(42px,4.5vw,72px);
+ height:clamp(42px,4.5vw,72px);
+ flex:0 1 72px;
+}
+body.battle-wide #battle .mini-dice .die-icon svg{
+ transform:scale(1.04);
+}
+body.battle-wide #battle .mini-dice .die-icon b{font-size:14px!important;}
+/* Give the deck selection an unmistakable, usable place above the tabletop. */
+body.battle-wide #battle .battle-toolbar{
+ grid-template-columns:minmax(290px,380px) minmax(0,1fr);
+ align-items:center;
+ gap:14px;
+ padding:11px 8px 14px;
+}
+#battle .battle-deck-picker{
+ min-width:0;
+ display:flex;
+ align-items:center;
+ gap:8px;
+ flex-wrap:wrap;
+}
+#battle .battle-picker-heading{
+ flex:0 0 100%;
+ color:#29ffff;
+ font-size:14px;
+ font-weight:650;
+ letter-spacing:.07em;
+}
+#battle .battle-deck-picker .preview-deck-label{font-size:14px;white-space:nowrap;width:auto;display:block;}
+#battle .battle-deck-picker #battleDeckChoice{
+ min-height:42px;
+ width:210px;
+ flex:1 1 170px;
+ color:#eff8f9;
+ background:#11252c;
+ border:1px solid #29ffff;
+}
+#battle .battle-deck-switch{
+ display:flex;
+ gap:6px;
+ flex:0 0 100%;
+}
+#battle .battle-deck-switch button{
+ min-height:36px;
+ padding:7px 12px;
+ background:#0e1e25;
+ border:1px solid #48616b;
+ border-radius:4px;
+ color:#bed5d9;
+ cursor:pointer;
+ font-size:14px;
+}
+#battle .battle-deck-switch button.selected,
+#battle .battle-deck-switch button[aria-pressed="true"]{
+ border-color:#29ffff;
+ color:#29ffff;
+ background:#133038;
+ font-weight:700;
+}
+#battle .battle-deck-switch button:focus-visible{outline:2px solid #ffe66b;outline-offset:2px}
+@media(max-width:1199px){
+ body.battle-wide #battle .battle-toolbar{grid-template-columns:minmax(260px,345px) minmax(0,1fr)}
+}
+@media(max-width:840px){
+ body.battle-wide #battle .battle-toolbar{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+ #battle .battle-deck-picker{width:100%}
+ #battle .battle-deck-switch{flex-wrap:wrap}
+ body.battle-wide #battle .mini-dice .die-icon{
+  width:clamp(32px,7vw,60px);height:clamp(32px,7vw,60px);
+  max-width:60px;max-height:60px;
+ }
+ body.battle-wide #battle .preview-zone.player-fixer .mini-dice,
+ body.battle-wide #battle .preview-zone.opponent-fixer .mini-dice{padding:2px 0;margin:0}
+}
+
+/* Single starter-deck picker, with comfortable right inset for the chevron. */
+body.battle-wide #battle .battle-toolbar{
+ grid-template-columns:minmax(220px,315px) minmax(0,1fr);
+ align-items:center;
+}
+#battle .battle-deck-picker{
+ width:100%;
+ display:flex;
+ flex-direction:column;
+ align-items:stretch;
+ gap:7px;
+ flex-wrap:nowrap;
+}
+body.battle-wide #battle .battle-deck-picker .preview-deck-label{
+ display:block;
+ width:100%;
+ font-size:14px;
+ font-weight:500;
+ color:#afcbd0;
+}
+body.battle-wide #battle .battle-deck-picker #battleDeckChoice{
+ display:block;
+ box-sizing:border-box;
+ width:100%;
+ min-width:0;
+ max-width:100%;
+ min-height:44px;
+ flex:none;
+ font-size:16px;
+ padding:9px 51px 9px 15px;
+ appearance:none;
+ -webkit-appearance:none;
+ border:1px solid #66c9d4;
+ border-radius:4px;
+ background-color:#10232a;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath d='M2 2l6 6 6-6' stroke='%23d8e9eb' stroke-width='2' fill='none' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E");
+ background-repeat:no-repeat;
+ background-size:16px 10px;
+ background-position:right 20px center;
+}
+body.battle-wide #battle .battle-deck-picker #battleDeckChoice:focus-visible{
+ outline:2px solid #29ffff;
+ outline-offset:3px;
+}
+/* The guide changes height to accommodate text, but its outer width,
+   spacing, and button geometry stay constant across both states. */
+body.battle-wide #battle .tour-coach,
+body.battle-wide #battle .tour-coach:not(.is-compact){
+ box-sizing:border-box;
+ width:min(440px,calc(100% - 28px));
+ padding:18px 20px;
+ top:14px;
+ right:14px;
+ border-radius:10px;
+}
+#battle .tour-coach .tour-coach-tools{align-items:center;flex-wrap:nowrap;}
+#battle .tour-coach .tour-close-x{
+ display:grid;
+ place-items:center;
+ flex:0 0 39px;
+ width:39px;
+ height:39px;
+ min-width:39px;
+ padding:0;
+ font-size:26px;
+ line-height:1;
+}
+#battle .tour-coach .tour-close-x:hover,
+#battle .tour-coach .tour-close-x:focus-visible{
+ color:#29ffff;
+ border-color:#29ffff;
+}
+@media(max-width:840px){
+ body.battle-wide #battle .battle-toolbar{display:flex;flex-direction:column;align-items:stretch}
+ body.battle-wide #battle .battle-deck-picker{max-width:330px}
+ body.battle-wide #battle .tour-coach,
+ body.battle-wide #battle .tour-coach:not(.is-compact){
+  position:relative;
+  top:auto;right:auto;
+  width:100%;
+  margin:12px 0 0;
+  padding:16px;
+ }
+}
+
+/* Independent accordion columns; expanding one entry never stretches its neighbor. */
+#rules .terminology-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:16px}
+#rules .term-column{display:flex;flex-direction:column;gap:14px;min-width:0}
+#rules .term-entry{align-self:stretch}
+#rules .term-entry summary{padding:18px 20px;font-size:18px;line-height:1.45;font-weight:500}
+#rules .term-entry>div{padding:10px 20px 18px}
+#rules .term-entry>div p{font-size:17px;line-height:1.75}
+#rules .term-example{font-size:16px;line-height:1.75;padding:14px}
+#rules .terminology-compare p{font-size:17px}
+#rules .terminology-compare strong{font-size:20px}
+@media(max-width:740px){#rules .terminology-list{grid-template-columns:1fr}}
+/* Training milestones: current lesson progress and cumulative completion are distinct. */
+#learn .lesson-journey{margin:0 0 18px;padding:17px 18px;border:1px solid #36636a;background:linear-gradient(110deg,#0d242b,#111b21)}
+#learn .lesson-journey-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:13px}
+#learn .lesson-journey-row strong{font-size:17px;color:#29ffff}
+#learn .lesson-journey-row span{font-size:15px;color:#cad9df}
+#learn .lesson-progress-track{height:10px;background:#283c44;border-radius:100px;overflow:hidden;position:relative}
+#learn .lesson-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#f8504a,#ffb267);border-radius:100px;transition:width .3s ease}
+#learn .lesson-progress-dots{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:12px}
+#learn .lesson-progress-dots span{display:grid;place-items:center;padding:7px 2px;border:1px solid #4b6269;background:#101d24;color:#aabec3;font-size:14px}
+#learn .lesson-progress-dots span.done{border-color:#29ffff;color:#29ffff}
+#learn .lesson-progress-dots span.current{border-color:#ffb267;background:#33221e;color:#ffb267;font-weight:700}
+#learn .chapter-progress{margin-bottom:10px}
+#learn #labStage>.progress{height:8px;margin:8px 0 20px}
+#learn #labStage>.progress span{background:#f8504a}
+#learn .lesson-current-status{font-size:15px;color:#bdcdd3;margin:0 0 12px}
+/* Battle-only controls: cyan and low-key outlines instead of main navigation red. */
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn{
+ background:#102a30;color:#d3f4f4;border-color:#387b83;transition:background .16s,border-color .16s;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:hover,
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:focus-visible{background:#17454d;border-color:#29ffff;color:#fff}
+body.battle-wide #battle .battle-toolbar #startBoardTour{background:#1d5559;color:#eaffff;border-color:#29ffff}
+body.battle-wide #battle .battle-toolbar #startBoardTour:hover{background:#287479}
+/* A short shuffle animation, shown on hand and deck; reduced motion respected. */
+#battle .player-hand.is-shuffling .preview-card-rail{overflow:visible}
+#battle .player-hand.is-shuffling .preview-art-card{animation:nctHandShuffle .58s ease-in-out both}
+#battle .player-deck.is-shuffling .deck-pile{animation:nctDeckShuffle .58s ease-in-out both;box-shadow:0 0 20px #29ffff44}
+#battle .player-hand .hand-shuffle-caption{position:absolute;right:12px;bottom:6px;z-index:8;font-size:14px;color:#29ffff;background:#08151bdc;padding:4px 8px;pointer-events:none}
+@keyframes nctHandShuffle{
+ 0%{transform:translateY(0) rotate(0deg);opacity:1}
+ 30%{transform:translateY(-10px) rotate(-5deg);opacity:.75}
+ 65%{transform:translateY(-4px) rotate(5deg);opacity:1}
+ 100%{transform:translateY(0) rotate(0deg);opacity:1}
+}
+@keyframes nctDeckShuffle{
+ 0%,100%{transform:translateX(0) rotate(0deg)}
+ 25%{transform:translateX(-8px) rotate(-5deg)}
+ 50%{transform:translateX(8px) rotate(5deg)}
+ 75%{transform:translateX(-5px) rotate(-3deg)}
+}
+@media(prefers-reduced-motion:reduce){
+ #battle .player-hand.is-shuffling .preview-art-card,
+ #battle .player-deck.is-shuffling .deck-pile{animation:none}
+ #learn .lesson-progress-fill{transition:none}
+}
+
+/* Progress: only the existing lesson-line is used; it follows lesson navigation. */
+#learn #labStage>.progress{height:9px;margin:12px 0 24px;border-radius:8px;overflow:hidden}
+#learn #labStage>.progress span{background:#f8504a;transition:width .24s ease}
+/* Both card popups have matching structure and typography. */
+.card-preview-dialog,
+#battle .card-preview-dialog{
+ box-sizing:border-box;
+ width:min(560px,calc(100vw - 24px));
+ max-width:calc(100vw - 24px);
+ max-height:calc(100dvh - 24px);
+ padding:18px;
+ overflow:hidden;
+ overscroll-behavior:contain;
+ background:#071015;
+ border:1px solid #f8504a;
+ color:#eff8f9;
+}
+.card-preview-dialog .deck-dialog-wrap,
+#battle .card-preview-dialog .deck-dialog-wrap{
+ display:flex;flex-direction:column;gap:14px;
+ width:100%;max-height:calc(100dvh - 60px);min-height:0;
+ align-items:stretch;overflow:hidden;
+}
+.card-preview-dialog .deck-dialog-head{
+ display:flex;align-items:flex-start;justify-content:space-between;gap:15px;width:100%;
+ flex:0 0 auto;
+}
+.card-preview-dialog .deck-popup-titles{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.card-preview-dialog #deckDialogTitle,
+.card-preview-dialog #battleCardTitle{
+ display:block;font-size:clamp(21px,2.25vw,27px);font-weight:650;
+ line-height:1.35;overflow-wrap:anywhere;color:#eff8f9;
+}
+.card-preview-dialog .deck-dialog-english{font-size:16px;line-height:1.4;color:#a9c0c6}
+.card-preview-dialog img,
+#battle .card-preview-dialog img{
+ display:block;
+ width:auto;height:auto;
+ min-height:0;
+ max-width:100%;
+ max-height:min(70vh,calc(100dvh - 205px));
+ object-fit:contain;
+ align-self:center;
+ flex:0 1 auto;
+}
+.card-preview-dialog p,
+#battle .card-preview-dialog p{
+ flex:0 0 auto;
+ text-align:center;margin:0;font-size:15px;line-height:1.45;
+}
+.card-preview-dialog .deck-dialog-close,
+#battle .card-preview-dialog .deck-dialog-close{
+ display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;
+ padding:0;background:transparent;border:1px solid #6b3c43;border-radius:4px;
+ color:#eff8f9;font-size:27px;line-height:1;cursor:pointer;
+}
+.card-preview-dialog .deck-dialog-close:hover,
+.card-preview-dialog .deck-dialog-close:focus-visible{color:#29ffff;border-color:#29ffff}
+.card-preview-dialog [hidden]{display:none!important}
+@media(max-width:650px){
+ .card-preview-dialog,#battle .card-preview-dialog{
+  width:calc(100vw - 16px);max-width:calc(100vw - 16px);
+  max-height:calc(100dvh - 16px);padding:12px;
+  overflow:hidden!important;
+ }
+ .card-preview-dialog .deck-dialog-wrap,#battle .card-preview-dialog .deck-dialog-wrap{
+  max-height:calc(100dvh - 40px);gap:10px;
+ }
+ .card-preview-dialog #deckDialogTitle,.card-preview-dialog #battleCardTitle{font-size:20px}
+ .card-preview-dialog .deck-dialog-english{font-size:14px}
+ .card-preview-dialog img,#battle .card-preview-dialog img{
+  max-height:calc(100dvh - 175px);
+  max-width:100%;width:auto;
+ }
+ .card-preview-dialog .deck-dialog-close{flex-basis:40px;width:40px;height:40px}
+}
+/* The tour buttons match exact height, even when text labels change. */
+body.battle-wide #battle .tour-coach .tour-coach-tools{
+ display:flex;align-items:center;gap:8px;flex-wrap:nowrap;
+}
+body.battle-wide #battle .tour-coach .tour-coach-tools .tour-mini{
+ box-sizing:border-box;
+ height:40px;min-height:40px;max-height:40px;
+ line-height:1.1;display:grid;place-items:center;
+ padding:0 12px;margin:0;
+}
+body.battle-wide #battle .tour-coach .tour-coach-tools .tour-close-x{
+ flex:0 0 40px;width:40px;min-width:40px;padding:0;font-size:26px;
+}
+
+/* Playable-looking hand: hover inspects; click/tap selects rather than opens a modal. */
+#battle .player-hand .hand-card{
+ cursor:pointer;
+ touch-action:manipulation;
+ outline:0 solid transparent;
+ outline-offset:-3px;
+ transition:outline-color .12s,box-shadow .12s;
+}
+#battle .player-hand .hand-card.is-selected{
+ outline:3px solid #29ffff;
+ box-shadow:0 0 0 1px #071015,0 0 14px #29ffff80;
+}
+#battle .player-hand .hand-card:focus-visible{
+ outline:3px solid #ffe66b;
+}
+#battle .preview-zone .preview-card-rail .hand-card:hover:not(:disabled){
+ transform:none!important;
+ z-index:inherit!important;
+}
+#battleCardHover.hand-preview{
+ width:min(470px,calc(100vw - 28px));
+ padding:8px;
+ border:1px solid #567c85;
+ border-radius:9px;
+ background:#071015f8;
+ box-shadow:0 16px 44px #000d;
+}
+#battleCardHover.hand-preview img{
+ display:block;
+ width:100%;
+ max-height:min(78vh,700px);
+ object-fit:contain;
+}
+#battleCardHover.hand-preview p{
+ margin:5px 0 0;font-size:14px;
+}
+@media(max-width:840px){
+ #battleCardHover.hand-preview{width:min(380px,calc(100vw - 18px))}
+}
+
+/* Stable hand preview: reserve image dimensions to prevent load-time jump. */
+#battleCardHover.hand-preview{
+ width:min(440px,calc(100vw - 28px));
+}
+#battleCardHover.hand-preview img{
+ display:block;
+ width:100%;
+ height:min(69vh,620px);
+ max-height:none;
+ object-fit:contain;
+ background:#081116;
+}
+#battle .player-hand .preview-card-rail{isolation:isolate}
+#battle .player-hand .hand-card{transform:none}
+#battle .player-hand .hand-card:hover{transform:none}
+@media(max-width:840px){
+ #battleCardHover.hand-preview{width:min(380px,calc(100vw - 18px))}
+ #battleCardHover.hand-preview img{height:min(62vh,510px)}
+}
+
+/* Battle action menu: text-only cyan commands separated by vertical bars. */
+body.battle-wide #battle .battle-toolbar .board-tour-controls{
+ display:flex;align-items:center;justify-content:flex-end;
+ gap:0;flex-wrap:wrap;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn,
+body.battle-wide #battle .battle-toolbar #startBoardTour{
+ position:relative;min-height:40px;margin:0;
+ border:0;background:transparent;box-shadow:none;border-radius:0;
+ padding:9px 17px;color:#cce5e8;font-size:15px;font-weight:500;
+ transition:color .15s;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn+.btn::before{
+ content:"|";
+ position:absolute;left:0;top:50%;transform:translate(-50%,-50%);
+ color:#617d86;font-weight:400;pointer-events:none;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:hover,
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:focus-visible,
+body.battle-wide #battle .battle-toolbar #startBoardTour:hover{
+ color:#29ffff;background:transparent;border:0;
+}
+body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:disabled{opacity:.45;cursor:wait}
+/* Never apply the old scatter-shuffle. Deal exactly six cards in order. */
+#battle .player-hand.is-shuffling .preview-art-card,
+#battle .player-deck.is-shuffling .deck-pile{animation:none!important}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card{
+ animation:nctDealCard .38s ease-out both;
+ transform-origin:bottom left;
+ pointer-events:none;
+}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(1){animation-delay:0ms}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(2){animation-delay:110ms}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(3){animation-delay:220ms}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(4){animation-delay:330ms}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(5){animation-delay:440ms}
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:nth-child(6){animation-delay:550ms}
+@keyframes nctDealCard{
+ 0%{opacity:0;transform:translateX(46px) translateY(10px) scale(.85)}
+ 100%{opacity:1;transform:translateX(0) translateY(0) scale(1)}
+}
+/* Avoid the old forced transform:none which canceled the spread animation. */
+#battle .player-hand .preview-card-rail.is-dealing .hand-card,
+#battle .player-hand .preview-card-rail.is-dealing .hand-card:hover{
+ transform-origin:bottom left;
+}
+/* Hover is a single stable overlay. Pointer never interacts with it. */
+#battleCardHover{pointer-events:none!important;contain:layout style}
+#battleCardHover.hand-preview img{visibility:visible}
+@media(prefers-reduced-motion:reduce){
+ #battle .player-hand .preview-card-rail.is-dealing .hand-card{animation:none!important}
+}
+
+/* iOS Safari can autofocus the dialog close control and paint a second blue focus ring. */
+.card-preview-dialog .deck-popup-titles strong:focus{outline:none}
+.card-preview-dialog .deck-dialog-close{
+ -webkit-appearance:none;
+ appearance:none;
+ -webkit-tap-highlight-color:transparent;
+ box-shadow:none!important;
+ outline:none;
+}
+.card-preview-dialog .deck-dialog-close:focus:not(:focus-visible){
+ outline:none!important;
+ box-shadow:none!important;
+}
+@media(hover:none) and (pointer:coarse){
+ .card-preview-dialog .deck-dialog-close,
+ .card-preview-dialog .deck-dialog-close:focus,
+ .card-preview-dialog .deck-dialog-close:focus-visible{
+  outline:none!important;
+  box-shadow:none!important;
+  -webkit-tap-highlight-color:transparent;
+ }
+}
+/* Keyboard users on desktop retain a distinct accessible focus outline. */
+@media(hover:hover) and (pointer:fine){
+ .card-preview-dialog .deck-dialog-close:focus-visible{
+  outline:2px solid #29ffff;
+  outline-offset:3px;
+ }
+}
+
+/* Guide view switch */
+#decks .card-guide-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 18px}
+#decks .card-guide-tabs button{padding:13px 17px;background:#0e1a20;border:1px solid #46606a;color:#c6d9dd;font-size:15px;cursor:pointer;border-radius:4px}
+#decks .card-guide-tabs button[aria-selected=true]{border-color:#29ffff;background:#123039;color:#29ffff;font-weight:650}
+#decks #starterDeckGallery[hidden],#decks #betaCardCollection[hidden]{display:none!important}
+#decks .beta-browser{margin-top:20px}
+#decks .beta-browser-intro{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:12px 0 14px}
+#decks .beta-browser-intro h2{font-size:23px;margin:0 0 5px}
+#decks .beta-browser-intro p{font-size:15px;line-height:1.5;margin:0}
+#decks .beta-counter{font-size:16px;color:#29ffff;white-space:nowrap}
+#decks .beta-data-note{border-left:2px solid #f8504a;background:#151d21;padding:12px 16px;font-size:15px;line-height:1.7;color:#afc4c9}
+#decks .beta-filters{display:grid;grid-template-columns:minmax(210px,2fr) repeat(2,minmax(145px,1fr));gap:12px;margin:20px 0}
+#decks .beta-filters label{display:flex;flex-direction:column;gap:7px;font-size:14px;color:#abc4c9}
+#decks .beta-filters input,#decks .beta-filters select{width:100%;min-height:44px;border:1px solid #42606a;background:#0a1b22;color:#eff8f9;border-radius:4px;padding:10px 12px;font-size:15px}
+#decks .beta-results{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin:20px 0}
+#decks .beta-tile{appearance:none;display:flex;flex-direction:column;align-items:stretch;text-align:left;gap:5px;min-width:0;padding:9px;background:linear-gradient(150deg,#19161d,#0c1d22);border:1px solid #4a3037;border-radius:4px;cursor:pointer;color:#eff8f9}
+#decks .beta-tile:hover,#decks .beta-tile:focus-visible{border-color:#29ffff;outline-offset:2px}
+#decks .beta-card-art{width:100%;aspect-ratio:5/7;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#0b1319}
+#decks .beta-card-art img{display:block;width:100%;height:100%;object-fit:contain}
+#decks .beta-card-art img[hidden],#decks .beta-card-art .beta-art-fallback[hidden]{display:none}
+#decks .beta-art-fallback{font-size:14px;color:#9dbfc4;text-align:center;padding:6px}
+#decks .beta-card-title{font-size:18px;line-height:1.4;margin-top:7px;overflow-wrap:anywhere;font-weight:500}
+#decks .beta-card-english{font-size:15px;line-height:1.45;color:#acbdc2;overflow-wrap:anywhere}
+#decks .beta-card-meta{display:flex;justify-content:space-between;gap:6px;align-items:center;margin-top:auto;padding-top:8px;font-size:14px;color:#abc1c7}
+#decks .beta-card-meta b{color:#f8504a;font-weight:600}
+#decks .beta-pages{display:flex;justify-content:center;align-items:center;gap:18px;margin:26px 0 15px}
+#decks .beta-pages button{background:#121e23;border:1px solid #45606a;border-radius:4px;color:#e7f0f2;padding:10px 15px;font-size:15px;cursor:pointer}
+#decks .beta-pages button:disabled{opacity:.4;cursor:default}
+#decks .beta-pages span{font-size:15px}
+#decks .beta-empty{grid-column:1/-1;font-size:16px}
+@media(max-width:950px){#decks .beta-results{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:700px){#decks .beta-results{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}#decks .beta-filters{grid-template-columns:repeat(2,minmax(0,1fr))}#decks .beta-filters label:first-child{grid-column:1/-1}#decks .beta-tile{padding:7px}#decks .beta-card-title{font-size:16px}#decks .beta-card-english{font-size:14px}}
+@media(max-width:460px){#decks .beta-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Beta translations: a readable page-level detail replaces the cramped image popup. */
+#decks .beta-detail-panel[hidden]{display:none!important}
+#decks .beta-detail-panel{margin:24px 0;background:#0b171d;border:1px solid #386976;border-left:3px solid #29ffff;border-radius:6px;scroll-margin-top:18px}
+#decks .beta-detail-header{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #33474e;padding:10px 18px;color:#29ffff;font-size:14px;letter-spacing:.05em}
+#decks .beta-detail-header button{background:none;color:#d1e8eb;border:0;min-width:38px;min-height:38px;font-size:25px;cursor:pointer}
+#decks .beta-detail-body{display:grid;grid-template-columns:minmax(180px,250px) minmax(0,1fr);align-items:start;gap:24px;padding:22px}
+#decks .beta-detail-art img{width:100%;height:auto;display:block;object-fit:contain}
+#decks .beta-detail-title{font-size:26px;font-weight:500;margin:0 0 5px}
+#decks .beta-detail-english{font-size:16px;color:#b9c9cf;margin:0 0 9px}
+#decks .beta-detail-meta{font-size:14px;color:#29ffff;letter-spacing:.04em;margin:0 0 22px}
+#decks .beta-detail-copy h4{font-size:17px;font-weight:600;color:#edf7f9;margin:0 0 11px}
+#decks .beta-ability-text{font-size:17px;line-height:1.85;color:#e8f1f2;white-space:pre-line;margin:0 0 18px}
+#decks .beta-detail-note{font-size:14px;line-height:1.6;color:#a8bec5;margin:0 0 16px}
+#decks .beta-detail-links{display:flex;gap:18px;flex-wrap:wrap}
+#decks .beta-detail-links a{font-size:15px;color:#29ffff}
+#decks .beta-tile[aria-pressed="true"]{border-color:#29ffff;box-shadow:0 0 0 1px #29ffff4a}
+#decks .beta-translation-tag,#decks .beta-translation-pending{display:block;font-size:14px;line-height:1.4;margin-top:5px}
+#decks .beta-translation-tag{color:#29ffff}
+#decks .beta-translation-pending{color:#879ca2}
+@media(max-width:650px){#decks .beta-detail-body{grid-template-columns:1fr;gap:16px;padding:16px}#decks .beta-detail-art{max-width:260px;margin:0 auto}#decks .beta-detail-title{font-size:22px}#decks .beta-ability-text{font-size:16px}}
+
+/* Beta card detail is a true modal, matching the other card popups. */
+#decks #betaCardDetail.beta-card-dialog{
+ position:fixed;
+ inset:0;
+ width:min(900px,calc(100vw - 30px));
+ max-width:calc(100vw - 30px);
+ max-height:calc(100dvh - 30px);
+ margin:auto;
+ padding:0;
+ border:1px solid #590a11;
+ border-left:2px solid #f8504a;
+ border-radius:8px;
+ background:#071015;
+ color:#eaf2f4;
+ box-sizing:border-box;
+ overflow:hidden;
+ box-shadow:0 24px 85px #000e;
+}
+#decks #betaCardDetail.beta-card-dialog:not([open]){display:none!important}
+#decks #betaCardDetail.beta-card-dialog[open]{display:flex;flex-direction:column}
+#decks #betaCardDetail.beta-card-dialog::backdrop{background:rgba(0,0,0,.82)}
+#decks #betaCardDetail .beta-detail-header{
+ flex:0 0 auto;
+ border-bottom:1px solid #33474e;
+ padding:10px 16px;
+}
+#decks #betaCardDetail .beta-detail-header strong:focus{outline:none}
+#decks #betaCardDetail .beta-detail-header button{
+ -webkit-appearance:none;appearance:none;
+ background:transparent;
+ border:1px solid #54646d;
+ border-radius:5px;
+ color:#eaf2f4;
+ font-size:23px;
+ width:40px;height:40px;
+ padding:0;
+ -webkit-tap-highlight-color:transparent;
+ box-shadow:none;
+ outline:none;
+}
+#decks #betaCardDetail .beta-detail-header button:hover{border-color:#29ffff;color:#29ffff}
+#decks #betaCardDetail .beta-detail-header button:focus-visible{outline:2px solid #29ffff;outline-offset:2px}
+#decks #betaCardDetail .beta-detail-body{
+ min-height:0;
+ flex:1 1 auto;
+ overflow-y:auto;
+ overscroll-behavior:contain;
+ -webkit-overflow-scrolling:touch;
+ grid-template-columns:minmax(170px,280px) minmax(0,1fr);
+ padding:20px;
+}
+#decks #betaCardDetail .beta-detail-art img{max-width:100%;height:auto}
+@media(max-width:650px){
+ #decks #betaCardDetail.beta-card-dialog{
+  width:calc(100vw - 16px);max-width:calc(100vw - 16px);
+  max-height:calc(100dvh - 16px);
+ }
+ #decks #betaCardDetail .beta-detail-body{grid-template-columns:1fr;padding:14px;gap:14px}
+ #decks #betaCardDetail .beta-detail-art{max-width:240px;margin:0 auto}
+ #decks #betaCardDetail .beta-detail-header button:focus-visible{outline:none;box-shadow:none}
+}
+
+/* Card-guide modal: visual hierarchy follows card image -> identity -> stats -> effect. */
+#decks #betaCardDetail.beta-card-dialog{
+ width:min(990px,calc(100vw - 28px));
+ max-width:calc(100vw - 28px);
+ border:1px solid #590a11;
+ border-left:2px solid #f8504a;
+}
+#decks #betaCardDetail .beta-detail-header{
+ background:#0b191f;
+ padding:10px 17px;
+}
+#decks #betaCardDetail .beta-detail-header strong{
+ color:#98bdc4;
+ font-size:14px;
+ font-weight:600;
+}
+#decks #betaCardDetail .beta-detail-body{
+ grid-template-columns:minmax(240px,360px) minmax(0,1fr);
+ gap:30px;
+ padding:24px;
+ align-items:start;
+}
+#decks #betaCardDetail .beta-detail-art{
+ position:relative;
+ max-width:none;
+ min-width:0;
+ margin:0;
+}
+#decks #betaCardDetail .beta-detail-image-frame{
+ width:100%;
+ aspect-ratio:5/7;
+ background:#0a141a;
+ border-radius:7px;
+ overflow:hidden;
+ border:1px solid #33414a;
+}
+#decks #betaCardDetail .beta-detail-image-frame img{
+ display:block;
+ width:100%;
+ height:100%;
+ object-fit:contain;
+}
+#decks #betaCardDetail .beta-detail-copy{min-width:0}
+#decks #betaCardDetail .beta-detail-eyebrow{
+ display:flex;flex-wrap:wrap;align-items:center;gap:9px;
+ margin:0 0 14px;
+}
+#decks #betaCardDetail .beta-detail-number,
+#decks #betaCardDetail .beta-detail-rarity{
+ display:inline-flex;align-items:center;
+ font-size:14px;line-height:1.3;
+ border:1px solid #536971;
+ padding:5px 9px;border-radius:3px;
+ color:#bad7dd;letter-spacing:.035em;
+}
+#decks #betaCardDetail .beta-detail-rarity{
+ border-color:#913944;color:#ff9d9f;
+}
+#decks #betaCardDetail .beta-detail-title{
+ font-size:clamp(23px,2.4vw,30px);line-height:1.35;
+ margin:0 0 6px;overflow-wrap:anywhere;
+ font-weight:500;
+}
+#decks #betaCardDetail .beta-detail-english{
+ margin:0 0 9px;font-size:17px;
+ line-height:1.5;color:#b5c5cc;
+ overflow-wrap:anywhere;
+}
+#decks #betaCardDetail .beta-detail-set{
+ font-size:14px;letter-spacing:.08em;color:#6f99a4;margin:0 0 22px;
+}
+#decks #betaCardDetail .beta-detail-stats{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:10px;margin:20px 0;
+}
+#decks #betaCardDetail .beta-detail-stat{
+ display:flex;flex-direction:column;gap:5px;align-items:center;
+ padding:10px 6px;border:1px solid #3b5660;
+ border-radius:5px;background:#111f25;
+}
+#decks #betaCardDetail .beta-detail-stat small{font-size:14px;color:#9fb1b9}
+#decks #betaCardDetail .beta-detail-stat strong{font-size:22px;font-weight:600}
+
+
+#decks #betaCardDetail .beta-detail-effect{
+ border-top:1px solid #30444b;
+ padding-top:18px;margin-top:4px;
+}
+#decks #betaCardDetail .beta-detail-effect h4{
+ font-size:16px;color:#29ffff;font-weight:500;
+ margin:0 0 10px;
+}
+#decks #betaCardDetail .beta-ability-text{
+ font-size:17px;line-height:1.85;
+ color:#e7f0f2;margin:0 0 20px;
+ white-space:pre-line;
+}
+#decks #betaCardDetail .beta-detail-links{
+ border-top:1px solid #283c44;
+ padding-top:16px;margin-top:2px;
+}
+@media(max-width:650px){
+ #decks #betaCardDetail.beta-card-dialog{
+  width:calc(100vw - 16px);max-width:calc(100vw - 16px);
+  max-height:calc(100dvh - 16px);
+ }
+ #decks #betaCardDetail .beta-detail-body{
+  grid-template-columns:minmax(0,1fr);
+  gap:17px;padding:15px 14px 22px;
+ }
+ #decks #betaCardDetail .beta-detail-art{width:min(100%,340px);max-width:none;margin:0 auto}
+ #decks #betaCardDetail .beta-detail-title{font-size:24px}
+ #decks #betaCardDetail .beta-detail-english{font-size:16px}
+ #decks #betaCardDetail .beta-ability-text{font-size:16px}
+ #decks #betaCardDetail .beta-detail-stats{margin:15px 0}
+}
+
+/* Card-frame-inspired Beta Popup — vertical image-first layout, as approved. */
+#decks #betaCardDetail.beta-card-dialog{
+ width:min(760px,calc(100vw - 24px));
+ max-width:calc(100vw - 24px);
+ max-height:calc(100dvh - 24px);
+ border:1px solid #ef4056;
+ border-left:2px solid #ef4056;
+ border-radius:14px 4px 14px 4px;
+ background:radial-gradient(ellipse at 50% 0%,rgba(89,10,17,.22),transparent 45%),#080d12;
+ box-shadow:0 0 0 1px #3b111a,0 22px 70px #000e,0 0 26px #c91d3933;
+ color:#f0f5f5;
+}
+#decks #betaCardDetail .beta-detail-header{
+ background:transparent;
+ border-bottom:0;
+ padding:12px 15px 0 18px;
+ min-height:54px;
+ gap:10px;
+}
+#decks #betaCardDetail .beta-detail-header strong{
+ font-size:14px;
+ color:#91a9b1;
+ font-weight:500;
+ letter-spacing:.12em;
+}
+#decks #betaCardDetail .beta-detail-header button{
+ width:44px;height:44px;min-width:44px;
+ border:1px solid #29ffff;border-radius:5px;
+ color:#29ffff;background:#071b24;
+ font-size:30px;line-height:1;
+}
+#decks #betaCardDetail .beta-detail-header button:hover{background:#123844}
+#decks #betaCardDetail .beta-detail-body{
+ display:flex;
+ flex-direction:column;
+ align-items:stretch;
+ gap:22px;
+ padding:8px clamp(15px,4vw,30px) 26px;
+ min-height:0;
+ overflow-y:auto;
+ scrollbar-gutter:stable;
+}
+#decks #betaCardDetail .beta-detail-art{
+ width:min(100%,360px);
+ max-width:none;
+ margin:0 auto;
+ flex:0 0 auto;
+}
+#decks #betaCardDetail .beta-detail-image-frame{
+ width:100%;aspect-ratio:5/7;
+ border:1px solid #7c6354;
+ border-radius:7px;
+ background:#10171d;overflow:hidden;
+ box-shadow:0 14px 35px #0009;
+}
+#decks #betaCardDetail .beta-detail-image-frame img{
+ display:block;width:100%;height:100%;
+ object-fit:contain;
+}
+#decks #betaCardDetail .beta-detail-copy{
+ display:flex;flex-direction:column;gap:18px;
+ min-width:0;
+}
+#decks #betaCardDetail .beta-card-identity{
+ display:grid;
+ grid-template-columns:6px minmax(0,1fr);
+ gap:12px;
+ align-items:start;
+}
+#decks #betaCardDetail .beta-title-accent{
+ width:6px;height:100%;min-height:60px;
+ background:#f8504a;
+ box-shadow:0 0 12px #f8504a55;
+}
+#decks #betaCardDetail .beta-card-names{min-width:0}
+#decks #betaCardDetail .beta-detail-title{
+ font-size:clamp(23px,3.4vw,32px);
+ font-weight:500;line-height:1.32;
+ margin:0 0 8px;
+ letter-spacing:.01em;
+ overflow-wrap:anywhere;
+}
+#decks #betaCardDetail .beta-detail-english{
+ color:#b8ccd2;
+ font-size:16px;line-height:1.4;
+ margin:0;
+ overflow-wrap:anywhere;
+}
+#decks #betaCardDetail .beta-detail-eyebrow{
+ grid-column:2;display:flex;
+ flex-wrap:wrap;gap:8px;align-items:center;
+ margin:0;
+}
+#decks #betaCardDetail .beta-detail-rarity,
+#decks #betaCardDetail .beta-detail-number{
+ padding:6px 10px;
+ border-radius:3px;
+ border:1px solid #d5af53;
+ color:#f7cf6d;
+ background:#191912;
+ font-size:14px;
+ line-height:1.25;
+ letter-spacing:.04em;
+ font-weight:600;
+}
+#decks #betaCardDetail .beta-detail-number{
+ border-color:#356d7b;
+ color:#b7d3dc;background:#0c1c24;
+}
+#decks #betaCardDetail .beta-detail-stats{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:10px;
+ margin:0;
+}
+#decks #betaCardDetail .beta-detail-stat{
+ min-width:0;min-height:76px;
+ padding:10px 7px;
+ border:1px solid #d73449;
+ border-radius:7px 2px 7px 2px;
+ background:linear-gradient(140deg,#24171f,#101922);
+ box-shadow:inset 0 1px 0 #f8504a16;
+ gap:6px;
+}
+#decks #betaCardDetail .beta-detail-stat small{
+ font-size:14px;letter-spacing:.05em;color:#adc0c5;
+}
+#decks #betaCardDetail .beta-detail-stat strong{
+ font-size:25px;line-height:1.1;color:#eef6f7;
+}
+
+
+#decks #betaCardDetail .beta-detail-effect{
+ margin:0;
+ padding:16px 17px 18px;
+ border:1px solid #29ffff;
+ border-radius:7px 2px 7px 2px;
+ background:linear-gradient(125deg,rgba(6,54,60,.27),rgba(7,16,21,.9));
+ box-shadow:inset 0 0 16px #29ffff0d;
+}
+#decks #betaCardDetail .beta-detail-effect h4{
+ display:inline-block;
+ margin:0 0 12px;
+ padding:3px 13px 5px;
+ border-bottom:2px solid #29ffff;
+ font-size:18px;
+ font-weight:600;
+ color:#29ffff;
+ letter-spacing:.05em;
+}
+#decks #betaCardDetail .beta-ability-text{
+ margin:0;
+ font-size:17px;
+ line-height:1.85;
+ color:#f1f6f6;
+ white-space:pre-line;
+}
+#decks #betaCardDetail .beta-detail-links{
+ display:flex;align-items:center;justify-content:center;gap:0;
+ flex-wrap:wrap;
+ padding:0;margin:0;
+ border-top:0;
+}
+#decks #betaCardDetail .beta-detail-links a{
+ font-size:15px;
+ text-decoration:underline;
+ text-underline-offset:4px;
+ padding:4px 13px;
+ color:#29ffff;
+}
+#decks #betaCardDetail .beta-detail-links a+a{
+ border-left:1px solid #57717a;
+}
+@media(max-width:650px){
+ #decks #betaCardDetail.beta-card-dialog{
+  width:calc(100vw - 12px);max-width:calc(100vw - 12px);
+  max-height:calc(100dvh - 12px);
+  border-radius:10px 3px 10px 3px;
+ }
+ #decks #betaCardDetail .beta-detail-body{
+  grid-template-columns:none;
+  padding:6px 15px 22px;
+  gap:20px;
+ }
+ #decks #betaCardDetail .beta-detail-header{padding:9px 12px 0 15px}
+ #decks #betaCardDetail .beta-detail-art{width:min(100%,330px);margin:0 auto}
+ #decks #betaCardDetail .beta-detail-copy{gap:17px}
+ #decks #betaCardDetail .beta-detail-title{font-size:25px}
+ #decks #betaCardDetail .beta-detail-english{font-size:16px}
+ #decks #betaCardDetail .beta-ability-text{font-size:16px}
+ #decks #betaCardDetail .beta-detail-effect{padding:13px 14px 16px}
+ #decks #betaCardDetail .beta-detail-links a{padding:7px 10px}
+}
+@media(hover:none) and (pointer:coarse){
+ #decks #betaCardDetail .beta-detail-header button:focus,
+ #decks #betaCardDetail .beta-detail-header button:focus-visible{outline:none;box-shadow:none}
+}
+
+/* Final screenshot-inspired NCT Beta card popup: card front, Chinese name, stat cells,
+   translated faction/class tags, framed effect block. */
+#decks #betaCardDetail.beta-card-dialog{
+ border:2px solid #e43148;
+ border-radius:16px 4px 16px 4px;
+ background:radial-gradient(ellipse at 20% 0%,#5d101b43,transparent 60%),#080c11;
+ box-shadow:0 0 0 1px #51111c,0 0 26px #f22f4b48,0 25px 70px #000e;
+}
+#decks #betaCardDetail .beta-detail-body{gap:21px}
+#decks #betaCardDetail .beta-detail-image-frame{
+ border-color:#bd984f;
+ border-radius:12px;
+ box-shadow:0 0 0 1px #79632b,0 16px 36px #000a;
+}
+#decks #betaCardDetail .beta-card-identity{
+ grid-template-columns:7px minmax(0,1fr) auto;
+ gap:12px;
+ align-items:start;
+}
+#decks #betaCardDetail .beta-title-accent{
+ grid-column:1;grid-row:1/span 2;
+ width:7px;min-height:88px;
+ background:#f8504a;
+}
+#decks #betaCardDetail .beta-card-names{grid-column:2;grid-row:1}
+#decks #betaCardDetail .beta-detail-title{
+ font-weight:500;
+ font-size:clamp(24px,3.4vw,33px);
+ line-height:1.37;
+}
+#decks #betaCardDetail .beta-detail-english{
+ color:#b3cbd0;
+ font-size:16px;
+ letter-spacing:.02em;
+}
+#decks #betaCardDetail .beta-detail-eyebrow{
+ grid-column:3;grid-row:1;
+ margin:0;
+ max-width:205px;
+ justify-content:flex-end;
+ align-items:flex-start;
+ gap:5px;
+}
+#decks #betaCardDetail .beta-detail-eyebrow span{
+ font-size:14px;
+ padding:5px 8px;
+ border-radius:5px 2px 5px 2px;
+ font-weight:500;
+ white-space:nowrap;
+}
+#decks #betaCardDetail .beta-detail-eyebrow .beta-chip-red{
+ border-color:#ef4356;
+ color:#ffb0b6;
+ background:#42131b;
+}
+#decks #betaCardDetail .beta-detail-eyebrow .beta-chip-yellow{
+ border-color:#d7b94e;
+ color:#ffe58d;
+ background:#393019;
+}
+#decks #betaCardDetail .beta-detail-eyebrow .beta-chip-blue{
+ border-color:#3f98cd;color:#8dd4f3;background:#14334b;
+}
+#decks #betaCardDetail .beta-detail-eyebrow .beta-chip-green{
+ border-color:#48ad7d;color:#9be7c2;background:#173a2c;
+}
+#decks #betaCardDetail .beta-type-chip{
+ border:1px solid #647e86;
+ background:#122028;
+ color:#dae8ec;
+}
+#decks #betaCardDetail .beta-detail-rarity{
+ border-color:#c7a34e;
+ color:#ffe17e;
+ background:#2d2515;
+}
+#decks #betaCardDetail .beta-detail-number{
+ border-color:#347887;
+ color:#94d9e3;
+ background:#0c2630;
+}
+#decks #betaCardDetail .beta-detail-stats{
+ gap:11px;
+}
+#decks #betaCardDetail .beta-detail-stat{
+ min-height:86px;
+ border:1.5px solid #ee334c;
+ background:linear-gradient(160deg,#29202a,#101920);
+ border-radius:12px 3px 12px 3px;
+}
+#decks #betaCardDetail .beta-detail-stat strong{
+ font-size:29px;font-weight:600;
+}
+
+
+#decks #betaCardDetail .beta-detail-effect{
+ border:1.5px solid #29ffff;
+ background:linear-gradient(145deg,#06303a91,#051b238f);
+ box-shadow:inset 0 0 22px #29ffff10,0 0 13px #29ffff12;
+ border-radius:12px 3px 12px 3px;
+}
+#decks #betaCardDetail .beta-detail-effect h4{
+ font-size:20px;
+ color:#29ffff;
+ border-bottom:2px solid #29ffff;
+ margin-bottom:14px;
+}
+#decks #betaCardDetail .beta-ability-text{
+ font-size:18px;
+ line-height:1.8;
+}
+@media(max-width:650px){
+ #decks #betaCardDetail .beta-detail-body{
+  gap:20px;padding:8px 16px 24px;
+ }
+ #decks #betaCardDetail .beta-detail-art{
+  width:min(100%,370px);margin:0 auto;
+ }
+ #decks #betaCardDetail .beta-card-identity{
+  grid-template-columns:6px minmax(0,1fr);
+  gap:11px;
+ }
+ #decks #betaCardDetail .beta-card-names{grid-column:2;grid-row:1}
+ #decks #betaCardDetail .beta-detail-eyebrow{
+  grid-column:2;grid-row:2;
+  max-width:none;
+  justify-content:flex-start;
+  margin-top:-2px;
+ }
+ #decks #betaCardDetail .beta-title-accent{
+  grid-column:1;grid-row:1/span 2;min-height:72px;
+ }
+ #decks #betaCardDetail .beta-detail-title{font-size:26px}
+ #decks #betaCardDetail .beta-detail-stats{gap:9px}
+ #decks #betaCardDetail .beta-detail-stat{min-height:77px;padding:8px 4px}
+ #decks #betaCardDetail .beta-detail-stat strong{font-size:26px}
+ 
+ #decks #betaCardDetail .beta-detail-effect{padding:16px 14px 20px}
+ #decks #betaCardDetail .beta-ability-text{font-size:16px}
+}
+
+/* Clean card modal: card color drives the single accent system. */
+#decks #betaCardDetail.beta-card-dialog{
+ --card-accent:#8faeb7;
+ --card-accent-rgb:143,174,183;
+ border:2px solid var(--card-accent);
+ border-radius:14px 4px 14px 4px;
+ background:radial-gradient(ellipse at 20% 0%,rgba(var(--card-accent-rgb),.12),transparent 63%),#080c11;
+ box-shadow:0 0 0 1px rgba(var(--card-accent-rgb),.24),0 0 25px rgba(var(--card-accent-rgb),.19),0 22px 70px #000e;
+}
+#decks #betaCardDetail.beta-card-dialog[data-card-color="red"]{
+ --card-accent:#f8504a;--card-accent-rgb:248,80,74;
+}
+#decks #betaCardDetail.beta-card-dialog[data-card-color="yellow"]{
+ --card-accent:#e6bd45;--card-accent-rgb:230,189,69;
+}
+#decks #betaCardDetail.beta-card-dialog[data-card-color="blue"]{
+ --card-accent:#39a9e0;--card-accent-rgb:57,169,224;
+}
+#decks #betaCardDetail.beta-card-dialog[data-card-color="green"]{
+ --card-accent:#55bd83;--card-accent-rgb:85,189,131;
+}
+#decks #betaCardDetail .beta-title-accent{
+ background:var(--card-accent);
+ box-shadow:0 0 12px rgba(var(--card-accent-rgb),.24);
+}
+#decks #betaCardDetail .beta-card-identity{
+ grid-template-columns:7px minmax(0,1fr);
+ gap:12px;align-items:start;
+}
+#decks #betaCardDetail .beta-card-names{grid-column:2;grid-row:1}
+#decks #betaCardDetail .beta-title-accent{grid-column:1;grid-row:1;min-height:85px}
+#decks #betaCardDetail .beta-card-kind{
+ color:var(--card-accent);
+ font-size:16px;line-height:1.4;
+ font-weight:500;letter-spacing:.04em;
+ margin:13px 0 0;
+ padding:0;background:none;border:0;box-shadow:none;
+}
+#decks #betaCardDetail .beta-detail-header button{
+ border:1px solid var(--card-accent);
+ color:var(--card-accent);
+ background:rgba(var(--card-accent-rgb),.08);
+ box-shadow:none;
+}
+#decks #betaCardDetail .beta-detail-header button:hover{
+ border-color:var(--card-accent);
+ color:var(--card-accent);
+ background:rgba(var(--card-accent-rgb),.18);
+}
+#decks #betaCardDetail .beta-detail-header button:focus-visible{outline-color:var(--card-accent)}
+#decks #betaCardDetail .beta-detail-stats{gap:11px}
+#decks #betaCardDetail .beta-detail-stat{
+ border:1.5px solid var(--card-accent);
+ background:linear-gradient(160deg,rgba(var(--card-accent-rgb),.11),#101920);
+ box-shadow:inset 0 1px 0 rgba(var(--card-accent-rgb),.16);
+}
+#decks #betaCardDetail .beta-detail-stat small{color:#bdcbd0}
+
+#decks #betaCardDetail .beta-detail-effect{
+ border:0;
+ border-radius:0;
+ padding:12px 0 0;
+ margin:0;
+ background:none;
+ box-shadow:none;
+}
+#decks #betaCardDetail .beta-detail-effect h4{
+ display:block;
+ border:0;
+ padding:0;
+ margin:0 0 11px;
+ color:#fff;
+ font-size:18px;font-weight:500;
+ letter-spacing:0;
+}
+#decks #betaCardDetail .beta-ability-text{
+ color:#fff;
+ font-size:18px;
+ line-height:1.85;
+ margin:0;
+ padding:0;
+ background:none;
+ border:none;
+ box-shadow:none;
+}
+#decks #betaCardDetail .beta-detail-links a{color:var(--card-accent)}
+#decks #betaCardDetail .beta-detail-links a+a{border-left-color:rgba(var(--card-accent-rgb),.36)}
+@media(max-width:650px){
+ #decks #betaCardDetail .beta-card-identity{grid-template-columns:6px minmax(0,1fr)}
+ #decks #betaCardDetail .beta-title-accent{grid-column:1;grid-row:1;min-height:72px}
+ #decks #betaCardDetail .beta-card-names{grid-column:2;grid-row:1}
+ #decks #betaCardDetail .beta-card-kind{font-size:15px;margin-top:11px}
+ #decks #betaCardDetail .beta-detail-effect{padding:7px 0 0}
+ #decks #betaCardDetail .beta-detail-effect h4{font-size:16px}
+ #decks #betaCardDetail .beta-ability-text{font-size:16px}
+}
+
+/* Compact, monochrome stats and tags; unframed image and clean close icon. */
+#decks #betaCardDetail .beta-detail-image-frame{
+ border:0!important;
+ outline:0!important;
+ background:transparent;
+ box-shadow:none!important;
+ border-radius:0;
+ overflow:hidden;
+}
+#decks #betaCardDetail .beta-detail-art{
+ border:0;box-shadow:none;background:transparent;
+}
+#decks #betaCardDetail .beta-detail-header button{
+ -webkit-appearance:none;
+ appearance:none;
+ width:38px;height:38px;min-width:38px;min-height:38px;
+ padding:0;
+ border:0!important;
+ border-radius:0;
+ background:transparent!important;
+ box-shadow:none!important;
+ outline:none;
+ color:#fff!important;
+ font-size:29px;line-height:1;
+ cursor:pointer;
+}
+#decks #betaCardDetail .beta-detail-header button:hover{color:#e2e6e8!important}
+#decks #betaCardDetail .beta-detail-header button:focus-visible{
+ outline:2px solid #fff;outline-offset:2px;
+}
+#decks #betaCardDetail .beta-detail-stats{
+ gap:9px;margin:0;
+}
+#decks #betaCardDetail .beta-detail-stat{
+ min-height:60px!important;
+ padding:7px 5px!important;
+ border:1px solid rgba(var(--card-accent-rgb),.6);
+ border-radius:7px;
+ background:linear-gradient(135deg,#0a0b0e,#16181d 58%,#05070a)!important;
+ box-shadow:none!important;
+ gap:3px!important;
+}
+#decks #betaCardDetail .beta-detail-stat small{
+ font-size:14px;
+ line-height:1.25;
+ color:#acb7bd;
+}
+#decks #betaCardDetail .beta-detail-stat strong{
+ font-size:21px!important;
+ line-height:1.1;
+ font-weight:550;
+}
+
+
+#decks #betaCardDetail .beta-detail-effect{
+ padding:0!important;
+ border:0!important;
+ background:transparent!important;
+ box-shadow:none!important;
+}
+#decks #betaCardDetail .beta-detail-effect h4{display:none!important}
+#decks #betaCardDetail .beta-ability-text{color:#fff}
+@media(max-width:650px){
+ #decks #betaCardDetail .beta-detail-stat{min-height:56px!important}
+ #decks #betaCardDetail .beta-detail-stat strong{font-size:20px!important}
+ 
+}
+
+/* Compact labels: card type (單位卡 etc.) and faction/class pills. */
+#decks #betaCardDetail .beta-card-kind{
+ font-size:14px!important;
+ line-height:1.25!important;
+ margin-top:7px!important;
+ letter-spacing:0!important;
+ font-weight:400;
+}
+
+
+@media(max-width:650px){
+ #decks #betaCardDetail .beta-card-kind{font-size:14px!important;margin-top:6px!important}
+ 
+}
+
+/* Round the card itself and crop the tiny pale corner pixels in source JPGs. */
+#decks #betaCardDetail .beta-detail-art,
+#decks #betaCardDetail .beta-detail-image-frame{
+ background:#080d12!important;
+ border:0!important;
+ box-shadow:none!important;
+}
+#decks #betaCardDetail .beta-detail-image-frame{
+ overflow:hidden!important;
+ border-radius:15px!important;
+ clip-path:inset(0 round 15px);
+ isolation:isolate;
+}
+#decks #betaCardDetail .beta-detail-image-frame img{
+ display:block;
+ width:100%;height:100%;
+ object-fit:cover!important;
+ border:0!important;
+ border-radius:15px!important;
+ transform:scale(1.018);
+ transform-origin:center;
+}
+@media(max-width:650px){
+ #decks #betaCardDetail .beta-detail-image-frame{
+  border-radius:14px!important;
+  clip-path:inset(0 round 14px);
+ }
+ #decks #betaCardDetail .beta-detail-image-frame img{border-radius:14px!important}
+}
+#decks .beta-page-jump select{background:#121e23;border:1px solid #45606a;border-radius:4px;color:#e7f0f2;padding:10px 8px;font:inherit;font-size:15px;max-width:105px}#decks .beta-pages{gap:10px;flex-wrap:wrap}#decks .beta-detail-art img,#deckDialogImage{pointer-events:none;-webkit-user-drag:none;user-select:none}#decks .beta-pages{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;flex-wrap:nowrap}#decks .beta-page-center{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0}#decks .beta-page-center select{width:90px;min-width:0}#decks .beta-pages button{white-space:nowrap;padding:10px 11px}#decks .beta-page-center span{white-space:nowrap;font-size:13px}@media(max-width:430px){#decks .beta-pages{gap:7px}#decks .beta-page-center{gap:5px}#decks .beta-page-center select{width:76px;padding:10px 3px;font-size:13px}#decks .beta-pages button{padding:10px 7px;font-size:13px}#decks .beta-page-center span{font-size:12px}}#decks .beta-pages{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:center;max-width:680px;margin:30px auto 18px}#decks .beta-pages>button{min-width:0;min-height:46px;width:fit-content;padding:10px 18px;border-radius:6px;background:#101d23;border:1px solid #405963;color:#dce9ec;font-size:15px}#decks .beta-pages>button:first-child{justify-self:start}#decks .beta-pages>button:last-child{justify-self:end}#decks .beta-page-center{display:flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap}#decks .beta-page-select-wrap{position:relative;display:inline-flex;align-items:center}#decks .beta-page-select-wrap:after{content:"";pointer-events:none;position:absolute;right:13px;top:50%;width:7px;height:7px;border-right:1.5px solid #29ffff;border-bottom:1.5px solid #29ffff;transform:translateY(-70%) rotate(45deg)}#decks .beta-page-center select{appearance:none;-webkit-appearance:none;box-sizing:border-box;min-width:106px;width:106px;max-width:none;min-height:46px;padding:10px 30px 10px 14px;border:1px solid #54717b;border-radius:6px;background:#13232a;color:#e8f2f3;font-size:15px;font-weight:500;text-align:left;box-shadow:none;outline-offset:3px;cursor:pointer}#decks .beta-page-center select:focus-visible{outline:2px solid #29ffff;border-color:#29ffff}#decks .beta-page-center #betaPages{color:#a5b7be;font-size:14px;white-space:nowrap}@media(max-width:470px){#decks .beta-pages{gap:7px}#decks .beta-pages>button{font-size:13px;padding:9px 9px;min-height:44px}#decks .beta-page-center{gap:5px}#decks .beta-page-center select{min-width:83px;width:83px;min-height:44px;font-size:13px;padding:9px 23px 9px 9px}#decks .beta-page-select-wrap:after{right:10px;width:6px;height:6px}#decks .beta-page-center #betaPages{font-size:12px}}#decks .beta-page-center select:focus,#decks .beta-page-center select:focus-visible{outline:none!important;box-shadow:none!important;border-color:#29ffff}#decks .beta-card-art{border-radius:8px;overflow:hidden;isolation:isolate}#decks .beta-card-art img{border-radius:8px;clip-path:inset(0 round 8px)}#decks #betaCardDetail.beta-card-dialog{max-height:calc(100dvh - 72px);box-shadow:0 22px 70px #000e,0 0 26px #c91d3933}#decks #betaCardDetail .beta-detail-image-frame{border:0;box-shadow:0 14px 35px #0009}@media(max-width:650px){#decks #betaCardDetail.beta-card-dialog{max-height:calc(100dvh - 76px);width:calc(100vw - 24px);max-width:calc(100vw - 24px)}}
+/* Shared Starter/Beta gallery presentation. The card artwork stays unchanged. */
+#decks .deck-visual-grid{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:16px}
+#decks .deck-tile{gap:5px;padding:9px;background:linear-gradient(150deg,#19161d,#0c1d22);border:1px solid #4a3037;border-radius:4px;color:#eff8f9}
+#decks .deck-tile:hover,#decks .deck-tile:focus-visible{border-color:#29ffff;outline-offset:2px}
+#decks .deck-art{aspect-ratio:5/7;background:#0b1319;border-radius:2px}
+#decks .deck-tile .deck-name{font-size:18px;line-height:1.4;margin-top:7px;font-weight:500;overflow-wrap:anywhere}
+#decks .deck-tile .deck-original{font-size:15px;line-height:1.45;color:#acbdc2;margin:0;padding:0;min-height:0;overflow-wrap:anywhere}
+#decks .deck-tile .deck-meta{display:flex;justify-content:space-between;gap:6px;align-items:center;margin-top:auto;padding-top:8px;font-size:14px;color:#abc1c7}
+#decks .deck-tile .deck-meta b{color:#f8504a;font-weight:600}
+@media(max-width:650px){#decks .deck-visual-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}#decks .deck-tile{padding:6px}}
+
+/* Card guide refinements: steady popup, color-only tab selection, compact mobile decks. */
+#decks .card-guide-tabs button,
+#decks .card-guide-tabs button[aria-selected="true"]{font-weight:400}
+#decks #betaCardDetail.beta-card-dialog[open],
+#decks #betaCardDetail.beta-card-dialog[open] .beta-detail-art,
+#decks #betaCardDetail.beta-card-dialog[open] .beta-detail-image-frame,
+#decks #betaCardDetail.beta-card-dialog[open] .beta-detail-image-frame img{
+ animation:none!important;transition:none!important;transform:none!important;
+}
+@media(max-width:650px){
+ #decks #starterDeckGallery .deck-collection{margin:12px 0 16px}
+ #decks #starterDeckGallery .deck-collection summary{padding:13px 15px;gap:10px}
+ #decks #starterDeckGallery .deck-summaryline{gap:2px}
+ #decks #starterDeckGallery .deck-summaryline small{line-height:1.3}
+}
+
+/* Beta guide: keep heading and counts in a readable mobile stack. */
+#decks .beta-browser-intro>div{min-width:0}
+@media(max-width:700px){
+ #decks .beta-browser-intro{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin:12px 0 14px}
+ #decks .beta-browser-intro h2{font-size:clamp(20px,5.4vw,26px);line-height:1.28;overflow-wrap:normal;word-break:normal}
+ #decks .beta-browser-intro p{font-size:14px;line-height:1.5}
+ #decks .beta-counter{font-size:14px;white-space:normal}
+}
+
+/* Identical starter/Beta card tile geometry and static borders. */
+#decks .deck-visual-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+#decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(5,minmax(0,1fr));max-width:none}
+#decks .deck-tile{padding:9px;gap:5px;min-width:0;transform:none!important;transition:none!important}
+#decks .deck-tile .deck-name{font-size:18px;line-height:1.4;margin:7px 0 0;padding:0;font-weight:500}
+#decks .deck-tile .deck-original{font-size:15px;line-height:1.45;margin:0;padding:0;min-height:0}
+#decks .deck-tile .deck-meta{font-size:14px;line-height:1.4;margin-top:auto;padding-top:8px}
+#decks .deck-tile:hover,#decks .deck-tile:focus-visible,
+#decks .beta-tile:hover,#decks .beta-tile:focus-visible{border-color:#4a3037!important;transform:none!important}
+#decks .deck-tile:focus-visible,#decks .beta-tile:focus-visible{outline:2px solid #8baab2;outline-offset:2px}
+#decks .deck-tile:active,#decks .beta-tile:active{border-color:#4a3037!important;transform:none!important}
+#decks .deck-tile .deck-name .card-title-subline,
+#decks .beta-card-title .card-title-subline{display:block}
+@media(max-width:950px){
+ #decks .deck-visual-grid,#decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:700px){
+ #decks .deck-visual-grid,#decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+ #decks .deck-tile{padding:7px}
+ #decks .deck-tile .deck-name{font-size:16px}
+ #decks .deck-tile .deck-original{font-size:14px}
+}
+@media(max-width:460px){
+ #decks .deck-visual-grid,#decks .deck-inner>h2:first-of-type + .deck-visual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Uniform card tile height: image ratio + reserved name rows + bottom metadata. */
+#decks .deck-tile,#decks .beta-tile{box-sizing:border-box;display:flex;flex-direction:column;align-items:stretch;height:100%;min-height:0;gap:5px}
+#decks .deck-art,#decks .beta-card-art{flex:0 0 auto;width:100%;aspect-ratio:5/7}
+#decks .deck-tile .deck-name,#decks .beta-card-title{box-sizing:border-box;flex:0 0 auto;min-height:calc(1.4em * 3);line-height:1.4;margin-top:7px;padding:0;overflow-wrap:anywhere}
+#decks .deck-tile .deck-original,#decks .beta-card-english{box-sizing:border-box;flex:0 0 auto;min-height:calc(1.45em * 3);line-height:1.45;margin:0;padding:0;overflow-wrap:anywhere}
+#decks .deck-tile .deck-meta,#decks .beta-card-meta{flex:0 0 auto;margin-top:auto;padding-top:8px;min-height:calc(1.4em + 8px)}
+
+/* Regular weight by default; preserve original bold styling on mobile. */
+#home .grid .panel h2,
+header nav button,
+header nav button.active{font-weight:400}
+@media (max-width:767px){
+ #home .grid .panel h2{font-weight:700}
+ header nav button.active{font-weight:700}
+}
+
+/* Learning exercise: tighten sparse player/rival panels and separate feedback from retry controls. */
+#learn #labStage .chapter-quiz{margin-top:18px;padding-top:15px}
+#learn #labStage .chapter-quiz > p{margin:9px 0 12px}
+#learn #labStage .arena{margin-top:12px;gap:12px}
+#learn #labStage .arena .zone{min-height:0;padding:14px 16px}
+#learn #labStage .arena .zone p{margin:9px 0;line-height:1.55}
+#learn #labStage .notice{margin-top:20px;margin-bottom:22px;line-height:1.7}
+#learn #labStage .chapter-actions{margin-top:0;gap:12px}
+
+/* Desktop card guide refinements; mobile layout is intentionally untouched. */
+@media (min-width:768px){
+ #decks .deck-tile .deck-name,#decks .beta-card-title{min-height:calc(1.4em * 2)}
+ #decks .deck-tile .deck-original,#decks .beta-card-english{min-height:calc(1.45em * 2)}
+ #decks #betaCardDetail .beta-detail-body{
+  scrollbar-gutter:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#4b6068 transparent;
+ }
+ #decks #betaCardDetail .beta-detail-body::-webkit-scrollbar{width:6px}
+ #decks #betaCardDetail .beta-detail-body::-webkit-scrollbar-track{background:transparent}
+ #decks #betaCardDetail .beta-detail-body::-webkit-scrollbar-thumb{background:#4b6068;border-radius:8px}
+ 
+}
+
+/* Center the whole desktop tag row, not only text within each pill. */
+@media (min-width:768px){
+ 
+}
+
+/* Tag alignment on both mobile and desktop, without changing pill dimensions. */
+
+
+
+/* Tag row stays left-aligned; only text inside each pill is centered. */
+
+
+
+/* Optical centering of tag text within its own pill; tag row stays left aligned. */
+
+
+
+
+/* Inner label is plain text, never a second pill. */
+
+
+/* One pill, one text node: remove nested label and center using symmetrical padding. */
+
+
+
+/* Restore compact mobile card tiles; desktop reserved rows do not apply on phones. */
+@media (max-width:767px){
+ #decks .deck-tile .deck-name,#decks .beta-card-title{min-height:0;flex:0 0 auto;margin-top:7px}
+ #decks .deck-tile .deck-original,#decks .beta-card-english{min-height:0;flex:0 0 auto;margin:0}
+ #decks .deck-tile .deck-meta,#decks .beta-card-meta{min-height:0;margin-top:auto;padding-top:8px}
+}
+
+/* Secondary epithet below a character's primary Chinese name. */
+#decks .deck-tile .deck-name .card-title-subline,
+#decks .beta-card-title .card-title-subline{
+ display:block;
+ font-size:.85em;
+ font-weight:400;
+ line-height:1.4;
+ letter-spacing:0.5px;
+}
+
+/* English names follow the same name/epithet hierarchy as Chinese. */
+#decks .deck-tile .deck-original,#decks .beta-card-english{line-height:1.25}
+#decks .deck-tile .deck-original .card-english-subline,
+#decks .beta-card-english .card-english-subline{display:block;font-size:.85em;font-weight:400;line-height:1.2;letter-spacing:.5px;margin-top:1px}
+
+/* Desktop English card-name space: reserve two compact lines. */
+@media (min-width:768px){
+ #decks .beta-card-english{min-height:calc(1em * 2)}
+}
+
+/* Uniform compact English title size for both name and subtitle. */
+#decks .deck-tile .deck-original,#decks .beta-card-english{font-size:12.75px;letter-spacing:.5px;font-weight:400;line-height:1.2}
+#decks .deck-tile .deck-original .card-english-subline,#decks .beta-card-english .card-english-subline{font-size:1em;line-height:1.2;letter-spacing:inherit}
+
+/* Card attribute pills: neutral outline and generous, balanced spacing. */
+
+
+
+/* Fully rounded tag pills, including legacy border-radius overrides. */
+
+
+/* V2: single source of truth for card attribute tags.
+   Adjust --tag-padding-y to change vertical padding. */
+#decks #betaCardDetail .beta-detail-tags{
+ --tag-padding-y:3px;
+ --tag-padding-x:14px;
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:flex-start;
+ align-items:center;
+ gap:8px;
+ margin:0;
+}
+#decks #betaCardDetail .beta-detail-tags > span{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ box-sizing:border-box;
+ min-height:0;
+ padding:var(--tag-padding-y) var(--tag-padding-x);
+ border:1.5px solid #51525b;
+ border-radius:9999px;
+ background:transparent;
+ color:#dedee3;
+ font-size:14px;
+ font-weight:400;
+ line-height:1.35;
+ letter-spacing:0;
+ text-align:center;
+ white-space:nowrap;
+}
+</style></head><body>
+<header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
+<main class="wrap">
+<section id="home"><div class="tag">WELCOME TO NIGHT CITY // 01</div><h1>LEARN THE GAME.<br><span style="color:#f8504a">OWN THE TABLE.</span></h1><p class="lead">從零開始認識 Cyberpunk 2077 Trading Card Game。以繁體中文、分階段說明與互動練習，逐步建立實戰基礎。</p><div class="actions"><button class="btn primary" data-go="learn">開始學習 ↗</button></div><div class="grid"><div class="panel"><div class="number">01 / LEARN</div><h2>邊學邊操作</h2><p>七個章節，每學一個觀念就能直接練習，不必切換分頁。</p></div><div class="panel"><div class="number">02 / DECKS</div><h2>初始牌組</h2><p>先熟悉兩套牌組的卡面、中文卡名與數量。</p></div><div class="panel"><div class="number">03 / BATTLE</div><h2>AI 對戰</h2><p>規則引擎與單機 AI 對戰開發中，完成驗證後開放。</p></div></div></section>
+<section id="learn" class="hide">
+<div class="tag">TRAINING MODULE / LEARN BY PLAYING</div>
+<h1>LEARN. THEN PLAY.</h1>
+<p class="lead">用繁體中文從零認識卡牌規則。每課先解釋觀念，再直接在同一頁操作；完成練習才能解鎖下一課。</p>
+<div class="notice">本教學只涵蓋已建立的部分規則與卡牌效果，並非完整對戰。卡牌能力仍以官方英文原文為準。<a href="#rules" data-rule-link>查看術語對照 ↗</a></div>
+<div class="learning-overview">
+<div class="panel"><div class="number">CARD TYPES</div><h2>先認識四類卡牌</h2><p>傳奇角色（Legend）是牌組核心，角色單位（Unit）可以攻擊；裝備（Gear）強化角色，程式（Program）則提供特定效果。</p></div>
+<div class="panel"><div class="number">PAYMENT</div><h2>出牌需要資源</h2><p>使用 Eddies（€$）支付費用。每回合可以賣出一張符合條件的手牌，將其放進資源區。完整支付操作會在正式規則引擎加入。</p></div>
+</div>
+<nav class="chapter-nav" id="chapterNav" aria-label="教學章節"></nav>
+<div class="panel" id="labStage" aria-live="polite"><p>正在載入互動教學…</p></div>
+<p class="muted">詳細術語與完整規則參考：<a href="https://cyberpunktcg.com/gameplay-guide" target="_blank" rel="noopener noreferrer">官方 Gameplay Guide ↗</a></p>
+</section>
+<section id="battle" class="hide"><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
+ <div class="table-preview" id="tablePreview">
+  <div class="preview-zone opponent-hand" data-tour-zone="opponent-hand"><small>OPPONENT / 手牌</small><div class="placeholder-label preview-card-rail">對手手牌 · 隱藏資訊</div></div>
+  <div class="preview-zone opponent-legends" data-tour-zone="opponent-legends"><small>OPPONENT / 傳奇角色</small><div class="cardbacks"><div class="backcard">NCT</div><div class="backcard">NCT</div><div class="backcard">NCT</div></div></div>
+  <div class="preview-zone opponent-eddies" data-tour-zone="opponent-eddies"><small>OPPONENT / EDDIES</small><div class="placeholder-label">對手資源區</div></div>
+  <div class="preview-zone opponent-fixer" data-tour-zone="opponent-fixer"><small>對手合事佬區 / FIXER</small><div class="mini-dice" aria-label="合事佬區骰子"><span class="die-icon die-4" title="4 面骰（d4）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><polygon points="28,3 53,47 3,47"/></svg><b>D4</b></span><span class="die-icon die-6" title="6 面骰（d6）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><rect x="5" y="5" width="46" height="46" rx="1"/></svg><b>D6</b></span><span class="die-icon die-8" title="8 面骰（d8）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><polygon points="28,2 54,28 28,54 2,28"/></svg><b>D8</b></span><span class="die-icon die-10" title="10 面骰（d10）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><polygon points="28,2 52,22 43,50 13,50 4,22"/><path d="M4 22 28 37 52 22 M28 37V2"/></svg><b>D10</b></span><span class="die-icon die-12" title="12 面骰（d12）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><polygon points="28,2 47,9 54,28 47,47 28,54 9,47 2,28 9,9"/><path d="M9 9 28 18 47 9 M9 47 28 38 47 47"/></svg><b>D12</b></span><span class="die-icon die-20" title="20 面骰（d20）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><polygon points="28,2 52,16 52,40 28,54 4,40 4,16"/><path d="M28 2 4 40 52 40 Z M4 16 28 54 52 16"/></svg><b>D20</b></span></div></div>
+  <div class="preview-zone opponent-gigs" data-tour-zone="opponent-gigs"><small>對手任務區 / GIG</small><strong>0 / 7</strong><span>街頭聲望：尚無</span></div>
+  <div class="preview-zone opponent-field" data-tour-zone="opponent-field"><small>OPPONENT / 場地</small><div class="field-slots"><div>對手角色</div><div>對手角色</div><div>裝備</div></div></div>
+  <div class="preview-zone opponent-deck" data-tour-zone="opponent-deck"><small>牌庫 / 棄牌區</small><div class="deck-pile">40<br><span>DECK</span></div></div>
+  <div class="preview-zone turn-info" data-tour-zone="turn-info"><small>PHASE / 回合</small><strong>SETUP</strong><span>此處顯示階段、可執行動作與操作結果</span></div>
+  <div class="preview-zone player-deck" data-tour-zone="player-deck"><small>己方牌庫 / 棄牌區</small><div class="deck-pile">40<br><span>DECK</span></div></div>
+  <div class="preview-zone player-field" data-tour-zone="player-field"><small>PLAYER / 我的場地</small><div class="field-slots"><div>己方角色</div><div>己方角色</div><div>裝備</div></div></div>
+  <div class="preview-zone player-gigs" data-tour-zone="player-gigs"><small>我的任務區 / GIG</small><strong>0 / 7</strong><span>街頭聲望：尚無</span></div>
+  <div class="preview-zone player-fixer" data-tour-zone="player-fixer"><small>我的合事佬區 / FIXER</small><div class="mini-dice" aria-label="合事佬區骰子"><span class="die-icon die-4" title="4 面骰（d4）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><polygon points="28,3 53,47 3,47"/></svg><b>D4</b></span><span class="die-icon die-6" title="6 面骰（d6）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><rect x="5" y="5" width="46" height="46" rx="1"/></svg><b>D6</b></span><span class="die-icon die-8" title="8 面骰（d8）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><polygon points="28,2 54,28 28,54 2,28"/></svg><b>D8</b></span><span class="die-icon die-10" title="10 面骰（d10）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><polygon points="28,2 52,22 43,50 13,50 4,22"/><path d="M4 22 28 37 52 22 M28 37V2"/></svg><b>D10</b></span><span class="die-icon die-12" title="12 面骰（d12）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><polygon points="28,2 47,9 54,28 47,47 28,54 9,47 2,28 9,9"/><path d="M9 9 28 18 47 9 M9 47 28 38 47 47"/></svg><b>D12</b></span><span class="die-icon die-20" title="20 面骰（d20）"><svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><polygon points="28,2 52,16 52,40 28,54 4,40 4,16"/><path d="M28 2 4 40 52 40 Z M4 16 28 54 52 16"/></svg><b>D20</b></span></div></div>
+  <div class="preview-zone player-hand" data-tour-zone="player-hand"><small>PLAYER / 我的手牌</small><div class="hand-placeholder preview-card-rail">載入真實卡圖中…</div></div>
+  <div class="preview-zone player-legends" data-tour-zone="player-legends"><small>PLAYER / 傳奇角色</small><div class="cardbacks"><div class="backcard">NCT</div><div class="backcard">NCT</div><div class="backcard">NCT</div></div></div>
+  <div class="preview-zone player-eddies" data-tour-zone="player-eddies"><small>PLAYER / EDDIES</small><div class="placeholder-label">我的資源區 · 0 €$</div></div>
+ </div>
+ <aside class="tour-coach is-compact" aria-live="polite"><div class="tour-coach-header"><span id="tourCounter">AREA 01 / 08</span><div class="tour-coach-tools"><button type="button" id="toggleBoardTip" class="tour-mini" aria-expanded="false" aria-controls="tourTipDetails">顯示解說</button><button type="button" id="closeBoardTour" class="tour-mini tour-close-x" aria-label="關閉桌面導覽" title="關閉">×</button></div></div>
+ <h2 id="tourTitle"></h2><div id="tourTipDetails" class="tour-tip-details"><p id="tourDescription"></p><div class="tour-action" id="tourAction"></div><p id="tourDetail" class="tour-detail"></p>
+ <div class="tour-coach-nav"><button class="btn" id="tourPrevious" type="button">← 上一步</button><button class="btn primary" id="tourContinue" type="button">下一步 →</button></div></div></aside>
+</div>
+<p class="muted">卡背圖採用 <a href="https://chromeandgigs.com/credits" target="_blank" rel="noopener noreferrer">Chrome &amp; Gigs 公開展示的標準卡背與 Legend 卡背素材</a>，以遠端圖片顯示；著作權與授權資訊以來源網站為準。</p><p id="battlePreviewStatus" class="notice" role="status">正在載入初始牌組卡圖…</p><div id="battleCardHover" class="battle-card-hover" role="tooltip" aria-hidden="true" hidden><img id="battleHoverImage" alt=""><p id="battleHoverName"></p><p id="battleHoverFallback" hidden>圖片暫時無法顯示</p></div><dialog id="battleCardDialog" class="battle-card-dialog card-preview-dialog" aria-label="對戰卡牌預覽"><div class="deck-dialog-wrap"><div class="deck-dialog-head"><div class="deck-popup-titles"><strong id="battleCardTitle" tabindex="-1">卡牌預覽</strong><span id="battleCardEnglish" class="deck-dialog-english"></span></div><button type="button" id="closeBattleCard" class="deck-dialog-close" aria-label="關閉卡牌預覽" title="關閉">×</button></div><img id="battleCardFullImage" alt="卡牌放大預覽"><p id="battleCardNoImage" hidden>來源沒有卡面圖片</p><p><a id="battleCardSource" target="_blank" rel="noopener noreferrer">以新分頁開啟原圖 ↗</a></p></div></dialog><p class="muted">這是桌面位置與導覽互動的技術原型：尚無真實卡牌操作、骰子擲出、Eddies 支付或官方對戰 AI。導覽的黃色外框用來提示區域，不代表目前可執行遊戲動作。</p>
+</section><section id="decks" class="hide"><div class="tag">CYBERPUNK TCG / CARD GUIDE</div><h1>CARD GUIDE.</h1><p>查閱完整 Beta 卡表，以及兩套初始牌組的卡圖與中英名稱。卡牌功能、色彩與規則數值會在後續依官方資料逐張核對；目前尚未完整翻譯或接入對戰引擎。</p>
+<div class="card-guide-tabs" role="tablist" aria-label="卡牌介紹分類"><button type="button" role="tab" data-card-view="starter" aria-selected="false" aria-controls="starterDeckGallery">初始牌組 / STARTER DECKS</button><button type="button" role="tab" data-card-view="beta" aria-selected="true" aria-controls="betaCardCollection">Beta 卡牌 / 178 張</button></div>
+<div id="starterDeckGallery" hidden><details class="deck-collection"><summary><span class="deck-summaryline"><strong>The Heist</strong><small>3 LEGENDS · 40 MAIN CARDS · 20 UNIQUE CARDS</small></span><span class="deck-summaryhint" aria-hidden="true"><span class="when-closed">＋</span><span class="when-open">−</span></span></summary><div class="deck-inner"><p>使用 V、維克・威科特與阿傑・威爾斯的初始牌組。</p><h2>LEGENDS <small>/ 3 CARDS</small></h2><div class="deck-visual-grid"><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b012-v-corporate-exile.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b012-v-corporate-exile.webp" data-card-name="V: Corporate Exile" target="_blank" rel="noopener noreferrer" aria-label="放大查看 V: Corporate Exile 卡圖，牌組數量 1 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b012-v-corporate-exile.webp" loading="lazy" decoding="async" alt="V: Corporate Exile 實體卡面，LEGEND，Beta 初始牌組版本"></div><div class="deck-name">V：企業流亡者</div><div class="deck-original">V: Corporate Exile</div><div class="deck-meta"><span>LEGEND · B012</span><b>×1</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b001-viktor-vektor-sit-down-and-relax.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b001-viktor-vektor-sit-down-and-relax.webp" data-card-name="Viktor Vektor: Sit Down and Relax" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Viktor Vektor: Sit Down and Relax 卡圖，牌組數量 1 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b001-viktor-vektor-sit-down-and-relax.webp" loading="lazy" decoding="async" alt="Viktor Vektor: Sit Down and Relax 實體卡面，LEGEND，Beta 初始牌組版本"></div><div class="deck-name">維克・威科特：坐下來放輕鬆</div><div class="deck-original">Viktor Vektor: Sit Down and Relax</div><div class="deck-meta"><span>LEGEND · B001</span><b>×1</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b011-jackie-welles-pour-one-out-for-me.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b011-jackie-welles-pour-one-out-for-me.webp" data-card-name="Jackie Welles: Pour One Out For Me" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Jackie Welles: Pour One Out For Me 卡圖，牌組數量 1 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b011-jackie-welles-pour-one-out-for-me.webp" loading="lazy" decoding="async" alt="Jackie Welles: Pour One Out For Me 實體卡面，LEGEND，Beta 初始牌組版本"></div><div class="deck-name">阿傑・威爾斯：敬我一杯</div><div class="deck-original">Jackie Welles: Pour One Out For Me</div><div class="deck-meta"><span>LEGEND · B011</span><b>×1</b></div></a></div><h2>MAIN DECK <small>/ 40 CARDS</small></h2><div class="deck-visual-grid"><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b002-dexter-deshawn-one-last-chance.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b002-dexter-deshawn-one-last-chance.webp" data-card-name="Dexter DeShawn: One Last Chance" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Dexter DeShawn: One Last Chance 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b002-dexter-deshawn-one-last-chance.webp" loading="lazy" decoding="async" alt="Dexter DeShawn: One Last Chance 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">德克斯特・德尚：最後一次機會</div><div class="deck-original">Dexter DeShawn: One Last Chance</div><div class="deck-meta"><span>MAIN · B002</span><b>×2</b></div></a><a class="deck-tile" href="https://cdn.tcg.online/public/cyberpunk/cards/theheistbetastarterdeck/b003.webp" data-deck-image="https://cdn.tcg.online/public/cyberpunk/cards/theheistbetastarterdeck/b003.webp" data-card-name="Heywood Ripperdoc" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Heywood Ripperdoc 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://cdn.tcg.online/public/cyberpunk/cards/theheistbetastarterdeck/b003.webp" loading="lazy" decoding="async" alt="Heywood Ripperdoc 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">黑伍德神機醫</div><div class="deck-original">Heywood Ripperdoc</div><div class="deck-meta"><span>MAIN · B003</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b004-offduty-malfini.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b004-offduty-malfini.webp" data-card-name="Offduty Malfini" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Offduty Malfini 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b004-offduty-malfini.webp" loading="lazy" decoding="async" alt="Offduty Malfini 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">下班的馬爾菲尼</div><div class="deck-original">Offduty Malfini</div><div class="deck-meta"><span>MAIN · B004</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b005-secondhand-bombus.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b005-secondhand-bombus.webp" data-card-name="Secondhand Bombus" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Secondhand Bombus 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b005-secondhand-bombus.webp" loading="lazy" decoding="async" alt="Secondhand Bombus 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">二手蜂型機器人</div><div class="deck-original">Secondhand Bombus</div><div class="deck-meta"><span>MAIN · B005</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b006-t-bug-amateur-philosopher.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b006-t-bug-amateur-philosopher.webp" data-card-name="T-Bug: Amateur Philosopher" target="_blank" rel="noopener noreferrer" aria-label="放大查看 T-Bug: Amateur Philosopher 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b006-t-bug-amateur-philosopher.webp" loading="lazy" decoding="async" alt="T-Bug: Amateur Philosopher 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">T-Bug：業餘哲學家</div><div class="deck-original">T-Bug: Amateur Philosopher</div><div class="deck-meta"><span>MAIN · B006</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b007-kiroshi-optics.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b007-kiroshi-optics.webp" data-card-name="Kiroshi Optics" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Kiroshi Optics 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b007-kiroshi-optics.webp" loading="lazy" decoding="async" alt="Kiroshi Optics 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">喜呂志光學義眼</div><div class="deck-original">Kiroshi Optics</div><div class="deck-meta"><span>MAIN · B007</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b008-mandibular-upgrade.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b008-mandibular-upgrade.webp" data-card-name="Mandibular Upgrade" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Mandibular Upgrade 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b008-mandibular-upgrade.webp" loading="lazy" decoding="async" alt="Mandibular Upgrade 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">下顎升級組件</div><div class="deck-original">Mandibular Upgrade</div><div class="deck-meta"><span>MAIN · B008</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b009-zetatech-faceplate.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b009-zetatech-faceplate.webp" data-card-name="Zetatech Faceplate" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Zetatech Faceplate 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b009-zetatech-faceplate.webp" loading="lazy" decoding="async" alt="Zetatech Faceplate 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">ZETA科技面罩</div><div class="deck-original">Zetatech Faceplate</div><div class="deck-meta"><span>MAIN · B009</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b010-afterparty-at-lizzie-s.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b010-afterparty-at-lizzie-s.webp" data-card-name="Afterparty at Lizzie&#39;s" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Afterparty at Lizzie&#39;s 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b010-afterparty-at-lizzie-s.webp" loading="lazy" decoding="async" alt="Afterparty at Lizzie&#39;s 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">莉姿酒吧的續攤派對</div><div class="deck-original">Afterparty at Lizzie&#39;s</div><div class="deck-meta"><span>MAIN · B010</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b013-delamain-cab.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b013-delamain-cab.webp" data-card-name="Delamain Cab" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Delamain Cab 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b013-delamain-cab.webp" loading="lazy" decoding="async" alt="Delamain Cab 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">德拉曼計程車</div><div class="deck-original">Delamain Cab</div><div class="deck-meta"><span>MAIN · B013</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b014-evelyn-parker-scheming-siren.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b014-evelyn-parker-scheming-siren.webp" data-card-name="Evelyn Parker: Scheming Siren" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Evelyn Parker: Scheming Siren 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b014-evelyn-parker-scheming-siren.webp" loading="lazy" decoding="async" alt="Evelyn Parker: Scheming Siren 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">伊芙琳・帕克：心機魅影</div><div class="deck-original">Evelyn Parker: Scheming Siren</div><div class="deck-meta"><span>MAIN · B014</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b015-mt0d12-flathead.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b015-mt0d12-flathead.webp" data-card-name="MT0D12 Flathead" target="_blank" rel="noopener noreferrer" aria-label="放大查看 MT0D12 Flathead 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b015-mt0d12-flathead.webp" loading="lazy" decoding="async" alt="MT0D12 Flathead 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">MT0D12 扁頭機器人</div><div class="deck-original">MT0D12 Flathead</div><div class="deck-meta"><span>MAIN · B015</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b016-psycho-squad.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b016-psycho-squad.webp" data-card-name="Psycho Squad" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Psycho Squad 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b016-psycho-squad.webp" loading="lazy" decoding="async" alt="Psycho Squad 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">神機錯亂特勤小隊</div><div class="deck-original">Psycho Squad</div><div class="deck-meta"><span>MAIN · B016</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b017-dying-night-v-s-pistol.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b017-dying-night-v-s-pistol.webp" data-card-name="Dying Night: V&#39;s Pistol" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Dying Night: V&#39;s Pistol 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b017-dying-night-v-s-pistol.webp" loading="lazy" decoding="async" alt="Dying Night: V&#39;s Pistol 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">垂死之夜：V 的手槍</div><div class="deck-original">Dying Night: V&#39;s Pistol</div><div class="deck-meta"><span>MAIN · B017</span><b>×2</b></div></a><a class="deck-tile" href="https://cdn.tcg.online/public/cyberpunk/cards/theheistbetastarterdeck/b018.webp" data-deck-image="https://cdn.tcg.online/public/cyberpunk/cards/theheistbetastarterdeck/b018.webp" data-card-name="Tetratronic Rippler" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Tetratronic Rippler 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://cdn.tcg.online/public/cyberpunk/cards/theheistbetastarterdeck/b018.webp" loading="lazy" decoding="async" alt="Tetratronic Rippler 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">四方電子漣漪</div><div class="deck-original">Tetratronic Rippler</div><div class="deck-meta"><span>MAIN · B018</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b019-floor-it.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b019-floor-it.webp" data-card-name="Floor It" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Floor It 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b019-floor-it.webp" loading="lazy" decoding="async" alt="Floor It 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">全速前進</div><div class="deck-original">Floor It</div><div class="deck-meta"><span>MAIN · B019</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b020-reboot-optics.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b020-reboot-optics.webp" data-card-name="Reboot Optics" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Reboot Optics 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/the-heist-beta-starter-deck/webp/b020-reboot-optics.webp" loading="lazy" decoding="async" alt="Reboot Optics 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">重啟光學系統</div><div class="deck-original">Reboot Optics</div><div class="deck-meta"><span>MAIN · B020</span><b>×2</b></div></a></div></div></details><details class="deck-collection"><summary><span class="deck-summaryline"><strong>Embracing Power</strong><small>3 LEGENDS · 40 MAIN CARDS · 20 UNIQUE CARDS</small></span><span class="deck-summaryhint" aria-hidden="true"><span class="when-closed">＋</span><span class="when-open">−</span></span></summary><div class="deck-inner"><p>使用 武村吾郎、荒坂賴宣與荒坂三郎的初始牌組。</p><h2>LEGENDS <small>/ 3 CARDS</small></h2><div class="deck-visual-grid"><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b012-goro-takemura-hands-unclean.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b012-goro-takemura-hands-unclean.webp" data-card-name="Goro Takemura: Hands Unclean" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Goro Takemura: Hands Unclean 卡圖，牌組數量 1 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b012-goro-takemura-hands-unclean.webp" loading="lazy" decoding="async" alt="Goro Takemura: Hands Unclean 實體卡面，LEGEND，Beta 初始牌組版本"></div><div class="deck-name">武村吾郎：雙手玷污</div><div class="deck-original">Goro Takemura: Hands Unclean</div><div class="deck-meta"><span>LEGEND · B012</span><b>×1</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b001-yorinobu-arasaka-embracing-destruction.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b001-yorinobu-arasaka-embracing-destruction.webp" data-card-name="Yorinobu Arasaka: Embracing Destruction" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Yorinobu Arasaka: Embracing Destruction 卡圖，牌組數量 1 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b001-yorinobu-arasaka-embracing-destruction.webp" loading="lazy" decoding="async" alt="Yorinobu Arasaka: Embracing Destruction 實體卡面，LEGEND，Beta 初始牌組版本"></div><div class="deck-name">荒坂賴宣：擁抱毀滅</div><div class="deck-original">Yorinobu Arasaka: Embracing Destruction</div><div class="deck-meta"><span>LEGEND · B001</span><b>×1</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b013-saburo-arasaka-stubborn-patriarch.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b013-saburo-arasaka-stubborn-patriarch.webp" data-card-name="Saburo Arasaka: Stubborn Patriarch" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Saburo Arasaka: Stubborn Patriarch 卡圖，牌組數量 1 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b013-saburo-arasaka-stubborn-patriarch.webp" loading="lazy" decoding="async" alt="Saburo Arasaka: Stubborn Patriarch 實體卡面，LEGEND，Beta 初始牌組版本"></div><div class="deck-name">荒坂三郎：頑固的家主</div><div class="deck-original">Saburo Arasaka: Stubborn Patriarch</div><div class="deck-meta"><span>LEGEND · B013</span><b>×1</b></div></a></div><h2>MAIN DECK <small>/ 40 CARDS</small></h2><div class="deck-visual-grid"><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b002-chrome-fang.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b002-chrome-fang.webp" data-card-name="Chrome Fang" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Chrome Fang 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b002-chrome-fang.webp" loading="lazy" decoding="async" alt="Chrome Fang 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">鍍鉻獠牙</div><div class="deck-original">Chrome Fang</div><div class="deck-meta"><span>MAIN · B002</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b003-minotaur.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b003-minotaur.webp" data-card-name="Minotaur" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Minotaur 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b003-minotaur.webp" loading="lazy" decoding="async" alt="Minotaur 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">牛頭怪</div><div class="deck-original">Minotaur</div><div class="deck-meta"><span>MAIN · B003</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b004-ruthless-lowlife.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b004-ruthless-lowlife.webp" data-card-name="Ruthless Lowlife" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Ruthless Lowlife 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b004-ruthless-lowlife.webp" loading="lazy" decoding="async" alt="Ruthless Lowlife 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">狠毒混混</div><div class="deck-original">Ruthless Lowlife</div><div class="deck-meta"><span>MAIN · B004</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b005-swordwise-huscle.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b005-swordwise-huscle.webp" data-card-name="Swordwise Huscle" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Swordwise Huscle 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b005-swordwise-huscle.webp" loading="lazy" decoding="async" alt="Swordwise Huscle 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">精通刀劍的壯漢</div><div class="deck-original">Swordwise Huscle</div><div class="deck-meta"><span>MAIN · B005</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b015-emergency-atlus.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b015-emergency-atlus.webp" data-card-name="Emergency Atlus" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Emergency Atlus 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b015-emergency-atlus.webp" loading="lazy" decoding="async" alt="Emergency Atlus 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">緊急用阿特拉斯</div><div class="deck-original">Emergency Atlus</div><div class="deck-meta"><span>MAIN · B015</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b016-field-operator.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b016-field-operator.webp" data-card-name="Field Operator" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Field Operator 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b016-field-operator.webp" loading="lazy" decoding="async" alt="Field Operator 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">外勤幹員</div><div class="deck-original">Field Operator</div><div class="deck-meta"><span>MAIN · B016</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b017-goro-takemura-losing-his-way.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b017-goro-takemura-losing-his-way.webp" data-card-name="Goro Takemura: Losing His Way" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Goro Takemura: Losing His Way 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b017-goro-takemura-losing-his-way.webp" loading="lazy" decoding="async" alt="Goro Takemura: Losing His Way 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">武村吾郎：迷失方向</div><div class="deck-original">Goro Takemura: Losing His Way</div><div class="deck-meta"><span>MAIN · B017</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b018-maxtac-av.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b018-maxtac-av.webp" data-card-name="MaxTac AV" target="_blank" rel="noopener noreferrer" aria-label="放大查看 MaxTac AV 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b018-maxtac-av.webp" loading="lazy" decoding="async" alt="MaxTac AV 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">鎮靜特勤組飛行載具</div><div class="deck-original">MaxTac AV</div><div class="deck-meta"><span>MAIN · B018</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b006-arasaka-emergency-radioport.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b006-arasaka-emergency-radioport.webp" data-card-name="Arasaka Emergency Radioport" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Arasaka Emergency Radioport 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b006-arasaka-emergency-radioport.webp" loading="lazy" decoding="async" alt="Arasaka Emergency Radioport 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">荒坂緊急無線傳送站</div><div class="deck-original">Arasaka Emergency Radioport</div><div class="deck-meta"><span>MAIN · B006</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b007-mantis-blades.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b007-mantis-blades.webp" data-card-name="Mantis Blades" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Mantis Blades 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b007-mantis-blades.webp" loading="lazy" decoding="async" alt="Mantis Blades 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">螳螂刀</div><div class="deck-original">Mantis Blades</div><div class="deck-meta"><span>MAIN · B007</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b008-satori-sword-of-saburo.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b008-satori-sword-of-saburo.webp" data-card-name="Satori: Sword of Saburo" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Satori: Sword of Saburo 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b008-satori-sword-of-saburo.webp" loading="lazy" decoding="async" alt="Satori: Sword of Saburo 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">覺：三郎之劍</div><div class="deck-original">Satori: Sword of Saburo</div><div class="deck-meta"><span>MAIN · B008</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b009-industrial-assembly.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b009-industrial-assembly.webp" data-card-name="Industrial Assembly" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Industrial Assembly 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b009-industrial-assembly.webp" loading="lazy" decoding="async" alt="Industrial Assembly 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">工業裝配</div><div class="deck-original">Industrial Assembly</div><div class="deck-meta"><span>MAIN · B009</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b010-over-the-edge.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b010-over-the-edge.webp" data-card-name="Over the Edge" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Over the Edge 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b010-over-the-edge.webp" loading="lazy" decoding="async" alt="Over the Edge 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">瀕臨失控</div><div class="deck-original">Over the Edge</div><div class="deck-meta"><span>MAIN · B010</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b011-shattered-memories.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b011-shattered-memories.webp" data-card-name="Shattered Memories" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Shattered Memories 卡圖，牌組數量 2 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b011-shattered-memories.webp" loading="lazy" decoding="async" alt="Shattered Memories 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">破碎的記憶</div><div class="deck-original">Shattered Memories</div><div class="deck-meta"><span>MAIN · B011</span><b>×2</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b014-corpo-security.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b014-corpo-security.webp" data-card-name="Corpo Security" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Corpo Security 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b014-corpo-security.webp" loading="lazy" decoding="async" alt="Corpo Security 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">企業保全</div><div class="deck-original">Corpo Security</div><div class="deck-meta"><span>MAIN · B014</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b019-sandevistan.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b019-sandevistan.webp" data-card-name="Sandevistan" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Sandevistan 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b019-sandevistan.webp" loading="lazy" decoding="async" alt="Sandevistan 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">沙德威斯坦</div><div class="deck-original">Sandevistan</div><div class="deck-meta"><span>MAIN · B019</span><b>×3</b></div></a><a class="deck-tile" href="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b020-corporate-surveillance.webp" data-deck-image="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b020-corporate-surveillance.webp" data-card-name="Corporate Surveillance" target="_blank" rel="noopener noreferrer" aria-label="放大查看 Corporate Surveillance 卡圖，牌組數量 3 張"><div class="deck-art"><div class="deck-art-fallback">CYBERPUNK TCG<span>卡圖載入中／無法顯示時請點擊開啟來源</span></div><img src="https://holohoard.app/api/img/cards/cyberpunk-tcg/embracing-power-beta-starter-deck/webp/b020-corporate-surveillance.webp" loading="lazy" decoding="async" alt="Corporate Surveillance 實體卡面，MAIN，Beta 初始牌組版本"></div><div class="deck-name">企業監控</div><div class="deck-original">Corporate Surveillance</div><div class="deck-meta"><span>MAIN · B020</span><b>×3</b></div></a></div></div></details><p><a href="https://cyberpunktcg.com/blog/wnc-starter-decks" target="_blank" rel="noopener noreferrer">官方完整初始牌組清單 ↗</a></p></div>
+<section id="betaCardCollection" class="beta-browser" hidden aria-label="Beta 卡牌">
+<div class="beta-browser-intro"><div><h2>WELCOME TO NIGHT CITY / BETA</h2><p id="betaLoadStatus" role="status">正在載入 Beta 卡牌…</p></div><span id="betaCount" class="beta-counter">178 張</span></div>
+<div class="beta-data-note">172 張 Beta 主系列（包含 B005A／B005B）＋6 張 Box Topper。Box Topper 的 T001～T006 是本網站索引編號。</div>
+<div class="beta-filters"><label>搜尋卡名或卡號<input id="betaSearch" type="search" placeholder="例如 B171、Judy、Panam"></label><label>系列<select id="betaSeries"><option value="all">全部 178 張</option><option value="beta">Beta 主系列（172）</option><option value="topper">Box Topper（6）</option></select></label><label>稀有度<select id="betaRarity"><option value="all">全部稀有度</option></select></label></div>
+<dialog id="betaCardDetail" class="beta-detail-panel beta-card-dialog" aria-label="卡牌詳細資訊"><div class="beta-detail-header"><strong id="betaDetailHeading" tabindex="-1">CARD DETAILS / 卡牌能力</strong><button type="button" id="betaDetailClose" aria-label="關閉卡牌詳細資訊" title="關閉">×</button></div><div id="betaCardDetailBody" class="beta-detail-body"></div></dialog><div id="betaResults" class="beta-results" aria-live="polite"></div>
+<div class="beta-pages"><button id="betaPrevious" type="button" disabled>← 上一頁</button><span class="beta-page-center"><span class="beta-page-select-wrap"><select id="betaPageSelect" aria-label="跳至頁數"><option value="0">第 1 頁</option></select></span><span id="betaPages" aria-live="polite">／共 8 頁</span></span><button id="betaNext" type="button">下一頁 →</button></div>
+</section>
+<dialog id="deckImageDialog" class="card-preview-dialog" aria-label="卡牌大圖"><div class="deck-dialog-wrap"><div class="deck-dialog-head"><div class="deck-popup-titles"><strong id="deckDialogTitle" tabindex="-1">卡牌預覽</strong><span id="deckDialogEnglish" class="deck-dialog-english"></span></div><button type="button" class="deck-dialog-close" id="closeDeckDialog" aria-label="關閉卡牌預覽" title="關閉">×</button></div><img id="deckDialogImage" alt="所選卡牌大圖"><p><a id="deckDialogSource" target="_blank" rel="noopener noreferrer">以新分頁開啟原圖 ↗</a></p></div></dialog></section><section id="rules" class="hide"><div class="tag">REFERENCE / RULEBOOK</div><h1>RULES CODEX.</h1><div class="panel"><h2>先記住兩件事</h2><div class="terminology-compare"><div><span class="number">勝利條件</span><strong>任務骰至少 7 顆</strong><p>一般情況下，在自己回合開始時持有至少 7 顆任務骰就獲勝。看的是骰子的數量。</p></div><div><span class="number">卡牌能力常用條件</span><strong>街頭聲望＝骰子點數總和</strong><p>三顆骰子擲出 2、4、6 點：街頭聲望是 12，但任務骰只有三顆。</p></div></div><p>教學內文統一使用中文；中英對照僅保留在下方術語表。實體卡牌與卡圖上的文字仍是官方英文，規則裁定以官方版本為準。</p></div><h2>術語中英對照</h2><div class="terminology-list"><details class="term-entry"><summary>骰子記法（d4～d20）<span aria-hidden="true">＋</span></summary><div><p>「d」代表骰子，後面的數字代表面數。例如四面骰（d4）可以擲出 1～4 點。</p><p class="term-example">四面骰（d4）、六面骰（d6）、八面骰（d8）、十面骰（d10）、十二面骰（d12）、二十面骰（d20）。二十面骰必須最後才擲。</p></div></details><details class="term-entry"><summary>合事佬區（Fixer Area）<span aria-hidden="true">＋</span></summary><div><p>每回合用來取得新任務骰的區域；開局時，自己的任務骰都放在這裡。</p><p class="term-example">每回合開始抽牌後，從合事佬區選 1 顆骰子擲出；20 面骰必須最後才擲。</p></div></details><details class="term-entry"><summary>任務骰（Gig）<span aria-hidden="true">＋</span></summary><div><p>任務由骰子代表；勝利時看的是持有幾顆任務骰，而不是點數有多高。</p><p class="term-example">一般回合開始時，自己的任務區若有至少 7 顆任務骰，就獲勝。</p></div></details><details class="term-entry"><summary>街頭聲望（Street Cred）<span aria-hidden="true">＋</span></summary><div><p>把自己任務區所有骰子的點數相加，得到街頭聲望。</p><p class="term-example">持有 3 顆骰子，點數是 2、4、6，街頭聲望是 12；任務骰數量仍是 3 顆。</p></div></details><details class="term-entry"><summary>就緒（Ready）<span aria-hidden="true">＋</span></summary><div><p>卡牌處於直立、尚未被使用的狀態。</p><p class="term-example">就緒不代表一定能攻擊：剛登場的角色仍可能受到 Lag 的限制。</p></div></details><details class="term-entry"><summary>已使用（Spent）<span aria-hidden="true">＋</span></summary><div><p>卡牌橫置 90 度，表示這張卡目前已用過。</p><p class="term-example">角色攻擊、使用資源付費或使用特定能力時，會把對應卡牌橫置。</p></div></details><details class="term-entry"><summary>新登場限制（Lag）<span aria-hidden="true">＋</span></summary><div><p>剛打出的角色即使處於就緒狀態，當回合也不能攻擊或啟動需要橫置自己的能力。</p><p class="term-example">等到這個回合結束後，新登場限制才會解除。</p></div></details><details class="term-entry"><summary>戰力（Power）<span aria-hidden="true">＋</span></summary><div><p>角色交戰時比較的數值；攻擊對手任務區時也決定可以搶幾顆骰子。</p><p class="term-example">戰力 1–9 可搶 1 顆，10–19 可搶 2 顆；戰力 0 搶不到。</p></div></details><details class="term-entry"><summary>攔截（Blocker）<span aria-hidden="true">＋</span></summary><div><p>具有這項能力的就緒角色，可以橫置自己，把原本的攻擊轉向自己。</p><p class="term-example">攔截後改成角色交戰；這一次攻擊就不能搶任務骰。</p></div></details><details class="term-entry"><summary>交戰（Fight）<span aria-hidden="true">＋</span></summary><div><p>比較雙方角色的戰力；低的一方被擊敗，戰力相同則雙方都被擊敗。</p><p class="term-example">戰力 4 對戰力 2，戰力 2 的角色會被擊敗。</p></div></details><details class="term-entry"><summary>出牌資源（Eddies，€$）<span aria-hidden="true">＋</span></summary><div><p>支付卡牌費用時使用的資源。每回合最多能賣出一張符合條件的手牌，變成 1 個資源。</p><p class="term-example">有需要時也能橫置傳奇角色，將其作為 1 個資源支付。</p></div></details><details class="term-entry"><summary>傳奇角色（Legend）<span aria-hidden="true">＋</span></summary><div><p>每副牌的 3 張核心角色卡，開局放在專用區域並保持蓋著。</p><p class="term-example">每回合最多一次，可以支付 1 個資源，隨機翻開一張傳奇角色。</p></div></details><details class="term-entry"><summary>角色單位（Unit）<span aria-hidden="true">＋</span></summary><div><p>出牌後會留在場上的角色，可以交戰，也可以攻擊對手任務區搶骰子。</p><p class="term-example">剛出場時有新登場限制（Lag）。</p></div></details><details class="term-entry"><summary>裝備（Gear）<span aria-hidden="true">＋</span></summary><div><p>裝在己方角色或符合條件的傳奇角色上的卡牌。</p><p class="term-example">像螳螂刀（Mantis Blades）就會提高戰力。</p></div></details><details class="term-entry"><summary>程式（Program）<span aria-hidden="true">＋</span></summary><div><p>使用時支付費用並結算卡牌效果，通常結算後就放入棄牌區。</p><p class="term-example">某些程式具備 Quick，可以在特定反應時機使用。</p></div></details><details class="term-entry"><summary>快速反應（Quick）<span aria-hidden="true">＋</span></summary><div><p>特定時機可以在對手回合或對手攻擊時使用的能力或卡牌效果。</p><p class="term-example">完整快速反應窗口尚未納入目前的練習引擎。</p></div></details></div><div class="panel"><h2>官方規則優先</h2><p>完整對戰系統會以官方 Comprehensive Rules 為唯一判定基準，逐條建立測試。規則尚未核對完成前，不會宣稱已支援正式對戰。</p><a href="https://cyberpunktcg.com/comprehensive-rules" target="_blank" rel="noopener noreferrer">前往官方規則 ↗</a></div></section>
+<script>
+(function(){
+ const list=document.querySelector('#rules .terminology-list');
+ if(!list)return;
+ const entries=[...list.querySelectorAll(':scope > details.term-entry')];
+ if(!entries.length)return;
+ const left=document.createElement('div'),right=document.createElement('div');
+ left.className='term-column';right.className='term-column';
+ list.replaceChildren(left,right);
+ entries.forEach((entry,i)=>(i<Math.ceil(entries.length/2)?left:right).append(entry));
+})();
+</script></main><footer class="footer">NIGHT CITY TRAINING · 非官方粉絲教學專案 · 本站不隸屬 CD PROJEKT 或遊戲發行方。學習進度僅儲存在本機瀏覽器。</footer>
+<script>
+const pages=[...document.querySelectorAll('main>section')],nav=[...document.querySelectorAll('[data-page]')];function show(page){if(page==='practice')page='learn';document.body.classList.toggle('battle-wide',page==='battle');pages.forEach(x=>x.classList.toggle('hide',x.id!==page));nav.forEach(x=>x.classList.toggle('active',x.dataset.page===page));location.hash=page;window.scrollTo(0,0)}nav.forEach(x=>x.addEventListener('click',()=>show(x.dataset.page)));document.querySelector('[data-rule-link]')?.addEventListener('click',e=>{e.preventDefault();show('rules')});document.querySelectorAll('[data-go]').forEach(x=>x.addEventListener('click',()=>show(x.dataset.go)));
+// 舊版課程進度由新版整合教學保留並轉換；此處只處理網站導覽。
+const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.slice(1);show(['home','learn','battle','decks','rules'].includes(requestedPage)?requestedPage:'home');
+</script><script>
+(function(){
+ let activeCount=0,scrollY=0;
+ function open(dlg){
+  if(!dlg||dlg.open)return;
+  if(activeCount===0){
+   scrollY=window.scrollY;
+   document.body.style.position='fixed';
+   document.body.style.top=(-scrollY)+'px';
+   document.body.style.left='0';
+   document.body.style.right='0';
+   document.body.style.width='100%';
+   document.body.classList.add('card-modal-open');
+  }
+  activeCount++;
+  try{dlg.showModal()}catch(err){activeCount--;if(!activeCount)unlock();throw err}
+ }
+ function unlock(){
+  document.body.classList.remove('card-modal-open');
+  document.body.style.position='';
+  document.body.style.top='';
+  document.body.style.left='';
+  document.body.style.right='';
+  document.body.style.width='';
+  window.scrollTo(0,scrollY);
+ }
+ function close(){
+  activeCount=Math.max(0,activeCount-1);
+  if(activeCount===0)unlock();
+ }
+ window.NCTCardModal={open};
+ for(const id of ['deckImageDialog','battleCardDialog','betaCardDetail']){
+  const dlg=document.getElementById(id);
+  if(dlg)dlg.addEventListener('close',close);
+ }
+})();
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=39"></script></body></html>
