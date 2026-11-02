@@ -35,7 +35,7 @@ def request(url, method="GET"):
 
 def valid(url):
     p = urlparse(html.unescape(url))
-    return p.scheme == "https" and p.hostname == "cdn.exburst.dev" and p.path.startswith("/cards/cyberpunk/") and re.search(r"render-[^/]+\\.(webp|png|jpg)$", p.path, re.I)
+    return p.scheme == "https" and p.hostname == "cdn.exburst.dev" and p.path.startswith("/cards/cyberpunk/") and re.search(r"render-[^/]+\.(webp|png|jpg)$", p.path, re.I)
 
 def main():
     manifest = json.loads(MANIFEST.read_text())
@@ -67,7 +67,7 @@ def main():
         except Exception as exc:
             print(card_id,"unresolved",str(exc)[:220])
     if changed:
-        MANIFEST.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\\n")
+        MANIFEST.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n")
     print("new sources:",changed, "remaining:",sum(not c.get("retailImageUrl") for c in manifest["cards"]))
 if __name__=="__main__":
     main()
