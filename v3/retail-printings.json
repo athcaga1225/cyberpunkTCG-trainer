@@ -2,12 +2,20 @@
   "schemaVersion": 1,
   "set": "Welcome to Night City — Retail",
   "status": "in-progress",
-  "notes": "Only printings explicitly confirmed on official card pages are listed. Image URLs are intentionally not copied from Beta. Do not render Retail cards until the Retail image has been verified.",
+  "notes": "Retail printings verified against official card-page printing selectors. Cards without a verified Retail image are listed with an explicit missing-art placeholder; never substitute Beta art. Card-specific rules/attributes reused from Beta remain provisional pending Retail printing verification.",
   "cards": [
     {
       "id": "005A",
       "name": "V: Streetkid",
       "betaId": "B005A",
+      "officialUrl": "https://cyberpunktcg.com/cards/v-streetkid",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "005B",
+      "name": "V: Streetkid",
+      "betaId": "B005B",
       "officialUrl": "https://cyberpunktcg.com/cards/v-streetkid",
       "retailImageUrl": null,
       "imageStatus": "pending-verification"
@@ -89,6 +97,14 @@
       "name": "Three Mouths, One Desire",
       "betaId": "B137",
       "officialUrl": "https://cyberpunktcg.com/cards/three-mouths-one-desire",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification"
+    },
+    {
+      "id": "144",
+      "name": "V: Streetkid",
+      "betaId": "B144",
+      "officialUrl": "https://cyberpunktcg.com/cards/v-streetkid",
       "retailImageUrl": null,
       "imageStatus": "pending-verification"
     }
