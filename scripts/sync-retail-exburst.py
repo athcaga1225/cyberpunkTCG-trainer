@@ -55,7 +55,7 @@ def main():
             # per-printing actual render URL (not the og:image preview).
             page_text = body.decode("utf-8","replace")
             candidates = []
-            for match in re.findall(r'<script[^>]+type=["\\']application/ld\\+json["\\'][^>]*>(.*?)</script>',page_text,re.S|re.I):
+            for match in re.findall(r'<script[^>]+type="application/ld\\+json"[^>]*>(.*?)</script>',page_text,re.S|re.I):
                 try:
                     record=json.loads(html.unescape(match))
                     if isinstance(record,dict) and record.get("identifier")==f"MS01-{card_id}" and isinstance(record.get("image"),str):
