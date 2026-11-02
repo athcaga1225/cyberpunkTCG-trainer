@@ -1,9 +1,45 @@
 {
   "schemaVersion": 1,
   "set": "Welcome to Night City — Retail",
-  "status": "in-progress",
-  "notes": "Retail printings verified against official card-page printing selectors. Cards without a verified Retail image are listed with an explicit missing-art placeholder; never substitute Beta art. Card-specific rules/attributes reused from Beta remain provisional pending Retail printing verification.",
+  "status": "retail-checklist-provisional-art-pending",
+  "notes": "Retail 001–171 checklist scaffold (including 005A/B) from matching Beta numbered entries. The Retail and Beta main booster checklists share numbering per HoloHoard and official reference guides; individual Retail printing, rules, and illustration have NOT been verified for newly inferred rows. Never use Beta art as Retail. Official URLs are card-family links, not guaranteed Retail printing selectors.",
   "cards": [
+    {
+      "id": "001",
+      "name": "Adam Smasher: Ender of Legends",
+      "betaId": "B001",
+      "officialUrl": "https://cyberpunktcg.com/cards/adam-smasher-ender-of-legends",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "002",
+      "name": "Dexter DeShawn: Off the Grid",
+      "betaId": "B002",
+      "officialUrl": "https://cyberpunktcg.com/cards/dexter-deshawn-off-the-grid",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "003",
+      "name": "Johnny Silverhand: Rocking Renegade",
+      "betaId": "B003",
+      "officialUrl": "https://cyberpunktcg.com/cards/johnny-silverhand-rocking-renegade",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "004",
+      "name": "Royce: Psycho on the Edge",
+      "betaId": "B004",
+      "officialUrl": "https://cyberpunktcg.com/cards/royce-psycho-on-the-edge",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
     {
       "id": "005A",
       "name": "V: Streetkid",
@@ -21,12 +57,264 @@
       "imageStatus": "pending-verification"
     },
     {
+      "id": "006",
+      "name": "6th Street Recruits",
+      "betaId": "B006",
+      "officialUrl": "https://cyberpunktcg.com/cards/6th-street-recruits",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "007",
+      "name": "Animals Wrecker",
+      "betaId": "B007",
+      "officialUrl": "https://cyberpunktcg.com/cards/animals-wrecker",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "008",
+      "name": "Chrome Fang",
+      "betaId": "B008",
+      "officialUrl": "https://cyberpunktcg.com/cards/chrome-fang",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "009",
+      "name": "El Sombrerón: La Venganza Lenta",
+      "betaId": "B009",
+      "officialUrl": "https://cyberpunktcg.com/cards/el-sombrero-n-la-venganza-lenta",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "010",
+      "name": "Japantown Jonin",
+      "betaId": "B010",
+      "officialUrl": "https://cyberpunktcg.com/cards/japantown-jonin",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "011",
+      "name": "Johnny Silverhand: Never Stop Fighting",
+      "betaId": "B011",
+      "officialUrl": "https://cyberpunktcg.com/cards/johnny-silverhand-never-stop-fighting",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "012",
+      "name": "Kerry Eurodyne: The Last Rockerboy",
+      "betaId": "B012",
+      "officialUrl": "https://cyberpunktcg.com/cards/kerry-eurodyne-the-last-rockerboy",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "013",
+      "name": "La Llorona: Ghost of the Past",
+      "betaId": "B013",
+      "officialUrl": "https://cyberpunktcg.com/cards/la-llorona-ghost-of-the-past",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "014",
+      "name": "Meredith Stout: Stone Cold Corpo",
+      "betaId": "B014",
+      "officialUrl": "https://cyberpunktcg.com/cards/meredith-stout-stone-cold-corpo",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "015",
+      "name": "Octant",
+      "betaId": "B015",
+      "officialUrl": "https://cyberpunktcg.com/cards/octant",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "016",
+      "name": "Royce: Don't Call Me Simon",
+      "betaId": "B016",
+      "officialUrl": "https://cyberpunktcg.com/cards/royce-don-t-call-me-simon",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "017",
+      "name": "Ruthless Lowlife",
+      "betaId": "B017",
+      "officialUrl": "https://cyberpunktcg.com/cards/ruthless-lowlife",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "018",
+      "name": "Screw: Lovelorn Fool",
+      "betaId": "B018",
+      "officialUrl": "https://cyberpunktcg.com/cards/screw-lovelorn-fool",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "019",
+      "name": "Swordwise Huscle",
+      "betaId": "B019",
+      "officialUrl": "https://cyberpunktcg.com/cards/swordwise-huscle",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "020",
+      "name": "V: Roamer of the Badlands",
+      "betaId": "B020",
+      "officialUrl": "https://cyberpunktcg.com/cards/v-roamer-of-the-badlands",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "021",
+      "name": "Valentino Guerrera",
+      "betaId": "B021",
+      "officialUrl": "https://cyberpunktcg.com/cards/valentino-guerrera",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "022",
+      "name": "Yorinobu Arasaka: Steel Dragon",
+      "betaId": "B022",
+      "officialUrl": "https://cyberpunktcg.com/cards/yorinobu-arasaka-steel-dragon",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "023",
+      "name": "Arasaka Emergency Radioport",
+      "betaId": "B023",
+      "officialUrl": "https://cyberpunktcg.com/cards/arasaka-emergency-radioport",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "024",
+      "name": "Deadman Transmitter",
+      "betaId": "B024",
+      "officialUrl": "https://cyberpunktcg.com/cards/deadman-transmitter",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "025",
+      "name": "Mantis Blades",
+      "betaId": "B025",
+      "officialUrl": "https://cyberpunktcg.com/cards/mantis-blades",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "026",
+      "name": "Satori: Sword of Saburo",
+      "betaId": "B026",
+      "officialUrl": "https://cyberpunktcg.com/cards/satori-sword-of-saburo",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
       "id": "027",
       "name": "All is Lost",
       "betaId": "B027",
       "officialUrl": "https://cyberpunktcg.com/cards/all-is-lost",
       "retailImageUrl": null,
       "imageStatus": "pending-verification"
+    },
+    {
+      "id": "028",
+      "name": "Appetite for Destruction",
+      "betaId": "B028",
+      "officialUrl": "https://cyberpunktcg.com/cards/appetite-for-destruction",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "029",
+      "name": "Bonnie and Clyde",
+      "betaId": "B029",
+      "officialUrl": "https://cyberpunktcg.com/cards/bonnie-and-clyde",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "030",
+      "name": "Carnage at the Colosseum",
+      "betaId": "B030",
+      "officialUrl": "https://cyberpunktcg.com/cards/carnage-at-the-colosseum",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "031",
+      "name": "Detonate",
+      "betaId": "B031",
+      "officialUrl": "https://cyberpunktcg.com/cards/detonate",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "032",
+      "name": "Gunpoint Diplomacy",
+      "betaId": "B032",
+      "officialUrl": "https://cyberpunktcg.com/cards/gunpoint-diplomacy",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "033",
+      "name": "Industrial Assembly",
+      "betaId": "B033",
+      "officialUrl": "https://cyberpunktcg.com/cards/industrial-assembly",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "034",
+      "name": "Over the Edge",
+      "betaId": "B034",
+      "officialUrl": "https://cyberpunktcg.com/cards/over-the-edge",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
     },
     {
       "id": "035",
@@ -37,12 +325,93 @@
       "imageStatus": "pending-verification"
     },
     {
+      "id": "036",
+      "name": "Dum Dum: Maelstrom Triggerman",
+      "betaId": "B036",
+      "officialUrl": "https://cyberpunktcg.com/cards/dum-dum-maelstrom-triggerman",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
       "id": "037",
       "name": "Kerry Eurodyne: Axe, Attitude, Audience",
       "betaId": "B037",
       "officialUrl": "https://cyberpunktcg.com/cards/kerry-eurodyne-axe-attitude-audience",
       "retailImageUrl": null,
       "imageStatus": "pending-verification"
+    },
+    {
+      "id": "038",
+      "name": "Muamar Reyes: El Capitán",
+      "betaId": "B038",
+      "officialUrl": "https://cyberpunktcg.com/cards/muamar-reyes-el-capita-n",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "039",
+      "name": "River Ward: Detective on the Hunt",
+      "betaId": "B039",
+      "officialUrl": "https://cyberpunktcg.com/cards/river-ward-detective-on-the-hunt",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "040",
+      "name": "Rogue Amendiares: Preem Solo",
+      "betaId": "B040",
+      "officialUrl": "https://cyberpunktcg.com/cards/rogue-amendiares-preem-solo",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "041",
+      "name": "Adam Smasher: Metal Over Meat",
+      "betaId": "B041",
+      "officialUrl": "https://cyberpunktcg.com/cards/adam-smasher-metal-over-meat",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "042",
+      "name": "Alt Cunningham: Mother of Daemons",
+      "betaId": "B042",
+      "officialUrl": "https://cyberpunktcg.com/cards/alt-cunningham-mother-of-daemons",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "043",
+      "name": "Augmented Negotiators",
+      "betaId": "B043",
+      "officialUrl": "https://cyberpunktcg.com/cards/augmented-negotiators",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "044",
+      "name": "Caliber: Totentanz's Top Dog",
+      "betaId": "B044",
+      "officialUrl": "https://cyberpunktcg.com/cards/caliber-totentanz-s-top-dog",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "045",
+      "name": "Gilded Matón",
+      "betaId": "B045",
+      "officialUrl": "https://cyberpunktcg.com/cards/gilded-mato-n",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
     },
     {
       "id": "046",
@@ -53,12 +422,192 @@
       "imageStatus": "pending-verification"
     },
     {
+      "id": "047",
+      "name": "Heywood Ripperdoc",
+      "betaId": "B047",
+      "officialUrl": "https://cyberpunktcg.com/cards/heywood-ripperdoc",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "048",
+      "name": "Jackie Welles: Ride or Die Choom",
+      "betaId": "B048",
+      "officialUrl": "https://cyberpunktcg.com/cards/jackie-welles-ride-or-die-choom",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "049",
+      "name": "Maelstrom Goons",
+      "betaId": "B049",
+      "officialUrl": "https://cyberpunktcg.com/cards/maelstrom-goons",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "050",
+      "name": "MaxTac Suppression Team",
+      "betaId": "B050",
+      "officialUrl": "https://cyberpunktcg.com/cards/maxtac-suppression-team",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "051",
+      "name": "Offduty Malfini",
+      "betaId": "B051",
+      "officialUrl": "https://cyberpunktcg.com/cards/offduty-malfini",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "052",
+      "name": "Rockn' Rockerboy",
+      "betaId": "B052",
+      "officialUrl": "https://cyberpunktcg.com/cards/rockn-rockerboy",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "053",
+      "name": "Secondhand Bombus",
+      "betaId": "B053",
+      "officialUrl": "https://cyberpunktcg.com/cards/secondhand-bombus",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "054",
+      "name": "Sketchy Ripper",
+      "betaId": "B054",
+      "officialUrl": "https://cyberpunktcg.com/cards/sketchy-ripper",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "055",
+      "name": "T-Bug: Amateur Philosopher",
+      "betaId": "B055",
+      "officialUrl": "https://cyberpunktcg.com/cards/t-bug-amateur-philosopher",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "056",
+      "name": "Trauma Team Operatives",
+      "betaId": "B056",
+      "officialUrl": "https://cyberpunktcg.com/cards/trauma-team-operatives",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "057",
+      "name": "Viktor Vektor: Drop Your Illusions",
+      "betaId": "B057",
+      "officialUrl": "https://cyberpunktcg.com/cards/viktor-vektor-drop-your-illusions",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "058",
+      "name": "Viktor Vektor: You Might Feel a Little Pinch",
+      "betaId": "B058",
+      "officialUrl": "https://cyberpunktcg.com/cards/viktor-vektor-you-might-feel-a-little-pinch",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "059",
+      "name": "Adrenaline Converter",
+      "betaId": "B059",
+      "officialUrl": "https://cyberpunktcg.com/cards/adrenaline-converter",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "060",
+      "name": "Gorilla Arms",
+      "betaId": "B060",
+      "officialUrl": "https://cyberpunktcg.com/cards/gorilla-arms",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "061",
+      "name": "Kiroshi Optics",
+      "betaId": "B061",
+      "officialUrl": "https://cyberpunktcg.com/cards/kiroshi-optics",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "062",
+      "name": "Mandibular Upgrade",
+      "betaId": "B062",
+      "officialUrl": "https://cyberpunktcg.com/cards/mandibular-upgrade",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "063",
+      "name": "The Relic: Experimental Biochip",
+      "betaId": "B063",
+      "officialUrl": "https://cyberpunktcg.com/cards/the-relic-experimental-biochip",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "064",
+      "name": "Zetatech Faceplate",
+      "betaId": "B064",
+      "officialUrl": "https://cyberpunktcg.com/cards/zetatech-faceplate",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "065",
+      "name": "Afterparty at Lizzie's",
+      "betaId": "B065",
+      "officialUrl": "https://cyberpunktcg.com/cards/afterparty-at-lizzie-s",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
       "id": "066",
       "name": "Bootleg Black Sapphire Show",
       "betaId": "B066",
       "officialUrl": "https://cyberpunktcg.com/cards/bootleg-black-sapphire-show",
       "retailImageUrl": null,
       "imageStatus": "pending-verification"
+    },
+    {
+      "id": "067",
+      "name": "Cyberpsychosis",
+      "betaId": "B067",
+      "officialUrl": "https://cyberpunktcg.com/cards/cyberpsychosis",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
     },
     {
       "id": "068",
@@ -69,12 +618,408 @@
       "imageStatus": "pending-verification"
     },
     {
+      "id": "069",
+      "name": "Safety Override",
+      "betaId": "B069",
+      "officialUrl": "https://cyberpunktcg.com/cards/safety-override",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "070",
+      "name": "The Heist",
+      "betaId": "B070",
+      "officialUrl": "https://cyberpunktcg.com/cards/the-heist",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "071",
+      "name": "Goro Takemura: Vengeful Bodyguard",
+      "betaId": "B071",
+      "officialUrl": "https://cyberpunktcg.com/cards/goro-takemura-vengeful-bodyguard",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "072",
+      "name": "Hanako Arasaka: Daughter of the Emperor",
+      "betaId": "B072",
+      "officialUrl": "https://cyberpunktcg.com/cards/hanako-arasaka-daughter-of-the-emperor",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "073",
+      "name": "Jackie Welles: Mama's Favorite",
+      "betaId": "B073",
+      "officialUrl": "https://cyberpunktcg.com/cards/jackie-welles-mama-s-favorite",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "074",
+      "name": "Padre: Man of the Cross",
+      "betaId": "B074",
+      "officialUrl": "https://cyberpunktcg.com/cards/padre-man-of-the-cross",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "075",
+      "name": "Panam Palmer: Nomad Cavalry",
+      "betaId": "B075",
+      "officialUrl": "https://cyberpunktcg.com/cards/panam-palmer-nomad-cavalry",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "076",
+      "name": "Corpo Security",
+      "betaId": "B076",
+      "officialUrl": "https://cyberpunktcg.com/cards/corpo-security",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "077",
+      "name": "Emergency Atlus",
+      "betaId": "B077",
+      "officialUrl": "https://cyberpunktcg.com/cards/emergency-atlus",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "078",
+      "name": "Field Operator",
+      "betaId": "B078",
+      "officialUrl": "https://cyberpunktcg.com/cards/field-operator",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "079",
+      "name": "Maelstrom Zealots",
+      "betaId": "B079",
+      "officialUrl": "https://cyberpunktcg.com/cards/maelstrom-zealots",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "080",
+      "name": "MaxTac AV",
+      "betaId": "B080",
+      "officialUrl": "https://cyberpunktcg.com/cards/maxtac-av",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "081",
+      "name": "MaxTac Heavy",
+      "betaId": "B081",
+      "officialUrl": "https://cyberpunktcg.com/cards/maxtac-heavy",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "082",
+      "name": "MaxTac Squadron",
+      "betaId": "B082",
+      "officialUrl": "https://cyberpunktcg.com/cards/maxtac-squadron",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "083",
+      "name": "Nadia: Fighting Through Grief",
+      "betaId": "B083",
+      "officialUrl": "https://cyberpunktcg.com/cards/nadia-fighting-through-grief",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "084",
+      "name": "Pacifica Netrunner",
+      "betaId": "B084",
+      "officialUrl": "https://cyberpunktcg.com/cards/pacifica-netrunner",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "085",
+      "name": "Panam Palmer: Strength Through Family",
+      "betaId": "B085",
+      "officialUrl": "https://cyberpunktcg.com/cards/panam-palmer-strength-through-family",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "086",
+      "name": "Pepe Najarro: Working Doubles",
+      "betaId": "B086",
+      "officialUrl": "https://cyberpunktcg.com/cards/pepe-najarro-working-doubles",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "087",
+      "name": "Riding Nomad",
+      "betaId": "B087",
+      "officialUrl": "https://cyberpunktcg.com/cards/riding-nomad",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "088",
+      "name": "Sandayu Oda: Hanako's Guardian",
+      "betaId": "B088",
+      "officialUrl": "https://cyberpunktcg.com/cards/sandayu-oda-hanako-s-guardian",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "089",
+      "name": "Saul Bright: Stormrider",
+      "betaId": "B089",
+      "officialUrl": "https://cyberpunktcg.com/cards/saul-bright-stormrider",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "090",
+      "name": "Tyger's Whisper",
+      "betaId": "B090",
+      "officialUrl": "https://cyberpunktcg.com/cards/tyger-s-whisper",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "091",
+      "name": "Valentino Street Racer",
+      "betaId": "B091",
+      "officialUrl": "https://cyberpunktcg.com/cards/valentino-street-racer",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "092",
+      "name": "Wraith Marauders",
+      "betaId": "B092",
+      "officialUrl": "https://cyberpunktcg.com/cards/wraith-marauders",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "093",
+      "name": "Overwatch: Panam's Gift",
+      "betaId": "B093",
+      "officialUrl": "https://cyberpunktcg.com/cards/overwatch-panam-s-gift",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "094",
+      "name": "Riot Shield",
+      "betaId": "B094",
+      "officialUrl": "https://cyberpunktcg.com/cards/riot-shield",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "095",
+      "name": "Sandevistan",
+      "betaId": "B095",
+      "officialUrl": "https://cyberpunktcg.com/cards/sandevistan",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "096",
+      "name": "Zetatech Berserk",
+      "betaId": "B096",
+      "officialUrl": "https://cyberpunktcg.com/cards/zetatech-berserk",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "097",
+      "name": "Corporate Surveillance",
+      "betaId": "B097",
+      "officialUrl": "https://cyberpunktcg.com/cards/corporate-surveillance",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "098",
+      "name": "(Don't Fear) The Reaper",
+      "betaId": "B098",
+      "officialUrl": "https://cyberpunktcg.com/cards/don-t-fear-the-reaper",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "099",
+      "name": "Fool on the Hill",
+      "betaId": "B099",
+      "officialUrl": "https://cyberpunktcg.com/cards/fool-on-the-hill",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "100",
+      "name": "Memory Relapse",
+      "betaId": "B100",
+      "officialUrl": "https://cyberpunktcg.com/cards/memory-relapse",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "101",
+      "name": "Peace Offering",
+      "betaId": "B101",
+      "officialUrl": "https://cyberpunktcg.com/cards/peace-offering",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "102",
+      "name": "Synapse Burnout",
+      "betaId": "B102",
+      "officialUrl": "https://cyberpunktcg.com/cards/synapse-burnout",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
       "id": "103",
       "name": "Take Control",
       "betaId": "B103",
       "officialUrl": "https://cyberpunktcg.com/cards/take-control",
       "retailImageUrl": null,
       "imageStatus": "pending-verification"
+    },
+    {
+      "id": "104",
+      "name": "We Gotta Live Together",
+      "betaId": "B104",
+      "officialUrl": "https://cyberpunktcg.com/cards/we-gotta-live-together",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "105",
+      "name": "Wild in the Streets",
+      "betaId": "B105",
+      "officialUrl": "https://cyberpunktcg.com/cards/wild-in-the-streets",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "106",
+      "name": "Alt Cunningham: Soulkiller Architect",
+      "betaId": "B106",
+      "officialUrl": "https://cyberpunktcg.com/cards/alt-cunningham-soulkiller-architect",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "107",
+      "name": "Evelyn Parker: Beautiful Enigma",
+      "betaId": "B107",
+      "officialUrl": "https://cyberpunktcg.com/cards/evelyn-parker-beautiful-enigma",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "108",
+      "name": "Judy Álvarez: Braindance Maestro",
+      "betaId": "B108",
+      "officialUrl": "https://cyberpunktcg.com/cards/judy-a-lvarez-braindance-maestro",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "109",
+      "name": "Sasha Yakovleva: Won't Let You Down",
+      "betaId": "B109",
+      "officialUrl": "https://cyberpunktcg.com/cards/sasha-yakovleva-won-t-let-you-down",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "110",
+      "name": "Wakako Okada: Peace and Harmony",
+      "betaId": "B110",
+      "officialUrl": "https://cyberpunktcg.com/cards/wakako-okada-peace-and-harmony",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "111",
+      "name": "Delamain: Rideshare AI",
+      "betaId": "B111",
+      "officialUrl": "https://cyberpunktcg.com/cards/delamain-rideshare-ai",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "112",
+      "name": "Delamain Cab",
+      "betaId": "B112",
+      "officialUrl": "https://cyberpunktcg.com/cards/delamain-cab",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "113",
+      "name": "Evelyn Parker: Scheming Siren",
+      "betaId": "B113",
+      "officialUrl": "https://cyberpunktcg.com/cards/evelyn-parker-scheming-siren",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
     },
     {
       "id": "114",
@@ -85,12 +1030,201 @@
       "imageStatus": "pending-verification"
     },
     {
+      "id": "115",
+      "name": "Jacked-In Voodoo Boy",
+      "betaId": "B115",
+      "officialUrl": "https://cyberpunktcg.com/cards/jacked-in-voodoo-boy",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "116",
+      "name": "Judy Álvarez: Nothing to Doubt",
+      "betaId": "B116",
+      "officialUrl": "https://cyberpunktcg.com/cards/judy-a-lvarez-nothing-to-doubt",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "117",
+      "name": "Lizzy Wizzy: Delicate Weapon",
+      "betaId": "B117",
+      "officialUrl": "https://cyberpunktcg.com/cards/lizzy-wizzy-delicate-weapon",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "118",
+      "name": "Maman Brigitte: Spirit of Death",
+      "betaId": "B118",
+      "officialUrl": "https://cyberpunktcg.com/cards/maman-brigitte-spirit-of-death",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "119",
+      "name": "Misty Olszewski: Mender of Broken Spirits",
+      "betaId": "B119",
+      "officialUrl": "https://cyberpunktcg.com/cards/misty-olszewski-mender-of-broken-spirits",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "120",
+      "name": "Modded Kusanagi",
+      "betaId": "B120",
+      "officialUrl": "https://cyberpunktcg.com/cards/modded-kusanagi",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "121",
+      "name": "Modded Muramasa",
+      "betaId": "B121",
+      "officialUrl": "https://cyberpunktcg.com/cards/modded-muramasa",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "122",
+      "name": "Mox Inciters",
+      "betaId": "B122",
+      "officialUrl": "https://cyberpunktcg.com/cards/mox-inciters",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "123",
+      "name": "Placide: Voodoo Sentinel",
+      "betaId": "B123",
+      "officialUrl": "https://cyberpunktcg.com/cards/placide-voodoo-sentinel",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "124",
+      "name": "Psycho Squad",
+      "betaId": "B124",
+      "officialUrl": "https://cyberpunktcg.com/cards/psycho-squad",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "125",
+      "name": "Rita Wheeler: No Stupid Questions",
+      "betaId": "B125",
+      "officialUrl": "https://cyberpunktcg.com/cards/rita-wheeler-no-stupid-questions",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "126",
+      "name": "Rogue Amendiares: Queen of the Afterlife",
+      "betaId": "B126",
+      "officialUrl": "https://cyberpunktcg.com/cards/rogue-amendiares-queen-of-the-afterlife",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "127",
+      "name": "Westbrook Netrunner",
+      "betaId": "B127",
+      "officialUrl": "https://cyberpunktcg.com/cards/westbrook-netrunner",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "128",
+      "name": "Dying Night: V's Pistol",
+      "betaId": "B128",
+      "officialUrl": "https://cyberpunktcg.com/cards/dying-night-v-s-pistol",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "129",
+      "name": "NetWatch Netdriver",
+      "betaId": "B129",
+      "officialUrl": "https://cyberpunktcg.com/cards/netwatch-netdriver",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "130",
+      "name": "Tetratronic Rippler",
+      "betaId": "B130",
+      "officialUrl": "https://cyberpunktcg.com/cards/tetratronic-rippler",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
       "id": "131",
       "name": "Chrome Reverie",
       "betaId": "B131",
       "officialUrl": "https://cyberpunktcg.com/cards/chrome-reverie",
       "retailImageUrl": null,
       "imageStatus": "pending-verification"
+    },
+    {
+      "id": "132",
+      "name": "Floor It",
+      "betaId": "B132",
+      "officialUrl": "https://cyberpunktcg.com/cards/floor-it",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "133",
+      "name": "Les Élémens",
+      "betaId": "B133",
+      "officialUrl": "https://cyberpunktcg.com/cards/les-e-le-mens",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "134",
+      "name": "Nocturne OP55 N1",
+      "betaId": "B134",
+      "officialUrl": "https://cyberpunktcg.com/cards/nocturne-op55-n1",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "135",
+      "name": "Pyramid Song",
+      "betaId": "B135",
+      "officialUrl": "https://cyberpunktcg.com/cards/pyramid-song",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "136",
+      "name": "Reboot Optics",
+      "betaId": "B136",
+      "officialUrl": "https://cyberpunktcg.com/cards/reboot-optics",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
     },
     {
       "id": "137",
@@ -101,12 +1235,313 @@
       "imageStatus": "pending-verification"
     },
     {
+      "id": "138",
+      "name": "Towerfall",
+      "betaId": "B138",
+      "officialUrl": "https://cyberpunktcg.com/cards/towerfall",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "139",
+      "name": "Trust No One",
+      "betaId": "B139",
+      "officialUrl": "https://cyberpunktcg.com/cards/trust-no-one",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "140",
+      "name": "Unlikely Bond",
+      "betaId": "B140",
+      "officialUrl": "https://cyberpunktcg.com/cards/unlikely-bond",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "141",
+      "name": "Adam Smasher: Ender of Legends",
+      "betaId": "B141",
+      "officialUrl": "https://cyberpunktcg.com/cards/adam-smasher-ender-of-legends",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "142",
+      "name": "Dexter DeShawn: Off the Grid",
+      "betaId": "B142",
+      "officialUrl": "https://cyberpunktcg.com/cards/dexter-deshawn-off-the-grid",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "143",
+      "name": "Royce: Psycho on the Edge",
+      "betaId": "B143",
+      "officialUrl": "https://cyberpunktcg.com/cards/royce-psycho-on-the-edge",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
       "id": "144",
       "name": "V: Streetkid",
       "betaId": "B144",
       "officialUrl": "https://cyberpunktcg.com/cards/v-streetkid",
       "retailImageUrl": null,
       "imageStatus": "pending-verification"
+    },
+    {
+      "id": "145",
+      "name": "Dum Dum: Maelstrom Triggerman",
+      "betaId": "B145",
+      "officialUrl": "https://cyberpunktcg.com/cards/dum-dum-maelstrom-triggerman",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "146",
+      "name": "Kerry Eurodyne: Axe, Attitude, Audience",
+      "betaId": "B146",
+      "officialUrl": "https://cyberpunktcg.com/cards/kerry-eurodyne-axe-attitude-audience",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "147",
+      "name": "Muamar Reyes: El Capitán",
+      "betaId": "B147",
+      "officialUrl": "https://cyberpunktcg.com/cards/muamar-reyes-el-capita-n",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "148",
+      "name": "River Ward: Detective on the Hunt",
+      "betaId": "B148",
+      "officialUrl": "https://cyberpunktcg.com/cards/river-ward-detective-on-the-hunt",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "149",
+      "name": "Rogue Amendiares: Preem Solo",
+      "betaId": "B149",
+      "officialUrl": "https://cyberpunktcg.com/cards/rogue-amendiares-preem-solo",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "150",
+      "name": "Goro Takemura: Vengeful Bodyguard",
+      "betaId": "B150",
+      "officialUrl": "https://cyberpunktcg.com/cards/goro-takemura-vengeful-bodyguard",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "151",
+      "name": "Hanako Arasaka: Daughter of the Emperor",
+      "betaId": "B151",
+      "officialUrl": "https://cyberpunktcg.com/cards/hanako-arasaka-daughter-of-the-emperor",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "152",
+      "name": "Jackie Welles: Mama's Favorite",
+      "betaId": "B152",
+      "officialUrl": "https://cyberpunktcg.com/cards/jackie-welles-mama-s-favorite",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "153",
+      "name": "Padre: Man of the Cross",
+      "betaId": "B153",
+      "officialUrl": "https://cyberpunktcg.com/cards/padre-man-of-the-cross",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "154",
+      "name": "Panam Palmer: Nomad Cavalry",
+      "betaId": "B154",
+      "officialUrl": "https://cyberpunktcg.com/cards/panam-palmer-nomad-cavalry",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "155",
+      "name": "Alt Cunningham: Soulkiller Architect",
+      "betaId": "B155",
+      "officialUrl": "https://cyberpunktcg.com/cards/alt-cunningham-soulkiller-architect",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "156",
+      "name": "Evelyn Parker: Beautiful Enigma",
+      "betaId": "B156",
+      "officialUrl": "https://cyberpunktcg.com/cards/evelyn-parker-beautiful-enigma",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "157",
+      "name": "Judy Álvarez: Braindance Maestro",
+      "betaId": "B157",
+      "officialUrl": "https://cyberpunktcg.com/cards/judy-a-lvarez-braindance-maestro",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "158",
+      "name": "Wakako Okada: Peace and Harmony",
+      "betaId": "B158",
+      "officialUrl": "https://cyberpunktcg.com/cards/wakako-okada-peace-and-harmony",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "159",
+      "name": "Johnny Silverhand: Never Stop Fighting",
+      "betaId": "B159",
+      "officialUrl": "https://cyberpunktcg.com/cards/johnny-silverhand-never-stop-fighting",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "160",
+      "name": "Adam Smasher: Metal Over Meat",
+      "betaId": "B160",
+      "officialUrl": "https://cyberpunktcg.com/cards/adam-smasher-metal-over-meat",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "161",
+      "name": "Alt Cunningham: Mother of Daemons",
+      "betaId": "B161",
+      "officialUrl": "https://cyberpunktcg.com/cards/alt-cunningham-mother-of-daemons",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "162",
+      "name": "Hanako Arasaka: In a Gilded Cage",
+      "betaId": "B162",
+      "officialUrl": "https://cyberpunktcg.com/cards/hanako-arasaka-in-a-gilded-cage",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "163",
+      "name": "The Relic: Experimental Biochip",
+      "betaId": "B163",
+      "officialUrl": "https://cyberpunktcg.com/cards/the-relic-experimental-biochip",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "164",
+      "name": "Sandayu Oda: Hanako's Guardian",
+      "betaId": "B164",
+      "officialUrl": "https://cyberpunktcg.com/cards/sandayu-oda-hanako-s-guardian",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "165",
+      "name": "Overwatch: Panam's Gift",
+      "betaId": "B165",
+      "officialUrl": "https://cyberpunktcg.com/cards/overwatch-panam-s-gift",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "166",
+      "name": "Rogue Amendiares: Queen of the Afterlife",
+      "betaId": "B166",
+      "officialUrl": "https://cyberpunktcg.com/cards/rogue-amendiares-queen-of-the-afterlife",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "167",
+      "name": "Towerfall",
+      "betaId": "B167",
+      "officialUrl": "https://cyberpunktcg.com/cards/towerfall",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "168",
+      "name": "Johnny Silverhand: Rocking Renegade",
+      "betaId": "B168",
+      "officialUrl": "https://cyberpunktcg.com/cards/johnny-silverhand-rocking-renegade",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "169",
+      "name": "Sasha Yakovleva: Won't Let You Down",
+      "betaId": "B169",
+      "officialUrl": "https://cyberpunktcg.com/cards/sasha-yakovleva-won-t-let-you-down",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "170",
+      "name": "Panam Palmer: Strength Through Family",
+      "betaId": "B170",
+      "officialUrl": "https://cyberpunktcg.com/cards/panam-palmer-strength-through-family",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
+    },
+    {
+      "id": "171",
+      "name": "Judy Álvarez: Nothing to Doubt",
+      "betaId": "B171",
+      "officialUrl": "https://cyberpunktcg.com/cards/judy-a-lvarez-nothing-to-doubt",
+      "retailImageUrl": null,
+      "imageStatus": "pending-verification",
+      "mappingStatus": "provisional-from-beta-number"
     }
+  ],
+  "sources": [
+    "https://holohoard.app/news/cyberpunk-tcg-welcome-to-night-city-retail-release",
+    "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained"
   ]
 }
