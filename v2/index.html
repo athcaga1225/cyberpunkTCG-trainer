@@ -2456,6 +2456,20 @@ header nav button.active{font-weight:400}
  #decks #starterDeckGallery .deck-tile .deck-art .starter-quantity-badge{width:29px;height:29px;top:6px;right:6px;font-size:11px}
 }
 
+
+/* V2 release check: mobile Popup keeps card art visible, version labels
+   left-aligned and long printing strips horizontally scrollable. */
+@media(max-width:899px){
+ #decks #betaCardDetail .beta-detail-art{display:block!important;min-width:0!important}
+ #decks #betaCardDetail .beta-detail-image-frame{display:block!important}
+ #decks #betaCardDetail .beta-printings{width:100%!important;min-width:0!important;max-width:100%!important;text-align:left!important}
+ #decks #betaCardDetail .beta-printings h4{text-align:left!important}
+ #decks #betaCardDetail .beta-printing-strip{justify-content:flex-start!important;max-width:100%!important;overflow-x:auto!important;overscroll-behavior-x:contain}
+ #decks #betaCardDetail .beta-printing-option{flex-shrink:0}
+ #decks #betaCardDetail .beta-detail-copy{min-width:0!important}
+ #decks #betaCardDetail .beta-detail-meta-line{width:auto!important;max-width:100%!important;flex-wrap:wrap!important}
+}
+
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
