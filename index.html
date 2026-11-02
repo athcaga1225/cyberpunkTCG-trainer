@@ -2069,24 +2069,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=32"></script><script>
-/* Image preview enhancement: cards remain clickable image links if JS is disabled. */
-(function(){
- const dlg=document.getElementById('deckImageDialog'),picture=document.getElementById('deckDialogImage'),title=document.getElementById('deckDialogTitle'),source=document.getElementById('deckDialogSource');
- if(!dlg||typeof dlg.showModal!=='function')return;
- document.querySelectorAll('a[data-deck-image]').forEach(a=>a.addEventListener('click',function(event){
-   event.preventDefault();
-   const english=a.dataset.cardName||'CARD PREVIEW';
-   const chinese=window.NCTLocale?.cardName(english)||english;
-   title.textContent=chinese;
-   document.getElementById('deckDialogEnglish').textContent=chinese===english?'':english;
-   picture.src=a.dataset.deckImage;
-   picture.alt=title.textContent;
-   source.href=a.href;
-   window.NCTCardModal.open(dlg);
-   title.focus({preventScroll:true});
- }));
- document.getElementById('closeDeckDialog').addEventListener('click',()=>dlg.close());
- dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
-})();
-</script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=33"></script></body></html>
