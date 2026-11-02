@@ -56,7 +56,7 @@ buttons.forEach(btn=>btn.addEventListener('click',()=>switchTo(btn.dataset.cardV
 function filter(){
  const q=search.value.toLowerCase().trim();
  const choice=rarity.value,set=series.value;
- filtered=all.filter(c=>(set==='all'||c.set===set)&&(choice==='all'||c.rarity===choice)&&(!q||c.id.toLowerCase().includes(q)||c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q)));
+ filtered=all.filter(c=>(set==='all'||c.set===set)&&(choice==='all'||c.rarity===choice)&&(!q||c.id.toLowerCase().includes(q)||(c.set==='topper'&&('b'+c.id.slice(1)).includes(q))||c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q)));
  page=0;render();
 }
 
@@ -344,6 +344,15 @@ fetch('./beta-cards.json?v=31',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
   anchor.dataset.starterKey=record.starterKey;
   starterCards.push(record);
  });
+ // Validate the two 20-face starter manifests independently of physical
+ // deck quantities (which may contain 2–3 copies of a face).
+ const deckCounts={heist:starterCards.filter(c=>c.deck==='heist').length,power:starterCards.filter(c=>c.deck==='power').length};
+ const sharedCount=starterCards.filter(c=>c.canonicalCardId).length;
+ const uniqueKeys=new Set(starterCards.map(c=>c.starterKey));
+ if(deckCounts.heist!==20||deckCounts.power!==20||uniqueKeys.size!==40||sharedCount!==36)
+  throw Error('Starter 牌組卡牌數量或共用資料關聯異常');
+ if(starterCards.some(c=>!c.printingUrl||!c.printingUrl.includes('?printing=')||!c.imageUrl||!c.name||!c.abilityEnglish||!c.abilityZh||c.ram===undefined||c.rarity==null))
+  throw Error('Starter 卡牌資料欄位不完整');
  const rarityNames=[...new Set(cards.map(c=>c.rarity))];
  const order=['Common','Uncommon','Rare','Epic','Secret','Iconic Legend','Iconic Other','Iconic Secret','Nova Rare'];
  rarityNames.sort((a,b)=>order.indexOf(a)-order.indexOf(b));
