@@ -2140,6 +2140,18 @@ header nav button.active{font-weight:400}
 #decks #betaCardDetail .beta-printing-option img{width:100%;aspect-ratio:5/7;object-fit:cover;border-radius:3px}
 #decks #betaCardDetail .beta-printing-option.selected{border-color:#29ffff;box-shadow:0 0 0 1px #29ffff}
 #decks #betaCardDetail .beta-printing-option:focus-visible{outline:2px solid #29ffff;outline-offset:2px}
+
+/* V2 desktop popup: calmer reading scale and tighter, balanced rhythm. */
+@media(min-width:900px){
+ #decks #betaCardDetail .beta-detail-body{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:24px;padding:16px 24px 26px}
+ #decks #betaCardDetail .beta-detail-copy{gap:13px}
+ #decks #betaCardDetail .beta-detail-title{font-size:clamp(23px,2.2vw,29px);line-height:1.3}
+ #decks #betaCardDetail .beta-detail-english{font-size:14px;line-height:1.4}
+ #decks #betaCardDetail .beta-detail-effect{padding-top:6px!important}
+ #decks #betaCardDetail .beta-ability-text{font-size:15px;line-height:1.5;letter-spacing:1px}
+ #decks #betaCardDetail .beta-detail-links{margin-top:0}
+ #decks #betaCardDetail .beta-printings{margin-top:16px;padding-top:14px}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
