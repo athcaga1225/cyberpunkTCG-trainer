@@ -66,6 +66,7 @@ const verifiedCharacterNames={
 const localizedCardOverrides={
  'Modded Kusanagi':'改 草薙',
  'Modded Muramasa':'改 村正',
+ 'Zetatech Faceplate':'ZETA科技 行為印模同步臉板',
  'Carnage at the Colosseum':'鬥技場大屠殺',
  'Gilded Matón':'鍍金打手',
  'Caliber: Totentanz\'s Top Dog':'卡利柏：死之舞頭號狠角色',
