@@ -173,7 +173,7 @@ fetch('./beta-cards.json?v=20',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
  const order=['Common','Uncommon','Rare','Epic','Secret','Iconic Legend','Iconic Other','Iconic Secret','Nova Rare'];
  rarityNames.sort((a,b)=>order.indexOf(a)-order.indexOf(b));
  for(const name of rarityNames){const option=create('option','',name);option.value=name;rarity.append(option)}
- status.textContent='已載入 178 張 Beta 卡牌，其中 '+cards.filter(c=>c.abilityZh).length+' 張已完成繁中能力翻譯。';
+ status.textContent='已載入 '+cards.length+' 張 Beta 卡牌。';
  render();
 }).catch(err=>{
  status.textContent='Beta 資料載入失敗：'+err.message+'。請檢查網路後重新整理。';
