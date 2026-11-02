@@ -128,7 +128,7 @@ function filter(){
  const choice=rarity.value,set=series.value;
  const cardNumberQuery=/^(?:b|t)?\d{1,3}[ab]?$/.test(q);
  filtered=all.filter(c=>(set==='all'||c.set===set)&&(choice==='all'||c.rarity===choice)&&
-  (!q||(cardNumberQuery?searchIdentifiers(c).some(id=>id===q||id.replace(/^[bt]/,'')===q||(/^[bt]\d{3}[ab]?$/.test(q)&&id.startsWith(q))):
+  (!q||(cardNumberQuery?searchIdentifiers(c).some(id=>q.startsWith('b')||q.startsWith('t')?id.startsWith(q):id.replace(/^[bt]/,'').startsWith(q)):
     searchIdentifiers(c).some(id=>id.includes(q))||c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q))));
  page=0;render();
 }
