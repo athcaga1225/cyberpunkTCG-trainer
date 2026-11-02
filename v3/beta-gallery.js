@@ -66,7 +66,7 @@ const localizedCardName=c=>{
  if(!localized)return c.nameZh||window.NCTLocale?.cardName?.(english)||english;
  const existing=String(c.nameZh||'');
  const subtitle=existing.includes('：')?existing.slice(existing.indexOf('：')+1):'';
- return localized+(subtitle?'：'+subtitle:'');
+ return localized+(subtitle&&!(character==='Muamar Reyes'&&subtitle==='酋長')?'：'+subtitle:'');
 };
 const zhName=c=>localizedCardName(c);
 // T001–T006 are internal identifiers; the actual Box Topper Beta printings read β001–β006.
