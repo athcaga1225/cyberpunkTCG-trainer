@@ -2514,6 +2514,14 @@ header nav button.active{font-weight:400}
 @media(max-width:700px){
  #decks #betaResults .v3-card-series{font-size:10px;letter-spacing:0;line-height:1.35}
 }
+
+/* V3 explicit no-results feedback: visible below the filters on all screens. */
+#decks #betaResults .v3-no-results{
+ grid-column:1/-1;margin:12px 0;padding:20px 22px;
+ color:#e8d1d2;background:rgba(248,80,74,.055);
+ border:1px solid rgba(248,80,74,.28);border-left:2px solid #f8504a;
+ border-radius:5px;font-size:14px;line-height:1.6;
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2617,4 +2625,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v3/beta-gallery.js?v=7"></script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v3/beta-gallery.js?v=8"></script></body></html>
