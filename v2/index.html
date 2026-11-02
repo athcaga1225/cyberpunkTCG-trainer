@@ -2153,6 +2153,19 @@ header nav button.active{font-weight:400}
  #decks #betaCardDetail .beta-detail-links{margin-top:0}
  #decks #betaCardDetail .beta-printings{margin-top:16px;padding-top:14px}
 }
+
+/* V2 wide dialog: card and information balance above a shared versions footer. */
+@media(min-width:900px){
+ #decks #betaCardDetail.beta-card-dialog{width:min(1180px,calc(100vw - 48px));max-width:calc(100vw - 48px);max-height:calc(100dvh - 48px)}
+ #decks #betaCardDetail .beta-detail-body{grid-template-columns:minmax(0,45fr) minmax(0,55fr);column-gap:28px;row-gap:14px;padding:18px 28px 22px;align-items:start}
+ #decks #betaCardDetail .beta-detail-art{width:100%;max-width:none;display:flex;justify-content:center;align-items:flex-start}
+ #decks #betaCardDetail .beta-detail-image-frame{width:min(100%,340px);margin:0 auto}
+ #decks #betaCardDetail .beta-detail-copy{gap:13px}
+ #decks #betaCardDetail .beta-printings{grid-column:1/-1;margin-top:0;padding-top:13px;border-top:1px solid #30444b}
+ #decks #betaCardDetail .beta-printings h4{text-align:left;margin-bottom:10px}
+ #decks #betaCardDetail .beta-printing-strip{justify-content:flex-start;gap:9px;padding-bottom:4px}
+ #decks #betaCardDetail .beta-printing-option{flex-basis:64px}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2256,4 +2269,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v2/beta-gallery.js?v=1"></script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v2/beta-gallery.js?v=2"></script></body></html>
