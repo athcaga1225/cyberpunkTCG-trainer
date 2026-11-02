@@ -2284,30 +2284,23 @@ header nav button.active{font-weight:400}
 /* Allow both version-specific and shared-rules links to wrap cleanly on phones. */
 #decks #betaCardDetail .beta-detail-links{display:flex;align-items:center;flex-wrap:wrap;gap:10px 16px}
 #decks #betaCardDetail .beta-detail-links a+a{border-left:0;padding-left:0}
-/* Mobile popup: place artwork, versions, and details on one shared layout level.
-   The artwork wrapper previously centered VERSIONS independently of TAGS/EFFECTS. */
+/* Mobile popup artwork must retain its real layout wrapper: display:contents
+   here hid the full-size card artwork on mobile Safari. The existing .beta-detail-art
+   (28px padding) and .beta-detail-copy (28px padding) keep headings aligned. */
 @media(max-width:899px){
  #decks #betaCardDetail .beta-detail-art{
-  display:contents!important;
+  display:block!important;
  }
  #decks #betaCardDetail .beta-detail-image-frame{
+  display:block!important;
   width:min(100%,190px)!important;
   max-width:190px!important;
-  margin-inline:auto!important;
+  margin:0 auto!important;
  }
- #decks #betaCardDetail .beta-printings,
- #decks #betaCardDetail .beta-detail-copy{
-  box-sizing:border-box!important;
+ #decks #betaCardDetail .beta-detail-image-frame img{
+  display:block!important;
   width:100%!important;
-  max-width:none!important;
-  margin-left:0!important;
-  margin-right:0!important;
-  padding-left:28px!important;
-  padding-right:28px!important;
- }
- #decks #betaCardDetail .beta-printings h4{
-  margin-left:0!important;
-  text-align:left!important;
+  height:auto!important;
  }
 }
 /* Match Popup micro-label typography across desktop and mobile. */
