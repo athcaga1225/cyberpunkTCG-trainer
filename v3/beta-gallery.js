@@ -152,7 +152,16 @@ function filter(){
  // Explicit card-number searches always return EVERY physical printing.
  // Name browsing, search and rarity filtering otherwise collapse only genuine
  // matching card identities; the Popup still shows their full versions.
- filtered=numberQuery?selected:selected.filter((c,i,arr)=>arr.findIndex(other=>samePrintingFamily(c,other))===i);
+ // Starter Legends and their Box Topper counterparts have distinct card
+ // artwork/design. Show both faces separately in ALL CARDS, while keeping
+ // samePrintingFamily for VERSIONS switching in the Popup.
+ const sameGalleryFace=(a,b)=>{
+  if(!samePrintingFamily(a,b))return false;
+  const separateStarterLegend=(a.set==='starter'&&a.type==='Legend'&&b.set==='topper')||
+   (b.set==='starter'&&b.type==='Legend'&&a.set==='topper');
+  return !separateStarterLegend;
+ };
+ filtered=numberQuery?selected:selected.filter((c,i,arr)=>arr.findIndex(other=>sameGalleryFace(c,other))===i);
  page=0;
  quickBar.querySelectorAll('button[data-v3-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v3View===active)));
  render();
