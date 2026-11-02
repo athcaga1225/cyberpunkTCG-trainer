@@ -118,9 +118,9 @@ function openCard(c){
  // Use an independently verified official printing URL when known; otherwise
  // point to the unique, card-number-specific source for this exact printing.
  if(c.set==='beta'||c.set==='topper'){
+  // Only one link, bound to the currently selected printing.
   addSourceLink(c.printingUrl||c.imageSource||c.imageUrl,
    c.printingUrl?'官方印刷版本':'這張印刷版本');
-  addSourceLink(c.abilitySource,'官方原文');
  }else{
   addSourceLink(c.imageSource||c.imageUrl,'卡牌來源');
  }
@@ -211,7 +211,7 @@ series.addEventListener('change',filter);
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
-fetch('./beta-cards.json?v=24',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
+fetch('./beta-cards.json?v=25',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
  const cards=data.cards||[];
  // Validate the actual Beta numbering: B005 has two printings (A/B);
  // B172 is not part of this 178-card index. The six T cards are Box Toppers.
