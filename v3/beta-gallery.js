@@ -147,7 +147,7 @@ function filter(){
   if(!q)return true;
   const ids=searchIdentifiers(c);
   if(numberQuery)return ids.some(id=>q.startsWith('b')||q.startsWith('t')?id.startsWith(q):id.replace(/^[bt]/,'').startsWith(q));
-  return ids.some(id=>id.includes(q))||c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q);
+  return ids.some(id=>id.includes(q))||normalizedCardName(c).includes(q.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim())||c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q);
  });
  // Explicit card-number searches always return EVERY physical printing.
  // Name browsing, search and rarity filtering otherwise collapse only genuine
@@ -386,7 +386,16 @@ detail.addEventListener('close',()=>{
 });
 search.addEventListener('input',filter);
 rarity.addEventListener('change',filter);
-series.addEventListener('change',filter);
+series.addEventListener('change',()=>{
+ // SERIES is a complete selector: switching from a quick category to
+ // another series must not silently produce an empty intersection.
+ if(series.value==='heist'||series.value==='power'){
+  if(active==='beta')active='all';
+ }else if(series.value==='beta'||series.value==='topper'){
+  if(active==='starter')active='all';
+ }
+ filter();
+});
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
