@@ -13,7 +13,7 @@ const status=document.getElementById('betaLoadStatus'),detail=document.getElemen
 const PAGE_SIZE=24;
 let all=[],starterCards=[],filtered=[],page=0,active='all';
 const quickBar=document.createElement('div');quickBar.className='v3-quick-filters';quickBar.setAttribute('role','group');quickBar.setAttribute('aria-label','卡牌集合');
-const quickChoices=[['all','ALL CARDS'],['starter','STARTER DECKS'],['beta','BETA BOOSTER'],['retail','RETAIL']];
+const quickChoices=[['all','ALL CARDS'],['beta','BETA BOOSTER'],['retail','RETAIL'],['heist','THE HEIST'],['power','EMBRACING POWER']];
 for(const [value,label] of quickChoices){
  const b=document.createElement('button');b.type='button';b.className='v3-quick-filter';b.dataset.v3View=value;
  b.textContent=label;b.setAttribute('aria-pressed',String(value==='all'));
@@ -138,7 +138,7 @@ function filter(){
  const selectedSet=series.value,choice=rarity.value;
  const numberQuery=/^(?:b|t)?\d{1,3}[ab]?$/.test(q);
  const selected=[...all,...starterCards].filter(c=>{
-  if(active==='starter'&&c.set!=='starter')return false;
+  if((active==='heist'||active==='power')&&!(c.set==='starter'&&c.deck===active))return false;
   if(active==='beta'&&!['beta','topper'].includes(c.set))return false;
   if(selectedSet==='heist'&&!(c.set==='starter'&&c.deck==='heist'))return false;
   if(selectedSet==='power'&&!(c.set==='starter'&&c.deck==='power'))return false;
@@ -398,10 +398,10 @@ rarity.addEventListener('change',filter);
 series.addEventListener('change',()=>{
  // SERIES is a complete selector: switching from a quick category to
  // another series must not silently produce an empty intersection.
- if(series.value==='heist'||series.value==='power'){
-  if(active==='beta')active='all';
- }else if(series.value==='beta'||series.value==='topper'){
-  if(active==='starter')active='all';
+ if(series.value!=='all' && active!=='all'){
+  const sameDeck=series.value===active;
+  const sameBeta=active==='beta'&&['beta','topper'].includes(series.value);
+  if(!sameDeck&&!sameBeta)active='all';
  }
  filter();
 });
