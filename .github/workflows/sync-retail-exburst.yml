@@ -1,0 +1,31 @@
+name: Fill missing Retail Iconic scans
+on:
+  push:
+    paths:
+      - scripts/sync-retail-exburst.py
+      - .github/workflows/sync-retail-exburst.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract Retail image URLs from ExBurst card pages
+        run: python scripts/sync-retail-exburst.py
+      - name: Commit confirmed Retail artwork sources
+        run: |
+          if git diff --quiet -- v3/retail-printings.json; then
+            echo "No verified new artwork source"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v3/retail-printings.json
+          git commit -m "data(v3): add verified ExBurst Retail Iconic artwork URLs"
+          git push
