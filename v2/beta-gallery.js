@@ -208,8 +208,8 @@ function openStarterCard(anchor){
  const matching=all.find(c=>c.name===english);
  const exclusive=starterOnlyCurrentRules[english]||null;
  const source=exclusive||matching||{};
- const cardNumber=anchor.querySelector('.deck-meta span')?.textContent?.match(/B(\d{3})/)?.[1]||'???';
- const isLegend=anchor.querySelector('.deck-meta span')?.textContent?.includes('LEGEND');
+ const cardNumber=(anchor.dataset.starterCardNumber||'').replace(/^B/,'')||'???';
+ const isLegend=anchor.dataset.starterIsLegend==='true';
  const card={
   name:english,nameZh:matching?.nameZh||window.NCTLocale?.cardName?.(english)||english,
   imageUrl:anchor.dataset.deckImage||anchor.href,
@@ -303,8 +303,9 @@ fetch('./beta-cards.json?v=31',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
   if(meta){
    meta.classList.add('beta-card-meta');
    const id=meta.querySelector('span');
-   const code=id?.textContent?.match(/B\\d{3}/)?.[0]||'';
-   if(id)id.textContent=code;
+   const code=id?.textContent?.match(/B\d{3}/)?.[0]||'';
+   anchor.dataset.starterCardNumber=code;
+   anchor.dataset.starterIsLegend=Boolean(id?.textContent?.includes('LEGEND')).toString();
    const rarity=cards.find(c=>c.name===english)?.rarity||starterOnlyCurrentRules[english]?.rarity||(english.includes(':')?'Epic':'');
    const amount=meta.querySelector('b');
    if(id){
