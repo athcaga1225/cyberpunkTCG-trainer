@@ -44,6 +44,7 @@ const searchIdentifiers=c=>[c.id,printedNumber(c),c.set==='topper'?'B'+c.id.slic
 const verifiedCharacterNames={
  'Lizzy Wizzy':'莉孜．薇姿',
  'Kerry Eurodyne':'凱瑞．歐達因',
+ 'Meredith Stout':'梅若迪絲．史道特',
  'River Ward':'大河．瓦德',
  'Evelyn Parker':'伊芙琳．帕克',
  'Alt Cunningham':'艾特．康寧漢',
