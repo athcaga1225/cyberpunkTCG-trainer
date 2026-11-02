@@ -21,6 +21,7 @@ for(const [value,label] of quickChoices){
  b.addEventListener('click',()=>{active=value;series.value='all';filter()});quickBar.append(b);
 }
 root.querySelector('.beta-filters').before(quickBar);
+quickBar.after(count); // Show the dynamic card total directly below the collection filters.
 
 // Match printings by normalized official English name and verified gameplay
 // identity. English accents vary across catalog sources (Álvarez / Alvarez),
@@ -484,8 +485,10 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
   if(rarityName&&!existingRarities.has(rarityName)){const option=create('option','',rarityName);option.value=rarityName;rarity.append(option)}
  }
  status.textContent='已載入 178 張 Beta／Box Topper 與 40 張 Starter 印刷版本。';
+ status.hidden=true; // Do not show redundant catalogue introduction on successful load.
  filter();
 }).catch(err=>{
+ status.hidden=false;
  status.textContent='Beta 資料載入失敗：'+err.message+'。請檢查網路後重新整理。';
  count.textContent='資料暫時無法載入';
 });
