@@ -117,7 +117,7 @@ function openCard(c){
  // it may silently show the Retail or base printing instead of this Beta card.
  // Use an independently verified official printing URL when known; otherwise
  // point to the unique, card-number-specific source for this exact printing.
- if(c.set==='beta'||c.set==='topper'){
+ if(c.set==='beta'||c.set==='topper'||c.set==='starter'){
   // Only one link, bound to the currently selected printing.
   addSourceLink(c.printingUrl||c.imageSource||c.imageUrl,
    c.printingUrl?'官方印刷版本':'這張印刷版本');
@@ -154,13 +154,34 @@ function openCard(c){
 }
 // Starter cards reuse the Beta detail layout, but never inherit another printing's
 // rules or numbers solely because the English title happens to match.
+
+// Official Beta Starter Deck printings, indexed by physical deck collector
+// number β001–β020. These are NOT Welcome to Night City Beta booster UUIDs.
+// Verified from each card's official "Beta Starter Deck" printing selector.
+const starterPrintingUrls={"heist":["https://cyberpunktcg.com/cards/viktor-vektor-sit-down-and-relax?printing=56a13bb3-7e1d-4846-ac79-9163f33c0143","https://cyberpunktcg.com/cards/dexter-deshawn-one-last-chance?printing=f9c512f2-a41f-4114-9500-cee3f8d8cc35","https://cyberpunktcg.com/cards/heywood-ripperdoc?printing=aebf807a-2fbb-4b60-ae4b-36783314871f","https://cyberpunktcg.com/cards/offduty-malfini?printing=e7ef78a6-72d3-42a4-ba98-14facb194eb9","https://cyberpunktcg.com/cards/secondhand-bombus?printing=2e2f977d-e0a6-4a21-a6b3-92937eb6e909","https://cyberpunktcg.com/cards/t-bug-amateur-philosopher?printing=646dde1d-a112-4c7b-aecc-f63e130d4df0","https://cyberpunktcg.com/cards/kiroshi-optics?printing=b18ce43d-3441-4a55-a6a9-34ae8765aa27","https://cyberpunktcg.com/cards/mandibular-upgrade?printing=c3399413-d205-49e7-871a-4f16d7c3ade6","https://cyberpunktcg.com/cards/zetatech-faceplate?printing=e38dee5b-9f4a-4323-a18f-aff42256b158","https://cyberpunktcg.com/cards/afterparty-at-lizzie-s?printing=a8dcad7d-7b45-427d-8123-3140b30ac612","https://cyberpunktcg.com/cards/jackie-welles-pour-one-out-for-me?printing=a0ef9536-ad3b-47f6-8c2a-171aa3b8b181","https://cyberpunktcg.com/cards/v-corporate-exile?printing=a6511c82-3a16-41b3-a39a-5194897c8648","https://cyberpunktcg.com/cards/delamain-cab?printing=a6bc4a11-ed78-49dc-999b-68b7fe50aefd","https://cyberpunktcg.com/cards/evelyn-parker-scheming-siren?printing=c7bc2b37-c1a4-43aa-a4c3-5dd60514b098","https://cyberpunktcg.com/cards/mt0d12-flathead?printing=d4a627d7-2ea9-4080-9f54-435a7d77fb27","https://cyberpunktcg.com/cards/psycho-squad?printing=e2fe4b47-4d66-4989-bab7-16143f7256ac","https://cyberpunktcg.com/cards/dying-night-v-s-pistol?printing=1dc3c618-a40a-4717-bf4d-a573915c8ac0","https://cyberpunktcg.com/cards/tetratronic-rippler?printing=7ef4d862-b97f-47be-ba0f-071c8e8354b0","https://cyberpunktcg.com/cards/floor-it?printing=d8b28345-bcd5-4c52-b51d-3052d8b24874","https://cyberpunktcg.com/cards/reboot-optics?printing=f393f463-2e62-4d77-aaf4-ed1bafaee8c5"],"power":["https://cyberpunktcg.com/cards/yorinobu-arasaka-embracing-destruction?printing=362bef23-c935-4729-a13b-dc3bc646d9b3","https://cyberpunktcg.com/cards/chrome-fang?printing=1e80ecfb-a3f2-421d-ac71-c05547366fb6","https://cyberpunktcg.com/cards/minotaur?printing=a8dd2d7b-88b8-4b15-b4dd-e3aa3757bb25","https://cyberpunktcg.com/cards/ruthless-lowlife?printing=9c59c8d2-586a-4845-b969-43be1fd3b388","https://cyberpunktcg.com/cards/swordwise-huscle?printing=6c695f7c-8b57-4932-aa4c-d85f0b1d29e3","https://cyberpunktcg.com/cards/arasaka-emergency-radioport?printing=be0d995d-84fc-41c3-bed6-1875caf85fc7","https://cyberpunktcg.com/cards/mantis-blades?printing=7e3cd1e0-4438-46e7-a327-0d9846778bb3","https://cyberpunktcg.com/cards/satori-sword-of-saburo?printing=e9dba54d-79bf-4f33-bd67-ba026e371c03","https://cyberpunktcg.com/cards/industrial-assembly?printing=84bdb994-a01d-4e4c-81d9-a970aef4d08c","https://cyberpunktcg.com/cards/over-the-edge?printing=de9b7361-6d1c-4a27-bcfb-50ec7a78e518","https://cyberpunktcg.com/cards/shattered-memories?printing=4adda471-e0c8-4628-aba1-d1ed11eae0af","https://cyberpunktcg.com/cards/goro-takemura-hands-unclean?printing=25b09451-8cc8-4581-898d-3b5ee6ff6b14","https://cyberpunktcg.com/cards/saburo-arasaka-stubborn-patriarch?printing=54136fbd-ce97-4d23-a8e8-f876e3e64819","https://cyberpunktcg.com/cards/corpo-security?printing=07cad5ea-45c4-404b-99b8-8f53c280a4fb","https://cyberpunktcg.com/cards/emergency-atlus?printing=0a5892de-42fa-4001-b48a-2c294251dad8","https://cyberpunktcg.com/cards/field-operator?printing=34d2a24a-7976-4178-9f9e-b819f15a6a34","https://cyberpunktcg.com/cards/goro-takemura-losing-his-way?printing=fb45ca8c-cb8a-4de9-8cf4-04a697c3fdfd","https://cyberpunktcg.com/cards/maxtac-av?printing=5a28466e-e4e1-408d-9d84-2ce48e95d89d","https://cyberpunktcg.com/cards/sandevistan?printing=e1a14bfa-cd87-4fa9-bfe8-207abb4545c4","https://cyberpunktcg.com/cards/corporate-surveillance?printing=e9d18fa1-0069-4b22-b64e-a75d2e30158a"]};
+const starterLinkFor=anchor=>{
+ const group=anchor.closest('.deck-collection');
+ const deck=group?.querySelector('summary strong')?.textContent?.trim()==='The Heist'?'heist':'power';
+ const number=Number(anchor.querySelector('.deck-meta span')?.textContent?.match(/B(\\d{3})/)?.[1]);
+ return number>=1&&number<=20?starterPrintingUrls[deck][number-1]:null;
+};
+starter.querySelectorAll('a[data-deck-image]').forEach(anchor=>{
+ const official=starterLinkFor(anchor);
+ if(official){
+  anchor.dataset.printingUrl=official;
+  anchor.href=official;
+  anchor.setAttribute('aria-label','檢視 '+(anchor.dataset.cardName||'')+' 官方 Beta 初始牌組印刷版本');
+ }
+});
+
 function openStarterCard(anchor){
  const english=anchor.dataset.cardName||'';
  const matching=all.find(c=>c.name===english);
  // Reuse verified shared-card attributes only; do not borrow Beta rules or stats.
  const card={name:english,nameZh:matching?.nameZh||window.NCTLocale?.cardName?.(english)||english,
   imageUrl:anchor.dataset.deckImage||anchor.href,
-  imageSource:anchor.href,
+  imageSource:anchor.dataset.deckImage||anchor.href,printingUrl:anchor.dataset.printingUrl||null,
+  id:'β'+String(anchor.querySelector('.deck-meta span')?.textContent?.match(/B(\d{3})/)?.[1]||'???'),
   set:'starter',type:matching?.type||null,color:matching?.color||null,tags:matching?.tags||[],cost:null,ram:null,power:null,
   abilityZh:'初始牌組版本的能力與數值尚未逐張核對，請以左側實體卡面為準。'};
  openCard(card);
