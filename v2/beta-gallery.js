@@ -108,10 +108,9 @@ function openCard(c){
    button.setAttribute('aria-label','切換至 '+variant.id+' 印刷版本');
    button.addEventListener('click',()=>openCard(variant));strip.append(button);
   }
-  versions.append(strip);
+  versions.append(strip);visual.append(versions);
  }
  detailBody.append(visual,info);
- if(versions)detailBody.append(versions);
  root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.cardId===c.id)));
  if(!detail.open){
   if(window.NCTCardModal)window.NCTCardModal.open(detail);
