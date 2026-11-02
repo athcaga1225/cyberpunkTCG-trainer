@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "set": "Welcome to Night City — Retail",
   "status": "retail-checklist-provisional-art-pending",
-  "notes": "Retail 001–171 checklist scaffold (including 005A/B) from matching Beta numbered entries. The Retail and Beta main booster checklists share numbering per HoloHoard and official reference guides; individual Retail printing, rules, and illustration have NOT been verified for newly inferred rows. Never use Beta art as Retail. Official URLs are card-family links, not guaranteed Retail printing selectors. Iconic 141–171 collector numbers/rarity cross-checked against mTCG Retail all-variants listing; this does not verify image or text.",
+  "notes": "Retail 001–171 checklist scaffold (including 005A/B) from matching Beta numbered entries. The Retail and Beta main booster checklists share numbering per HoloHoard and official reference guides; individual Retail printing, rules, and illustration have NOT been verified for newly inferred rows. Never use Beta art as Retail. Official URLs are card-family links, not guaranteed Retail printing selectors. Iconic 141–171 collector numbers/rarity cross-checked against mTCG Retail all-variants listing; this does not verify image or text. Retail Iconic artist credits and Beta-vs-Retail art distinction cross-checked with Mythras Nov 1 official-database comparison. Retail #158 credit remains TBD. Actual artwork URLs are still unverified for 141–171.",
   "cards": [
     {
       "id": "001",
@@ -1591,7 +1591,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "142",
@@ -1603,7 +1606,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "143",
@@ -1615,7 +1621,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "144",
@@ -1626,7 +1635,10 @@
       "imageStatus": "pending-verification",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "145",
@@ -1638,7 +1650,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "146",
@@ -1650,7 +1665,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "147",
@@ -1662,7 +1680,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "148",
@@ -1678,7 +1699,10 @@
       "retailPower": null,
       "officialRulesEnglish": "{Quick} {Spend} Play a Gear with cost 2 or less from your hand for free. When a friendly equipped Unit is defeated, search the top 2 cards of your deck and trash 1.",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "149",
@@ -1690,7 +1714,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "150",
@@ -1702,7 +1729,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "151",
@@ -1714,7 +1744,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "152",
@@ -1726,7 +1759,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "153",
@@ -1738,7 +1774,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "154",
@@ -1750,7 +1789,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "155",
@@ -1762,7 +1804,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "156",
@@ -1774,7 +1819,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "157",
@@ -1786,7 +1834,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Pandart Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "158",
@@ -1798,7 +1849,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Legend",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": null,
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": false
     },
     {
       "id": "159",
@@ -1810,7 +1864,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Other",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Atomhawk",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "160",
@@ -1822,7 +1879,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Other",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Łukasz Poller",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "161",
@@ -1834,7 +1894,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Other",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Łukasz Poller",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "162",
@@ -1846,7 +1909,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Other",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Akram",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "163",
@@ -1858,7 +1924,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Other",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Łukasz Poller",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "164",
@@ -1870,7 +1939,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Other",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Mooncolony",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "165",
@@ -1882,7 +1954,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Other",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Dardo Studios",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "166",
@@ -1894,7 +1969,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Other",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Dardo Studios",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "167",
@@ -1906,7 +1984,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Other",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Mooncolony",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "168",
@@ -1918,7 +1999,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Secret",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Divebound Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "169",
@@ -1930,7 +2014,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Secret",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Divebound Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "170",
@@ -1942,7 +2029,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Secret",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Divebound Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     },
     {
       "id": "171",
@@ -1954,7 +2044,10 @@
       "mappingStatus": "provisional-from-beta-number",
       "retailRarity": "Iconic Secret",
       "raritySource": "mTCG Welcome to Night City Retail variant listing",
-      "retailVariantStatus": "retail-number-and-rarity-crosschecked"
+      "retailVariantStatus": "retail-number-and-rarity-crosschecked",
+      "retailArtist": "Divebound Studio",
+      "retailArtistSource": "https://gamertagmythras.com/blog/cyberpunk-tcg/cyberpunk-tcg-rarities-explained",
+      "retailArtVariantConfirmedDifferentFromBeta": true
     }
   ],
   "sources": [
