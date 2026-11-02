@@ -191,3 +191,12 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 - Audit: all 177 URLs are unique, follow `<abilitySource>?printing=<valid UUID>`, and no two Beta printed card records share a `printingUrl`. The popup's existing single-link logic chooses `printingUrl || imageSource || imageUrl`; no change to card art, rarity, ID, cost, RAM, power, Chinese/English ability, or TAGS during this URL-link pass.
 - Browser cache revisions updated to `beta-cards.json?v=30` and `v2/beta-gallery.js?v=20`.
 - This is a URL mapping verification, not a claim of full browser/phone click-through testing across all 178 cards or validation of every historic physical Beta card's rules text.
+
+
+## V2 Beta Starter deck gallery audit — 2026-11-02
+
+- **Both decks audited against the official 2026-08-21 decklists**: The Heist and Embracing Power each have 20 unique card faces (3 Legends plus a 40-card Main Deck), 43 physical cards per deck. The V2 gallery contains 40 matching unique-card tiles in total.
+- **40/40 exact official Beta Starter printing URLs** sourced from the official card-family selector, each mapped to that deck's own β001–β020 collector number, not to Welcome to Night City Beta booster printings. Cards in the gallery retain their original image URL independently; the single popup external link uses the corresponding `printingUrl`.
+- **List appearance unified** to the Beta booster gallery for card image ratio, padding, desktop/mobile grid, typography and metadata; quantity badges ×1–×3 appear in round markers on the upper-right of the card tile.
+- **Popup reuses the same Beta modal component** and COST/RAM/POW/TAGS/EFFECTS styling. Four Starter-only card families (Dexter DeShawn: One Last Chance, MT0D12 Flathead, Minotaur, Goro Takemura: Losing His Way) now use manually transcribed official current rule and numerical references; other named cards display the reviewed shared-family data reference. Existing English names, Chinese terminology and quantities were retained.
+- **Still pending:** independent word-for-word comparison with physical Beta Starter printing rules for all 40 unique printings, and visual desktop/mobile click-through review. The official family pages expose current English rules, not a proven historical per-printing text revision. Do not equate current-rules reference with a completed historical Beta printing audit.
