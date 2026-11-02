@@ -255,6 +255,7 @@ function filter(){
  // artwork/design. Show both faces separately in ALL CARDS, while keeping
  // samePrintingFamily for VERSIONS switching in the Popup.
  const sameGalleryFace=(a,b)=>{
+  if(a.set==='retail'&&b.set==='retail')return a.id===b.id;
   if(!samePrintingFamily(a,b))return false;
   const separateStarterLegend=(a.set==='starter'&&a.type==='Legend'&&b.set==='topper')||
    (b.set==='starter'&&b.type==='Legend'&&a.set==='topper');
