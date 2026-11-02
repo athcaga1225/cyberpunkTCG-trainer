@@ -43,6 +43,7 @@ const zhName=c=>c.nameZh||window.NCTLocale?.cardName?.(c.name)||c.name;
 // T001–T006 are internal identifiers; the actual Box Topper Beta printings read β001–β006.
 const printedNumber=c=>c.set==='topper'?'β'+c.id.slice(1):c.id;
 const printingLabel=c=>c.set==='topper'?'BOX TOPPER '+printedNumber(c):c.set==='starter'?((c.deck==='heist'?'HEIST ':'POWER ')+c.id):c.id;
+const collectionLabel=c=>c.set==='topper'?'BOX TOPPER':c.set==='starter'?(c.deck==='heist'?'THE HEIST':'EMBRACING POWER'):'BETA BOOSTER';
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
 const betaArtChoices=new Map();
 function alternativeBetaImage(c){
@@ -368,9 +369,11 @@ function tile(c){
  fallback.hidden=true;visual.append(img,fallback);
  const title=create('strong','beta-card-title');setDisplayTitle(title,zhName(c));
  const eng=create('span','beta-card-english');setEnglishTitle(eng,c.name);
+ const collection=create('span','v3-card-series',collectionLabel(c));
+ collection.dataset.series=c.set==='starter'?c.deck:c.set;
  const meta=create('span','beta-card-meta');
  meta.append(create('b','',printedNumber(c)),create('span','',c.rarity));
- btn.append(visual,title,eng,meta);
+ btn.append(visual,title,eng,collection,meta);
  btn.addEventListener('click',()=>openCard(c));
  return btn;
 }
