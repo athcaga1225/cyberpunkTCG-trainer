@@ -75,7 +75,7 @@ const localizedCardOverrides={
  'Jackie Welles: Pour One Out For Me':'阿傑・威爾斯：替我敬一杯',
  'V: Corporate Exile':'V：企業流放者',
  'Valentino Street Racer':'瓦倫提諾會街頭車手',
- 'Placide: Voodoo Sentinel':'泰然：巫毒哨兵',
+ 'Placide: Voodoo Sentinel':'泰然：巫毒仔哨兵',
  'Secondhand Bombus':'二手熊蜂無人機',
  'Rita Wheeler: No Stupid Questions':'莉塔．惠勒：沒有蠢問題',
  'Pepe Najarro: Working Doubles':'佩裴．納傑羅：連上兩班',
