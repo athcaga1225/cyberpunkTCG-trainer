@@ -11,13 +11,13 @@ const grid=document.getElementById('betaResults'),count=document.getElementById(
 const pages=document.getElementById('betaPages'),pageSelect=document.getElementById('betaPageSelect'),prev=document.getElementById('betaPrevious'),next=document.getElementById('betaNext');
 const status=document.getElementById('betaLoadStatus'),detail=document.getElementById('betaCardDetail'),detailBody=document.getElementById('betaCardDetailBody');
 const PAGE_SIZE=24;
-let all=[],filtered=[],page=0,active='beta';
+let all=[],starterCards=[],filtered=[],page=0,active='beta';
 // Match printings by normalized official English name and verified gameplay
 // identity. English accents vary across catalog sources (Álvarez / Alvarez),
 // and Chinese wording may differ even when the original rules are identical.
 const normalizedCardName=c=>String(c.name||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const samePrintingFamily=(a,b)=>{
- if(a.set!==b.set || normalizedCardName(a)!==normalizedCardName(b))return false;
+ if(normalizedCardName(a)!==normalizedCardName(b))return false;
  if(a.type!==b.type || a.color!==b.color || a.cost!==b.cost || a.ram!==b.ram || a.power!==b.power)return false;
  // If both official English rules are present, compare them. When either is
  // absent, require identical translated effects; never join on name alone.
@@ -127,8 +127,10 @@ function openCard(c){
  }
  info.append(links);
  // Show only verified matching printings; never infer from title alone.
- const variants=all.filter(other=>samePrintingFamily(c,other));
- if(!variants.some(other=>other.id===c.id && other.set===c.set))variants.unshift(c);
+ // A shared card identity can have booster, Box Topper, and starter printings.
+ // Confirm a matching canonical rules identity; printing-specific fields stay separate.
+ const variants=[...all,...starterCards].filter(other=>samePrintingFamily(c,other));
+ if(!variants.some(other=>other.id===c.id && other.set===c.set && other.deck===c.deck))variants.unshift(c);
  let versions=null;
  {
   versions=create('section','beta-printings');
@@ -136,10 +138,11 @@ function openCard(c){
   const strip=create('div','beta-printing-strip');
   for(const variant of variants){
    const button=create('button','beta-printing-option');button.type='button';
-   if(variant.id===c.id && variant.set===c.set){button.classList.add('selected');button.setAttribute('aria-current','true')}
+   if(variant.id===c.id && variant.set===c.set && variant.deck===c.deck){button.classList.add('selected');button.setAttribute('aria-current','true')}
    const thumbnail=create('img','');thumbnail.src=variant.imageUrl;thumbnail.alt=variant.id+' 卡面';thumbnail.loading='lazy';
-   button.append(thumbnail,create('span','',variant.id||'STARTER'));
-   button.setAttribute('aria-label','切換至 '+(variant.id||'STARTER')+' 印刷版本');
+   const variantLabel=variant.set==='starter'?((variant.deck==='heist'?'HEIST':'POWER')+' '+variant.id):(variant.id||'STARTER');
+   button.append(thumbnail,create('span','',variantLabel));
+   button.setAttribute('aria-label','切換至 '+variantLabel+' 印刷版本');
    button.addEventListener('click',()=>openCard(variant));strip.append(button);
   }
   versions.append(strip);visual.append(versions);
@@ -203,27 +206,38 @@ const starterOnlyCurrentRules={
 // Beta booster and Box Topper data provides a working Chinese reference
 // for the same named family; the standalone Starter printing itself still
 // requires a separate physical-print rules-text comparison.
-function openStarterCard(anchor){
+function starterCardFromAnchor(anchor,cards){
  const english=anchor.dataset.cardName||'';
- const matching=all.find(c=>c.name===english);
+ // Shared canonical content is sourced from the same Beta record used by
+ // booster cards; independent printing properties are never copied over.
+ const shared=cards.find(c=>c.name===english);
  const exclusive=starterOnlyCurrentRules[english]||null;
- const source=exclusive||matching||{};
- const cardNumber=(anchor.dataset.starterCardNumber||'').replace(/^B/,'')||'???';
- const isLegend=anchor.dataset.starterIsLegend==='true';
- const card={
-  name:english,nameZh:matching?.nameZh||window.NCTLocale?.cardName?.(english)||english,
+ const source=shared||exclusive||{};
+ const code=anchor.dataset.starterCardNumber||anchor.querySelector('.deck-meta span')?.textContent?.match(/B\\d{3}/)?.[0]||'';
+ const isLegend=anchor.dataset.starterIsLegend==='true'||anchor.querySelector('.deck-meta span')?.textContent?.includes('LEGEND');
+ const deck=anchor.closest('.deck-collection')?.querySelector('summary strong')?.textContent?.trim()==='The Heist'?'heist':'power';
+ // Construct one printing record pointing at the canonical shared content;
+ // this does not make the different physical printings interchangeable.
+ return {
+  name:english,nameZh:shared?.nameZh||window.NCTLocale?.cardName?.(english)||english,
+  id:'β'+code.replace(/^B/,''),
+  deck,set:'starter',
   imageUrl:anchor.dataset.deckImage||anchor.href,
   imageSource:anchor.dataset.deckImage||anchor.href,
   printingUrl:anchor.dataset.printingUrl||null,
-  id:'β'+cardNumber,set:'starter',
-  type:source.type||(isLegend?'Legend':null),color:source.color||null,
-  rarity:isLegend?'Epic':source.rarity||null,tags:source.tags||[],
-  cost:source.cost??null,ram:source.ram??null,power:source.power??null,
+  type:source.type||(isLegend?'Legend':null),
+  color:source.color||null,rarity:source.rarity||(isLegend?'Epic':null),
+  tags:source.tags||[],cost:source.cost??null,ram:source.ram??null,power:source.power??null,
   abilityEnglish:source.abilityEnglish||'',
   abilityZh:source.abilityZh||'尚無校對過的中文規則內容，請參考官方卡牌頁。',
-  starterTextStatus:exclusive?'official-current-manual':'same-family-current-reference'
+  canonicalCardId:shared?.id||null,
+  starterTextStatus:shared?'same-family-current-reference':'official-current-manual'
  };
- openCard(card);
+}
+function openStarterCard(anchor){
+ const id=anchor.dataset.starterKey;
+ const card=starterCards.find(c=>c.starterKey===id);
+ if(card)openCard(card);
 }
 starter.addEventListener('click',event=>{
  const anchor=event.target.closest('a[data-deck-image]');
@@ -287,6 +301,7 @@ fetch('./beta-cards.json?v=31',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
   throw Error('Beta 卡牌必要欄位缺漏');
 
  all=cards;filtered=all.slice();
+ starterCards=[];
  // Keep starter card titles in sync with the canonical Beta translation.
  starter.querySelectorAll('a[data-deck-image]').forEach(anchor=>{
   const english=anchor.dataset.cardName||'';
@@ -320,6 +335,11 @@ fetch('./beta-cards.json?v=31',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
     }
    }
   }
+  // Preserve both the shared identity and this exact starter printing.
+  const record=starterCardFromAnchor(anchor,cards);
+  record.starterKey=record.deck+':'+record.id;
+  anchor.dataset.starterKey=record.starterKey;
+  starterCards.push(record);
  });
  const rarityNames=[...new Set(cards.map(c=>c.rarity))];
  const order=['Common','Uncommon','Rare','Epic','Secret','Iconic Legend','Iconic Other','Iconic Secret','Nova Rare'];
