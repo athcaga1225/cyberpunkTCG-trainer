@@ -2171,6 +2171,26 @@ header nav button.active{font-weight:400}
  #decks #betaCardDetail .beta-detail-section-label{font-size:11px}
 }
 
+/* Unified lightweight close X across V2 dialogs and board tour. */
+#decks #betaDetailClose,
+#decks #closeDeckDialog,
+#closeBattleCard,
+#closeBoardTour{
+ font-size:0!important;
+ line-height:0!important;
+}
+#decks #betaDetailClose::before,
+#decks #closeDeckDialog::before,
+#closeBattleCard::before,
+#closeBoardTour::before{
+ content:"";
+ display:block;
+ width:19px;
+ height:19px;
+ margin:auto;
+ background:linear-gradient(45deg,transparent calc(50% - .75px),currentColor calc(50% - .75px),currentColor calc(50% + .75px),transparent calc(50% + .75px)),linear-gradient(-45deg,transparent calc(50% - .75px),currentColor calc(50% - .75px),currentColor calc(50% + .75px),transparent calc(50% + .75px));
+}
+
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
