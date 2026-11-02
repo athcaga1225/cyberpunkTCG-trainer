@@ -75,7 +75,13 @@ function setBestArt(c,img){
  // Preserve the Shopify JPG for a real browser image-load failure.
  if(c.imageBackupUrl){
   img.onerror=()=>{
-   if(img.dataset.artKey!==key||img.dataset.artFallback==='true')return;
+   if(img.dataset.artKey!==key)return;
+   if(img.dataset.artFallback==='true'){
+    img.hidden=true;
+    const notice=img.parentElement?.querySelector('.beta-art-fallback');
+    if(notice)notice.hidden=false;
+    return;
+   }
    img.dataset.artFallback='true';
    img.src=c.imageBackupUrl;
   };
@@ -315,7 +321,7 @@ function tile(c){
  const visual=create('span','beta-card-art');
  const img=document.createElement('img');img.loading='lazy';img.decoding='async';setBestArt(c,img);img.alt=c.name+' 卡圖';
  const fallback=create('span','beta-art-fallback','圖片無法顯示');
- img.addEventListener('error',()=>{if(c.imageBackupUrl&&img.dataset.artFallback!=='true')return;img.hidden=true;fallback.hidden=false});
+ img.addEventListener('error',()=>{if(c.imageBackupUrl)return;img.hidden=true;fallback.hidden=false});
  fallback.hidden=true;visual.append(img,fallback);
  const title=create('strong','beta-card-title');setDisplayTitle(title,zhName(c));
  const eng=create('span','beta-card-english');setEnglishTitle(eng,c.name);
