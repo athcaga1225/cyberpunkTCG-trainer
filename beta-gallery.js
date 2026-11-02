@@ -104,10 +104,11 @@ function openCard(c){
 function openStarterCard(anchor){
  const english=anchor.dataset.cardName||'';
  const matching=all.find(c=>c.name===english);
+ // Reuse verified shared-card attributes only; do not borrow Beta rules or stats.
  const card={name:english,nameZh:matching?.nameZh||window.NCTLocale?.cardName?.(english)||english,
   imageUrl:anchor.dataset.deckImage||anchor.href,
   imageSource:anchor.href,
-  set:'starter',type:null,color:null,tags:[],cost:null,ram:null,power:null,
+  set:'starter',type:matching?.type||null,color:matching?.color||null,tags:matching?.tags||[],cost:null,ram:null,power:null,
   abilityZh:'初始牌組版本的能力與數值尚未逐張核對，請以左側實體卡面為準。'};
  openCard(card);
 }
@@ -157,7 +158,7 @@ series.addEventListener('change',filter);
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
-fetch('./beta-cards.json?v=19',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
+fetch('./beta-cards.json?v=20',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
  const cards=data.cards||[];
  if(cards.length!==178||new Set(cards.map(x=>x.id)).size!==178)throw Error('Beta 卡牌清單不完整');
  all=cards;filtered=all.slice();
