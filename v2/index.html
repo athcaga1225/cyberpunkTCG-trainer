@@ -2424,6 +2424,38 @@ header nav button.active{font-weight:400}
  #decks #starterDeckGallery .deck-visual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
+
+/* Starter list now shares the actual Beta tile classes and metadata order. */
+#decks #starterDeckGallery .deck-tile.beta-tile .deck-name.beta-card-title{
+ font-size:18px;line-height:1.4;font-weight:500;margin-top:7px;padding:0;min-height:0;
+}
+#decks #starterDeckGallery .deck-tile.beta-tile .deck-original.beta-card-english{
+ font-size:15px;line-height:1.45;margin:0;padding:0;min-height:0;
+}
+#decks #starterDeckGallery .deck-tile.beta-tile .deck-meta.beta-card-meta{
+ display:flex;justify-content:space-between;align-items:center;gap:6px;
+ font-size:14px;line-height:1.4;margin-top:auto;padding-top:8px;
+}
+#decks #starterDeckGallery .deck-tile.beta-tile .deck-meta.beta-card-meta b{
+ position:static;display:inline;min-width:0;height:auto;padding:0;
+ border:0;border-radius:0;background:none;box-shadow:none;
+ font-size:14px;letter-spacing:normal;line-height:inherit;font-weight:600;color:#f8504a;
+}
+#decks #starterDeckGallery .deck-tile .deck-art .starter-quantity-badge{
+ position:absolute;top:8px;right:8px;z-index:2;
+ width:32px;height:32px;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;
+ background:rgba(7,16,21,.94);border:1px solid rgba(248,80,74,.72);
+ box-shadow:0 2px 10px rgba(0,0,0,.35);
+ color:#f8fbfc;font-size:12px;line-height:1;font-weight:600;
+ pointer-events:none;
+}
+@media(max-width:700px){
+ #decks #starterDeckGallery .deck-tile.beta-tile .deck-name.beta-card-title{font-size:16px}
+ #decks #starterDeckGallery .deck-tile.beta-tile .deck-original.beta-card-english{font-size:14px}
+ #decks #starterDeckGallery .deck-tile .deck-art .starter-quantity-badge{width:29px;height:29px;top:6px;right:6px;font-size:11px}
+}
+
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2527,4 +2559,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v2/beta-gallery.js?v=23"></script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="v2/beta-gallery.js?v=24"></script></body></html>
