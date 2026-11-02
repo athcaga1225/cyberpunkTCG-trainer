@@ -102,6 +102,7 @@ function openCard(c){
  const effect=create('section','beta-detail-effect');
  effect.append(create('h4','beta-detail-section-label','EFFECTS / 卡牌能力'));
  effect.append(create('p','beta-ability-text',c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。'));
+ if(c.set==='starter')effect.append(create('p','beta-detail-note',c.starterTextStatus==='official-current-manual'?'內容依官方現行規則整理；實體 Beta Starter 印刷逐字差異仍待核對。':'中文能力與數值依同名卡資料整理；實體 Beta Starter 印刷逐字差異仍待核對。'));
  info.append(effect);
  const links=create('div','beta-detail-links');
  const addSourceLink=(href,label)=>{
@@ -174,16 +175,54 @@ starter.querySelectorAll('a[data-deck-image]').forEach(anchor=>{
  }
 });
 
+// Four starter-only game cards have no Welcome to Night City Beta booster
+// record to reuse. Values below are transcribed from the official family
+// card pages (current rules), NOT a different physical card's collector ID.
+const starterOnlyCurrentRules={
+ 'Dexter DeShawn: One Last Chance':{
+  type:'Unit',color:'Yellow',rarity:'Uncommon',cost:3,ram:2,power:4,tags:['FIXER'],
+  abilityEnglish:"{Play} {Attack} Adjust a Gig by up to 1. {Defeated} If your ☆ (Street Cred) differs from a Rival's by 10+, draw 2.",
+  abilityZh:'【打出（Play）】【攻擊（Attack）】將一顆任務骰的點數調整最多 1。【被擊敗（Defeated）】若你與一名對手的街頭聲望相差至少 10，抽 2 張牌。'
+ },
+ 'MT0D12 Flathead':{
+  type:'Unit',color:'Blue',rarity:'Uncommon',cost:5,ram:3,power:7,tags:['DRONE','MILITECH'],
+  abilityEnglish:"If you have less ☆ (Street Cred) than a Rival, this Unit can't be blocked.",
+  abilityZh:'如果你的街頭聲望低於一名對手，此單位無法被阻擋。'
+ },
+ 'Minotaur':{
+  type:'Unit',color:'Red',rarity:'Uncommon',cost:7,ram:2,power:9,tags:['ARASAKA','DRONE','MILITECH'],
+  abilityEnglish:"{Play} If you have more ☆ (Street Cred) than a Rival, defeat a rival Unit with power 5 or less.",
+  abilityZh:'【打出（Play）】若你的街頭聲望高於一名對手，擊敗一個戰力為 5 或以下的對手單位。'
+ },
+ 'Goro Takemura: Losing His Way':{
+  type:'Unit',color:'Green',rarity:'Uncommon',cost:4,ram:3,power:4,tags:['ARASAKA','CORPO'],
+  abilityEnglish:"{Attack} If all friendly Legends are face-up, this Unit has +5 power this turn.",
+  abilityZh:'【攻擊（Attack）】若所有友方傳奇角色皆正面朝上，此單位本回合戰力 +5。'
+ }
+};
+// Beta booster and Box Topper data provides a working Chinese reference
+// for the same named family; the standalone Starter printing itself still
+// requires a separate physical-print rules-text comparison.
 function openStarterCard(anchor){
  const english=anchor.dataset.cardName||'';
  const matching=all.find(c=>c.name===english);
- // Reuse verified shared-card attributes only; do not borrow Beta rules or stats.
- const card={name:english,nameZh:matching?.nameZh||window.NCTLocale?.cardName?.(english)||english,
+ const exclusive=starterOnlyCurrentRules[english]||null;
+ const source=exclusive||matching||{};
+ const cardNumber=anchor.querySelector('.deck-meta span')?.textContent?.match(/B(\d{3})/)?.[1]||'???';
+ const isLegend=anchor.querySelector('.deck-meta span')?.textContent?.includes('LEGEND');
+ const card={
+  name:english,nameZh:matching?.nameZh||window.NCTLocale?.cardName?.(english)||english,
   imageUrl:anchor.dataset.deckImage||anchor.href,
-  imageSource:anchor.dataset.deckImage||anchor.href,printingUrl:anchor.dataset.printingUrl||null,
-  id:'β'+String(anchor.querySelector('.deck-meta span')?.textContent?.match(/B(\d{3})/)?.[1]||'???'),
-  set:'starter',type:matching?.type||null,color:matching?.color||null,tags:matching?.tags||[],cost:null,ram:null,power:null,
-  abilityZh:'初始牌組版本的能力與數值尚未逐張核對，請以左側實體卡面為準。'};
+  imageSource:anchor.dataset.deckImage||anchor.href,
+  printingUrl:anchor.dataset.printingUrl||null,
+  id:'β'+cardNumber,set:'starter',
+  type:source.type||(isLegend?'Legend':null),color:source.color||null,
+  rarity:isLegend?'Epic':source.rarity||null,tags:source.tags||[],
+  cost:source.cost??null,ram:source.ram??null,power:source.power??null,
+  abilityEnglish:source.abilityEnglish||'',
+  abilityZh:source.abilityZh||'尚無校對過的中文規則內容，請參考官方卡牌頁。',
+  starterTextStatus:exclusive?'official-current-manual':'same-family-current-reference'
+ };
  openCard(card);
 }
 starter.addEventListener('click',event=>{
