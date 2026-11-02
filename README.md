@@ -200,3 +200,11 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 - **List appearance unified** to the Beta booster gallery for card image ratio, padding, desktop/mobile grid, typography and metadata; quantity badges ×1–×3 appear in round markers on the upper-right of the card tile.
 - **Popup reuses the same Beta modal component** and COST/RAM/POW/TAGS/EFFECTS styling. Four Starter-only card families (Dexter DeShawn: One Last Chance, MT0D12 Flathead, Minotaur, Goro Takemura: Losing His Way) now use manually transcribed official current rule and numerical references; other named cards display the reviewed shared-family data reference. Existing English names, Chinese terminology and quantities were retained.
 - **Still pending:** independent word-for-word comparison with physical Beta Starter printing rules for all 40 unique printings, and visual desktop/mobile click-through review. The official family pages expose current English rules, not a proven historical per-printing text revision. Do not equate current-rules reference with a completed historical Beta printing audit.
+
+
+## V2 Starter / Beta shared-card identity and versions — 2026-11-02
+
+- Both Starter deck galleries contain 40 unique faces. **36 of 40 have the same English card name as a record in the existing Beta/Box Topper index**; their live card display references the canonical Beta entry for the translated name, card type, color, COST/RAM/POW, tags, and current effect text. Four starter-only named cards retain separate official-current-reference data: Dexter DeShawn: One Last Chance; MT0D12 Flathead; Minotaur; Goro Takemura: Losing His Way.
+- The Beta and Starter lists continue to preserve independent card art, collector numbering, set label and exact official `?printing=` UUID.
+- The common Popup VERSIONS list now includes card-family-matching Starter, Beta and Box Topper printings when the existing current rule text, type, color and numeric attributes agree. It explicitly labels starter variants `HEIST βNNN` or `POWER βNNN`; clicking a version reopens that printing and switches its single outgoing official URL.
+- Matching current rules is **not** proof that every historic physical Starter card has identical printed wording. Physical Beta Starter word-for-word audit and browser/mobile click-through testing remain outstanding.
