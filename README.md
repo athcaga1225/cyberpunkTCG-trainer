@@ -112,3 +112,12 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 - T001 Yorinobu, T002 Viktor, T004 Saburo, T005 Jackie: Legend with no printed COST/PWR (null), RAM 2. T003 Goro: COST 5/PWR 7/RAM 2. T006 V: Corporate Exile: COST 5/PWR 8/RAM 2. Official card pages list their **Beta Box Toppers** printings. T00x numbers are local catalog identifiers.
 - The official errata notes a misprinted artist credit on T001 Yorinobu's Beta Box Topper; this is not a numeric-card-stat discrepancy and belongs to the later image / attribution audit.
 - Completion: **178/178 catalog entries reviewed for current COST / RAM / PWR values or their absence**. This is not certification of all historical physical Beta prints, images, rarity, tags, translation or effects. Special-printing values may derive from matching official card identity rather than separately legible physical print photographs.
+
+
+## Beta TAGS / EFFECTS audit — B001–B039 (40 entries, 2026-11-02)
+
+- Audited B001–B039 including **B005A and B005B** (40 catalog entries; no B005 entry) against each card's official currently published English card page (where direct open failed, official indexed page results for B006 and B018 were consulted).
+- Compared each record's `tags` against the published official trait line, and reviewed the meaning of `abilityZh` against **OFFICIAL CURRENT RULES TEXT · ENGLISH** including timing, triggers, target types, costs, limits, and non-rules flavor text. No supported TAGS or Chinese-effect text correction identified in this batch; no changes to `beta-cards.json`.
+- Edge cases examined: B005A and B005B share V: Streetkid's tags and effect; B007 Animals Wrecker and B025 Mantis Blades use printed flavor text, not separate active card effects; B030 has cost reduction with a minimum cost of 1; B032 Gunpoint Diplomacy grants both effects unless the lower-Street-Cred condition lets the rival select one; B034 may defeat a Unit, not necessarily only a rival Unit; B037 reroll applies when a Gig is rolled in from the fixer area.
+- This batch uses official **current** card rules; Beta printed-wording-specific errata and independent visual verification of each printed Beta card are **not** certified. In particular the `ruleVerified` flags remain unchanged and should not be inferred from this translation review.
+- Cumulative TAGS / EFFECTS audit coverage: **40/178**. Remaining B040–B171 and T001–T006: **138**.
