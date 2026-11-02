@@ -64,3 +64,11 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 
 - Confirmed B040–B070 as Yellow, B071–B079 as Green, based on cross-referenced card database entries; the popup derives its theme from `color` and now uses their proper yellow/green accents.
 - Updated B040 Rogue -> 若惡, B042 Alt -> 艾特, B067 Cyberpsychosis -> 神機錯亂. RIPPERDOC remains 神機醫.
+
+
+## Beta COST / RAM / POW spot-check — 2026-11-02
+
+- Batch B001–B039 (40 print entries counting B005A and B005B): verified all IDs and COST / RAM / POW field presence in `beta-cards.json` and compared recorded visible values against the official card database's currently published English cards. No value differences were identified in this batch.
+- Null COST / POW on applicable Legends and null POW on Programs are intentional printed dashes / absent values, not numeric zero.
+- This is a current-official-card-database value audit; it does not independently establish every historical Beta printing's physical stats or validate card effects, image, rarity, and translations.
+- Popup V2: B116 / B171 number, set, and rarity now occupy stable grid columns; visual browser acceptance is still pending.
