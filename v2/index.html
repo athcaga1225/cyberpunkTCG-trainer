@@ -2114,6 +2114,18 @@ header nav button.active{font-weight:400}
  text-align:center;
  white-space:nowrap;
 }
+
+/* V2 typography and card spacing refinements. */
+#decks, #decks *{letter-spacing:1px}
+#decks .deck-tile,#decks .beta-tile{gap:1px}
+#decks #betaCardDetail .beta-ability-text{line-height:1.5;letter-spacing:1px}
+/* Custom dropdown arrow with comfortable inset from right edge. */
+#decks .beta-filters select{
+ appearance:none;-webkit-appearance:none;
+ padding-right:44px;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23e5f3f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+ background-repeat:no-repeat;background-position:right 16px center;background-size:18px 18px;
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
