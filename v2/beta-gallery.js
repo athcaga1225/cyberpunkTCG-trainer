@@ -95,8 +95,9 @@ function openCard(c){
  links.append(source);info.append(links);
  // Show only verified matching printings; never infer from title alone.
  const variants=all.filter(other=>samePrintingFamily(c,other));
+ let versions=null;
  if(variants.length>1){
-  const versions=create('section','beta-printings');
+  versions=create('section','beta-printings');
   versions.append(create('h4','','VERSIONS / 印刷版本'));
   const strip=create('div','beta-printing-strip');
   for(const variant of variants){
@@ -107,9 +108,10 @@ function openCard(c){
    button.setAttribute('aria-label','切換至 '+variant.id+' 印刷版本');
    button.addEventListener('click',()=>openCard(variant));strip.append(button);
   }
-  versions.append(strip);visual.append(versions);
+  versions.append(strip);
  }
  detailBody.append(visual,info);
+ if(versions)detailBody.append(versions);
  root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.cardId===c.id)));
  if(!detail.open){
   if(window.NCTCardModal)window.NCTCardModal.open(detail);
