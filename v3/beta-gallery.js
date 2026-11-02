@@ -39,7 +39,36 @@ const samePrintingFamily=(a,b)=>{
 const samePrinting=(a,b)=>a.id===b.id&&a.set===b.set&&a.deck===b.deck;
 const searchIdentifiers=c=>[c.id,printedNumber(c),c.set==='topper'?'B'+c.id.slice(1):'']
  .filter(Boolean).map(x=>x.toLowerCase().replace(/^β/,'b'));
-const zhName=c=>c.nameZh||window.NCTLocale?.cardName?.(c.name)||c.name;
+// V3-only game-localized character names. Keep the shared Beta JSON and V2 intact.
+// Unknown Taiwanese surnames are intentionally omitted for Misty and Rogue.
+const verifiedCharacterNames={
+ 'Lizzy Wizzy':'莉孜．薇姿',
+ 'Kerry Eurodyne':'凱瑞．歐達因',
+ 'River Ward':'大河．瓦德',
+ 'Evelyn Parker':'伊芙琳．帕克',
+ 'Alt Cunningham':'艾特．康寧漢',
+ 'Wakako Okada':'岡田和歌子',
+ 'Panam Palmer':'帕娜．琵爾莫',
+ 'Goro Takemura':'武村吾郎',
+ 'Judy Álvarez':'茱蒂．艾法瑞茲',
+ 'Saul Bright':'紹爾．布萊特',
+ 'Johnny Silverhand':'銀手強尼',
+ 'Muamar Reyes':'「酋長」穆瑪．雷耶斯',
+ 'Sandayu Oda':'織田',
+ 'Misty Olszewski':'迷霧',
+ 'Rogue Amendiares':'若惡'
+};
+const localizedCardName=c=>{
+ const english=String(c.name||'');
+ const split=english.indexOf(':');
+ const character=split>=0?english.slice(0,split).trim():english;
+ const localized=verifiedCharacterNames[character];
+ if(!localized)return c.nameZh||window.NCTLocale?.cardName?.(english)||english;
+ const existing=String(c.nameZh||'');
+ const subtitle=existing.includes('：')?existing.slice(existing.indexOf('：')+1):'';
+ return localized+(subtitle?'：'+subtitle:'');
+};
+const zhName=c=>localizedCardName(c);
 // T001–T006 are internal identifiers; the actual Box Topper Beta printings read β001–β006.
 const printedNumber=c=>c.set==='topper'?'β'+c.id.slice(1):c.id;
 const printingLabel=c=>c.set==='topper'?'BOX TOPPER '+printedNumber(c):c.set==='starter'?((c.deck==='heist'?'HEIST ':'POWER ')+c.id):c.id;
@@ -352,7 +381,7 @@ function starterCardFromAnchor(anchor,cards){
  // Construct one printing record pointing at the canonical shared content;
  // this does not make the different physical printings interchangeable.
  return {
-  name:english,nameZh:shared?.nameZh||window.NCTLocale?.cardName?.(english)||english,
+  name:english,nameZh:localizedCardName(shared||{name:english}),
   id:'β'+code.replace(/^B/,''),
   deck,set:'starter',
   imageUrl:anchor.dataset.deckImage||anchor.href,
@@ -458,7 +487,7 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
  // Keep starter card titles in sync with the canonical Beta translation.
  starter.querySelectorAll('a[data-deck-image]').forEach(anchor=>{
   const english=anchor.dataset.cardName||'';
-  const zh=cards.find(c=>c.name===english)?.nameZh||window.NCTLocale?.cardName?.(english)||english;
+  const zh=localizedCardName(cards.find(c=>c.name===english)||{name:english});
   const label=anchor.querySelector('.deck-name');
   if(label)setDisplayTitle(label,zh);
   const original=anchor.querySelector('.deck-original');if(original)setEnglishTitle(original,english);
