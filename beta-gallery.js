@@ -79,7 +79,7 @@ function openCard(c){
  }
  if(Array.isArray(c.tags)&&c.tags.length){
   const tags=create('div','beta-detail-tags');
-  for(const tag of c.tags)tags.append(create('span','',translatedTag(tag)));
+  for(const tag of c.tags){const pill=create('span','');pill.append(create('span','beta-tag-label',translatedTag(tag)));tags.append(pill)}
   info.append(tags);
  }
  const effect=create('section','beta-detail-effect');
