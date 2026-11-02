@@ -92,3 +92,13 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 - Valid zero PWR values confirmed for B090, B109, B111, B113 and B119. B109 (Sasha Yakovleva) is a Legend with COST 5, RAM 2 and PWR 0; it must not be grouped with the costless Legends.
 - Scope: verified against the official *current English card database*. The site's default view may be Retail but includes links for the matching Beta printing. Historical printed Beta-specific deviations, card art, rarity, tags and translated effects remain separate audit tasks.
 - Current-stat audit cumulative coverage: 120/178 entries (B001–B119, with B005A and B005B both counted).
+
+
+## Beta COST / RAM / POW audit — B120–B159 (2026-11-02)
+
+- Audited all 40 Beta catalog entries B120–B159 for present COST/RAM/PWR fields, type and color, using the official current card entries for 39 card identities and independent card listings for B127 Westbrook Netrunner (4 cost / 2 RAM / 5 power). No inconsistencies identified with the stored values; `beta-cards.json` was not changed.
+- B120–B140: 21 Blue cards (8 Units, 3 Gear, 10 Programs). B131–B140 are Programs with no PWR (null).
+- B141–B159: 19 special printings. Each has a `printingReferenceId` resolving to its base Beta card, and all 19 match their base printing in type, color, COST, RAM, PWR, normalized English name and Chinese ability. B142↔B002 and B157↔B108 are among those checked.
+- Thirteen special printings have COST/PWR null as printed for Legends; six have numeric COST and PWR. Do not convert null to 0.
+- These checks concern the current official card data / documented relationships, not a full independent examination of every Beta physical card, translated effect, card image or rarity.
+- Cumulative current-value audit coverage: 160 of 178 Beta index entries; remaining B160–B171 and T001–T006 (18).
