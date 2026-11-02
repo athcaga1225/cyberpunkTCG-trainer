@@ -2277,6 +2277,18 @@ header nav button.active{font-weight:400}
 /* Allow both version-specific and shared-rules links to wrap cleanly on phones. */
 #decks #betaCardDetail .beta-detail-links{display:flex;align-items:center;flex-wrap:wrap;gap:10px 16px}
 #decks #betaCardDetail .beta-detail-links a+a{border-left:0;padding-left:0}
+/* Match Popup micro-label typography across desktop and mobile. */
+#decks #betaCardDetail .beta-detail-header strong,
+#decks #betaCardDetail .beta-printings h4,
+#decks #betaCardDetail .beta-printing-option,
+#decks #betaCardDetail .beta-detail-meta-line,
+#decks #betaCardDetail .beta-detail-section-label,
+#decks #betaCardDetail .beta-detail-effect h4.beta-detail-section-label{
+ font-size:11px!important;
+ line-height:1.4;
+ -webkit-text-size-adjust:100%;
+ text-size-adjust:100%;
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
