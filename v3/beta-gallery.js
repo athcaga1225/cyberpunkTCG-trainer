@@ -66,7 +66,7 @@ const localizedCardName=c=>{
  const split=english.indexOf(':');
  const character=split>=0?english.slice(0,split).trim():english;
  const localized=verifiedCharacterNames[character];
- if(!localized)return String(c.nameZh||window.NCTLocale?.cardName?.(english)||english).replaceAll('瓦倫提諾幫','瓦倫提諾會');
+ if(!localized)return String(c.nameZh||window.NCTLocale?.cardName?.(english)||english).replaceAll('瓦倫提諾幫','瓦倫提諾會').replaceAll('緊急用阿特拉斯','緊急用 Atlus');
  const existing=String(c.nameZh||'');
  const subtitle=existing.includes('：')?existing.slice(existing.indexOf('：')+1):'';
  return localized+(subtitle&&!(character==='Muamar Reyes'&&subtitle==='酋長')?'：'+subtitle:'');
