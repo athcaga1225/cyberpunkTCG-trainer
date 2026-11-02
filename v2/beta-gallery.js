@@ -294,6 +294,31 @@ fetch('./beta-cards.json?v=31',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
   const label=anchor.querySelector('.deck-name');
   if(label)setDisplayTitle(label,zh);
   const original=anchor.querySelector('.deck-original');if(original)setEnglishTitle(original,english);
+  // Use the exact Beta booster list classes and content hierarchy.
+  anchor.classList.add('beta-tile');
+  anchor.querySelector('.deck-art')?.classList.add('beta-card-art');
+  if(label)label.classList.add('beta-card-title');
+  if(original)original.classList.add('beta-card-english');
+  const meta=anchor.querySelector('.deck-meta');
+  if(meta){
+   meta.classList.add('beta-card-meta');
+   const id=meta.querySelector('span');
+   const code=id?.textContent?.match(/B\\d{3}/)?.[0]||'';
+   if(id)id.textContent=code;
+   const rarity=cards.find(c=>c.name===english)?.rarity||starterOnlyCurrentRules[english]?.rarity||(english.includes(':')?'Epic':'');
+   const amount=meta.querySelector('b');
+   if(id){
+    const left=create('b','',code);
+    const right=create('span','',rarity);
+    const marker=amount?.textContent||'';
+    meta.replaceChildren(left,right);
+    if(marker){
+     const badge=create('span','starter-quantity-badge',marker);
+     badge.setAttribute('aria-label','牌組內 '+marker.replace('×','')+' 張');
+     anchor.querySelector('.deck-art')?.append(badge);
+    }
+   }
+  }
  });
  const rarityNames=[...new Set(cards.map(c=>c.rarity))];
  const order=['Common','Uncommon','Rare','Epic','Secret','Iconic Legend','Iconic Other','Iconic Secret','Nova Rare'];
