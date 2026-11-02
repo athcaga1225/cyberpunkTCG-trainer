@@ -17,7 +17,7 @@ const quickChoices=[['all','ALL CARDS'],['beta','BETA BOOSTER'],['retail','RETAI
 for(const [value,label] of quickChoices){
  const b=document.createElement('button');b.type='button';b.className='v3-quick-filter';b.dataset.v3View=value;
  b.textContent=label;b.setAttribute('aria-pressed',String(value==='all'));
- if(value==='retail'){b.disabled=true;b.title='RETAIL 卡牌資料尚未加入'}
+ if(value==='retail'){b.disabled=true;b.title='RETAIL 正式卡圖尚未核實'}
  b.addEventListener('click',()=>{active=value;series.value='all';filter()});quickBar.append(b);
 }
 root.querySelector('.beta-filters').before(quickBar);
@@ -230,6 +230,7 @@ function filter(){
  const selected=[...all,...starterCards].filter(c=>{
   if((active==='heist'||active==='power')&&!(c.set==='starter'&&c.deck===active))return false;
   if(active==='beta'&&!['beta','topper'].includes(c.set))return false;
+  if(active==='retail'&&c.set!=='retail')return false;
   if(selectedSet==='heist'&&!(c.set==='starter'&&c.deck==='heist'))return false;
   if(selectedSet==='power'&&!(c.set==='starter'&&c.deck==='power'))return false;
   if(['beta','topper'].includes(selectedSet)&&c.set!==selectedSet)return false;
@@ -540,6 +541,23 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
  if(cards.some(c=>!c.name||!c.nameZh||!c.imageUrl||!c.rarity||!c.type||!Array.isArray(c.tags)||!c.abilityZh||c.ram===undefined))
   throw Error('Beta 卡牌必要欄位缺漏');
 
+ // Retail records are separate physical printings. Reuse verified Beta rules
+ // only when the official card identity matches, and never show Beta art as Retail.
+ fetch('./retail-printings.json?v=1',{cache:'no-cache'}).then(r=>{
+  if(!r.ok)throw Error('Retail manifest HTTP '+r.status);
+  return r.json();
+ }).then(manifest=>{
+  const retail=(manifest.cards||[]).filter(entry=>entry.retailImageUrl&&entry.imageStatus==='verified').map(entry=>{
+   const base=cards.find(c=>c.id===entry.betaId&&c.name===entry.name);
+   if(!base)return null;
+   return {...base,id:'R'+entry.id,set:'retail',imageUrl:entry.retailImageUrl,officialUrl:entry.officialUrl,retailNumber:entry.id};
+  }).filter(Boolean);
+  if(!retail.length)return;
+  all.push(...retail);
+  const retailButton=quickBar.querySelector('[data-v3-view="retail"]');
+  if(retailButton){retailButton.disabled=false;retailButton.removeAttribute('title')}
+  filter();
+ }).catch(error=>console.warn('Retail printings not ready:',error));
  all=cards;filtered=all.slice();
  starterCards=[];
  // Keep starter card titles in sync with the canonical Beta translation.
