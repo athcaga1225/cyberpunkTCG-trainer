@@ -15,7 +15,7 @@ let all=[],starterCards=[],filtered=[],page=0,active='beta';
 // Match printings by normalized official English name and verified gameplay
 // identity. English accents vary across catalog sources (Álvarez / Alvarez),
 // and Chinese wording may differ even when the original rules are identical.
-const normalizedCardName=c=>String(c.name||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+const normalizedCardName=c=>String(c.name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const samePrintingFamily=(a,b)=>{
  if(normalizedCardName(a)!==normalizedCardName(b))return false;
  if(a.type!==b.type || a.color!==b.color || a.cost!==b.cost || a.ram!==b.ram || a.power!==b.power)return false;
@@ -216,7 +216,7 @@ function starterCardFromAnchor(anchor,cards){
  const shared=cards.find(c=>c.name===english);
  const exclusive=starterOnlyCurrentRules[english]||null;
  const source=shared||exclusive||{};
- const code=anchor.dataset.starterCardNumber||anchor.querySelector('.deck-meta span')?.textContent?.match(/B\\d{3}/)?.[0]||'';
+ const code=anchor.dataset.starterCardNumber||anchor.querySelector('.deck-meta span')?.textContent?.match(/B\d{3}/)?.[0]||'';
  const isLegend=anchor.dataset.starterIsLegend==='true'||anchor.querySelector('.deck-meta span')?.textContent?.includes('LEGEND');
  const deck=anchor.closest('.deck-collection')?.querySelector('summary strong')?.textContent?.trim()==='The Heist'?'heist':'power';
  // Construct one printing record pointing at the canonical shared content;
@@ -324,7 +324,7 @@ fetch('./beta-cards.json?v=31',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
    const code=id?.textContent?.match(/B\d{3}/)?.[0]||'';
    anchor.dataset.starterCardNumber=code;
    anchor.dataset.starterIsLegend=Boolean(id?.textContent?.includes('LEGEND')).toString();
-   const rarity=cards.find(c=>c.name===english)?.rarity||starterOnlyCurrentRules[english]?.rarity||(english.includes(':')?'Epic':'');
+   const rarity=anchor.dataset.starterIsLegend==='true'?'Epic':(cards.find(c=>c.name===english)?.rarity||starterOnlyCurrentRules[english]?.rarity||'');
    const amount=meta.querySelector('b');
    if(id){
     const left=create('b','',code);
