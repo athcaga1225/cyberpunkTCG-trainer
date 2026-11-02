@@ -84,7 +84,7 @@ function openCard(c){
  }
  if(Array.isArray(c.tags)&&c.tags.length){
   const tags=create('div','beta-detail-tags');
-  tags.append(create('h4','beta-detail-section-label','KEYWORDS / 關鍵字'));
+  tags.append(create('h4','beta-detail-section-label','TAGS / 標籤'));
   for(const tag of c.tags)tags.append(create('span','',translatedTag(tag)));
   info.append(tags);
  }
