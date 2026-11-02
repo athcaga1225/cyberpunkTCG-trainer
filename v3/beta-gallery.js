@@ -544,7 +544,7 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
 
  // Retail records are separate physical printings. Reuse verified Beta rules
  // only when the official card identity matches, and never show Beta art as Retail.
- fetch('./retail-printings.json?v=1',{cache:'no-cache'}).then(r=>{
+ fetch('v3/retail-printings.json?v=3',{cache:'no-cache'}).then(r=>{
   if(!r.ok)throw Error('Retail manifest HTTP '+r.status);
   return r.json();
  }).then(manifest=>{
