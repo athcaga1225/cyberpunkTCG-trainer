@@ -545,14 +545,14 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
 
  // Retail records are separate physical printings. Reuse verified Beta rules
  // only when the official card identity matches, and never show Beta art as Retail.
- fetch('v3/retail-printings.json?v=6',{cache:'no-cache'}).then(r=>{
+ fetch('v3/retail-printings.json?v=7',{cache:'no-cache'}).then(r=>{
   if(!r.ok)throw Error('Retail manifest HTTP '+r.status);
   return r.json();
  }).then(manifest=>{
   const retail=(manifest.cards||[]).map(entry=>{
    const base=cards.find(c=>c.id===entry.betaId&&c.name===entry.name);
    if(!base)return null;
-   return {...base,id:'R'+entry.id,set:'retail',imageBackupUrl:entry.retailImageBackupUrl||null,imageUrl:['verified','catalogue-matched','cross-referenced-iconic','cross-referenced-retail'].includes(entry.imageStatus)?entry.retailImageUrl:null,officialUrl:entry.officialUrl,retailNumber:entry.id,rarity:entry.retailRarity??base.rarity,cost:entry.retailCost!==undefined?entry.retailCost:base.cost,ram:entry.retailRam!==undefined?entry.retailRam:base.ram,power:entry.retailPower!==undefined?entry.retailPower:base.power,abilityEnglish:entry.officialRulesEnglish??base.abilityEnglish,retailVerification:entry.mappingStatus||'provisional'};
+   return {...base,id:'R'+entry.id,set:'retail',imageBackupUrl:entry.retailImageBackupUrl||null,imageUrl:['verified','catalogue-matched','cross-referenced-iconic','cross-referenced-retail','self-hosted-retail'].includes(entry.imageStatus)?entry.retailImageUrl:null,officialUrl:entry.officialUrl,retailNumber:entry.id,rarity:entry.retailRarity??base.rarity,cost:entry.retailCost!==undefined?entry.retailCost:base.cost,ram:entry.retailRam!==undefined?entry.retailRam:base.ram,power:entry.retailPower!==undefined?entry.retailPower:base.power,abilityEnglish:entry.officialRulesEnglish??base.abilityEnglish,retailVerification:entry.mappingStatus||'provisional'};
   }).filter(Boolean);
   if(!retail.length)return;
   all.push(...retail);
