@@ -64,6 +64,16 @@ const verifiedCharacterNames={
 };
 // V3-only Taiwanese localization refinements; the shared Beta file and V2 remain unchanged.
 const localizedCardOverrides={
+ 'Carnage at the Colosseum':'鬥技場大屠殺',
+ 'Gilded Matón':'鍍金打手',
+ 'Caliber: Totentanz\'s Top Dog':'卡利柏：死之舞頭號狠角色',
+ '(Don\'t Fear) The Reaper':'（別怕）至死方休',
+ 'Memory Relapse':'記憶復發',
+ 'We Gotta Live Together':'我們必須一起活下去',
+ 'Wild in the Streets':'狂野街頭',
+ 'Westbrook Netrunner':'西流區竄網使',
+ 'Jackie Welles: Pour One Out For Me':'阿傑：替我敬一杯',
+ 'V: Corporate Exile':'V：企業流放者',
  'Valentino Street Racer':'瓦倫提諾會街頭車手',
  'Placide: Voodoo Sentinel':'泰然：巫毒哨兵',
  'Secondhand Bombus':'二手熊蜂無人機',
@@ -182,7 +192,7 @@ const tagZh={
  'ANIMAL':'蠻獸派','ROCKER':'搖滾客','SAMURAI':'武士','VALENTINO':'瓦倫提諾會',
  '6TH STREET':'六街遊俠','DRONE':'無人機','ZETATECH':'ZETA科技','CYBERWARE':'義體',
  'TRAUMA TEAM':'搶救團隊','RIPPERDOC':'神機醫','VOODOO BOYS':'巫毒仔',
- 'SCAVENGER':'清道夫','MEDTECH':'醫療技師','MOX':'茉刺盟','DOLL':'玩偶','MAINE\'S CREW':'魅音小隊','MYSTIC':'秘術師','ALDECALDO':'阿德卡多族',
+ 'SCAVENGER':'清道夫','MEDTECH':'醫療技師','MOX':'茉刺盟','DOLL':'玩偶','MAINE\'S CREW':'魅音小隊','MYSTIC':'神秘主義者','ALDECALDO':'阿德卡多族',
  'VEHICLE':'載具','TECHIE':'械鬥匠','WEAPON':'武器','BRAINDANCE':'幻智之舞','EXTREME':'極限',
  'QUICKHACK':'速駭','PLAN':'計畫','NOMAD':'遊牧民','FIXER':'合事佬','NCPD':'夜城警察局','RAFFEN SHIV':'劫戮民','AI':'人工智慧','NETWATCH':'衛網監理'
 };
