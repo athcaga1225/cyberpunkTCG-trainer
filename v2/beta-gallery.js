@@ -104,15 +104,27 @@ function openCard(c){
  effect.append(create('p','beta-ability-text',c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。'));
  info.append(effect);
  const links=create('div','beta-detail-links');
- const source=create('a','');
- source.href=c.printingUrl||c.abilitySource||c.imageSource||c.imageUrl;
- source.target='_blank';source.rel='noopener noreferrer';
- source.className='beta-source-link';
- source.append(create('span','beta-source-label',c.printingUrl?'官方印刷版本':(c.abilitySource?'官方原文':'卡牌來源')));
- const arrow=create('span','beta-source-arrow','↗');
- arrow.setAttribute('aria-hidden','true');
- source.append(arrow);
- links.append(source);info.append(links);
+ const addSourceLink=(href,label)=>{
+  if(!href)return;
+  const a=create('a','beta-source-link');
+  a.href=href;a.target='_blank';a.rel='noopener noreferrer';
+  a.append(create('span','beta-source-label',label));
+  const arrow=create('span','beta-source-arrow','↗');
+  arrow.setAttribute('aria-hidden','true');
+  a.append(arrow);links.append(a);
+ };
+ // A printing's link must never fall back to the shared official rules page:
+ // it may silently show the Retail or base printing instead of this Beta card.
+ // Use an independently verified official printing URL when known; otherwise
+ // point to the unique, card-number-specific source for this exact printing.
+ if(c.set==='beta'||c.set==='topper'){
+  addSourceLink(c.printingUrl||c.imageSource||c.imageUrl,
+   c.printingUrl?'官方印刷版本':'這張印刷版本');
+  addSourceLink(c.abilitySource,'官方原文');
+ }else{
+  addSourceLink(c.imageSource||c.imageUrl,'卡牌來源');
+ }
+ info.append(links);
  // Show only verified matching printings; never infer from title alone.
  const variants=all.filter(other=>samePrintingFamily(c,other));
  if(!variants.some(other=>other.id===c.id && other.set===c.set))variants.unshift(c);
@@ -199,7 +211,7 @@ series.addEventListener('change',filter);
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
-fetch('./beta-cards.json?v=23',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
+fetch('./beta-cards.json?v=24',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
  const cards=data.cards||[];
  // Validate the actual Beta numbering: B005 has two printings (A/B);
  // B172 is not part of this 178-card index. The six T cards are Box Toppers.
