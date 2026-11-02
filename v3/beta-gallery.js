@@ -255,7 +255,9 @@ function filter(){
  // artwork/design. Show both faces separately in ALL CARDS, while keeping
  // samePrintingFamily for VERSIONS switching in the Popup.
  const sameGalleryFace=(a,b)=>{
-  if(a.set==='retail'&&b.set==='retail')return a.id===b.id;
+  // Retail is an independent printed edition, not a duplicate of Beta.
+  // Keep it visible when browsing a rarity even when the rules are identical.
+  if(a.set==='retail'||b.set==='retail')return a.set==='retail'&&b.set==='retail'&&a.id===b.id;
   if(!samePrintingFamily(a,b))return false;
   const separateStarterLegend=(a.set==='starter'&&a.type==='Legend'&&b.set==='topper')||
    (b.set==='starter'&&b.type==='Legend'&&a.set==='topper');
@@ -556,6 +558,14 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
   }).filter(Boolean);
   if(!retail.length)return;
   all.push(...retail);
+  // The Retail manifest loads independently from Beta, so register any
+  // additional edition-only rarities when it arrives.
+  const existingRarityValues=new Set([...rarity.options].map(o=>o.value));
+  for(const label of new Set(retail.map(card=>card.rarity).filter(Boolean))){
+   if(existingRarityValues.has(label))continue;
+   const option=create('option','',label);option.value=label;rarity.append(option);
+   existingRarityValues.add(label);
+  }
   const retailButton=quickBar.querySelector('[data-v3-view="retail"]');
   if(retailButton){retailButton.disabled=false;retailButton.removeAttribute('title')}
   filter();
@@ -610,7 +620,7 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
   throw Error('Starter 牌組卡牌數量或共用資料關聯異常');
  if(starterCards.some(c=>!c.printingUrl||!c.printingUrl.includes('?printing=')||!c.imageUrl||!c.name||!c.abilityEnglish||!c.abilityZh||c.ram===undefined||c.rarity==null))
   throw Error('Starter 卡牌資料欄位不完整');
- const rarityNames=[...new Set(cards.map(c=>c.rarity))];
+ const rarityNames=[...new Set([...cards,...all,...starterCards].map(c=>c.rarity).filter(Boolean))];
  const order=['Common','Uncommon','Rare','Epic','Secret','Iconic Legend','Iconic Other','Iconic Secret','Nova Rare'];
  rarityNames.sort((a,b)=>order.indexOf(a)-order.indexOf(b));
  for(const name of rarityNames){const option=create('option','',name);option.value=name;rarity.append(option)}
