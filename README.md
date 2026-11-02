@@ -182,3 +182,12 @@ The 85vh tabletop remains, with a compact 380px tour tip in its top-right corner
 - **Still missing: 121/178**. No guessed UUIDs or shared family default page were written. Missing records retain exact numbered third-party source links so a card printing never silently links to the wrong official default printing.
 - Official card list and card family pages expose the printing selector interactively. An accessible bulk official UUID API or downloadable mapping was not established in this audit. The remaining 121 printings require independent official selector lookups or reliable bulk-data extraction; do not mark the official link audit complete.
 - Changed the JSON `printingUrl` fields only. No card attributes, effects, art or CSS changed in this audit.
+
+
+## Official Beta printing URL audit — final update, 2026-11-02
+
+- **177 of 178** Beta card records now have an individually matched official Cyberpunk TCG printing-specific `?printing=<UUID>` URL. This supersedes the interim 57/178 count in the earlier audit entry. The 177 unique links were obtained by navigating the official card-family pages and selecting the corresponding **Welcome to Night City — Beta#βNNN**, or for locally indexed T001–T006, **Box Toppers — Beta#β00N**; all link UUIDs were sourced rather than guessed.
+- **Only outstanding official UUID: B127 Westbrook Netrunner.** Official direct card page could not be read via available browsing routes. External sources confirm `Welcome to Night City — Beta#β127`, but the third-party gallery's printing UUID cannot be assumed to be the official website's UUID. B127 deliberately retains its unique numbered third-party product source as the popup's one external link; do not point to the unqualified official card-family default page.
+- Audit: all 177 URLs are unique, follow `<abilitySource>?printing=<valid UUID>`, and no two Beta printed card records share a `printingUrl`. The popup's existing single-link logic chooses `printingUrl || imageSource || imageUrl`; no change to card art, rarity, ID, cost, RAM, power, Chinese/English ability, or TAGS during this URL-link pass.
+- Browser cache revisions updated to `beta-cards.json?v=30` and `v2/beta-gallery.js?v=20`.
+- This is a URL mapping verification, not a claim of full browser/phone click-through testing across all 178 cards or validation of every historic physical Beta card's rules text.
