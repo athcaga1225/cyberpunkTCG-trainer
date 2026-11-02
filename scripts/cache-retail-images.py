@@ -20,8 +20,8 @@ manifest = json.loads(DATA.read_text(encoding="utf-8"))
 
 def sniff(data):
     if data[:4] == b"RIFF" and data[8:12] == b"WEBP": return "webp"
-    if data[:3] == b"\\xff\\xd8\\xff": return "jpg"
-    if data[:8] == b"\\x89PNG\\r\\n\\x1a\\n": return "png"
+    if data[:3] == b"\xff\xd8\xff": return "jpg"
+    if data[:8] == b"\x89PNG\r\n\x1a\n": return "png"
     return None
 
 def download(card):
@@ -66,4 +66,4 @@ for id_, status, local in results:
     success+=1
 print("SELF_HOSTED",success,"of",len(manifest["cards"]))
 print("MISSING",",".join(x["id"] for x in manifest["cards"] if x.get("imageStatus")!="self-hosted-retail"))
-DATA.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\\n",encoding="utf-8")
+DATA.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
