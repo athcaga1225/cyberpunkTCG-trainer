@@ -149,7 +149,12 @@ function filter(){
   if(!q)return true;
   const ids=searchIdentifiers(c);
   if(numberQuery)return ids.some(id=>q.startsWith('b')||q.startsWith('t')?id.startsWith(q):id.replace(/^[bt]/,'').startsWith(q));
-  return ids.some(id=>id.includes(q))||normalizedCardName(c).includes(q.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim())||c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q);
+  // Only normalize English terms for English-name matching. A Chinese query
+  // must never become an empty ASCII string (which matches every card).
+  const englishQuery=q.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+  return ids.some(id=>id.includes(q))||
+   (!!englishQuery&&normalizedCardName(c).includes(englishQuery))||
+   c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q);
  });
  // Explicit card-number searches always return EVERY physical printing.
  // Name browsing, search and rarity filtering otherwise collapse only genuine
@@ -163,7 +168,10 @@ function filter(){
    (b.set==='starter'&&b.type==='Legend'&&a.set==='topper');
   return !separateStarterLegend;
  };
- filtered=numberQuery?selected:selected.filter((c,i,arr)=>arr.findIndex(other=>sameGalleryFace(c,other))===i);
+ // Browsing without a query collapses equivalent printings into one entry.
+ // Any explicit name or number search displays every matching physical print:
+ // for example Judy/茱蒂 shows B108, B116, B157 and B171 separately.
+ filtered=q?selected:selected.filter((c,i,arr)=>arr.findIndex(other=>sameGalleryFace(c,other))===i);
  page=0;
  quickBar.querySelectorAll('button[data-v3-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v3View===active)));
  render();
@@ -389,7 +397,13 @@ function render(){
  pageSelect.value=String(page);
  prev.disabled=page===0;next.disabled=page>=totalPages-1;
  count.textContent='顯示 '+filtered.length+' 張卡牌';
- if(!items.length)grid.append(create('p','beta-empty','沒有符合條件的卡牌。'));
+ if(!items.length){
+  const query=search.value.trim();
+  const hint=query?'找不到符合「'+query+'」的卡牌，請檢查關鍵字或調整 SERIES／RARITY 篩選。':'目前沒有符合篩選條件的卡牌，請調整 SERIES 或 RARITY。';
+  const empty=create('p','beta-empty v3-no-results',hint);
+  empty.setAttribute('role','status');
+  grid.append(empty);
+ }
 }
 document.getElementById('betaDetailClose').addEventListener('click',()=>detail.close());
 detail.addEventListener('click',event=>{if(event.target!==detail)return;const r=detail.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)detail.close()});
