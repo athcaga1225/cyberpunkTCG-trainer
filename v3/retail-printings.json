@@ -2133,7 +2133,7 @@
       "name": "River Ward: Detective on the Hunt",
       "betaId": "B148",
       "officialUrl": "https://cyberpunktcg.com/cards/river-ward-detective-on-the-hunt",
-      "retailImageUrl": "v3/retail-art/148.webp",
+      "retailImageUrl": "v3/retail-art/148-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Legend",
@@ -2148,14 +2148,20 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-148",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmuzif.webp?format=webp&quality=88&v=e044bbc65500ca56&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmuzif.webp?format=webp&quality=88&v=e044bbc65500ca56&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmuzif.webp?format=webp&quality=96&v=e044bbc65500ca56&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/148.webp"
     },
     {
       "id": "149",
       "name": "Rogue Amendiares: Preem Solo",
       "betaId": "B149",
       "officialUrl": "https://cyberpunktcg.com/cards/rogue-amendiares-preem-solo",
-      "retailImageUrl": "v3/retail-art/149.webp",
+      "retailImageUrl": "v3/retail-art/149-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Legend",
@@ -2166,14 +2172,20 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-149",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvms8lk.webp?format=webp&quality=88&v=981f16cce8d2dca8&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvms8lk.webp?format=webp&quality=88&v=981f16cce8d2dca8&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvms8lk.webp?format=webp&quality=96&v=981f16cce8d2dca8&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/149.webp"
     },
     {
       "id": "150",
       "name": "Goro Takemura: Vengeful Bodyguard",
       "betaId": "B150",
       "officialUrl": "https://cyberpunktcg.com/cards/goro-takemura-vengeful-bodyguard",
-      "retailImageUrl": "v3/retail-art/150.webp",
+      "retailImageUrl": "v3/retail-art/150-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Legend",
@@ -2184,7 +2196,13 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-150",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmsvtt.webp?format=webp&quality=88&v=67098de9ea12b59a&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmsvtt.webp?format=webp&quality=88&v=67098de9ea12b59a&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmsvtt.webp?format=webp&quality=96&v=67098de9ea12b59a&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/150.webp"
     },
     {
       "id": "151",
@@ -2209,7 +2227,7 @@
       "name": "Jackie Welles: Mama's Favorite",
       "betaId": "B152",
       "officialUrl": "https://cyberpunktcg.com/cards/jackie-welles-mama-s-favorite",
-      "retailImageUrl": "v3/retail-art/152.webp",
+      "retailImageUrl": "v3/retail-art/152-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Legend",
@@ -2220,7 +2238,13 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-152",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmtkcs.webp?format=webp&quality=88&v=20aea82c82829f97&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmtkcs.webp?format=webp&quality=88&v=20aea82c82829f97&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmtkcs.webp?format=webp&quality=96&v=20aea82c82829f97&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/152.webp"
     },
     {
       "id": "153",
@@ -2245,7 +2269,7 @@
       "name": "Panam Palmer: Nomad Cavalry",
       "betaId": "B154",
       "officialUrl": "https://cyberpunktcg.com/cards/panam-palmer-nomad-cavalry",
-      "retailImageUrl": "v3/retail-art/154.webp",
+      "retailImageUrl": "v3/retail-art/154-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Legend",
@@ -2256,14 +2280,20 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-154",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmr5we.webp?format=webp&quality=88&v=ff44c7e86fb35c9a&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmr5we.webp?format=webp&quality=88&v=ff44c7e86fb35c9a&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmr5we.webp?format=webp&quality=96&v=ff44c7e86fb35c9a&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/154.webp"
     },
     {
       "id": "155",
       "name": "Alt Cunningham: Soulkiller Architect",
       "betaId": "B155",
       "officialUrl": "https://cyberpunktcg.com/cards/alt-cunningham-soulkiller-architect",
-      "retailImageUrl": "v3/retail-art/155.webp",
+      "retailImageUrl": "v3/retail-art/155-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Legend",
@@ -2274,7 +2304,13 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-155",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmvmnz.webp?format=webp&quality=88&v=cf7d33fe9dc63284&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmvmnz.webp?format=webp&quality=88&v=cf7d33fe9dc63284&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmvmnz.webp?format=webp&quality=96&v=cf7d33fe9dc63284&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/155.webp"
     },
     {
       "id": "156",
@@ -2299,7 +2335,7 @@
       "name": "Judy Álvarez: Braindance Maestro",
       "betaId": "B157",
       "officialUrl": "https://cyberpunktcg.com/cards/judy-a-lvarez-braindance-maestro",
-      "retailImageUrl": "v3/retail-art/157.webp",
+      "retailImageUrl": "v3/retail-art/157-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Legend",
@@ -2310,14 +2346,20 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-157",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmvhko.webp?format=webp&quality=88&v=de09deadcdaf7c94&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmvhko.webp?format=webp&quality=88&v=de09deadcdaf7c94&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmvhko.webp?format=webp&quality=96&v=de09deadcdaf7c94&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/157.webp"
     },
     {
       "id": "158",
       "name": "Wakako Okada: Peace and Harmony",
       "betaId": "B158",
       "officialUrl": "https://cyberpunktcg.com/cards/wakako-okada-peace-and-harmony",
-      "retailImageUrl": "v3/retail-art/158.webp",
+      "retailImageUrl": "v3/retail-art/158-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Legend",
@@ -2328,14 +2370,20 @@
       "retailArtVariantConfirmedDifferentFromBeta": false,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-158",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mqfctiik.webp?format=webp&quality=88&v=adf8c3c948b0c1bd&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mqfctiik.webp?format=webp&quality=88&v=adf8c3c948b0c1bd&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mqfctiik.webp?format=webp&quality=96&v=adf8c3c948b0c1bd&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/158.webp"
     },
     {
       "id": "159",
       "name": "Johnny Silverhand: Never Stop Fighting",
       "betaId": "B159",
       "officialUrl": "https://cyberpunktcg.com/cards/johnny-silverhand-never-stop-fighting",
-      "retailImageUrl": "v3/retail-art/159.webp",
+      "retailImageUrl": "v3/retail-art/159-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Other",
@@ -2346,7 +2394,13 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-159",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-42568de1-df25-496c-b53c-05462f181458.webp?format=webp&quality=88&v=9bcd406f0c8c76bb&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-42568de1-df25-496c-b53c-05462f181458.webp?format=webp&quality=88&v=9bcd406f0c8c76bb&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-42568de1-df25-496c-b53c-05462f181458.webp?format=webp&quality=96&v=9bcd406f0c8c76bb&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/159.webp"
     },
     {
       "id": "160",
@@ -2389,7 +2443,7 @@
       "name": "Hanako Arasaka: In a Gilded Cage",
       "betaId": "B162",
       "officialUrl": "https://cyberpunktcg.com/cards/hanako-arasaka-in-a-gilded-cage",
-      "retailImageUrl": "v3/retail-art/162.webp",
+      "retailImageUrl": "v3/retail-art/162-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Other",
@@ -2400,7 +2454,13 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-162",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvlozaa.webp?format=webp&quality=88&v=28910282e557fb4d&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvlozaa.webp?format=webp&quality=88&v=28910282e557fb4d&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvlozaa.webp?format=webp&quality=96&v=28910282e557fb4d&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/162.webp"
     },
     {
       "id": "163",
@@ -2425,7 +2485,7 @@
       "name": "Sandayu Oda: Hanako's Guardian",
       "betaId": "B164",
       "officialUrl": "https://cyberpunktcg.com/cards/sandayu-oda-hanako-s-guardian",
-      "retailImageUrl": "v3/retail-art/164.webp",
+      "retailImageUrl": "v3/retail-art/164-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Other",
@@ -2436,14 +2496,20 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-164",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpxvdydu.webp?format=webp&quality=88&v=36a6d31bbd82c6f5&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpxvdydu.webp?format=webp&quality=88&v=36a6d31bbd82c6f5&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpxvdydu.webp?format=webp&quality=96&v=36a6d31bbd82c6f5&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/164.webp"
     },
     {
       "id": "165",
       "name": "Overwatch: Panam's Gift",
       "betaId": "B165",
       "officialUrl": "https://cyberpunktcg.com/cards/overwatch-panam-s-gift",
-      "retailImageUrl": "v3/retail-art/165.webp",
+      "retailImageUrl": "v3/retail-art/165-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Other",
@@ -2454,14 +2520,20 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-165",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvn25vy.webp?format=webp&quality=88&v=a9622258741da562&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvn25vy.webp?format=webp&quality=88&v=a9622258741da562&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvn25vy.webp?format=webp&quality=96&v=a9622258741da562&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/165.webp"
     },
     {
       "id": "166",
       "name": "Rogue Amendiares: Queen of the Afterlife",
       "betaId": "B166",
       "officialUrl": "https://cyberpunktcg.com/cards/rogue-amendiares-queen-of-the-afterlife",
-      "retailImageUrl": "v3/retail-art/166.webp",
+      "retailImageUrl": "v3/retail-art/166-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Other",
@@ -2472,7 +2544,13 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-166",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpxvev8y.webp?format=webp&quality=88&v=633cb1b41b53ec1b&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpxvev8y.webp?format=webp&quality=88&v=633cb1b41b53ec1b&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpxvev8y.webp?format=webp&quality=96&v=633cb1b41b53ec1b&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/166.webp"
     },
     {
       "id": "167",
@@ -2497,7 +2575,7 @@
       "name": "Johnny Silverhand: Rocking Renegade",
       "betaId": "B168",
       "officialUrl": "https://cyberpunktcg.com/cards/johnny-silverhand-rocking-renegade",
-      "retailImageUrl": "v3/retail-art/168.webp",
+      "retailImageUrl": "v3/retail-art/168-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Secret",
@@ -2508,14 +2586,20 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-168",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmtjns.webp?format=webp&quality=88&v=aa5d4acf306efe06&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmtjns.webp?format=webp&quality=88&v=aa5d4acf306efe06&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmtjns.webp?format=webp&quality=96&v=aa5d4acf306efe06&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/168.webp"
     },
     {
       "id": "169",
       "name": "Sasha Yakovleva: Won't Let You Down",
       "betaId": "B169",
       "officialUrl": "https://cyberpunktcg.com/cards/sasha-yakovleva-won-t-let-you-down",
-      "retailImageUrl": "v3/retail-art/169.webp",
+      "retailImageUrl": "v3/retail-art/169-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Secret",
@@ -2526,14 +2610,20 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-169",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmw4y5.webp?format=webp&quality=88&v=0097a27bcda669a7&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmw4y5.webp?format=webp&quality=88&v=0097a27bcda669a7&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvmw4y5.webp?format=webp&quality=96&v=0097a27bcda669a7&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/169.webp"
     },
     {
       "id": "170",
       "name": "Panam Palmer: Strength Through Family",
       "betaId": "B170",
       "officialUrl": "https://cyberpunktcg.com/cards/panam-palmer-strength-through-family",
-      "retailImageUrl": "v3/retail-art/170.webp",
+      "retailImageUrl": "v3/retail-art/170-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Secret",
@@ -2544,14 +2634,20 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-170",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpxvfxjh.webp?format=webp&quality=88&v=95e808a102143f90&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpxvfxjh.webp?format=webp&quality=88&v=95e808a102143f90&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpxvfxjh.webp?format=webp&quality=96&v=95e808a102143f90&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/170.webp"
     },
     {
       "id": "171",
       "name": "Judy Álvarez: Nothing to Doubt",
       "betaId": "B171",
       "officialUrl": "https://cyberpunktcg.com/cards/judy-a-lvarez-nothing-to-doubt",
-      "retailImageUrl": "v3/retail-art/171.webp",
+      "retailImageUrl": "v3/retail-art/171-hq.webp",
       "imageStatus": "self-hosted-retail",
       "mappingStatus": "CYBERDEX-v2-retail-source",
       "retailRarity": "Iconic Secret",
@@ -2562,7 +2658,13 @@
       "retailArtVariantConfirmedDifferentFromBeta": true,
       "imageSource": "ExBurst (Retail MS01)",
       "imageSourceUrl": "https://exburst.dev/cyberpunk/cards/MS01-171",
-      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvlphts.webp?format=webp&quality=88&v=8509946df15a2717&width=480"
+      "retailRemoteImageUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvlphts.webp?format=webp&quality=88&v=8509946df15a2717&width=480",
+      "retailHighResSourceUrl": "https://cdn.exburst.dev/cards/cyberpunk/render-mpvlphts.webp?format=webp&quality=96&v=8509946df15a2717&width=1400",
+      "retailHighResDimensions": [
+        733,
+        1024
+      ],
+      "retailImageBackupUrl": "v3/retail-art/171.webp"
     }
   ],
   "sources": [
