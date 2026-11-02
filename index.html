@@ -2081,6 +2081,10 @@ header nav button.active{font-weight:400}
 
 /* Inner label is plain text, never a second pill. */
 #decks #betaCardDetail .beta-detail-tags > span > .beta-tag-label{display:block;border:0;background:none;border-radius:0;padding:0;margin:0;box-shadow:none;min-height:0;width:auto;font-size:inherit;font-weight:inherit;color:inherit;line-height:inherit;transform:none}
+
+/* One pill, one text node: remove nested label and center using symmetrical padding. */
+#decks #betaCardDetail .beta-detail-tags{justify-content:flex-start;align-items:center}
+#decks #betaCardDetail .beta-detail-tags > span{display:inline-flex;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;line-height:1.4;min-height:30px;padding:4px 10px!important}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2184,4 +2188,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=36"></script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1"></script><script src="trainer-modules.js?v=integrated4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=4"></script><script src="beta-gallery.js?v=37"></script></body></html>
