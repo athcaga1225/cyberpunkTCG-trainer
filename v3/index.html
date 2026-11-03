@@ -2586,6 +2586,19 @@ header nav button.active{font-weight:400}
 }
 
 
+/* V3: a distinct search field with a lighter neutral surface; dropdowns keep their original dark surface. */
+#decks #betaCardCollection .beta-filters #betaSearch{
+ background-color:#172b32;
+ border-color:#66858d;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.045);
+ color:#eff8f9;
+}
+#decks #betaCardCollection .beta-filters #betaSearch::placeholder{color:#a9bec4;opacity:1}
+#decks #betaCardCollection .beta-filters #betaSearch:focus{
+ border-color:#29ffff;
+ outline:2px solid rgba(41,255,255,.22);
+ outline-offset:1px;
+}
 /* V3: distinguish direct card search from the secondary dropdown filters. */
 #decks #betaCardCollection .beta-filters .v3-search-row{
  padding-bottom:23px;
