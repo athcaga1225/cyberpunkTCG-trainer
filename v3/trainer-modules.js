@@ -42,6 +42,8 @@ const stages=[
   options:s=>[{label:'等到自己的下一回合開始再檢查',run:()=>({ok:R.startWin(s,'player'),state:s,events:['回合開始時持有 7 顆委託骰，符合勝利條件']}),done:()=>true},{label:'剛搶到第 7 顆就立即宣布勝利',run:()=>({ok:false,reason:'一般回合必須等到你的下一個回合開始才檢查；只有加時賽才可能立刻獲勝'}),done:()=>false}]},
  {title:'11 / 卡牌登場能力',instruction:'外勤幹員（Field Operator）登場時，如果街頭聲望是偶數，就抽 1 張牌。你有兩顆委託骰，點數是 2 和 4，所以街頭聲望是 6，屬於偶數。',setup:()=>state({gigs:[dice('g1',4,2),dice('g2',6,4)],hand:[],deck:[{name:'測試抽到的卡'}]}),
   options:s=>[{label:'使用外勤幹員的登場能力，抽 1 張牌',run:()=>R.playTrigger(s,'player',{name:'Field Operator'}),done:r=>r.ok&&r.state.player.hand.length===1},{label:'街頭聲望是偶數，所以不能抽牌',run:()=>({ok:false,reason:'官方卡牌效果指定偶數時抽牌，6 是偶數'}),done:()=>false}]}
+ ,{title:'12 / 實際變賣、支付與出牌',instruction:'第一步變賣一張有標記的手牌，取得 1 個 Eddie；第二步使用 2 個 Eddies 支付費用，打出一般單位。這是可執行的規則練習，不包含卡牌額外能力。',setup:()=>({...state({hand:[{id:'sale',name:'測試資源卡',type:'Program',sellTag:true},{id:'unit',name:'測試單位',type:'Unit',cost:2,power:2}],eddies:[{id:'e1',ready:true}],legends:[],soldThisTurn:false}),turn:'player',phase:'main'}),
+  options:s=>!s.player.soldThisTurn?[{label:'變賣有標記的手牌，取得 1 個 Eddie',run:()=>window.NCTV3Actions.sell(s,'player','sale'),progress:true,done:()=>false}]:[{label:'使用 2 個 Eddies，支付並打出單位',run:()=>window.NCTV3Actions.playUnit(s,'player','unit',[{kind:'eddie',id:'e1'},{kind:'eddie',id:'eddie-sale'}]),done:r=>r.ok&&r.state.player.units.length===1&&r.state.player.units[0].lag}]}
 ];
 const lessonInfo=[
  {title:'先準備牌組，才能開始對戰',text:'每人準備 3 張不同名傳奇卡、40～50 張主牌組與 6 顆委託骰。傳奇卡決定組牌顏色與 RAM 限制；開局先決定先後手，洗牌、蓋放傳奇卡並抽 6 張起始手牌。詳細配置可在本課下方的「組牌與開局細節」展開查看。'},
@@ -55,7 +57,8 @@ const lessonInfo=[
  {title:'裝備讓戰力變高',text:'裝備（Gear）可以提高角色戰力。戰力達到 10，就能在單次攻擊時搶走 2 顆骰子；有更多戰力還可能搶更多。'},
  {title:'對手可以攔截',text:'具有「攔截（Blocker）」的就緒角色可以橫置自己，讓攻擊改為與它交戰；因此原本要搶委託骰的攻擊會被攔下。'},
  {title:'什麼時候才算贏？',text:'正常情況下，要在自己的回合開始時持有至少 7 顆委託骰才獲勝。注意：看的是骰子數量，而不是點數總和。'},
- {title:'街頭聲望能觸發卡牌能力',text:'街頭聲望（Street Cred）是自己委託骰的點數總和，不是骰子數量。有些角色會依聲望條件發動登場能力。'}
+ {title:'街頭聲望能觸發卡牌能力',text:'街頭聲望（Street Cred）是自己委託骰的點數總和，不是骰子數量。有些角色會依聲望條件發動登場能力。'},
+ {title:'真實費用與出牌狀態',text:'變賣有標記的手牌後會得到就緒 Eddie；付款會將資源轉為已使用。一般單位支付費用後進入戰場，並帶有 Lag。這一課使用可執行的局部規則引擎，沒有支援卡牌的特殊效果。'}
 ];
 const progressKey='nct-integrated-lessons-v3';
 const toProgress=x=>Math.max(0,Math.min(stages.length,Number.isFinite(Number(x))?Number(x):0));
@@ -121,16 +124,17 @@ const scoreboard=st.staticQuiz?null:add(container,'div','','arena');
 const panel=(label,who)=>{const div=add(scoreboard,'div','','zone');add(div,'div',label,'number');const p=game[who];add(div,'p','委託骰 '+p.gigs.length+' 顆 · 街頭聲望 '+(R.cred(p.gigs)??'尚無'));add(div,'p','角色：'+(p.units.length?p.units.map(u=>L.cardTitle(u.name)+'（'+R.power(u)+' 戰力 / '+(u.ready?'就緒':'已使用')+(u.lag?'，新登場限制':'')+'）').join('、'):'無'));if(p.gigs.length)add(div,'p',p.gigs.map(d=>L.dieLabel(d.sides)+'：'+d.value+' 點').join(' · '));if(p.fixer.length)add(div,'p','合事佬區：'+p.fixer.map(x=>L.dieLabel(x)).join(' · '));};if(!st.staticQuiz){panel('PLAYER / 你的區域','player');panel('RIVAL / 對手區域','ai');}
 const actions=add(container,'div','','actions');const isDone=passed;
 if(!isDone){for(const o of st.options(game)){const b=add(actions,'button',o.label,'btn');b.onclick=()=>{const result=o.run();if(!result.ok){feedbackType='error';notice=result.reason||'這個操作不符合目前規則，請再試一次。';render();return}
+if(o.progress){game=result.state;feedbackType='success';notice=(result.events||[]).join('；');render();return}
 if(o.done(result)){game=result.state;passed=true;completedLessons.add(stage);save();feedbackType='success';notice=(result.events||[]).join('；')}
 else{game=st.setup();feedbackType='error';notice=o.hint||'這個操作在規則上可以執行，但不符合本課的練習目標。';notice+=' 場面已還原，請再選一次。'}
 render()}}}
-else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'muted');if(stage===stages.length-1)add(actions,'strong',completedLessons.size===stages.length?'恭喜完成全部 11 課！':'已完成第 11 課，可自由選擇其他課程。')}
+else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'muted');if(stage===stages.length-1)add(actions,'strong',completedLessons.size===stages.length?'恭喜完成全部 12 課！':'已完成第 12 課，可自由選擇其他課程。')}
 if(notice){const feedback=add(container,'div','','notice lesson-feedback '+(feedbackType==='success'?'is-success':'is-error'));feedback.setAttribute('role','status');add(feedback,'strong',feedbackType==='success'?'操作正確':'請再試一次','lesson-feedback-title');add(feedback,'p',notice,'lesson-feedback-detail')}
 const bottom=add(container,'div','','chapter-actions');
 if(isDone){const retry=add(bottom,'button','重新練習這一課 ↻','btn');retry.onclick=()=>load(stage,true)}
 if(isDone&&stage<stages.length-1){const next=add(bottom,'button','下一課 →','btn primary');next.onclick=()=>load(stage+1)}
 if(completedLessons.size>=stages.length){const reset=add(bottom,'button','重設教學進度','btn');reset.onclick=()=>{completedLessons.clear();save();load(0)}}
-add(container,'p','這些是官方規則的局部操作示範，尚未支援完整付費流程、快速反應（Quick）或完整 AI 對局。','muted');
+add(container,'p','這些是官方規則的局部操作示範，僅第 12 課支援基礎變賣與支付；尚未支援完整卡牌效果、快速反應（Quick）或完整 AI 對局。','muted');
 }
 function cards(){const root=$('verifiedCardList');if(!root)return;root.replaceChildren();for(const card of window.NCT_OFFICIAL_CARDS){const div=add(root,'div','','panel');add(div,'h3',L.cardTitle(card.name)).style.color='#29ffff';add(div,'p',(card.type==='Unit'?'角色單位':card.type==='Gear'?'裝備':card.type)+' · 費用 '+card.cost+' · 戰力 '+card.power+' · RAM '+card.ram);add(div,'p',card.summary);add(div,'small',card.implemented.length?'已支援部分卡牌能力':'卡牌效果尚未加入對戰引擎');const link=add(div,'a','查看官方英文卡牌 ↗');link.href=card.source;link.target='_blank';link.rel='noopener noreferrer';}}
 cards();load(0);
