@@ -121,9 +121,8 @@ const scoreboard=st.staticQuiz?null:add(container,'div','','arena');
 const panel=(label,who)=>{const div=add(scoreboard,'div','','zone');add(div,'div',label,'number');const p=game[who];add(div,'p','委託骰 '+p.gigs.length+' 顆 · 街頭聲望 '+(R.cred(p.gigs)??'尚無'));add(div,'p','角色：'+(p.units.length?p.units.map(u=>L.cardTitle(u.name)+'（'+R.power(u)+' 戰力 / '+(u.ready?'就緒':'已使用')+(u.lag?'，新登場限制':'')+'）').join('、'):'無'));if(p.gigs.length)add(div,'p',p.gigs.map(d=>L.dieLabel(d.sides)+'：'+d.value+' 點').join(' · '));if(p.fixer.length)add(div,'p','合事佬區：'+p.fixer.map(x=>L.dieLabel(x)).join(' · '));};if(!st.staticQuiz){panel('PLAYER / 你的區域','player');panel('RIVAL / 對手區域','ai');}
 const actions=add(container,'div','','actions');const isDone=passed;
 if(!isDone){for(const o of st.options(game)){const b=add(actions,'button',o.label,'btn');b.onclick=()=>{const result=o.run();if(!result.ok){notice=result.reason||'這個操作不符合目前規則，請再試一次。';render();return}
-game=result.state;
-if(o.done(result)){passed=true;completedLessons.add(stage);save();notice=(result.events||[]).join('；')}
-else notice='這個動作可以執行，但不是這一題要你練習的選擇。請重新開始本課，試試其他操作。';
+if(o.done(result)){game=result.state;passed=true;completedLessons.add(stage);save();notice=(result.events||[]).join('；')}
+else{game=st.setup();notice='這個操作在規則上可以執行，但不符合本課的練習目標。場面已還原，請再選一次。'}
 render()}}}
 else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'muted');if(stage===stages.length-1)add(actions,'strong',completedLessons.size===stages.length?'恭喜完成全部 11 課！':'已完成第 11 課，可自由選擇其他課程。')}
 if(notice){const feedback=add(container,'div',notice,'notice');feedback.setAttribute('role','status')}
