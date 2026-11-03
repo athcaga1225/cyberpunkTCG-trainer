@@ -74,6 +74,26 @@ function paymentOptions(parent){
  }
  return pool;
 }
+function gigAdjustmentOptions(){
+ const p=state.player,area=add('div','',root,'v3-selected-detail');
+ add('strong','調整委託骰（最多正負 1）',area);
+
+ const pick=document.createElement('select');pick.setAttribute('aria-label','選擇委託骰');
+ const no=document.createElement('option');no.value='';no.textContent='不調整';pick.append(no);
+ const allGigs=[...p.gigs.map(g=>({gig:g,side:'player'})),...(state.ai?.gigs||[]).map(g=>({gig:g,side:'ai'}))];
+ for(const {gig,side} of allGigs){const o=document.createElement('option');o.value=side+':'+gig.id;o.textContent=(side==='player'?'我方':'對手')+' d'+gig.sides+'：'+gig.value;pick.append(o)}
+ pick.value=gigId?gigSide+':'+gigId:'';
+ pick.addEventListener('change',()=>{
+  const option=allGigs.find(x=>x.side+':'+x.gig.id===pick.value);
+  gigId=option?.gig.id||null;gigSide=option?.side||'player';
+  if(!gigId)gigDelta=0;render();
+ });area.append(pick);
+ const delta=document.createElement('select');delta.setAttribute('aria-label','委託骰增減');
+ for(const n of [-1,0,1]){const o=document.createElement('option');o.value=String(n);o.textContent=n>0?'+1':n<0?'-1':'不調整';delta.append(o)}
+ delta.value=String(gigDelta);
+ delta.addEventListener('change',()=>{gigDelta=Number(delta.value);render()});area.append(delta);
+ return {gigId,side:gigSide,delta:gigDelta};
+}
 function render(){
  const supported=picker.value==='theHeist';
  root.replaceChildren();
@@ -121,7 +141,8 @@ function render(){
    add('p','已指定 '+selected.length+' / '+chosen.cost+' Eddies',root,'v3-payment-count');
    const affordable=selected.length===chosen.cost;
    if(chosen.type==='Unit'){
-    command('支付並打出 '+chosen.name,()=>P.play(state,selectedId,paid),buttons,!affordable);
+    if(chosen.onPlayGigAdjust)gigAdjustmentOptions();
+    command('支付並打出 '+chosen.name,()=>P.play(state,selectedId,paid,{gigId,side:gigSide,delta:gigDelta}),buttons,!affordable||(chosen.onPlayGigAdjust&&gigDelta!==0&&!gigId));
    }else if(chosen.type==='Gear'){
     const area=add('div','',root,'v3-selected-detail');
     add('strong','裝備目標',area);
@@ -134,22 +155,7 @@ function render(){
     }
     command('支付並裝備 '+chosen.name,()=>P.gear(state,selectedId,paid,targetId),buttons,!affordable||!targets.some(t=>t.id===targetId));
    }else if(chosen.type==='Program'&&chosen.name==="Afterparty at Lizzie's"){
-    const area=add('div','',root,'v3-selected-detail');
-    add('strong','調整委託骰（最多正負 1）',area);
-    const pick=document.createElement('select');pick.setAttribute('aria-label','選擇委託骰');
-    const no=document.createElement('option');no.value='';no.textContent='不調整';pick.append(no);
-    const allGigs=[...p.gigs.map(g=>({gig:g,side:'player'})),...(state.ai?.gigs||[]).map(g=>({gig:g,side:'ai'}))];
-    for(const {gig,side} of allGigs){const o=document.createElement('option');o.value=side+':'+gig.id;o.textContent=(side==='player'?'我方':'對手')+' d'+gig.sides+'：'+gig.value;pick.append(o)}
-    pick.value=gigId?gigSide+':'+gigId:'';
-    pick.addEventListener('change',()=>{
-     const option=allGigs.find(x=>x.side+':'+x.gig.id===pick.value);
-     gigId=option?.gig.id||null;gigSide=option?.side||'player';
-     if(!gigId)gigDelta=0;render();
-    });area.append(pick);
-    const delta=document.createElement('select');delta.setAttribute('aria-label','委託骰增減');
-    for(const n of [-1,0,1]){const o=document.createElement('option');o.value=String(n);o.textContent=n>0?'+1':n<0?'-1':'不調整';delta.append(o)}
-    delta.value=String(gigDelta);
-    delta.addEventListener('change',()=>{gigDelta=Number(delta.value);render()});area.append(delta);
+    gigAdjustmentOptions();
     command('支付並執行 '+chosen.name,()=>P.program(state,selectedId,paid,{gigId,side:gigSide,delta:gigDelta}),buttons,!affordable||(gigDelta!==0&&!gigId));
    }
   }
