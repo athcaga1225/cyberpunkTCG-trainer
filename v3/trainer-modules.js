@@ -80,7 +80,7 @@ function navChapters(){const root=$('chapterNav');if(!root)return;root.replaceCh
 
 function render(){const st=stages[stage],container=$('labStage');if(!container)return;
 navChapters();container.replaceChildren();
-const header=add(container,'div','','chapter-progress');add(header,'strong','LESSON '+String(stage+1).padStart(2,'0')+' / '+String(stages.length).padStart(2,'0'),'number');add(header,'span','已完成 '+completedLessons.size+' / '+stages.length+' 課','muted');
+const header=add(container,'div','','chapter-progress');add(header,'strong','LESSON '+String(stage+1).padStart(2,'0')+' / '+String(stages.length).padStart(2,'0'),'number');
 const track=add(container,'div','','progress');const fill=add(track,'span','');fill.style.width=(((stage+1)/stages.length)*100)+'%';track.setAttribute('role','progressbar');track.setAttribute('aria-label','目前教學步驟');track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax',String(stages.length));track.setAttribute('aria-valuenow',String(stage+1));
 add(container,'h2',lessonInfo[stage].title);
 const explain=add(container,'div','','chapter-learning');add(explain,'p',lessonInfo[stage].text);
