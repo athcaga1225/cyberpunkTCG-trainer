@@ -30,6 +30,7 @@ const samePrinting=(a,b)=>a.id===b.id&&a.set===b.set&&a.deck===b.deck;
 // Use the lesson/rulebook vocabulary without conflating actions (Spend/Ready)
 // with states (Spent/Ready). Printed card artwork is never altered.
 const localizedAbilityText=value=>String(value||'')
+ .replaceAll('任務骰區','委託區')
  .replaceAll('任務骰','委託骰')
  .replaceAll('獨闖（Go Solo）','獨武俠（Go Solo）')
  .replaceAll('阻擋（Blocker）','攔截（Blocker）')
@@ -37,8 +38,7 @@ const localizedAbilityText=value=>String(value||'')
  .replaceAll('重置狀態','就緒狀態')
  .replaceAll('已重置的','就緒的')
  .replaceAll('已橫置狀態','已使用狀態')
- .replaceAll('已橫置的','已使用的')
- .replaceAll('任務骰區','委託區');
+ .replaceAll('已橫置的','已使用的');
  
 // Two choice cards must resolve BOTH effects when their printed condition is met.
 // Keep these correction texts scoped to V3, and preserve the checked card names.
