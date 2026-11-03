@@ -18,6 +18,7 @@
 
 - 官方統一後的英文規則與卡面所印文字不同時，仍以 [官方勘誤](https://cyberpunktcg.com/errata) 為準。
 - Retail 138《Towerfall》繪師誤標 Mooncolony，官方更正為 Dardo Studios；卡牌能力並未因此更動。
+- 官方勘誤另記錄《Nocturne OP55N1》的繪師署名修正為 Daniel Valaisis，以及《Judy Álvarez: Nothing to Doubt》繪師姓名拼字修正為 Ilya Kuvshinov；這些均為繪師署名，不代表卡牌效果改動。
 - Beta B159《Johnny Silverhand: Never Stop Fighting》的 Sell 標記誤印只適用 **Beta Iconic**，不應套用至 Retail 159。
 - 官方目前的 ?printing= 切換網址在擷取結果中仍可能顯示一般版卡號。以下 32 筆只列為「共用卡牌規則已核對」；獨立印刷卡面仍非驗證完成。
 - Retail 127 的官方頁面讀取失敗，不使用其他網站的資料冒充官方已核實。
