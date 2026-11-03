@@ -85,35 +85,25 @@ const track=add(container,'div','','progress');const fill=add(track,'span','');f
 add(container,'h2',lessonInfo[stage].title);
 const explain=add(container,'div','','chapter-learning');add(explain,'h3','本課重點');add(explain,'p',lessonInfo[stage].text);
 if(stage===0){
- const colors=add(container,'div','','lesson-colors');
- add(colors,'div','認識卡牌顏色（點擊查看不同玩法）','lesson-colors-label');
- const row=add(colors,'div','','lesson-colors-row');
- const detail=add(colors,'div','','lesson-color-detail');
- detail.setAttribute('role','status');detail.setAttribute('aria-live','polite');
- const colorsInfo=[
-  {name:'紅色',english:'RED',tone:'#f8504a',title:'強攻與高點數',desc:'偏好高戰力、正面擊敗對手，也會提高委託骰點數或奪取高點數骰子。'},
-  {name:'綠色',english:'GREEN',tone:'#55b980',title:'組合與快速攻擊',desc:'重視相同點數的委託骰、街頭聲望的奇偶數，以及讓角色迅速展開攻擊。'},
-  {name:'藍色',english:'BLUE',tone:'#42acda',title:'速駭與干擾',desc:'偏好較低的委託骰點數與街頭聲望，透過程式及幻舞削弱或限制對手。'},
-  {name:'黃色',english:'YELLOW',tone:'#e3ba52',title:'裝備與資源再利用',desc:'善用裝備、調整委託骰使點數彼此不同，並透過犧牲與回收資源取得優勢。'}
+ const colors=add(container,'section','','lesson-colors');
+ add(colors,'h3','認識卡牌顏色','lesson-colors-label');
+ const grid=add(colors,'div','','lesson-colors-row');
+ const items=[
+  {name:'紅色',en:'RED',tone:'#f8504a',heading:'強攻與高點數',body:'偏好高戰力、正面擊敗對手，以及提高委託骰點數或搶走高點數骰子。'},
+  {name:'綠色',en:'GREEN',tone:'#55b980',heading:'組合與快速攻擊',body:'重視委託骰的點數組合、街頭聲望的奇偶條件，以及讓角色迅速展開攻擊。'},
+  {name:'藍色',en:'BLUE',tone:'#42acda',heading:'速駭與干擾',body:'擅長使用程式與幻舞干擾對手，也會運用較低的委託骰點數與街頭聲望。'},
+  {name:'黃色',en:'YELLOW',tone:'#e3ba52',heading:'裝備與資源再利用',body:'擅長使用裝備，運用不同點數的委託骰，並透過犧牲與回收資源取得優勢。'}
  ];
- const detailTitle=add(detail,'strong','','lesson-color-title');
- const detailText=add(detail,'p','','lesson-color-description');
- const detailRule=add(detail,'p','組牌時，每張卡的 RAM 必須符合三張傳奇卡提供的相同顏色 RAM 上限；RAM 不是出牌費用。','lesson-colors-note');
- const selectColor=(index)=>{
-  const info=colorsInfo[index];
-  row.children.forEach((b,i)=>b.setAttribute('aria-pressed',String(i===index)));
-  detail.style.borderLeftColor=info.tone;
-  detailTitle.textContent=info.name+' / '+info.english+' — '+info.title;
-  detailText.textContent=info.desc;
- };
- colorsInfo.forEach((info,i)=>{
-  const chip=add(row,'button',info.name);chip.type='button';
-  chip.style.borderTopColor=info.tone;chip.setAttribute('aria-pressed','false');
-  chip.setAttribute('aria-controls','lessonColorDescription');
-  chip.onclick=()=>selectColor(i);
+ items.forEach((item,i)=>{
+  const tile=add(grid,'details','','lesson-color-tile');
+  tile.style.borderTopColor=item.tone;
+  if(i===0)tile.setAttribute('open','');
+  const summary=add(tile,'summary',item.name+' / '+item.en);
+  const description=add(tile,'div','','lesson-color-tile-body');
+  add(description,'strong',item.heading);
+  add(description,'p',item.body);
  });
- detail.id='lessonColorDescription';
- selectColor(0);
+ add(colors,'p','組牌時，卡牌 RAM 必須符合傳奇卡提供的相同顏色 RAM 上限。RAM 是組牌限制，不是出牌費用。','lesson-colors-note');
 }
 
 const question=add(container,'div','','chapter-quiz');add(question,'div','現在試著操作','number');add(question,'p',st.instruction);
