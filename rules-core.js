@@ -15,7 +15,7 @@ const targetAttack=(unit,defender,target)=>{
  if(unit.ready===false)return '角色已使用（Spent），尚未恢復就緒，不能再次攻擊';
  if(unit.lag)return '角色剛登場，有 Lag 限制：這個回合不能攻擊';
  if(!target||!['unit','gig'].includes(target.kind))return '請選擇有效攻擊目標';
- if(target.kind==='gig'){if(unit.name==='Ruthless Lowlife')return '狠毒混混（Ruthless Lowlife）只能攻擊對手的角色';if(!defender.gigs.length)return '對手任務區沒有任務骰，無法攻擊該區';}
+ if(target.kind==='gig'){if(unit.name==='Ruthless Lowlife')return '狠毒混混（Ruthless Lowlife）只能攻擊對手的角色';if(!defender.gigs.length)return '對手委託區沒有委託骰，無法攻擊該區';}
  if(target.kind==='unit'){const t=defender.units.find(x=>x.id===target.id);if(!t)return '敵方單位不存在';if(t.ready!==false)return '一般只能主動攻擊對手已使用（Spent）的角色';}
  return null;
 };
@@ -27,12 +27,12 @@ function attack(state,who,attackerId,target,options={}){
  if(options.blockWithId){if(target.kind!=='gig'||!blocker||!blocker.blocker||blocker.ready===false||blocker.lag)return fail('所選攔截角色（Blocker）目前不能攔截');}
  if(target.kind==='gig'&&!blocker){const count=Math.min(steals(power(unit)),theirs.gigs.length);
   const picks=options.dieIds??theirs.gigs.slice(0,count).map(d=>d.id);
-  if(picks.length!==count||new Set(picks).size!==picks.length||picks.some(id=>!theirs.gigs.some(d=>d.id===id)))return fail('請選擇 '+count+' 顆不同的對手任務骰');
+  if(picks.length!==count||new Set(picks).size!==picks.length||picks.some(id=>!theirs.gigs.some(d=>d.id===id)))return fail('請選擇 '+count+' 顆不同的對手委託骰');
  }
  unit.ready=false;const events=['角色宣告攻擊，橫置成為已使用（Spent）'];
- if(blocker){blocker.ready=false;events.push('攔截（Blocker）成功，改為角色交戰（Fight），這次不能搶任務骰');fight(s,who,unit.id,blocker.id,events);}
+ if(blocker){blocker.ready=false;events.push('攔截（Blocker）成功，改為角色交戰（Fight），這次不能搶委託骰');fight(s,who,unit.id,blocker.id,events);}
  else if(target.kind==='unit'){fight(s,who,unit.id,target.id,events);}
- else{const n=Math.min(steals(power(unit)),theirs.gigs.length);const ids=options.dieIds??theirs.gigs.slice(0,n).map(d=>d.id);const set=new Set(ids);const moved=theirs.gigs.filter(d=>set.has(d.id));theirs.gigs=theirs.gigs.filter(d=>!set.has(d.id));ours.gigs.push(...moved);events.push('成功搶走 '+moved.length+' 顆任務骰');}
+ else{const n=Math.min(steals(power(unit)),theirs.gigs.length);const ids=options.dieIds??theirs.gigs.slice(0,n).map(d=>d.id);const set=new Set(ids);const moved=theirs.gigs.filter(d=>set.has(d.id));theirs.gigs=theirs.gigs.filter(d=>!set.has(d.id));ours.gigs.push(...moved);events.push('成功搶走 '+moved.length+' 顆委託骰');}
  return success(s,events);
 }
 function rollIn(state,who,sides,rolled){const s=copy(state),p=s[who];if(!p||!Array.isArray(p.fixer))return fail('合事佬區（Fixer Area）資料不完整');if(!p.fixer.includes(sides))return fail('這顆骰子不在合事佬區');if(sides===20&&p.fixer.length>1)return fail('20 面骰（d20）必須留到最後才能擲出');if(!Number.isInteger(rolled)||rolled<1||rolled>sides)return fail('骰子點數必須在有效範圍');p.fixer.splice(p.fixer.indexOf(sides),1);p.gigs.push({id:'roll-'+sides+'-'+p.gigs.length,sides,value:rolled});return success(s,['從合事佬區擲出 '+({4:'四面骰',6:'六面骰',8:'八面骰',10:'十面骰',12:'十二面骰',20:'二十面骰'}[sides]||sides+'面骰')+'（d'+sides+'），點數 '+rolled]);}
