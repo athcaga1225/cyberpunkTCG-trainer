@@ -51,6 +51,7 @@ const choose=(n)=>{const a=all(elements.labStage,'div').find(x=>x.className==='a
 const goto=i=>{const b=elements.chapterNav.children[i];assert(b,'Missing lesson '+(i+1));b.onclick();};
 const progress=()=>JSON.parse(storage.get('nct-integrated-lessons-v3')||'[]');
 assert.equal(elements.chapterNav.children.length,11,'Exactly 11 chapters should be available');
+assert(!all(elements.labStage,'span').some(x=>x.textContent.includes('已完成 ')&&x.textContent.includes(' 課')),'No redundant completed-lesson count beside lesson label');
 assert(!buttons().some(x=>x.textContent==='← 上一課'),'Previous lesson button must not appear');
 goto(5);
 assert(!buttons().some(x=>x.textContent==='← 上一課'),'Previous lesson button is redundant because chapter navigation exists');
