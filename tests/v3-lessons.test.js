@@ -55,7 +55,8 @@ assert.equal(elements.chapterNav.children.length,11,'Exactly 11 chapters should 
 // Control layout is consistent after lesson completion.
 goto(0);
 assert(!all(elements.labStage,'div').some(x=>x.textContent==='先閱讀上方解說，再選一個操作。'),'Do not show idle instruction notice');
-assert(all(elements.labStage,'button').some(x=>x.textContent==='重新練習這一課 ↻'),'Retry has icon after label');
+assert(!all(elements.labStage,'button').some(x=>x.textContent==='重新練習這一課 ↻'),'Retry must not appear before lesson completion');
+assert(!all(elements.labStage,'h3').some(x=>x.textContent==='本課重點'),'Redundant lesson label is removed');
 const colorRoot=all(elements.labStage,'section').find(x=>x.className==='lesson-colors');
 assert(colorRoot,'Lesson 01 must show color reference');
 const colorButtons=all(colorRoot,'button');
@@ -82,6 +83,8 @@ choose(0);
 assert.equal(progress().length,0,'Invalid attack must not pass lesson 06');
 choose(1);
 assert(progress().includes(5),'Valid attack must pass lesson 06');
+assert(all(elements.labStage,'button').some(x=>x.textContent==='重新練習這一課 ↻'),'Retry appears after completion');
+assert(all(elements.labStage,'button').some(x=>x.textContent==='下一課 →'),'Next lesson appears after completion');
 action('重新練習這一課 ↻');
 assert(all(elements.labStage,'button').some(b=>b.textContent.includes('攻擊對手已使用的角色')),'Retry should restore the exercise');
 assert(progress().includes(5),'Retry must preserve recorded completion');
