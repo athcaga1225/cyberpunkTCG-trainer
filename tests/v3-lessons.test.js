@@ -91,12 +91,16 @@ assert(all(elements.labStage,'button').some(x=>x.textContent==='下一課 →'),
 action('重新練習這一課 ↻');
 assert(all(elements.labStage,'button').some(b=>b.textContent.includes('攻擊對手已使用的角色')),'Retry should restore the exercise');
 assert(progress().includes(5),'Retry must preserve recorded completion');
+goto(5);
+assert(!all(elements.labStage,'strong').some(x=>x.textContent.includes('本課已通過')),'Revisiting a completed lesson should allow a fresh attempt');
+assert(all(elements.labStage,'button').some(x=>x.textContent.includes('攻擊對手已使用的角色')),'Completed lesson must still display question choices');
 const correct=[0,0,0,0,0,1,0,0,0,0,0];
 for(let i=0;i<11;i++){
  goto(i);
- if(progress().includes(i))action('重新練習這一課 ↻');
+ assert(!all(elements.labStage,'strong').some(x=>x.textContent.includes('本課已通過')),'Lesson must not auto-pass on navigation: '+i);
  choose(correct[i]);
  assert(progress().includes(i),'Lesson '+(i+1)+' must be completable');
+ if(i===0){const notice=all(elements.labStage,'div').find(x=>x.className==='notice');assert(notice?.textContent.includes('事前準備正確：'),'Correct answer explanation remains');assert(!notice.textContent.includes('答對了，已記錄本課完成進度'),'Redundant success suffix removed');assert(!notice.textContent.includes('。。'),'No doubled sentence punctuation');}
 }
 assert.equal(progress().length,11,'All eleven lessons must complete independently');
 goto(10);
