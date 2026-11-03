@@ -40,7 +40,7 @@ const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
 function fresh(){
  const s=P.fresh();
  const cards=specs.flatMap(([name,qty])=>Array.from({length:qty},(_,i)=>({...byName.get(name),id:'heist-'+name.replace(/[^a-z0-9]/gi,'-')+'-'+(i+1)})));
- const opening=['Secondhand Bombus','Kiroshi Optics','Mandibular Upgrade',"Afterparty at Lizzie's",'Evelyn Parker: Scheming Siren','Psycho Squad'];
+ const opening=['Secondhand Bombus','Kiroshi Optics','Mandibular Upgrade',"Afterparty at Lizzie's",'Evelyn Parker: Scheming Siren','Dexter DeShawn: One Last Chance'];
  const hand=opening.map(name=>cards.splice(cards.findIndex(c=>c.name===name),1)[0]);
  // Deterministic 34-card remainder for repeatable training, not a shuffled official opening.
  s.player.hand=hand;s.player.deck=cards;
