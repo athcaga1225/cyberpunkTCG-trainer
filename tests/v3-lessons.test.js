@@ -52,23 +52,25 @@ const goto=i=>{const b=elements.chapterNav.children[i];assert(b,'Missing lesson 
 const progress=()=>JSON.parse(storage.get('nct-integrated-lessons-v3')||'[]');
 assert.equal(elements.chapterNav.children.length,11,'Exactly 11 chapters should be available');
 const colorRoot=all(elements.labStage,'section').find(x=>x.className==='lesson-colors');
-assert(colorRoot,'Lesson 01 needs a visible color reference');
+assert(colorRoot,'Lesson 01 must show color reference');
 const colorButtons=all(colorRoot,'button');
-assert.equal(colorButtons.length,4,'Four compact color buttons should be available');
-const detail=all(colorRoot,'div').find(x=>x.className==='lesson-color-detail');
-assert(detail,'Color explanation must stay visible below the buttons');
-const colorTitle=()=>all(detail,'strong').find(x=>x.className==='lesson-color-title').textContent;
-const colorDescription=()=>all(detail,'p').find(x=>x.className==='lesson-color-description').textContent;
-assert(colorDescription().length>20,'Default red explanation must be visible');
+const colorPanels=all(colorRoot,'div').filter(x=>x.className==='lesson-color-detail');
+assert.equal(colorButtons.length,4,'Four compact color buttons');
+assert.equal(colorPanels.length,4,'Four descriptions must exist from initial render');
+assert.equal(colorPanels[0].style.display,'block','Red description visible by default');
 const explanations=new Set();
 for(const [i,color] of ['紅色','綠色','藍色','黃色'].entries()){
+ const title=all(colorPanels[i],'strong')[0];
+ const description=all(colorPanels[i],'p')[0];
+ assert(title.textContent.includes(color),'Named description: '+color);
+ assert(description.textContent.length>20,'Description populated on initial render: '+color);
+ explanations.add(description.textContent);
  colorButtons[i].onclick();
- assert(colorTitle().includes(color),'Clicking a color must update its title');
- assert.equal(colorButtons[i].getAttribute('aria-pressed'),'true','Clicked color must be active');
- assert(colorDescription().length>20,'Description must be readable after click');
- explanations.add(colorDescription());
+ assert.equal(colorButtons[i].getAttribute('aria-pressed'),'true','Active color selection');
+ assert.equal(colorPanels[i].style.display,'block','Selected color description visible');
+ assert.equal(colorPanels.filter(p=>p.style.display==='block').length,1,'Only one visible description');
 }
-assert.equal(explanations.size,4,'All four descriptions must be distinct');
+assert.equal(explanations.size,4,'Different content for each color');
 for(let i=0;i<11;i++){assert.equal(typeof elements.chapterNav.children[i].onclick,'function','Chapter must be freely selectable: '+i);}
 goto(5);
 choose(0);
