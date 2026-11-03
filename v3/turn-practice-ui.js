@@ -157,73 +157,12 @@ function render(){
  indicator('.player-gigs',p.gigs.length+' 顆委託骰');
  indicator('.player-field',p.units.length+' 張實際單位');
  indicator('.player-deck','練習牌庫：'+p.deck.length+' 張');
- if($('battlePreviewStatus'))$('battlePreviewStatus').textContent='The Heist 實際牌組操作練習。選取手牌後在下方指定支付資源；特殊能力仍未啟用。';
+ if($('battlePreviewStatus'))$('battlePreviewStatus').textContent='The Heist 實際牌組操作練習。選取手牌後在下方指定支付資源；未支援的特殊能力仍不會自動結算。';
 }
 const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
  if(picker.value==='theHeist'){
   state=H.fresh();selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigDelta=0;message=initial;
-  if(shuffleButton)shuffleButton.disabled=true;
-  if(legendButton)legendButton.disabled=true;
- }else{
-  if(shuffleButton)shuffleButton.disabled=false;
-  if(legendButton)legendButton.disabled=false;
- }
- render();
-}
-picker.addEventListener('change',syncDeck);
-syncDeck();
-})();
-,root,'v3-payment-count');
-   const affordable=selected.length===chosen.cost;
-   if(chosen.type==='Unit'){
-    command('支付並打出 '+chosen.name,()=>P.play(state,selectedId,paid),buttons,!affordable);
-   }else if(chosen.type==='Gear'){
-    const area=add('div','',root,'v3-selected-detail');
-    add('strong','裝備目標',area);
-    const targets=[...p.units,...p.legends.filter(l=>l.faceUp)];
-    if(!targets.length)add('p','需先有友方單位或已翻開的傳奇卡，才能裝備。',area);
-    for(const target of targets){
-     const b=add('button',target.name,area,'v3-resource-choice');
-     b.type='button';b.setAttribute('aria-pressed',String(target.id===targetId));
-     b.addEventListener('click',()=>{targetId=target.id;render()});
-    }
-    command('支付並裝備 '+chosen.name,()=>P.gear(state,selectedId,paid,targetId),buttons,!affordable||!targets.some(t=>t.id===targetId));
-   }else if(chosen.type==='Program'&&chosen.name==="Afterparty at Lizzie's"){
-    const area=add('div','',root,'v3-selected-detail');
-    add('strong','調整委託骰（最多 ±1）',area);
-    const pick=document.createElement('select');pick.setAttribute('aria-label','選擇委託骰');
-    const no=document.createElement('option');no.value='';no.textContent='不調整';pick.append(no);
-    const allGigs=[...p.gigs,...(state.ai?.gigs||[])];
-    for(const gig of allGigs){const o=document.createElement('option');o.value=gig.id;o.textContent='d'+gig.sides+'：'+gig.value;pick.append(o)}
-    pick.value=gigId||'';
-    pick.addEventListener('change',()=>{gigId=pick.value||null;if(!gigId)gigDelta=0;render()});area.append(pick);
-    const delta=document.createElement('select');delta.setAttribute('aria-label','委託骰增減');
-    for(const n of [-1,0,1]){const o=document.createElement('option');o.value=String(n);o.textContent=n>0?'+1':n<0?'-1':'不調整';delta.append(o)}
-    delta.value=String(gigDelta);
-    delta.addEventListener('change',()=>{gigDelta=Number(delta.value);render()});area.append(delta);
-    command('支付並執行 '+chosen.name,()=>P.program(state,selectedId,paid,{gigId,delta:gigDelta}),buttons,!affordable||(gigDelta!==0&&!gigId));
-   }
-  }
-  command('結束我的回合',()=>P.pass(state),buttons);
- }
- if(!state.finished&&state.turn==='ai')command('略過對手行動，開始下一回合',()=>P.next(state),buttons);
- command('重新開始 The Heist 練習',()=>({ok:true,state:H.fresh(),message:initial}),buttons);
- const status=add('p',message,root,'v3-turn-feedback');status.setAttribute('role','status');
- const summary=add('div','',root,'v3-turn-log');add('strong','實際練習狀態',summary);
- add('p','場地：'+(p.units.map(c=>c.name+'（'+(c.ready?'Ready':'Spent')+(c.lag?' / Lag':'')+'）').join('、')||'無'),summary);
- add('p','委託骰：'+(p.gigs.map(d=>'d'+d.sides+'='+d.value).join('、')||'無'),summary);
- indicator('.turn-info','THE HEIST：'+phase());
- indicator('.player-eddies','Eddies 就緒 '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length);
- indicator('.player-gigs',p.gigs.length+' 顆委託骰');
- indicator('.player-field',p.units.length+' 張實際單位');
- indicator('.player-deck','練習牌庫：'+p.deck.length+' 張');
- if($('battlePreviewStatus'))$('battlePreviewStatus').textContent='The Heist 實際牌組操作練習。選取手牌後在下方指定支付資源；特殊能力仍未啟用。';
-}
-const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
-function syncDeck(){
- if(picker.value==='theHeist'){
-  state=H.fresh();selectedId=null;selectedPayments.clear();message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
   if(legendButton)legendButton.disabled=true;
  }else{
