@@ -3146,47 +3146,73 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
 
 
 
-/* V3 color-dot filter: four real card colors beside the existing search input. */
+/* V3: four centered color swatches below filters, same hierarchy on mobile and desktop. */
 #decks #betaCardCollection .beta-filters .v3-search-row{
- grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:14px;
+ grid-column:1/-1;
+ display:block;
+ width:100%;
 }
-#decks #betaCardCollection .v3-color-picker{
- display:flex;align-items:center;justify-content:center;gap:10px;
- height:46px;min-height:46px;padding:0 4px;
+#decks #betaCardCollection .beta-filters .v3-search-row .v3-filter-search{
+ display:flex;
+ width:100%;
+ min-width:0;
+}
+#decks #betaCardCollection .beta-filters .v3-color-picker{
+ grid-column:1/-1;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:22px;
+ width:100%;
+ min-height:60px;
+ margin:2px 0 0;
+ padding:6px 0;
 }
 #decks #betaCardCollection .v3-color-dot{
  --dot:#f8504a;
- appearance:none;flex:0 0 32px;width:32px;height:32px;
- border:2px solid transparent;border-radius:50%;position:relative;
- background:transparent;padding:4px;cursor:pointer;
+ appearance:none;
+ position:relative;
+ flex:0 0 48px;
+ width:48px;
+ height:48px;
+ border:2px solid transparent;
+ border-radius:50%;
+ background:transparent;
+ padding:6px;
+ cursor:pointer;
  transition:border-color .16s ease,transform .16s ease;
 }
 #decks #betaCardCollection .v3-color-dot::after{
- content:"";display:block;width:100%;height:100%;border-radius:50%;
- background:var(--dot);box-shadow:inset 0 0 0 1px #ffffff20;
+ content:"";
+ display:block;
+ width:100%;
+ height:100%;
+ border-radius:50%;
+ background:var(--dot);
+ box-shadow:inset 0 0 0 1px #ffffff20;
 }
 #decks #betaCardCollection .v3-color-dot[data-card-color="red"]{--dot:#f8504a}
 #decks #betaCardCollection .v3-color-dot[data-card-color="green"]{--dot:#55b980}
 #decks #betaCardCollection .v3-color-dot[data-card-color="blue"]{--dot:#42acda}
 #decks #betaCardCollection .v3-color-dot[data-card-color="yellow"]{--dot:#e3ba52}
 #decks #betaCardCollection .v3-color-dot[aria-pressed="true"]{border-color:#eaf7fa}
-#decks #betaCardCollection .v3-color-dot:hover{transform:scale(1.09)}
+#decks #betaCardCollection .v3-color-dot:hover{transform:scale(1.06)}
 #decks #betaCardCollection .v3-color-dot:focus-visible{outline:2px solid #29ffff;outline-offset:3px}
 @media(min-width:900px){
  #decks #betaCardCollection .beta-filters{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 @media(max-width:650px){
+ #decks #betaCardCollection .beta-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
  #decks #betaCardCollection .beta-filters .v3-search-row{
-  display:grid;grid-template-columns:minmax(0,1fr) auto;
-  gap:8px;align-items:end;
+  display:block;
+  grid-column:1/-1;
+  width:100%;
  }
- #decks #betaCardCollection .beta-filters .v3-search-row .v3-filter-search{min-width:0}
- #decks #betaCardCollection .v3-color-picker{gap:3px;padding:0;height:46px}
- #decks #betaCardCollection .v3-color-dot{flex-basis:26px;width:26px;height:26px;padding:3px}
-}
-@media(max-width:390px){
- #decks #betaCardCollection .beta-filters .v3-search-row{grid-template-columns:minmax(0,1fr) auto;gap:5px}
- #decks #betaCardCollection .v3-color-dot{flex-basis:24px;width:24px;height:24px;padding:3px}
+ #decks #betaCardCollection .beta-filters .v3-search-row .v3-filter-search{width:100%}
+ #decks #betaCardCollection .beta-filters .v3-filter-series,
+ #decks #betaCardCollection .beta-filters .v3-filter-sort{grid-column:auto}
+ #decks #betaCardCollection .beta-filters .v3-color-picker{gap:14px;min-height:58px}
+ #decks #betaCardCollection .v3-color-dot{flex-basis:44px;width:44px;height:44px;padding:6px}
 }
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
@@ -3239,11 +3265,12 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
 
 <div class="v3-filter-heading"><span class="v3-filter-title">卡牌搜尋</span></div>
 <div class="beta-filters">
-<div class="v3-search-row"><label class="v3-filter-search">搜尋卡牌<span class="v3-search-field"><input id="betaSearch" type="search" placeholder="搜尋卡名、卡號或人物" autocomplete="off"><button type="button" id="v3SearchClear" aria-label="清除搜尋" title="清除搜尋" hidden>×</button></span></label><div class="v3-color-picker" role="group" aria-label="卡牌顏色（再次點選可取消）"><button type="button" class="v3-color-dot" data-card-color="red" aria-label="篩選紅色卡牌" aria-pressed="false" title="紅色"></button><button type="button" class="v3-color-dot" data-card-color="green" aria-label="篩選綠色卡牌" aria-pressed="false" title="綠色"></button><button type="button" class="v3-color-dot" data-card-color="blue" aria-label="篩選藍色卡牌" aria-pressed="false" title="藍色"></button><button type="button" class="v3-color-dot" data-card-color="yellow" aria-label="篩選黃色卡牌" aria-pressed="false" title="黃色"></button></div></div>
+<div class="v3-search-row"><label class="v3-filter-search">搜尋卡牌<span class="v3-search-field"><input id="betaSearch" type="search" placeholder="搜尋卡名、卡號或人物" autocomplete="off"><button type="button" id="v3SearchClear" aria-label="清除搜尋" title="清除搜尋" hidden>×</button></span></label></div>
 <label class="v3-filter-series">系列<select id="betaSeries"><option value="all">所有系列</option><option value="retail">RETAIL</option><option value="beta">BETA BOOSTER</option><option value="topper">BOX TOPPER</option><option value="heist">THE HEIST</option><option value="power">EMBRACING POWER</option></select></label>
 <label>稀有度<select id="betaRarity"><option value="all">所有稀有度</option></select></label>
 <label>卡牌類型<select id="betaType"><option value="all">所有類型</option><option value="Legend">傳奇卡</option><option value="Unit">單位卡</option><option value="Program">程式卡</option><option value="Gear">裝備卡</option></select></label>
 <label class="v3-filter-sort">排序方式<select id="betaSort"><option value="id">卡牌編號（小至大）</option><option value="rarity-desc">稀有度（高至低）</option><option value="rarity-asc">稀有度（低至高）</option><option value="cost-asc">COST（低至高）</option><option value="cost-desc">COST（高至低）</option><option value="power-asc">POWER（低至高）</option><option value="power-desc">POWER（高至低）</option><option value="ram-asc">RAM（低至高）</option><option value="ram-desc">RAM（高至低）</option><option value="name">卡牌名稱（筆畫）</option></select></label>
+<div class="v3-color-picker" role="group" aria-label="卡牌顏色（再次點選可取消）"><button type="button" class="v3-color-dot" data-card-color="red" aria-label="篩選紅色卡牌" aria-pressed="false" title="紅色"></button><button type="button" class="v3-color-dot" data-card-color="green" aria-label="篩選綠色卡牌" aria-pressed="false" title="綠色"></button><button type="button" class="v3-color-dot" data-card-color="blue" aria-label="篩選藍色卡牌" aria-pressed="false" title="藍色"></button><button type="button" class="v3-color-dot" data-card-color="yellow" aria-label="篩選黃色卡牌" aria-pressed="false" title="黃色"></button></div>
 </div>
 <dialog id="betaCardDetail" class="beta-detail-panel beta-card-dialog" aria-label="卡牌詳細資訊"><div class="beta-detail-header"><strong id="betaDetailHeading" tabindex="-1">CARD DETAILS / 卡牌能力</strong><button type="button" id="betaDetailClose" aria-label="關閉卡牌詳細資訊" title="關閉">×</button></div><div id="betaCardDetailBody" class="beta-detail-body"></div></dialog><div id="betaResults" class="beta-results" aria-live="polite"></div>
 <div class="beta-pages"><button id="betaPrevious" type="button" disabled>← 上一頁</button><span class="beta-page-center"><span class="beta-page-select-wrap"><select id="betaPageSelect" aria-label="跳至頁數"><option value="0">第 1 頁</option></select></span><span id="betaPages" aria-live="polite">／共 8 頁</span></span><button id="betaNext" type="button">下一頁 →</button></div>
