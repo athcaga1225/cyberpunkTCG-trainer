@@ -2586,6 +2586,19 @@ header nav button.active{font-weight:400}
 }
 
 
+/* V3: distinguish direct card search from the secondary dropdown filters. */
+#decks #betaCardCollection .beta-filters .v3-search-row{
+ padding-bottom:23px;
+ margin-bottom:5px;
+ border-bottom:1px solid rgba(171,196,201,.24);
+}
+@media(max-width:650px){
+ #decks #betaCardCollection .beta-filters .v3-search-row{
+  padding-bottom:21px;
+  margin-bottom:9px;
+ }
+}
+
 /* Pregame preparation: clear reading rhythm, without extra heavy card surfaces. */
 #preGameChecklist .pregame-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:44px;row-gap:32px;margin:32px 0 30px}
 #preGameChecklist .pregame-step{min-width:0;padding:2px 0 6px}
