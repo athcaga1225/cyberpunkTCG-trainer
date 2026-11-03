@@ -6,12 +6,12 @@ if(!root||!starter)return;
 const sharedDialog=document.getElementById('betaCardDetail');
 if(sharedDialog)document.getElementById('decks').append(sharedDialog);
 const buttons=[...document.querySelectorAll('[data-card-view]')];
-const search=document.getElementById('betaSearch'),rarity=document.getElementById('betaRarity'),series=document.getElementById('betaSeries'),typeFilter=document.getElementById('betaType'),colorButtons=[...document.querySelectorAll('[data-card-color]')],sortSelect=document.getElementById('betaSort');
+const search=document.getElementById('betaSearch'),rarity=document.getElementById('betaRarity'),series=document.getElementById('betaSeries'),typeFilter=document.getElementById('betaType'),colorFilter=document.getElementById('betaColor'),sortSelect=document.getElementById('betaSort');
 const grid=document.getElementById('betaResults'),count=document.getElementById('betaCount');
 const pages=document.getElementById('betaPages'),pageSelect=document.getElementById('betaPageSelect'),prev=document.getElementById('betaPrevious'),next=document.getElementById('betaNext');
 const status=document.getElementById('betaLoadStatus'),detail=document.getElementById('betaCardDetail'),detailBody=document.getElementById('betaCardDetailBody');
 const PAGE_SIZE=25;
-let all=[],starterCards=[],filtered=[],page=0,selectedColor='all';
+let all=[],starterCards=[],filtered=[],page=0;
 // Match printings by normalized official English name and verified gameplay
 // identity. English accents vary across catalog sources (Álvarez / Alvarez),
 // and Chinese wording may differ even when the original rules are identical.
@@ -269,7 +269,7 @@ function sortResults(cards){
 }
 function filter(){
  const q=search.value.toLowerCase().trim().replace(/^β/,'b');
- const selectedSet=series.value,choice=rarity.value,type=typeFilter.value,color=selectedColor;
+ const selectedSet=series.value,choice=rarity.value,type=typeFilter.value,color=colorFilter.value;
  const numberQuery=/^(?:b|r|t)?\d{1,3}[ab]?$/.test(q);
  const chosen=[...all,...starterCards].filter(c=>{
   if(selectedSet==='heist'&&!(c.set==='starter'&&c.deck==='heist'))return false;
@@ -546,12 +546,7 @@ if(clearSearch)clearSearch.addEventListener('click',()=>{
 });
 syncClearSearch();
 rarity.addEventListener('change',filter);
-colorButtons.forEach(button=>button.addEventListener('click',()=>{
- const clicked=button.dataset.cardColor;
- selectedColor=selectedColor===clicked?'all':clicked;
- colorButtons.forEach(item=>item.setAttribute('aria-pressed',String(item.dataset.cardColor===selectedColor)));
- filter();
-}));
+colorFilter.addEventListener('change',filter);
 typeFilter.addEventListener('change',filter);
 sortSelect.addEventListener('change',filter);
 series.addEventListener('change',filter);
