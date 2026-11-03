@@ -116,7 +116,7 @@ assert(special['The Heist'].includes('可以改為免費打出'),'The Heist must
 const sourceVerified=JSON.parse(read('v3/retail-official-verification.json')).entries;
 assert.equal(sourceVerified.length,13,'13 individual Retail printings have independent official snapshots');
 assert.equal(new Set(sourceVerified.map(x=>x.retailId)).size,13,'Official Retail snapshots must have unique printing numbers');
-const cleanCurrentText=x=>String(x).replaceAll('☆ (Street Cred)','Street Cred').replace(/\\s+/g,' ').trim();
+const cleanCurrentText=x=>String(x).replaceAll('☆ (Street Cred)','Street Cred').replace(/\s+/g,' ').trim();
 for(const evidence of sourceVerified){
  const item=retail.find(c=>c.id===evidence.retailId);
  assert(item,'Official snapshot must match an existing Retail printing '+evidence.retailId);
