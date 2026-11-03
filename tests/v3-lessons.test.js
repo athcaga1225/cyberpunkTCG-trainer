@@ -112,6 +112,24 @@ for(const card of beta){
 assert.equal(englishFamilies.size,146,'Ability source has 146 distinct English gameplay texts');
 assert(special['Meredith Stout: Stone Cold Corpo'].includes('由該對手控制的委託骰'),'Meredith must identify whose Gigs are changed');
 assert(special['The Heist'].includes('可以改為免費打出'),'The Heist must present the free play as alternative to putting Gear in hand');
+// Record each directly checked official Retail page separately from Beta-derived assumptions.
+const sourceVerified=JSON.parse(read('v3/retail-official-verification.json')).entries;
+assert.equal(sourceVerified.length,13,'13 individual Retail printings have independent official snapshots');
+assert.equal(new Set(sourceVerified.map(x=>x.retailId)).size,13,'Official Retail snapshots must have unique printing numbers');
+const cleanCurrentText=x=>String(x).replaceAll('☆ (Street Cred)','Street Cred').replace(/\\s+/g,' ').trim();
+for(const evidence of sourceVerified){
+ const item=retail.find(c=>c.id===evidence.retailId);
+ assert(item,'Official snapshot must match an existing Retail printing '+evidence.retailId);
+ assert.equal(item.betaId,evidence.betaId,'Snapshot Beta mapping '+evidence.retailId);
+ const base=betaById.get(evidence.betaId);
+ assert.equal(evidence.officialRulesEnglish && cleanCurrentText(evidence.officialRulesEnglish),cleanCurrentText(base.abilityEnglish),'Official English content changed vs Beta '+evidence.retailId);
+ assert.equal(evidence.cost,base.cost,'Official COST mismatch '+evidence.retailId);
+ assert.equal(evidence.power,base.power,'Official PWR mismatch '+evidence.retailId);
+ assert.equal(evidence.ram,base.ram,'Official RAM mismatch '+evidence.retailId);
+ assert(evidence.officialUrl.startsWith('https://cyberpunktcg.com/cards/'),'Official source URL missing '+evidence.retailId);
+}
+assert(gallerySource.includes("c.set==='retail'&&c.retailNumber==='138'"),'Retail 138 printing alone should show Towerfall artist erratum');
+assert(gallerySource.includes('Dardo Studios'),'Towerfall artist credit corrected per official Oct 28 errata');
 const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
