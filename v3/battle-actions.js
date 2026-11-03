@@ -17,7 +17,7 @@
  function pay(state,who,cost,sources){
   const p=player(state,who);if(!p)return fail("玩家資料不完整");
   if(!Number.isSafeInteger(cost)||cost<0)return fail("費用必須是非負整數");
-  if(!Array.isArray(sources)||sources.length!==cost||new Set(sources.map(x=>x.kind+":"+x.id)).size!==cost)return fail("請指定與費用相等且不重複的支付資源");
+  if(!Array.isArray(sources)||sources.length!==cost||sources.some(x=>!x||typeof x!=="object"||typeof x.id!=="string")||new Set(sources.map(x=>x.kind+":"+x.id)).size!==cost)return fail("請指定與費用相等且不重複的支付資源");
   for(const src of sources){
    if(!src||!["eddie","legend"].includes(src.kind))return fail("無效的支付資源");
    const pool=src.kind==="eddie"?p.eddies:p.legends;
@@ -41,5 +41,47 @@
   q.units.push({...c,ready:true,lag:true,gear:[]});
   return success(s,[...payment.events,"打出 "+c.name+"（Ready，帶有 Lag）"]);
  }
- return {sell,pay,playUnit};
+
+ function playGear(state,who,cardId,sources,targetId){
+  const p=player(state,who);if(!p)return fail("玩家資料不完整");
+  if(state.turn!==who||state.phase!=="main")return fail("只能在自己的主要階段裝備");
+  const card=p.hand.find(c=>c.id===cardId);
+  if(!card||card.type!=="Gear")return fail("找不到裝備卡");
+  if(card.unimplementedEffect||card.requiresTarget||card.playRestriction)return fail("這張裝備的能力尚未完成驗證");
+  const unit=p.units.find(u=>u.id===targetId);
+  const legend=p.legends.find(l=>l.id===targetId&&l.faceUp===true);
+  if(!unit&&!legend)return fail("裝備必須附加在友方單位或已翻開的傳奇卡");
+  const paid=pay(state,who,card.cost,sources);if(!paid.ok)return paid;
+  const next=paid.state,q=next[who],gear=q.hand.find(c=>c.id===cardId);
+  q.hand.splice(q.hand.indexOf(gear),1);
+  const dest=q.units.find(u=>u.id===targetId)||q.legends.find(l=>l.id===targetId);
+  if(!Array.isArray(dest.gear))dest.gear=[];
+  dest.gear.push(gear);
+  return success(next,[...paid.events,"裝備 "+card.name+" → "+dest.name]);
+ }
+ function playProgram(state,who,cardId,sources,opts={}){
+  const p=player(state,who);if(!p)return fail("玩家資料不完整");
+  if(state.turn!==who||state.phase!=="main")return fail("目前不是可打出程式卡的主要階段");
+  const card=p.hand.find(c=>c.id===cardId);
+  if(!card||card.type!=="Program")return fail("找不到程式卡");
+  if(card.name!=="Afterparty at Lizzie's"||card.unimplementedEffect)return fail("此程式的效果尚未支援");
+  const delta=opts.delta;
+  if(!Number.isInteger(delta)||Math.abs(delta)>1)return fail("請選擇 -1、0 或 +1");
+  const gig=delta===0?null:[...p.gigs,...(state.ai?.gigs||[])].find(g=>g.id===opts.gigId);
+  if(delta!==0&&(!gig||gig.value+delta<1||gig.value+delta>gig.sides))return fail("委託骰目標或點數調整無效");
+  const paid=pay(state,who,card.cost,sources);if(!paid.ok)return paid;
+  const next=paid.state,q=next[who];
+  if(delta!==0){const target=[...q.gigs,...(next.ai?.gigs||[])].find(g=>g.id===opts.gigId);target.value+=delta;}
+  const distinct=new Set(q.gigs.map(g=>g.value));
+  if(distinct.size>=2){
+   if(!q.deck.length){next.finished=true;next.loser=who}
+   else q.hand.push(q.deck.pop());
+  }
+  const index=q.hand.findIndex(c=>c.id===cardId);
+  q.hand.splice(index,1);
+  if(!Array.isArray(q.trash))q.trash=[];
+  q.trash.push(card);
+  return success(next,[...paid.events,"結算 "+card.name+"（委託骰 "+(delta>=0?"+":"")+delta+"）"+(distinct.size>=2?"，抽 1 張牌":""),"程式移至棄牌區"]);
+ }
+ return {sell,pay,playUnit,playGear,playProgram};
 });
