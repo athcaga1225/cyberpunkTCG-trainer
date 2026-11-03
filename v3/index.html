@@ -2983,6 +2983,135 @@ header nav button.active{font-weight:400}
 #learn #referenceSetup .pregame-ram-green{color:#71d29a;border-color:#397a59}
 #learn #referenceSetup .pregame-ram-red{color:#ff8580;border-color:#8a3d3a}
 #learn #referenceSetup .pregame-ram-example p{margin:0;font-size:16px;line-height:1.75}
+
+/* V3 shared visual rhythm — home, lessons, rules and lightweight card guide.
+   Scope deliberately excludes the battle board and card-gallery internals. */
+#home,#learn,#rules,#decks{
+  --v3-page:clamp(32px,3.4vw,40px);
+  --v3-section:clamp(26px,2.5vw,36px);
+  --v3-subheading:20px;
+  --v3-body:16px;
+  --v3-caption:14px;
+  font-family:"PingFang TC","Noto Sans TC",system-ui,sans-serif;
+  font-weight:400;
+}
+#home>h1,#learn>h1,#rules>h1,#decks>h1{
+  font-size:var(--v3-page);
+  font-weight:700;
+  line-height:1.2;
+  letter-spacing:-.025em;
+  margin:14px 0 18px;
+}
+#home>.lead,#learn>.lead{
+  font-size:var(--v3-body);
+  line-height:1.75;
+}
+#home>.tag,#learn>.tag,#rules>.tag,#decks>.tag{
+  font-size:var(--v3-caption);
+  font-weight:600;
+}
+#home .grid .panel,#rules>.panel{
+  background:rgba(19,19,20,.6);
+  border:1px solid #590a11;
+  border-left:2px solid #f8504a;
+  border-radius:3px;
+  padding:22px 24px;
+}
+#home .grid .panel h2,#rules>.panel h2,#rules>h2{
+  font-size:var(--v3-subheading);
+  line-height:1.45;
+  font-weight:600;
+  margin:10px 0 12px;
+}
+#rules>h2{font-size:var(--v3-section);font-weight:700;margin:32px 0 16px}
+#home .grid .panel p,#rules>.panel p,
+#rules .term-entry>div p,#rules .terminology-compare p{
+  font-size:var(--v3-body);
+  line-height:1.75;
+  font-weight:400;
+}
+#home .grid .panel .number,#rules .terminology-compare .number{
+  font-size:var(--v3-caption);
+  font-weight:600;
+  letter-spacing:.12em;
+}
+#rules>.panel{margin:0 0 18px}
+#rules .terminology-compare strong{
+  font-size:var(--v3-subheading);
+  font-weight:600;
+  line-height:1.45;
+}
+#rules .terminology-list{gap:16px}
+#rules .term-column{gap:0}
+#rules .term-entry{
+  background:transparent;
+  border:0;
+  border-bottom:1px solid #304044;
+  border-left:0;
+  border-radius:0;
+}
+#rules .term-entry>summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  min-height:68px;
+  padding:18px 4px;
+  cursor:pointer;
+  list-style:none;
+  font-size:var(--v3-subheading);
+  line-height:1.45;
+  font-weight:600;
+  color:#dce6e8;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:transparent;
+}
+#rules .term-entry>summary::-webkit-details-marker{display:none}
+#rules .term-entry>summary *{
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+  pointer-events:none;
+}
+#rules .term-entry>summary span{font-size:0;color:transparent}
+#rules .term-entry>summary span::before{
+  content:'';
+  display:block;
+  width:16px;
+  height:16px;
+  background:
+    linear-gradient(#29ffff,#29ffff) center / 16px 2px no-repeat,
+    linear-gradient(#29ffff,#29ffff) center / 2px 16px no-repeat;
+}
+#rules .term-entry[open]>summary span::before{
+  background:linear-gradient(#29ffff,#29ffff) center / 16px 2px no-repeat;
+}
+#rules .term-entry>summary:hover{color:#29ffff}
+#rules .term-entry>summary:focus-visible{
+  outline:2px solid #29ffff;
+  outline-offset:3px;
+}
+#rules .term-entry>div{
+  border-top:0;
+  padding:0 4px 20px;
+}
+#rules .term-entry>div p{margin:10px 0}
+#rules .term-example{
+  font-size:var(--v3-caption);
+  line-height:1.75;
+  padding:14px 16px;
+  background:#0e1b21;
+  border-left:2px solid #36515a;
+}
+#decks>.card-guide-tabs,#decks>.beta-browser{font-weight:400}
+#decks>.tag{margin-bottom:0}
+@media(max-width:740px){
+  #home .grid .panel,#rules>.panel{padding:18px 20px}
+  #rules .term-entry>summary{font-size:18px;min-height:64px}
+  #rules .terminology-list{grid-template-columns:1fr;gap:0}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
