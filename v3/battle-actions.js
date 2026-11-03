@@ -126,6 +126,18 @@
   const card=p.hand.find(c=>c.id===cardId);
   if(!card||card.type!=="Program")return fail("找不到程式卡");
   if(card.unimplementedEffect)return fail("此程式的效果尚未支援");
+  if(card.name==='Reboot Optics'){
+   // The effect is recorded for the NEXT rival Unit fight this turn.
+   // No fight exists in the bounded practice yet, so no combat resolution is claimed.
+   const paid=pay(state,who,card.cost,sources);if(!paid.ok)return paid;
+   const next=paid.state,q=next[who];
+   const index=q.hand.findIndex(x=>x.id===cardId);
+   q.hand.splice(index,1);
+   if(!Array.isArray(q.trash))q.trash=[];
+   q.trash.push(card);
+   q.pendingRebootOptics=(q.pendingRebootOptics||0)+1;
+   return success(next,[...paid.events,'打出 Reboot Optics：下一次對手單位戰鬥保護待觸發（目前尚無戰鬥系統）']);
+  }
   if(card.name==='Floor It'){
    // Quick is also playable in the controller's open Main Phase (rules 11.26.2).
    const rivalSide=who==='player'?'ai':'player';
