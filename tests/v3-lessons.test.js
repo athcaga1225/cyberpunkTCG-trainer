@@ -114,8 +114,8 @@ assert(special['Meredith Stout: Stone Cold Corpo'].includes('由該對手控制�
 assert(special['The Heist'].includes('可以改為免費打出'),'The Heist must present the free play as alternative to putting Gear in hand');
 // Record each directly checked official Retail page separately from Beta-derived assumptions.
 const sourceVerified=JSON.parse(read('v3/retail-official-verification.json')).entries;
-assert.equal(sourceVerified.length,13,'13 individual Retail printings have independent official snapshots');
-assert.equal(new Set(sourceVerified.map(x=>x.retailId)).size,13,'Official Retail snapshots must have unique printing numbers');
+assert.equal(sourceVerified.length,25,'25 individual Retail printings have independent official snapshots');
+assert.equal(new Set(sourceVerified.map(x=>x.retailId)).size,25,'Official Retail snapshots must have unique printing numbers');
 const cleanCurrentText=x=>String(x).replaceAll('☆ (Street Cred)','Street Cred').replace(/\s+/g,' ').trim();
 for(const evidence of sourceVerified){
  const item=retail.find(c=>c.id===evidence.retailId);
