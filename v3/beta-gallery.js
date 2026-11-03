@@ -79,6 +79,7 @@ const verifiedCharacterNames={
 };
 // V3-only Taiwanese localization refinements; the shared Beta file and V2 remain unchanged.
 const localizedCardOverrides={
+ 'The Relic: Experimental Biochip':'聖物：原型階段生物晶片',
  'Modded Kusanagi':'改 草薙',
  'Modded Muramasa':'改 村正',
  'Zetatech Faceplate':'ZETA科技 行為印模同步臉板',
