@@ -3170,6 +3170,67 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
  #decks #betaCardCollection .beta-filters .v3-filter-series,
  #decks #betaCardCollection .beta-filters .v3-filter-sort{grid-column:auto}
 }
+
+/* V3 battle visual alignment: use the same dark / red / cyan system as the card catalogue. */
+#battle .v3-battle-intro{
+ display:flex;align-items:flex-end;justify-content:space-between;gap:18px;
+ margin:2px 0 18px;padding:0 2px 14px;border-bottom:1px solid #590a11;
+}
+#battle .v3-battle-intro h1{margin:8px 0 6px;font-size:clamp(29px,3vw,44px);line-height:1.08;letter-spacing:.025em;color:#e9f3f4}
+#battle .v3-battle-intro h1 span{color:#f8504a}
+#battle .v3-battle-intro p{margin:0;color:#97b0b7;font-size:14px;line-height:1.65;max-width:690px}
+#battle .v3-battle-stage{flex-shrink:0;align-self:flex-start;border:1px solid #590a11;border-left:2px solid #f8504a;padding:7px 11px;color:#29ffff;background:rgba(19,19,20,.6);font-size:12px;letter-spacing:.08em}
+body.battle-wide #battle .battle-toolbar{
+ background:rgba(19,19,20,.6);border:1px solid #590a11;border-left:2px solid #f8504a;
+ padding:13px 15px;margin-bottom:10px;border-radius:4px;
+}
+#battle #battleDeckChoice{border:1px solid #42606a;border-radius:4px;background:#0a1c23;color:#e9f3f4}
+#battle .battle-preview-deckline{color:#93b1b8}
+#battle .battle-preview-deckline span{color:#29ffff}
+#battle .board-tour,body.battle-wide #battle .board-tour{
+ background:radial-gradient(ellipse at 50% 45%,rgba(41,255,255,.035),transparent 62%),#071015;
+ border:1px solid #590a11;border-left:2px solid #f8504a;
+ border-radius:4px;box-shadow:none;
+}
+#battle .preview-zone,body.battle-wide #battle .preview-zone{
+ background:rgba(19,19,20,.6);border:1px solid rgba(89,10,17,.88);
+ border-left:2px solid rgba(248,80,74,.60);border-radius:4px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+#battle .preview-zone small,body.battle-wide #battle .preview-zone small{
+ color:#93b4ba;letter-spacing:.055em;font-weight:500;
+}
+#battle .preview-zone.turn-info,body.battle-wide #battle .preview-zone.turn-info{
+ background:rgba(44,14,20,.66);border-color:#9c292e;border-left:2px solid #f8504a;
+}
+#battle .preview-zone.turn-info strong{color:#f8504a}
+#battle .preview-zone[data-tour-highlight],body.battle-wide #battle .preview-zone[data-tour-highlight]{
+ outline:2px solid #29ffff;outline-offset:-2px;
+ background:rgba(13,38,42,.95);box-shadow:0 0 0 1px rgba(41,255,255,.12);
+}
+#battle .preview-zone[data-tour-highlight] small{color:#29ffff}
+#battle .board-tour.has-spotlight::before{background:rgba(2,9,13,.74)}
+#battle .tour-coach,body.battle-wide #battle .tour-coach{
+ background:rgba(7,16,21,.97);border:1px solid #590a11;border-left:3px solid #f8504a;
+ border-radius:4px;box-shadow:0 14px 40px #0009;
+}
+#battle .tour-coach-header span{color:#29ffff}
+#battle .tour-action{background:rgba(19,19,20,.9);color:#dcebed;border:1px solid #42606a;border-left:2px solid #29ffff}
+#battle .tour-coach-nav .primary{background:#f8504a;border-color:#f8504a;color:#071015}
+#battle .tour-mini{border-color:#42606a}
+#battle .preview-zone .field-slots>div{border-color:#37515a;background:rgba(7,16,21,.7);color:#a9c0c5}
+#battle .preview-zone .placeholder-label{color:#9cb5bb}
+#battle .notice{border-color:#590a11}
+@media(max-width:840px){
+ #battle .v3-battle-intro{align-items:flex-start}
+ #battle .v3-battle-stage{font-size:11px}
+}
+@media(max-width:530px){
+ #battle .v3-battle-intro{display:block}
+ #battle .v3-battle-stage{display:inline-block;margin-top:12px}
+ #battle .v3-battle-intro h1{font-size:30px}
+ body.battle-wide #battle .battle-toolbar{padding:12px}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -3190,7 +3251,7 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
 
 <p class="muted">詳細術語與完整規則參考：<a href="https://cyberpunktcg.com/gameplay-guide" target="_blank" rel="noopener noreferrer">官方 Gameplay Guide <span class="external-arrow" aria-hidden="true">↗</span></a></p>
 </section>
-<section id="battle" class="hide"><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
+<section id="battle" class="hide"><div class="v3-battle-intro"><div><div class="tag">TRAINING SYSTEM / BATTLE PREVIEW</div><h1>BATTLE TABLE<span>.</span></h1><p>對戰桌面導覽與初始牌組預覽。這個階段先熟悉區域與卡牌位置，尚未開放完整出牌及 AI 對戰。</p></div><span class="v3-battle-stage">PREVIEW / V3</span></div><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
  <div class="table-preview" id="tablePreview">
   <div class="preview-zone opponent-hand" data-tour-zone="opponent-hand"><small>OPPONENT / 手牌</small><div class="placeholder-label preview-card-rail">對手手牌 · 隱藏資訊</div></div>
   <div class="preview-zone opponent-legends" data-tour-zone="opponent-legends"><small>OPPONENT / 傳奇角色</small><div class="cardbacks"><div class="backcard">NCT</div><div class="backcard">NCT</div><div class="backcard">NCT</div></div></div>
