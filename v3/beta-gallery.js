@@ -123,7 +123,7 @@ const refineCardChineseName=value=>String(value||'')
  .replaceAll('搖滾叛逆者','搖滾反叛份子')
  .replaceAll('街頭小子','街頑')
  .replaceAll('幻舞','幻智之舞')
- .replaceAll('冷酷企業人','冷酷企業人士');
+ .replace(/冷酷企業人士|冷酷企業人/g,'冷酷企業特務');
 const localizedCardName=c=>{
  const english=String(c.name||'');
  if(localizedCardOverrides[english])return localizedCardOverrides[english];
