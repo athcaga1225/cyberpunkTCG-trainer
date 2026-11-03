@@ -46,12 +46,53 @@
     if(!gigTarget||!Number.isInteger(gigTarget.value)||!Number.isInteger(gigTarget.sides)||gigTarget.value+delta<1||gigTarget.value+delta>gigTarget.sides)return fail("無效的委託骰目標或調整點數");
    }
   }
+  // All optional/required Play targets are validated BEFORE spending any Eddies.
+  let gearTarget=null;
+  if(c.onPlayDefeatGear&&opts?.gearTargetId){
+   const gearSide=opts.gearSide||who;
+   if(![who,who==="player"?"ai":"player"].includes(gearSide))return fail("裝備控制者無效");
+   const owner=state[gearSide];
+   if(!owner)return fail("找不到裝備控制者");
+   const carriers=[...(owner.units||[]),...(owner.legends||[])];
+   const host=carriers.find(x=>Array.isArray(x.gear)&&x.gear.some(g=>g.id===opts.gearTargetId));
+   if(!host)return fail("找不到場上指定的裝備卡");
+   gearTarget={side:gearSide,hostId:host.id,gearId:opts.gearTargetId};
+  }
+  let rivalTarget=null;
+  if(c.onPlaySpendRival){
+   const rivalSide=who==="player"?"ai":"player";
+   const candidates=(state[rivalSide]?.units||[]).filter(x=>x.ready===true);
+   if(candidates.length){
+    rivalTarget=candidates.find(x=>x.id===opts?.rivalUnitId);
+    if(!rivalTarget)return fail("必須選擇一張可橫置的對手單位");
+   }else if(opts?.rivalUnitId)return fail("沒有可橫置的對手單位");
+  }
   const payment=pay(state,who,c.cost,sources);if(!payment.ok)return payment;
   const s=payment.state,q=s[who],i=q.hand.findIndex(x=>x.id===cardId);
   q.hand.splice(i,1);
-  q.units.push({...c,ready:true,lag:true,gear:[]});
-  if(gigTarget)s[side].gigs.find(g=>g.id===opts.gigId).value+=delta;
-  return success(s,[...payment.events,"打出 "+c.name+"（Ready，帶有 Lag）",...(c.onPlayGigAdjust?["登場調整委託骰 "+(delta>0?"+":"")+delta]:[])]);
+  const entered={...c,ready:!c.onPlaySpendRival,lag:true,gear:[]};
+  if(!c.onPlaySpendRival)entered.ready=true;
+  q.units.push(entered);
+  const events=[...payment.events,"打出 "+c.name+"（"+(entered.ready?"Ready":"Spent")+"，帶有 Lag）"];
+  if(gigTarget){s[side].gigs.find(g=>g.id===opts.gigId).value+=delta;events.push("登場調整委託骰 "+(delta>0?"+":"")+delta);}
+  if(c.onPlaySpendRival){
+   if(rivalTarget){const rivalSide=who==="player"?"ai":"player";s[rivalSide].units.find(u=>u.id===rivalTarget.id).ready=false;events.push("橫置對手單位 "+rivalTarget.name);}
+   else events.push("場上沒有可橫置的對手單位");
+  }
+  if(gearTarget){
+   const owner=s[gearTarget.side],hosts=[...(owner.units||[]),...(owner.legends||[])];
+   const carrier=hosts.find(h=>h.id===gearTarget.hostId);
+   const index=carrier.gear.findIndex(g=>g.id===gearTarget.gearId);
+   const [defeated]=carrier.gear.splice(index,1);
+   if(!Array.isArray(owner.trash))owner.trash=[];
+   owner.trash.push(defeated);
+   events.push("擊敗裝備 "+defeated.name);
+   if(q.gigs?.some(g=>g.value===defeated.cost)){
+    if(!q.deck.length){s.finished=true;s.loser=who;events.push("抽牌失敗，遊戲結束");}
+    else{q.hand.push(q.deck.pop());events.push("符合委託骰點數：抽 1 張");}
+   }
+  }
+  return success(s,events);
  }
 
  // Read-only derived stats: equipment modifies Power, and Blocker is inherited.
