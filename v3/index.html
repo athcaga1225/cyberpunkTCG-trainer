@@ -2611,6 +2611,21 @@ header nav button.active{font-weight:400}
 
 /* Restrained cyan emphasis on key preparation counts and requirements. */
 #preGameChecklist .pregame-step p strong{color:#29ffff;font-weight:600}
+
+/* Bridge the beginner lessons to the existing clickable tabletop tour. */
+#tableOrientation{margin:20px 0 24px}
+#tableOrientation>.number{margin-bottom:9px}
+#tableOrientation h2{margin:0 0 12px}
+#tableOrientation>p{max-width:78ch}
+.table-orientation-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:24px 0}
+.table-orientation-grid>div{padding:16px 21px;border-top:1px solid rgba(174,188,192,.17);min-width:0}
+.table-orientation-grid>div:nth-child(3n+1){padding-left:0}
+.table-orientation-grid>div:nth-child(3n+2),.table-orientation-grid>div:nth-child(3n+3){border-left:1px solid rgba(174,188,192,.12)}
+.table-orientation-grid strong{color:#29ffff;font-size:15px;font-weight:600}
+.table-orientation-grid p{margin:6px 0 0;font-size:14px;line-height:1.7}
+.battle-return-guide{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px;color:#aebcc0;font-size:14px}
+@media(max-width:800px){.table-orientation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.table-orientation-grid>div:nth-child(n){padding:15px 18px;border-left:0}.table-orientation-grid>div:nth-child(odd){padding-left:0}.table-orientation-grid>div:nth-child(even){border-left:1px solid rgba(174,188,192,.12)}}
+@media(max-width:510px){.table-orientation-grid{grid-template-columns:1fr}.table-orientation-grid>div:nth-child(n){padding:13px 0;border-left:0}.battle-return-guide{align-items:flex-start}}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2624,11 +2639,12 @@ header nav button.active{font-weight:400}
 <div class="panel"><div class="number">CARD TYPES</div><h2>先認識四類卡牌</h2><p>傳奇卡（Legend）決定牌組核心與 RAM 限制；單位卡（Unit）負責戰鬥，裝備卡（Gear）強化角色，程式卡（Program）則帶來一次性效果。<strong>看卡面右上角的 Legend 類型標示</strong>才能辨認傳奇卡；Iconic 是特殊版本／稀有度，兩者不是同一件事。</p></div>
 <div class="panel"><div class="number">PAYMENT</div><h2>出牌需要資源</h2><p>用歐元（Eddies／€$）支付卡牌費用。主要階段每回合可以變賣 1 張具有變賣標籤的手牌；傳奇區內的傳奇卡也能橫置支付，每張算 1 €$。完整支付操作仍待正式對戰引擎加入。</p></div>
 </div>
+<div class="panel" id="tableOrientation"><div class="number">TABLE GUIDE / WHERE TO PLACE CARDS</div><h2>先認識對戰桌面</h2><p>初始牌組附的紙製遊戲墊可以幫你認位置；網站也提供可點選的桌面導覽。先看懂區域，再進行下方操作練習，會比較容易理解。</p><div class="table-orientation-grid"><div><strong>傳奇區</strong><p>開局放 3 張面朝下的傳奇卡。</p></div><div><strong>合事佬區</strong><p>放尚未擲出的 6 顆委託骰。</p></div><div><strong>委託區</strong><p>放取得或從對手搶來的委託骰。</p></div><div><strong>歐元區</strong><p>放用來支付卡牌費用的資源。</p></div><div><strong>戰場</strong><p>放已打出的單位卡與裝備卡。</p></div><div><strong>牌庫／手牌／棄牌區</strong><p>抽牌、持有卡牌與放置已棄置的卡牌。</p></div></div><button type="button" class="btn primary" id="openTableTourFromLearn">開啟互動桌面導覽 →</button></div>
 <nav class="chapter-nav" id="chapterNav" aria-label="教學章節"></nav>
 <div class="panel" id="labStage" aria-live="polite"><p>正在載入互動教學…</p></div>
 <p class="muted">詳細術語與完整規則參考：<a href="https://cyberpunktcg.com/gameplay-guide" target="_blank" rel="noopener noreferrer">官方 Gameplay Guide ↗</a></p>
 </section>
-<section id="battle" class="hide"><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
+<section id="battle" class="hide"><div class="battle-return-guide"><span>正在查看桌面配置示意，這裡還不是完整對戰。</span><button class="btn" type="button" data-go="learn">← 返回新手教學</button></div><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
  <div class="table-preview" id="tablePreview">
   <div class="preview-zone opponent-hand" data-tour-zone="opponent-hand"><small>OPPONENT / 手牌</small><div class="placeholder-label preview-card-rail">對手手牌 · 隱藏資訊</div></div>
   <div class="preview-zone opponent-legends" data-tour-zone="opponent-legends"><small>OPPONENT / 傳奇角色</small><div class="cardbacks"><div class="backcard">NCT</div><div class="backcard">NCT</div><div class="backcard">NCT</div></div></div>
@@ -2682,7 +2698,7 @@ header nav button.active{font-weight:400}
 })();
 </script></main><footer class="footer">NIGHT CITY TRAINING · 非官方粉絲教學專案 · 本站不隸屬 CD PROJEKT 或遊戲發行方。學習進度僅儲存在本機瀏覽器。</footer>
 <script>
-const pages=[...document.querySelectorAll('main>section')],nav=[...document.querySelectorAll('[data-page]')];function show(page){if(page==='practice')page='learn';document.body.classList.toggle('battle-wide',page==='battle');pages.forEach(x=>x.classList.toggle('hide',x.id!==page));nav.forEach(x=>x.classList.toggle('active',x.dataset.page===page));location.hash=page;window.scrollTo(0,0)}nav.forEach(x=>x.addEventListener('click',()=>show(x.dataset.page)));document.querySelector('[data-rule-link]')?.addEventListener('click',e=>{e.preventDefault();show('rules')});document.querySelectorAll('[data-go]').forEach(x=>x.addEventListener('click',()=>show(x.dataset.go)));
+const pages=[...document.querySelectorAll('main>section')],nav=[...document.querySelectorAll('[data-page]')];function show(page){if(page==='practice')page='learn';document.body.classList.toggle('battle-wide',page==='battle');pages.forEach(x=>x.classList.toggle('hide',x.id!==page));nav.forEach(x=>x.classList.toggle('active',x.dataset.page===page));location.hash=page;window.scrollTo(0,0)}nav.forEach(x=>x.addEventListener('click',()=>show(x.dataset.page)));document.querySelector('[data-rule-link]')?.addEventListener('click',e=>{e.preventDefault();show('rules')});document.querySelectorAll('[data-go]').forEach(x=>x.addEventListener('click',()=>show(x.dataset.go)));document.getElementById('openTableTourFromLearn')?.addEventListener('click',()=>{show('battle');document.getElementById('startBoardTour')?.click()});
 // 舊版課程進度由新版整合教學保留並轉換；此處只處理網站導覽。
 const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.slice(1);show(['home','learn','battle','decks','rules'].includes(requestedPage)?requestedPage:'home');
 </script><script>
@@ -2721,4 +2737,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1-gig"></script><script src="v3/trainer-modules.js?v=4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=5"></script><script src="v3/beta-gallery.js?v=34"></script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1-gig"></script><script src="v3/trainer-modules.js?v=4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=6"></script><script src="v3/beta-gallery.js?v=34"></script></body></html>
