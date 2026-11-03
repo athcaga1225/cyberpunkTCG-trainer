@@ -95,7 +95,7 @@ const localizedCardOverrides={
  'Octant':'南極座',
  'Trauma Team Operatives':'搶救團隊隊員',
  'Overwatch: Panam\'s Gift':'掩護：帕娜的贈禮',
- 'Pacifica Netrunner':'太平洋竄網使'
+ 'Pacifica Netrunner':'太平洋區竄網使'
 };
 const refineCardChineseName=value=>String(value||'')
  .replaceAll('瓦倫提諾幫','瓦倫提諾會')
@@ -120,7 +120,7 @@ const localizedCardName=c=>{
 const zhName=c=>localizedCardName(c);
 // T001–T006 are internal identifiers; the actual Box Topper Beta printings read β001–β006.
 const printedNumber=c=>c.set==='topper'?'β'+c.id.slice(1):c.set==='retail'?(c.retailNumber||c.id.replace(/^R/,'')):c.id;
-const printingLabel=c=>c.set==='topper'?'BOX TOPPER '+printedNumber(c):c.set==='starter'?((c.deck==='heist'?'HEIST ':'POWER ')+c.id):c.id;
+const printingLabel=c=>c.set==='topper'?'BOX TOPPER '+printedNumber(c):c.set==='starter'?((c.deck==='heist'?'HEIST ':'POWER ')+c.id):c.set==='retail'?printedNumber(c):c.id;
 const collectionLabel=c=>c.set==='retail'?'RETAIL':c.set==='topper'?'BOX TOPPER':c.set==='starter'?(c.deck==='heist'?'THE HEIST':'EMBRACING POWER'):'BETA BOOSTER';
 const create=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
 const betaArtChoices=new Map();
@@ -354,7 +354,7 @@ function openCard(c){
   for(const variant of variants){
    const button=create('button','beta-printing-option');button.type='button';
    if(samePrinting(variant,c)){button.classList.add('selected');button.setAttribute('aria-current','true')}
-   const thumbnail=create('img','');setBestArt(variant,thumbnail);thumbnail.alt=variant.id+' 卡面';thumbnail.loading='lazy';
+   const thumbnail=create('img','');setBestArt(variant,thumbnail);thumbnail.alt=printingLabel(variant)+' 卡面';thumbnail.loading='lazy';
    const variantLabel=printingLabel(variant)||'STARTER';
    button.append(thumbnail,create('span','',variantLabel));
    button.setAttribute('aria-label','切換至 '+variantLabel+' 印刷版本');
