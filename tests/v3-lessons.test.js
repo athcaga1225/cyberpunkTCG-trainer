@@ -95,14 +95,32 @@ goto(5);
 assert(!all(elements.labStage,'strong').some(x=>x.textContent.includes('本課已通過')),'Revisiting a completed lesson should allow a fresh attempt');
 assert(all(elements.labStage,'button').some(x=>x.textContent.includes('攻擊對手已使用的角色')),'Completed lesson must still display question choices');
 const correct=[0,0,0,0,0,1,0,0,0,0,0];
+const incorrect=new Map([[0,1],[1,1],[2,1],[3,1],[4,2],[5,2],[7,1],[8,1],[9,1],[10,1]]);
 for(let i=0;i<11;i++){
  goto(i);
  assert(!all(elements.labStage,'strong').some(x=>x.textContent.includes('本課已通過')),'Lesson must not auto-pass on navigation: '+i);
+ if(incorrect.has(i)){
+  const previous=progress();
+  choose(incorrect.get(i));
+  assert.deepEqual(progress(),previous,'Incorrect option must not advance completion: '+i);
+  assert(all(elements.labStage,'div').some(x=>x.className==='notice'&&x.textContent.length>0),'Wrong answer must explain its failure: '+i);
+  assert(!all(elements.labStage,'strong').some(x=>x.textContent.includes('已完成本課')),'Wrong answer must not pass: '+i);
+  assert(all(elements.labStage,'div').find(x=>x.className==='actions')?.children.some(x=>x.tag==='button'),'Wrong answer keeps exercise choices available: '+i);
+ }
  choose(correct[i]);
  assert(progress().includes(i),'Lesson '+(i+1)+' must be completable');
+ if(i===8){
+  const feedback=all(elements.labStage,'div').find(x=>x.className==='notice');
+  assert(feedback?.textContent.includes('攔截'),'Lesson 09 should resolve correctly after wrong legal choice');
+ }
  if(i===0){const notice=all(elements.labStage,'div').find(x=>x.className==='notice');assert(notice?.textContent.includes('事前準備正確：'),'Correct answer explanation remains');assert(!notice.textContent.includes('答對了，已記錄本課完成進度'),'Redundant success suffix removed');assert(!notice.textContent.includes('。。'),'No doubled sentence punctuation');}
 }
 assert.equal(progress().length,11,'All eleven lessons must complete independently');
+// Lesson 07 intentionally has two valid gig targets; both are correct.
+goto(6);
+choose(1);
+assert(all(elements.labStage,'strong').some(x=>x.textContent.includes('已完成本課')),'Second valid gig choice also passes lesson 07');
+
 goto(10);
 assert(all(elements.labStage,'button').some(b=>b.textContent==='重設教學進度'),'Reset should appear after all completed');
 action('重設教學進度');
