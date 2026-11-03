@@ -37,6 +37,8 @@ for(const card of beta){
 
 // V3-only card ability vocabulary: the shared Beta source and V2 are never rewritten.
 const gallerySource=read('v3/beta-gallery.js');
+assert(gallerySource.includes("'Japantown Jonin':'日本城精銳'"),'V3 name for Japantown Jonin must match requested terminology');
+
 const abilityMatch=gallerySource.match(/const localizedAbilityText=value=>([\s\S]*?);\s*\/\/ Two choice cards/);
 assert(abilityMatch,'V3 ability terminology formatter must be present');
 const formatAbility=vm.runInNewContext('(()=>{const localizedAbilityText=value=>'+abilityMatch[1]+';return localizedAbilityText})()');
@@ -147,6 +149,9 @@ for(const c of audit.entries){
 const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
+assert(v3Html.includes('distinguish direct card search from the secondary dropdown filters'),'V3 must visually separate card search from secondary filters');
+assert(v3Html.includes('border-bottom:1px solid rgba(171,196,201,.24)'),'Search/filter divider must be present');
+
 assert(!v3Html.includes('官方規則優先</h2>'),'Redundant official rules explanation is removed');
 assert(v3Html.includes('class="rules-official-link"'),'Official rules link remains available');
 assert(v3Html.includes('class="rules-official-link"><a href="https://cyberpunktcg.com/comprehensive-rules"'),'Official rules link is plain text, not a framed button');
