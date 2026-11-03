@@ -6,23 +6,12 @@ if(!root||!starter)return;
 const sharedDialog=document.getElementById('betaCardDetail');
 if(sharedDialog)document.getElementById('decks').append(sharedDialog);
 const buttons=[...document.querySelectorAll('[data-card-view]')];
-const search=document.getElementById('betaSearch'),rarity=document.getElementById('betaRarity'),series=document.getElementById('betaSeries');
+const search=document.getElementById('betaSearch'),rarity=document.getElementById('betaRarity'),series=document.getElementById('betaSeries'),typeFilter=document.getElementById('betaType'),sortSelect=document.getElementById('betaSort'),resetFilters=document.getElementById('v3FiltersReset');
 const grid=document.getElementById('betaResults'),count=document.getElementById('betaCount');
 const pages=document.getElementById('betaPages'),pageSelect=document.getElementById('betaPageSelect'),prev=document.getElementById('betaPrevious'),next=document.getElementById('betaNext');
 const status=document.getElementById('betaLoadStatus'),detail=document.getElementById('betaCardDetail'),detailBody=document.getElementById('betaCardDetailBody');
 const PAGE_SIZE=24;
 let all=[],starterCards=[],filtered=[],page=0,active='all';
-const quickBar=document.createElement('div');quickBar.className='v3-quick-filters';quickBar.setAttribute('role','group');quickBar.setAttribute('aria-label','卡牌集合');
-const quickChoices=[['all','ALL CARDS'],['beta','BETA BOOSTER'],['retail','RETAIL'],['heist','THE HEIST'],['power','EMBRACING POWER']];
-for(const [value,label] of quickChoices){
- const b=document.createElement('button');b.type='button';b.className='v3-quick-filter';b.dataset.v3View=value;
- b.textContent=label;b.setAttribute('aria-pressed',String(value==='all'));
- if(value==='retail'){b.disabled=true;b.title='RETAIL 卡牌列表載入中'}
- b.addEventListener('click',()=>{active=value;series.value='all';filter()});quickBar.append(b);
-}
-root.querySelector('.beta-filters').before(quickBar);
-quickBar.after(count); // Show the dynamic card total directly below the collection filters.
-
 // Match printings by normalized official English name and verified gameplay
 // identity. English accents vary across catalog sources (Álvarez / Alvarez),
 // and Chinese wording may differ even when the original rules are identical.
@@ -224,51 +213,57 @@ function switchTo(){
  buttons.forEach(btn=>{btn.setAttribute('aria-selected','false');btn.classList.remove('selected')});
 }
 switchTo();
+const rarityHighToLow=['Iconic Secret','Iconic Legend','Iconic Other','Secret','Epic','Rare','Uncommon','Common'];
+const rarityRank=value=>{const index=rarityHighToLow.indexOf(value);return index<0?rarityHighToLow.length:index};
+const numericValue=value=>{if(value===null||value===undefined||value==='')return null;const n=Number(value);return Number.isFinite(n)?n:null};
+const cardNumberSort=(a,b)=>{
+ const key=c=>{const match=printedNumber(c).match(/(\d+)([A-Za-z]?)$/);return match?[Number(match[1]),match[2]]:[Number.MAX_SAFE_INTEGER,'']};
+ const [an,as]=key(a),[bn,bs]=key(b);
+ return an-bn||as.localeCompare(bs)||((a.set==='retail'?0:a.set==='beta'?1:2)-(b.set==='retail'?0:b.set==='beta'?1:2))||a.id.localeCompare(b.id);
+};
+function sortResults(cards){
+ const mode=sortSelect.value;
+ const direction=mode.endsWith('-desc')?-1:1;
+ const metric=mode.split('-')[0];
+ cards.sort((a,b)=>{
+  if(metric==='rarity'){
+   // Nova Rare / unranked special printings always follow the standard rarities.
+   const ar=rarityRank(a.rarity),br=rarityRank(b.rarity);
+   return (ar===rarityHighToLow.length?1:0)-(br===rarityHighToLow.length?1:0)||
+    (ar===br?0:(mode==='rarity-desc'?ar-br:br-ar))||cardNumberSort(a,b);
+  }
+  if(['cost','power','ram'].includes(metric)){
+   const av=numericValue(a[metric]),bv=numericValue(b[metric]);
+   if(av===null||bv===null)return (av===null?1:0)-(bv===null?1:0)||cardNumberSort(a,b);
+   return (av-bv)*direction||cardNumberSort(a,b);
+  }
+  if(mode==='name')return zhName(a).localeCompare(zhName(b),'zh-Hant-TW')||cardNumberSort(a,b);
+  return cardNumberSort(a,b);
+ });
+}
 function filter(){
  const q=search.value.toLowerCase().trim().replace(/^β/,'b');
- const selectedSet=series.value,choice=rarity.value;
- const numberQuery=/^(?:b|t)?\d{1,3}[ab]?$/.test(q);
- const selected=[...all,...starterCards].filter(c=>{
-  if((active==='heist'||active==='power')&&!(c.set==='starter'&&c.deck===active))return false;
-  if(active==='beta'&&!['beta','topper'].includes(c.set))return false;
-  if(active==='retail'&&c.set!=='retail')return false;
+ const selectedSet=series.value,choice=rarity.value,type=typeFilter.value;
+ const numberQuery=/^(?:b|r|t)?\d{1,3}[ab]?$/.test(q);
+ const chosen=[...all,...starterCards].filter(c=>{
   if(selectedSet==='heist'&&!(c.set==='starter'&&c.deck==='heist'))return false;
   if(selectedSet==='power'&&!(c.set==='starter'&&c.deck==='power'))return false;
-  if(['beta','topper'].includes(selectedSet)&&c.set!==selectedSet)return false;
+  if(['beta','topper','retail'].includes(selectedSet)&&c.set!==selectedSet)return false;
   if(choice!=='all'&&c.rarity!==choice)return false;
+  if(type!=='all'&&c.type!==type)return false;
   if(!q)return true;
   const ids=searchIdentifiers(c);
-  if(numberQuery)return ids.some(id=>q.startsWith('b')||q.startsWith('t')?id.startsWith(q):id.replace(/^[bt]/,'').startsWith(q));
-  // Only normalize English terms for English-name matching. A Chinese query
-  // must never become an empty ASCII string (which matches every card).
+  if(numberQuery)return ids.some(id=>q.startsWith('b')||q.startsWith('t')||q.startsWith('r')?id.startsWith(q):id.replace(/^[brt]/,'').startsWith(q));
   const englishQuery=q.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
-  const matchesTag=matchesCardTag(c,q);
   return ids.some(id=>id.includes(q))||
    (!!englishQuery&&normalizedCardName(c).includes(englishQuery))||
    c.name.toLowerCase().includes(q)||zhName(c).toLowerCase().includes(q)||String(c.nameZh||'').toLowerCase().includes(q)||
-   matchesTag;
+   matchesCardTag(c,q);
  });
- // Explicit card-number searches always return EVERY physical printing.
- // Name browsing, search and rarity filtering otherwise collapse only genuine
- // matching card identities; the Popup still shows their full versions.
- // Starter Legends and their Box Topper counterparts have distinct card
- // artwork/design. Show both faces separately in ALL CARDS, while keeping
- // samePrintingFamily for VERSIONS switching in the Popup.
- const sameGalleryFace=(a,b)=>{
-  // Retail is an independent printed edition, not a duplicate of Beta.
-  // Keep it visible when browsing a rarity even when the rules are identical.
-  if(a.set==='retail'||b.set==='retail')return a.set==='retail'&&b.set==='retail'&&a.id===b.id;
-  if(!samePrintingFamily(a,b))return false;
-  const separateStarterLegend=(a.set==='starter'&&a.type==='Legend'&&b.set==='topper')||
-   (b.set==='starter'&&b.type==='Legend'&&a.set==='topper');
-  return !separateStarterLegend;
- };
- // Browsing without a query collapses equivalent printings into one entry.
- // Any explicit name or number search displays every matching physical print:
- // for example Judy/茱蒂 shows B108, B116, B157 and B171 separately.
- filtered=q?selected:selected.filter((c,i,arr)=>arr.findIndex(other=>sameGalleryFace(c,other))===i);
+ // Every physical printing remains visible, including matching Beta / Retail / Starter editions.
+ filtered=chosen;
+ sortResults(filtered);
  page=0;
- quickBar.querySelectorAll('button[data-v3-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v3View===active)));
  render();
 }
 
@@ -517,16 +512,10 @@ if(clearSearch)clearSearch.addEventListener('click',()=>{
 });
 syncClearSearch();
 rarity.addEventListener('change',filter);
-series.addEventListener('change',()=>{
- // SERIES is a complete selector: switching from a quick category to
- // another series must not silently produce an empty intersection.
- if(series.value!=='all' && active!=='all'){
-  const sameDeck=series.value===active;
-  const sameBeta=active==='beta'&&['beta','topper'].includes(series.value);
-  if(!sameDeck&&!sameBeta)active='all';
- }
- filter();
-});
+typeFilter.addEventListener('change',filter);
+sortSelect.addEventListener('change',filter);
+resetFilters.addEventListener('click',()=>{search.value='';series.value='all';rarity.value='all';typeFilter.value='all';sortSelect.value='id';syncClearSearch();filter();});
+series.addEventListener('change',filter);
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
@@ -566,8 +555,7 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
    const option=create('option','',label);option.value=label;rarity.append(option);
    existingRarityValues.add(label);
   }
-  const retailButton=quickBar.querySelector('[data-v3-view="retail"]');
-  if(retailButton){retailButton.disabled=false;retailButton.removeAttribute('title')}
+  const retailButton=null;
   filter();
  }).catch(error=>console.warn('Retail printings not ready:',error));
  all=cards;filtered=all.slice();
@@ -621,7 +609,7 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
  if(starterCards.some(c=>!c.printingUrl||!c.printingUrl.includes('?printing=')||!c.imageUrl||!c.name||!c.abilityEnglish||!c.abilityZh||c.ram===undefined||c.rarity==null))
   throw Error('Starter 卡牌資料欄位不完整');
  const rarityNames=[...new Set([...cards,...all,...starterCards].map(c=>c.rarity).filter(Boolean))];
- const order=['Common','Uncommon','Rare','Epic','Secret','Iconic Legend','Iconic Other','Iconic Secret','Nova Rare'];
+ const order=[...rarityHighToLow,'Nova Rare'];
  rarityNames.sort((a,b)=>order.indexOf(a)-order.indexOf(b));
  for(const name of rarityNames){const option=create('option','',name);option.value=name;rarity.append(option)}
  // Starter records now participate in both the unified name index and all
