@@ -4,7 +4,7 @@ const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV
 const root=$('v3TurnPractice'),board=$('battleTour'),picker=$('battleDeckChoice');
 if(!root||!board||!P||!H||!picker)return;
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
-let state=H.fresh(),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
+let scenario='basic',state=H.fresh(scenario),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 const art=new Map();
 document.querySelectorAll('#starterDeckGallery [data-card-name][data-deck-image]').forEach(el=>{
  const name=el.getAttribute('data-card-name'),src=el.getAttribute('data-deck-image');
@@ -61,6 +61,19 @@ function renderField(){
  }
  if(!state.player.units.length)add('div','尚無已打出的單位',slots);
 }
+function renderRivalField(){
+ const slots=board.querySelector('.opponent-field .field-slots');if(!slots)return;
+ slots.replaceChildren();
+ for(const unit of state.ai.units){
+  const el=add('div','',slots,'v3-played-card');el.title=unit.name+'（練習對手，不代表 AI 行動）';
+  const src=art.get(unit.name);
+  if(src){const img=document.createElement('img');img.src=src;img.alt=unit.name;img.loading='lazy';el.append(img)}
+  else add('span',unit.name,el);
+  const stats=A?.unitStats?.(unit);
+  add('small',(unit.ready?'READY':'SPENT')+' · PWR '+(stats?.power??unit.power),el);
+  if(unit.trainingTarget)add('small','練習目標 / 無 AI',el);
+ }
+}
 function paymentOptions(parent){
  const p=state.player;
  const pool=[...p.eddies.filter(c=>c.ready).map(c=>({id:c.id,kind:'eddie',label:'Eddie '+(p.eddies.indexOf(c)+1)})),
@@ -106,10 +119,19 @@ function render(){
   return;
  }
  const p=state.player;
- renderHand();renderField();
+ renderHand();renderField();renderRivalField();
+ const scenarios=add('div','',root,'v3-turn-actions');
+ for(const [mode,label] of [['basic','基礎出牌手牌'],['quick','效果與 Quick 手牌']]){
+  const button=add('button',label,scenarios,'btn');button.type='button';button.disabled=scenario===mode;
+  button.addEventListener('click',()=>{
+   scenario=mode;state=H.fresh(scenario);selectedId=null;selectedPayments.clear();
+   targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';
+   message='已切換練習手牌。此處預置一張對手單位作為測試目標，並非正式開局。';render();
+  });
+ }
  const header=add('div','',root,'v3-turn-header');
  add('strong','THE HEIST / ROUND '+state.round,header);add('span',phase(),header);
- add('p','已接入 The Heist 真實 40 張牌組與卡圖。目前可操作基礎單位、指定裝備目標與 Afterparty 程式。部分攻擊／回合觸發能力待完整對戰規則接通；其他未支援卡牌會阻擋出牌。開局手牌固定供測試。',root,'v3-turn-note');
+ add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；戰鬥及未完成的觸發能力仍不會自動結算。',root,'v3-turn-note');
  const stats=add('div','',root,'v3-turn-stats');
  add('span','手牌 '+p.hand.length+' 張',stats);
  add('span','Eddies '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length,stats);
@@ -181,17 +203,28 @@ function render(){
    }else if(chosen.type==='Program'&&chosen.name==="Afterparty at Lizzie's"){
     gigAdjustmentOptions();
     command('支付並執行 '+chosen.name,()=>P.program(state,selectedId,paid,{gigId,side:gigSide,delta:gigDelta}),buttons,!affordable||(gigDelta!==0&&!gigId));
+   }else if(chosen.type==='Program'&&chosen.name==='Floor It'){
+    const area=add('div','',root,'v3-selected-detail');add('strong','Quick：指定本回合戰力 -1 的對手單位',area);
+    const rivals=state.ai?.units||[];
+    if(!rivals.length)add('p','沒有對手單位，仍可執行抽牌效果。',area);
+    for(const unit of rivals){
+     const button=add('button',unit.name+'（'+(A?.unitStats?.(unit)?.power??unit.power)+' PWR）',area,'v3-resource-choice');
+     button.type='button';button.setAttribute('aria-pressed',String(rivalUnitId===unit.id));
+     button.addEventListener('click',()=>{rivalUnitId=unit.id;render()});
+    }
+    command('支付並執行 Floor It',()=>P.program(state,selectedId,paid,{rivalUnitId}),buttons,!affordable||(rivals.length>0&&!rivalUnitId));
    }
   }
   command('結束我的回合',()=>P.pass(state),buttons);
  }
  if(!state.finished&&state.turn==='ai')command('略過對手行動，開始下一回合',()=>P.next(state),buttons);
- command('重新開始 The Heist 練習',()=>({ok:true,state:H.fresh(),message:initial}),buttons);
+ command('重新開始 The Heist 練習',()=>({ok:true,state:H.fresh(scenario),message:initial}),buttons);
  const status=add('p',message,root,'v3-turn-feedback');status.setAttribute('role','status');
  const summary=add('div','',root,'v3-turn-log');add('strong','實際練習狀態',summary);
  add('p','場地：'+(p.units.map(c=>c.name+'（'+(c.ready?'Ready':'Spent')+(c.lag?' / Lag':'')+'）').join('、')||'無'),summary);
  add('p','委託骰：'+(p.gigs.map(d=>'d'+d.sides+'='+d.value).join('、')||'無'),summary);
  add('p','棄牌區：'+((p.trash||[]).map(c=>c.name).join('、')||'無'),summary);
+ add('p','對手練習單位：'+(state.ai.units.map(u=>u.name+'（'+(u.ready?'Ready':'Spent')+'，PWR '+(A?.unitStats?.(u)?.power??u.power)+'）').join('、')||'無'),summary);
  indicator('.turn-info','THE HEIST：'+phase());
  indicator('.player-eddies','Eddies 就緒 '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length);
  indicator('.player-gigs',p.gigs.length+' 顆委託骰');
@@ -202,7 +235,7 @@ function render(){
 const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
  if(picker.value==='theHeist'){
-  state=H.fresh();selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;message=initial;
+  scenario='basic';state=H.fresh(scenario);selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
   if(legendButton)legendButton.disabled=true;
  }else{
