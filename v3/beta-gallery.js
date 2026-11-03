@@ -396,7 +396,7 @@ const starterOnlyCurrentRules={
  'Dexter DeShawn: One Last Chance':{
   type:'Unit',color:'Yellow',rarity:'Uncommon',cost:3,ram:2,power:4,tags:['FIXER'],
   abilityEnglish:"{Play} {Attack} Adjust a Gig by up to 1. {Defeated} If your ☆ (Street Cred) differs from a Rival's by 10+, draw 2.",
-  abilityZh:'【打出（Play）】【攻擊（Attack）】將一顆任務骰的點數調整最多 1。【被擊敗（Defeated）】若你與一名對手的街頭聲望相差至少 10，抽 2 張牌。'
+  abilityZh:'【打出（Play）】【攻擊（Attack）】將一顆委託骰的點數調整最多 1。【被擊敗（Defeated）】若你與一名對手的街頭聲望相差至少 10，抽 2 張牌。'
  },
  'MT0D12 Flathead':{
   type:'Unit',color:'Blue',rarity:'Uncommon',cost:5,ram:3,power:7,tags:['DRONE','MILITECH'],
