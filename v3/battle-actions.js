@@ -42,6 +42,14 @@
   return success(s,[...payment.events,"打出 "+c.name+"（Ready，帶有 Lag）"]);
  }
 
+ // Read-only derived stats: equipment modifies Power, and Blocker is inherited.
+ function unitStats(unit){
+  if(!unit||typeof unit!=="object")return {power:0,blocker:false};
+  const gear=Array.isArray(unit.gear)?unit.gear:[];
+  return {power:(Number.isFinite(unit.power)?unit.power:0)+gear.reduce((n,g)=>n+(Number.isFinite(g.power)?g.power:0),0),
+   blocker:unit.blocker===true||gear.some(g=>g.blocker===true),
+   cannotBeBlockedIfLowerCred:unit.cannotBeBlockedIfLowerCred===true};
+ }
  function playGear(state,who,cardId,sources,targetId){
   const p=player(state,who);if(!p)return fail("玩家資料不完整");
   if(state.turn!==who||state.phase!=="main")return fail("只能在自己的主要階段裝備");
@@ -65,13 +73,18 @@
   const card=p.hand.find(c=>c.id===cardId);
   if(!card||card.type!=="Program")return fail("找不到程式卡");
   if(card.name!=="Afterparty at Lizzie's"||card.unimplementedEffect)return fail("此程式的效果尚未支援");
+  if(!opts||typeof opts!=="object")return fail("程式效果選項無效");
   const delta=opts.delta;
   if(!Number.isInteger(delta)||Math.abs(delta)>1)return fail("請選擇 -1、0 或 +1");
-  const gig=delta===0?null:[...p.gigs,...(state.ai?.gigs||[])].find(g=>g.id===opts.gigId);
-  if(delta!==0&&(!gig||gig.value+delta<1||gig.value+delta>gig.sides))return fail("委託骰目標或點數調整無效");
+  // The target's controller is explicit; both players can have gigs named gig-1.
+  const targetSide=opts.side||who;
+  if(delta!==0&&![who,who==="player"?"ai":"player"].includes(targetSide))return fail("無效的委託骰控制者");
+  const targetPool=state[targetSide]?.gigs;
+  const gig=delta===0?null:(Array.isArray(targetPool)?targetPool.find(g=>g.id===opts.gigId):null);
+  if(delta!==0&&(!gig||!Number.isInteger(gig.value)||!Number.isInteger(gig.sides)||gig.value+delta<1||gig.value+delta>gig.sides))return fail("委託骰目標或點數調整無效");
   const paid=pay(state,who,card.cost,sources);if(!paid.ok)return paid;
   const next=paid.state,q=next[who];
-  if(delta!==0){const target=[...q.gigs,...(next.ai?.gigs||[])].find(g=>g.id===opts.gigId);target.value+=delta;}
+  if(delta!==0){const target=next[targetSide].gigs.find(g=>g.id===opts.gigId);target.value+=delta;}
   const distinct=new Set(q.gigs.map(g=>g.value));
   if(distinct.size>=2){
    if(!q.deck.length){next.finished=true;next.loser=who}
@@ -83,5 +96,5 @@
   q.trash.push(card);
   return success(next,[...paid.events,"結算 "+card.name+"（委託骰 "+(delta>=0?"+":"")+delta+"）"+(distinct.size>=2?"，抽 1 張牌":""),"程式移至棄牌區"]);
  }
- return {sell,pay,playUnit,playGear,playProgram};
+ return {sell,pay,playUnit,playGear,playProgram,unitStats};
 });
