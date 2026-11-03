@@ -91,7 +91,10 @@ assert.equal(formatAbility('處於已橫置狀態，將已重置的單位放到�
 assert.equal(formatAbility('攻擊任務骰區，搶走一顆任務骰'),'攻擊委託區，搶走一顆委託骰','Gig area must not become Gig dice area when normalizing terminology');
 // Keep official errata tied to the exact misprinted Beta Iconic printing.
 assert(gallerySource.includes("c.set==='beta'&&c.id==='B159'"),'B159 Sell-tag warning must be printing-specific');
-assert(gallerySource.includes('不能變賣為 1 €
+assert(gallerySource.includes('可變賣（Sell）標記為誤印'),'Official errata must mention the misprinted Sell tag');
+assert(betaById.get('B159').name==='Johnny Silverhand: Never Stop Fighting','B159 official erratum must match card');
+assert(betaById.get('B061').abilityEnglish.includes('Equip to a friendly Unit or face-up Legend'),'Kiroshi Optics source already reflects official reminder erratum');
+const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
 assert(!v3Html.includes('官方規則優先</h2>'),'Redundant official rules explanation is removed');
