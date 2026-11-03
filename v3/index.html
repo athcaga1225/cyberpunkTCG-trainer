@@ -2629,6 +2629,28 @@ header nav button.active{font-weight:400}
 #battle .v3-turn-log p{margin:4px 0}
 #battle .v3-practice-indicator{display:block;color:#91d2cf;font-size:12px;line-height:1.35;margin-top:5px}
 @media(max-width:650px){#battle .v3-turn-practice{padding:14px}#battle .v3-turn-actions .btn{width:100%}}
+/* V3 battle-only portrait gate: portrait phone cannot enter or use the board. */
+#battle .v3-rotate-overlay{display:none}
+@media screen and (orientation:portrait) and (max-width:900px){
+ body.battle-wide{overflow:hidden}
+ body.battle-wide>header,body.battle-wide>footer{visibility:hidden}
+ body.battle-wide #battle>:not(.v3-rotate-overlay){display:none!important}
+ body.battle-wide #battle .v3-rotate-overlay{
+  position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;
+  padding:calc(16px + env(safe-area-inset-top)) 20px calc(16px + env(safe-area-inset-bottom));
+  overflow-y:auto;background:#050b0f;
+ }
+ body.battle-wide #battle .v3-rotate-message{
+  width:min(100%,520px);padding:32px 24px;background:#0b141b;border:1px solid #2b6878;
+  border-radius:20px;color:#eaf2f5;
+ }
+ body.battle-wide #battle .v3-rotate-eyebrow{font-size:13px;letter-spacing:.28em;color:#5fe0ef}
+ body.battle-wide #battle .v3-rotate-message h2{font-size:clamp(27px,8vw,38px);margin:15px 0 12px;line-height:1.25}
+ body.battle-wide #battle .v3-rotate-message p{font-size:16px;line-height:1.7;color:#b9cbd3}
+ body.battle-wide #battle .v3-rotate-message .v3-rotate-note{font-size:14px;color:#d9b767}
+ body.battle-wide #battle .v3-rotate-message .btn{margin-top:14px}
+}
+
 /* Pregame preparation: clear reading rhythm, without extra heavy card surfaces. */
 #preGameChecklist .pregame-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:44px;row-gap:32px;margin:32px 0 30px}
 #preGameChecklist .pregame-step{min-width:0;padding:2px 0 6px}
@@ -3233,7 +3255,7 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
 
 <p class="muted">詳細術語與完整規則參考：<a href="https://cyberpunktcg.com/gameplay-guide" target="_blank" rel="noopener noreferrer">官方 Gameplay Guide <span class="external-arrow" aria-hidden="true">↗</span></a></p>
 </section>
-<section id="battle" class="hide"><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
+<section id="battle" class="hide"><div class="v3-rotate-overlay" role="region" aria-label="手機對戰方向限制"><div class="v3-rotate-message"><span class="v3-rotate-eyebrow">PHONE MODE</span><h2>請將手機橫向</h2><p>對戰桌面需要橫向操作。請先旋轉手機，畫面會自動切換至對戰桌面。</p><p class="v3-rotate-note">若畫面沒有切換，請確認手機已關閉「直向鎖定」。</p><button type="button" class="btn" data-go="home">返回首頁</button></div></div><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
  <div class="table-preview" id="tablePreview">
   <div class="preview-zone opponent-hand" data-tour-zone="opponent-hand"><small>OPPONENT / 手牌</small><div class="placeholder-label preview-card-rail">對手手牌 · 隱藏資訊</div></div>
   <div class="preview-zone opponent-legends" data-tour-zone="opponent-legends"><small>OPPONENT / 傳奇角色</small><div class="cardbacks"><div class="backcard">NCT</div><div class="backcard">NCT</div><div class="backcard">NCT</div></div></div>
