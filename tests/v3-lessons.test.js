@@ -149,6 +149,11 @@ for(const c of audit.entries){
 const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
+assert(v3Html.includes('class="v3-rotate-overlay"'),'V3 battle must provide a portrait rotation gate');
+assert(v3Html.includes('@media screen and (orientation:portrait) and (max-width:900px)'),'Portrait gating must apply only to phone-sized viewports');
+assert(v3Html.includes('body.battle-wide #battle>:not(.v3-rotate-overlay){display:none!important}'),'Portrait must block access to battle controls');
+assert(v3Html.includes('class="btn" data-go="home">返回首頁'),'The rotation gate must allow returning to other website sections');
+
 assert(v3Html.includes('distinguish direct card search from the secondary dropdown filters'),'V3 must visually separate card search from secondary filters');
 assert(v3Html.includes('border-bottom:1px solid rgba(171,196,201,.24)'),'Search/filter divider must be present');
 
