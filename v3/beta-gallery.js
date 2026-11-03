@@ -6,7 +6,7 @@ if(!root||!starter)return;
 const sharedDialog=document.getElementById('betaCardDetail');
 if(sharedDialog)document.getElementById('decks').append(sharedDialog);
 const buttons=[...document.querySelectorAll('[data-card-view]')];
-const search=document.getElementById('betaSearch'),rarity=document.getElementById('betaRarity'),series=document.getElementById('betaSeries'),typeFilter=document.getElementById('betaType'),sortSelect=document.getElementById('betaSort'),resetFilters=document.getElementById('v3FiltersReset');
+const search=document.getElementById('betaSearch'),rarity=document.getElementById('betaRarity'),series=document.getElementById('betaSeries'),typeFilter=document.getElementById('betaType'),colorFilter=document.getElementById('betaColor'),sortSelect=document.getElementById('betaSort'),resetFilters=document.getElementById('v3FiltersReset');
 const grid=document.getElementById('betaResults'),count=document.getElementById('betaCount');
 const pages=document.getElementById('betaPages'),pageSelect=document.getElementById('betaPageSelect'),prev=document.getElementById('betaPrevious'),next=document.getElementById('betaNext');
 const status=document.getElementById('betaLoadStatus'),detail=document.getElementById('betaCardDetail'),detailBody=document.getElementById('betaCardDetailBody');
@@ -269,7 +269,7 @@ function sortResults(cards){
 }
 function filter(){
  const q=search.value.toLowerCase().trim().replace(/^β/,'b');
- const selectedSet=series.value,choice=rarity.value,type=typeFilter.value;
+ const selectedSet=series.value,choice=rarity.value,type=typeFilter.value,color=colorFilter.value;
  const numberQuery=/^(?:b|r|t)?\d{1,3}[ab]?$/.test(q);
  const chosen=[...all,...starterCards].filter(c=>{
   if(selectedSet==='heist'&&!(c.set==='starter'&&c.deck==='heist'))return false;
@@ -277,6 +277,7 @@ function filter(){
   if(['beta','topper','retail'].includes(selectedSet)&&c.set!==selectedSet)return false;
   if(choice!=='all'&&c.rarity!==choice)return false;
   if(type!=='all'&&c.type!==type)return false;
+  if(color!=='all'&&String(c.color||'').toLowerCase()!==color)return false;
   if(!q)return true;
   const ids=searchIdentifiers(c);
   if(numberQuery)return ids.some(id=>q.startsWith('b')||q.startsWith('t')||q.startsWith('r')?id.startsWith(q):id.replace(/^[brt]/,'').startsWith(q));
@@ -522,7 +523,7 @@ function render(){
  count.textContent='顯示 '+filtered.length+' 張卡牌';
  if(!items.length){
   const query=search.value.trim();
-  const hint=query?'找不到符合「'+query+'」的卡牌，請檢查關鍵字或調整 SERIES／RARITY 篩選。':'目前沒有符合篩選條件的卡牌，請調整 SERIES 或 RARITY。';
+  const hint=query?'找不到符合「'+query+'」的卡牌，請檢查關鍵字或調整系列、顏色、稀有度等篩選條件。':'目前沒有符合篩選條件的卡牌，請調整系列、顏色或稀有度。';
   const empty=create('p','beta-empty v3-no-results',hint);
   empty.setAttribute('role','status');
   grid.append(empty);
@@ -545,9 +546,10 @@ if(clearSearch)clearSearch.addEventListener('click',()=>{
 });
 syncClearSearch();
 rarity.addEventListener('change',filter);
+colorFilter.addEventListener('change',()=>{colorFilter.dataset.selectedColor=colorFilter.value;filter()});
 typeFilter.addEventListener('change',filter);
 sortSelect.addEventListener('change',filter);
-resetFilters.addEventListener('click',()=>{series.value='all';rarity.value='all';typeFilter.value='all';sortSelect.value='id';filter();});
+resetFilters.addEventListener('click',()=>{series.value='all';rarity.value='all';typeFilter.value='all';colorFilter.value='all';colorFilter.dataset.selectedColor='all';sortSelect.value='id';filter();});
 series.addEventListener('change',filter);
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
