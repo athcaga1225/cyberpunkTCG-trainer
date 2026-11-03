@@ -41,9 +41,9 @@
   const r=actions.sell(state,'player',id);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
- function play(state,id,payment){
+ function play(state,id,payment,opts={}){
   if(!actions)return fail('支付模組未載入');
-  const r=actions.playUnit(state,'player',id,payment);
+  const r=actions.playUnit(state,'player',id,payment,opts);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
  function gear(state,id,payment,targetId){
