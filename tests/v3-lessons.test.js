@@ -28,7 +28,7 @@ for(const card of beta){
  assert(card.ram!=null,'Beta RAM must be provided: '+card.id);
  if(card.type==='Program')assert(card.power==null,'Programs have no printed Power: '+card.id);
  else if(card.type==='Legend'){
-  assert.equal(card.cost!=null,/\\bGo Solo\\b/i.test(card.abilityEnglish),'Legend cost and Go Solo should be consistent: '+card.id);
+  assert.equal(card.cost!=null,/\bGo Solo\b/i.test(card.abilityEnglish),'Legend cost and Go Solo should be consistent: '+card.id);
   assert.equal(card.power!=null,card.cost!=null,'Legend printed Power should match cost availability: '+card.id);
  }else{
   assert(card.cost!=null&&card.power!=null,'Unit/Gear requires cost and printed Power: '+card.id);
