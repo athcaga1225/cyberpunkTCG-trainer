@@ -46,9 +46,19 @@
   const r=actions.playUnit(state,'player',id,payment);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
+ function gear(state,id,payment,targetId){
+  if(!actions)return fail('支付模組未載入');
+  const r=actions.playGear(state,'player',id,payment,targetId);
+  return r.ok?ok(r.state,r.events.join('；')):r;
+ }
+ function program(state,id,payment,opts){
+  if(!actions)return fail('支付模組未載入');
+  const r=actions.playProgram(state,'player',id,payment,opts);
+  return r.ok?ok(r.state,r.events.join('；')):r;
+ }
  function pass(state){
   if(state.turn!=='player'||state.phase!=='main'||state.finished)return fail('只能在自己的主要階段結束回合');
-  const s=copy(state);s.turn='ai';s.phase='opponent';s.step='paused';return ok(s,'本回合結束；對手行動尚未實作。');
+  const s=copy(state);for(const unit of s.player.units)unit.lag=false;s.turn='ai';s.phase='opponent';s.step='paused';return ok(s,'本回合結束；所有己方單位失去 Lag，對手行動尚未實作。');
  }
  function next(state){
   if(state.turn!=='ai'||state.phase!=='opponent')return fail('必須先結束我方回合');
@@ -56,5 +66,5 @@
   if(s.player.gigs.length>=7){s.finished=true;return ok(s,'回合開始持有至少 7 顆委託骰，符合一般勝利條件。')}
   return ok(s,'開始下一個我方回合（對手行動在此練習中略過）。');
  }
- return {fresh,ready,draw,roll,sell,play,pass,next};
+ return {fresh,ready,draw,roll,sell,play,gear,program,pass,next};
 });
