@@ -2697,8 +2697,19 @@ header nav button.active{font-weight:400}
 #learn .lesson-ref{border-bottom:1px solid #304044;background:transparent}
 #learn .lesson-ref>summary{cursor:pointer;list-style:none;padding:18px 4px;display:flex;justify-content:space-between;align-items:center;gap:16px;color:#dce6e8}
 #learn .lesson-ref>summary::-webkit-details-marker{display:none}
-#learn .lesson-ref>summary::after{content:'+';font-size:24px;font-weight:300;color:#29ffff;line-height:1}
-#learn .lesson-ref[open]>summary::after{content:'−'}
+#learn .lesson-ref>summary::after{
+  content:'';
+  display:block;
+  width:16px;
+  height:16px;
+  flex:0 0 16px;
+  background:
+    linear-gradient(#29ffff,#29ffff) center / 16px 2px no-repeat,
+    linear-gradient(#29ffff,#29ffff) center / 2px 16px no-repeat;
+}
+#learn .lesson-ref[open]>summary::after{
+  background:linear-gradient(#29ffff,#29ffff) center / 16px 2px no-repeat;
+}
 #learn .lesson-ref>summary span{display:flex;flex-direction:column;gap:4px}
 #learn .lesson-ref>summary b{font-size:16px;font-weight:500}
 #learn .lesson-ref>summary small{font-size:13px;color:#94a3a7}
