@@ -109,7 +109,7 @@ const localizedCardOverrides={
  'Kiroshi Optics':'喜呂志光學裝置',
  'Reboot Optics':'視覺重啟',
  'Animals Wrecker':'蠻獸派攻擊種',
- 'Japantown Jonin':'日本城上忍',
+ 'Japantown Jonin':'日本城精銳',
  'Octant':'南極座',
  'Trauma Team Operatives':'搶救團隊隊員',
  'Overwatch: Panam\'s Gift':'掩護：帕娜的贈禮',
