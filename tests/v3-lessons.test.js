@@ -114,8 +114,8 @@ assert(special['Meredith Stout: Stone Cold Corpo'].includes('由該對手控制�
 assert(special['The Heist'].includes('可以改為免費打出'),'The Heist must present the free play as alternative to putting Gear in hand');
 // Record each directly checked official Retail page separately from Beta-derived assumptions.
 const sourceVerified=JSON.parse(read('v3/retail-official-verification.json')).entries;
-assert.equal(sourceVerified.length,25,'25 individual Retail printings have independent official snapshots');
-assert.equal(new Set(sourceVerified.map(x=>x.retailId)).size,25,'Official Retail snapshots must have unique printing numbers');
+assert.equal(sourceVerified.length,139,'139 Retail printings checked against the official card pages');
+assert.equal(new Set(sourceVerified.map(x=>x.retailId)).size,139,'Official Retail snapshots must have unique printing numbers');
 const cleanCurrentText=x=>String(x).replaceAll('☆ (Street Cred)','Street Cred').replace(/\s+/g,' ').trim();
 for(const evidence of sourceVerified){
  const item=retail.find(c=>c.id===evidence.retailId);
@@ -130,6 +130,20 @@ for(const evidence of sourceVerified){
 }
 assert(gallerySource.includes("c.set==='retail'&&c.retailNumber==='138'"),'Retail 138 printing alone should show Towerfall artist erratum');
 assert(gallerySource.includes('Dardo Studios'),'Towerfall artist credit corrected per official Oct 28 errata');
+const audit=JSON.parse(read('v3/retail-172-audit.json'));
+assert.equal(audit.entries.length,172);
+assert.equal(new Set(audit.entries.map(c=>c.retailNumber)).size,172);
+for(const [status,n] of Object.entries({'official-page-current-text-checked':139,'official-printing-listed-shared-card-rules':32,'cross-source-card-database':1})){
+ assert.equal(audit.entries.filter(c=>c.verificationStatus===status).length,n);
+}
+for(const c of audit.entries){
+ const item=retail.find(x=>x.id===c.retailNumber),base=betaById.get(c.betaSource);
+ assert(item&&base,'Missing mapped Retail record '+c.retailNumber);
+ assert.equal(c.betaSource,item.betaId);
+ assert.equal(c.currentEnglishRules,base.abilityEnglish);
+ assert.equal(c.cost,base.cost);assert.equal(c.ram,base.ram);assert.equal(c.power,base.power);
+ assert.equal(c.printedNumberDirectlyVerified,sourceVerified.some(x=>x.retailId===c.retailNumber));
+}
 const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
