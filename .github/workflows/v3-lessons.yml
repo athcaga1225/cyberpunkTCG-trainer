@@ -33,5 +33,10 @@ jobs:
         run: node tests/v3-lessons.test.js
       - name: Verify V3 basic turn practice
         run: node tests/v3-turn-practice.test.js
+      - name: Check V3 browser scripts parse
+        run: |
+          node --check v3/turn-practice-ui.js
+          node --check v3/heist-practice.js
+          node --check v3/turn-practice.js
       - name: Verify The Heist real-card payment practice
         run: node tests/v3-heist-practice.test.js
