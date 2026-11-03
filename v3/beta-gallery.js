@@ -79,6 +79,7 @@ const verifiedCharacterNames={
 };
 // V3-only Taiwanese localization refinements; the shared Beta file and V2 remain unchanged.
 const localizedCardOverrides={
+ 'MT0D12 Flathead':'扁頭小型戰鬥機器人',
  'The Relic: Experimental Biochip':'聖物：原型階段生物晶片',
  'Modded Kusanagi':'改 草薙',
  'Modded Muramasa':'改 村正',
@@ -536,6 +537,7 @@ detail.addEventListener('close',()=>{
  root.querySelectorAll('.beta-tile').forEach(el=>el.setAttribute('aria-pressed','false'));
  starter.querySelectorAll('a[data-starter-key]').forEach(el=>el.removeAttribute('aria-current'));
 });
+const resetFilters=document.getElementById('v3FiltersReset');
 const clearSearch=document.getElementById('v3SearchClear');
 const syncClearSearch=()=>{if(clearSearch)clearSearch.hidden=!search.value.length};
 search.addEventListener('input',()=>{syncClearSearch();filter()});
@@ -546,6 +548,16 @@ if(clearSearch)clearSearch.addEventListener('click',()=>{
  search.focus();
 });
 syncClearSearch();
+if(resetFilters)resetFilters.addEventListener('click',()=>{
+ search.value='';
+ series.value='all';
+ colorFilter.value='all';
+ rarity.value='all';
+ typeFilter.value='all';
+ sortSelect.value='id';
+ syncClearSearch();
+ filter();
+});
 rarity.addEventListener('change',filter);
 colorFilter.addEventListener('change',filter);
 typeFilter.addEventListener('change',filter);
