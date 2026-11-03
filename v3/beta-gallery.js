@@ -514,7 +514,7 @@ syncClearSearch();
 rarity.addEventListener('change',filter);
 typeFilter.addEventListener('change',filter);
 sortSelect.addEventListener('change',filter);
-resetFilters.addEventListener('click',()=>{search.value='';series.value='all';rarity.value='all';typeFilter.value='all';sortSelect.value='id';syncClearSearch();filter();});
+resetFilters.addEventListener('click',()=>{series.value='all';rarity.value='all';typeFilter.value='all';sortSelect.value='id';filter();});
 series.addEventListener('change',filter);
 pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render();root.scrollIntoView({block:'start',behavior:'smooth'})});
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
