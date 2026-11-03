@@ -61,10 +61,10 @@ const progressKey='nct-integrated-lessons-v2';
 const toProgress=x=>Math.max(0,Math.min(stages.length,Number.isFinite(Number(x))?Number(x):0));
 let completed=0;
 try{const own=localStorage.getItem(progressKey);const previous=localStorage.getItem('nct-integrated-lessons-v1');completed=toProgress(own!==null?own:(previous!==null?Number(previous)+basics.length:0))}catch{}
-let stage=0,game=null,notice='',passed=false;
+let stage=0,game=null,notice='',passed=false,replaying=false;
 const add=(parent,tag,text,cls)=>{const e=document.createElement(tag);e.textContent=text||'';if(cls)e.className=cls;parent.append(e);return e};
 function save(){try{localStorage.setItem(progressKey,String(completed))}catch{}}
-function load(i){if(i<0||i>=stages.length||i>completed)return;stage=i;game=stages[i].setup();notice='';passed=false;render()}
+function load(i,practiceAgain=false){if(i<0||i>=stages.length||i>completed)return;stage=i;game=stages[i].setup();notice='';passed=false;replaying=practiceAgain;render()}
 function navChapters(){const root=$('chapterNav');if(!root)return;root.replaceChildren();stages.forEach((s,i)=>{const b=add(root,'button',String(i+1).padStart(2,'0'));b.type='button';b.title=lessonInfo[i].title;b.setAttribute('aria-label','第 '+(i+1)+' 課：'+lessonInfo[i].title);if(i===stage)b.setAttribute('aria-current','step');if(i<completed)b.classList.add('completed');b.disabled=i>completed;b.onclick=()=>load(i)})}
 
 function render(){const st=stages[stage],container=$('labStage');if(!container)return;
@@ -76,7 +76,7 @@ const explain=add(container,'div','','chapter-learning');add(explain,'h3','先�
 const question=add(container,'div','','chapter-quiz');add(question,'div','現在試著操作','number');add(question,'p',st.instruction);
 const scoreboard=st.staticQuiz?null:add(container,'div','','arena');
 const panel=(label,who)=>{const div=add(scoreboard,'div','','zone');add(div,'div',label,'number');const p=game[who];add(div,'p','委託骰 '+p.gigs.length+' 顆 · 街頭聲望 '+(R.cred(p.gigs)??'尚無'));add(div,'p','角色：'+(p.units.length?p.units.map(u=>L.cardTitle(u.name)+'（'+R.power(u)+' 戰力 / '+(u.ready?'就緒':'已使用')+(u.lag?'，新登場限制':'')+'）').join('、'):'無'));if(p.gigs.length)add(div,'p',p.gigs.map(d=>L.dieLabel(d.sides)+'：'+d.value+' 點').join(' · '));if(p.fixer.length)add(div,'p','合事佬區：'+p.fixer.map(x=>L.dieLabel(x)).join(' · '));};if(!st.staticQuiz){panel('PLAYER / 你的區域','player');panel('RIVAL / 對手區域','ai');}
-const actions=add(container,'div','','actions');const isDone=passed||stage<completed;
+const actions=add(container,'div','','actions');const isDone=passed||(!replaying&&stage<completed);
 if(!isDone){for(const o of st.options(game)){const b=add(actions,'button',o.label,'btn');b.onclick=()=>{const result=o.run();if(!result.ok){notice=result.reason||'這個操作不符合目前規則，請再試一次。';render();return}
 game=result.state;
 if(o.done(result)){passed=true;completed=Math.max(completed,stage+1);save();notice=(result.events||[]).join('；')+'。答對了，已解鎖下一課。'}
@@ -84,7 +84,7 @@ else notice='這個動作可以執行，但不是這一題要你練習的選擇�
 render()}}}
 else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'muted');if(stage<stages.length-1){const next=add(actions,'button','下一課 →','btn primary');next.onclick=()=>load(stage+1)}else add(actions,'strong','恭喜完成全部 11 課！')}
 const feedback=add(container,'div',notice||'先閱讀上方解說，再選一個操作。','notice');feedback.setAttribute('role','status');
-const bottom=add(container,'div','','chapter-actions');if(stage>0){const prev=add(bottom,'button','← 上一課','btn');prev.onclick=()=>load(stage-1)}const retry=add(bottom,'button','重新練習這一課','btn');retry.onclick=()=>load(stage);if(completed>=stages.length){const reset=add(bottom,'button','重設教學進度','btn');reset.onclick=()=>{completed=0;save();load(0)}}
+const bottom=add(container,'div','','chapter-actions');if(stage>0){const prev=add(bottom,'button','← 上一課','btn');prev.onclick=()=>load(stage-1)}const retry=add(bottom,'button','重新練習這一課','btn');retry.onclick=()=>load(stage,true);if(completed>=stages.length){const reset=add(bottom,'button','重設教學進度','btn');reset.onclick=()=>{completed=0;save();load(0)}}
 add(container,'p','這些是官方規則的局部操作示範，尚未支援完整付費流程、快速反應（Quick）或完整 AI 對局。','muted');
 }
 function cards(){const root=$('verifiedCardList');if(!root)return;root.replaceChildren();for(const card of window.NCT_OFFICIAL_CARDS){const div=add(root,'div','','panel');add(div,'h3',L.cardTitle(card.name)).style.color='#29ffff';add(div,'p',(card.type==='Unit'?'角色單位':card.type==='Gear'?'裝備':card.type)+' · 費用 '+card.cost+' · 戰力 '+card.power+' · RAM '+card.ram);add(div,'p',card.summary);add(div,'small',card.implemented.length?'已支援部分卡牌能力':'卡牌效果尚未加入對戰引擎');const link=add(div,'a','查看官方英文卡牌 ↗');link.href=card.source;link.target='_blank';link.rel='noopener noreferrer';}}
