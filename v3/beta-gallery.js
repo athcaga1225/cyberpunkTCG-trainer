@@ -26,6 +26,17 @@ const samePrintingFamily=(a,b)=>{
  return !!a.abilityZh && normalizedRules(a.abilityZh)===normalizedRules(b.abilityZh);
 };
 const samePrinting=(a,b)=>a.id===b.id&&a.set===b.set&&a.deck===b.deck;
+// V3-only terminology layer: preserve canonical English/rules and the shared Beta JSON.
+// Use the lesson/rulebook vocabulary without conflating actions (Spend/Ready)
+// with states (Spent/Ready). Printed card artwork is never altered.
+const localizedAbilityText=value=>String(value||'')
+ .replaceAll('任務骰','委託骰')
+ .replaceAll('獨闖（Go Solo）','獨武俠（Go Solo）')
+ .replaceAll('阻擋（Blocker）','攔截（Blocker）')
+ .replaceAll('快速（Quick）','快速反應（Quick）')
+ .replaceAll('重置狀態','就緒狀態')
+ .replaceAll('已橫置的','已使用的');
+
 const searchIdentifiers=c=>[c.id,printedNumber(c),c.set==='topper'?'B'+c.id.slice(1):'']
  .filter(Boolean).map(x=>x.toLowerCase().replace(/^β/,'b'));
 // V3-only game-localized character names. Keep the shared Beta JSON and V2 intact.
@@ -311,7 +322,7 @@ function openCard(c){
  }
  const effect=create('section','beta-detail-effect');
  effect.append(create('h4','beta-detail-section-label','EFFECTS / 卡牌能力'));
- effect.append(create('p','beta-ability-text',String(c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。').replaceAll('幻舞','幻智之舞')));
+ effect.append(create('p','beta-ability-text',localizedAbilityText(c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。')));
  
  info.append(effect);
  const links=create('div','beta-detail-links');
@@ -440,7 +451,7 @@ function starterCardFromAnchor(anchor,cards){
   color:source.color||null,rarity:isLegend?'Epic':source.rarity||null,
   tags:source.tags||[],cost:source.cost??null,ram:source.ram??null,power:source.power??null,
   abilityEnglish:source.abilityEnglish||'',
-  abilityZh:source.abilityZh||'尚無校對過的中文規則內容，請參考官方卡牌頁。',
+  abilityZh:localizedAbilityText(source.abilityZh||'尚無校對過的中文規則內容，請參考官方卡牌頁。'),
   canonicalCardId:shared?.id||null,
   starterTextStatus:shared?'same-family-current-reference':'official-current-manual'
  };
@@ -520,7 +531,7 @@ pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render()
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
- const cards=data.cards||[];
+ const cards=(data.cards||[]).map(card=>({...card,abilityZh:localizedAbilityText(card.abilityZh)}));
  // Validate the actual Beta numbering: B005 has two printings (A/B);
  // B172 is not part of this 178-card index. The six T cards are Box Toppers.
  const expectedIds=[
