@@ -7,6 +7,34 @@ const path=require('node:path');
 const root=path.resolve(__dirname,'..');
 const read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const beta=JSON.parse(read('beta-cards.json')).cards;
+// Catalogue integrity: cross-check Retail self-hosted art, Beta links and mechanic fields.
+const retail=JSON.parse(read('v3/retail-printings.json')).cards;
+assert.equal(beta.length,178,'Beta must contain 172 B-numbered variants plus 6 T cards');
+assert.equal(retail.length,172,'Retail must contain 172 distinct printings (005A/005B)');
+assert.equal(new Set(retail.map(c=>c.id)).size,172,'Retail card numbers must be unique');
+const betaById=new Map(beta.map(c=>[c.id,c]));
+assert.equal(betaById.size,178,'Beta IDs must be unique');
+for(const card of retail){
+ assert(card.name && card.id && card.retailImageUrl,'Retail name, ID and local image required: '+card.id);
+ const match=betaById.get(card.betaId);
+ assert(match,'Retail references missing Beta printing: '+card.id);
+ assert.equal(card.name,match.name,'Retail and Beta English card names mismatch: '+card.id);
+ assert(card.retailImageUrl.startsWith('v3/retail-art/'),'Retail must use a self-hosted image: '+card.id);
+ assert(fs.existsSync(path.join(root,card.retailImageUrl)),'Missing Retail image file: '+card.id);
+ assert(fs.statSync(path.join(root,card.retailImageUrl)).size>0,'Empty Retail image file: '+card.id);
+}
+for(const card of beta){
+ assert(card.name&&card.nameZh&&card.abilityEnglish&&card.abilityZh,'Beta card must contain bilingual name and ability: '+card.id);
+ assert(card.ram!=null,'Beta RAM must be provided: '+card.id);
+ if(card.type==='Program')assert(card.power==null,'Programs have no printed Power: '+card.id);
+ else if(card.type==='Legend'){
+  assert.equal(card.cost!=null,/\\bGo Solo\\b/i.test(card.abilityEnglish),'Legend cost and Go Solo should be consistent: '+card.id);
+  assert.equal(card.power!=null,card.cost!=null,'Legend printed Power should match cost availability: '+card.id);
+ }else{
+  assert(card.cost!=null&&card.power!=null,'Unit/Gear requires cost and printed Power: '+card.id);
+ }
+}
+
 const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
