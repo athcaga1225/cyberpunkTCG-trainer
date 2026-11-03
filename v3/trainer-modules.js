@@ -37,7 +37,7 @@ const stages=[
  {title:'08 / 裝備提高戰力',instruction:'牛頭怪（Minotaur）原本有 9 點戰力；裝上螳螂刀（Mantis Blades）增加 2 點，變成 11 點戰力。戰力達 10，可在一次攻擊中搶走兩顆委託骰。',setup:()=>state({units:[unit('m','Minotaur',9,true,{gear:[{name:'Mantis Blades',power:2}]})]},{gigs:[dice('g1',4,1),dice('g2',6,2),dice('g3',8,3)]}),
   options:s=>[{label:'搶走四面骰（d4）與六面骰（d6）',run:()=>R.attack(s,'player','m',{kind:'gig'},{dieIds:['g1','g2']}),done:()=>true},{label:'只搶八面骰（d8）',run:()=>R.attack(s,'player','m',{kind:'gig'},{dieIds:['g3']}),done:()=>false}]},
  {title:'09 / 攔截對手的攻擊',instruction:'對手有一張就緒（直立）的二手蜂型機器人（Secondhand Bombus），具備攔截（Blocker）能力。對手可以把它橫置，使攻擊轉向它，改成角色交戰（Fight），這次便搶不到委託骰。',setup:()=>state({units:[unit('f','Field Operator',2)]},{units:[unit('b','Secondhand Bombus',0,true,{blocker:true})],gigs:[dice('g1',4,4)]}),
-  options:s=>[{label:'對手使用攔截能力',run:()=>R.attack(s,'player','f',{kind:'gig'},{blockWithId:'b'}),done:r=>r.ok&&r.state.player.gigs.length===0&&r.state.ai.gigs.some(d=>d.id==='g1')&&!r.state.ai.units.some(u=>u.id==='b'&&u.ready)},{label:'對手選擇不攔截',run:()=>R.attack(s,'player','f',{kind:'gig'}),done:()=>false}]},
+  options:s=>[{label:'對手使用攔截能力',run:()=>R.attack(s,'player','f',{kind:'gig'},{blockWithId:'b'}),done:r=>r.ok&&r.state.player.gigs.length===0&&r.state.ai.gigs.some(d=>d.id==='g1')&&!r.state.ai.units.some(u=>u.id==='b'&&u.ready)},{label:'對手選擇不攔截',run:()=>R.attack(s,'player','f',{kind:'gig'}),done:()=>false,hint:'不攔截也符合規則，但這樣攻擊會成功搶走委託骰。本課要練習的是使用攔截，使攻擊轉為角色交戰。'}]},
  {title:'10 / 正確判定勝負',instruction:'一般情況下，剛搶到第 7 顆委託骰並不會立刻獲勝。必須等到自己的下一個回合開始時，還持有至少 7 顆才算贏。加時賽規則不同。',setup:()=>state({gigs:[1,2,3,4,5,6,7].map(n=>dice('g'+n,20,n))}),
   options:s=>[{label:'等到自己的下一回合開始再檢查',run:()=>({ok:R.startWin(s,'player'),state:s,events:['回合開始時持有 7 顆委託骰，符合勝利條件']}),done:()=>true},{label:'剛搶到第 7 顆就立即宣布勝利',run:()=>({ok:false,reason:'一般回合必須等到你的下一個回合開始才檢查；只有加時賽才可能立刻獲勝'}),done:()=>false}]},
  {title:'11 / 卡牌登場能力',instruction:'外勤幹員（Field Operator）登場時，如果街頭聲望是偶數，就抽 1 張牌。你有兩顆委託骰，點數是 2 和 4，所以街頭聲望是 6，屬於偶數。',setup:()=>state({gigs:[dice('g1',4,2),dice('g2',6,4)],hand:[],deck:[{name:'測試抽到的卡'}]}),
@@ -72,10 +72,10 @@ try{
   for(let i=0;i<count;i++)completedLessons.add(i);
  }
 }catch{}
-let stage=0,game=null,notice='',passed=false,replaying=false;
+let stage=0,game=null,notice='',feedbackType='',passed=false,replaying=false;
 const add=(parent,tag,text,cls)=>{const e=document.createElement(tag);e.textContent=text||'';if(cls)e.className=cls;parent.append(e);return e};
 function save(){try{localStorage.setItem(progressKey,JSON.stringify([...completedLessons].sort((a,b)=>a-b)))}catch{}}
-function load(i,practiceAgain=false){if(i<0||i>=stages.length)return;stage=i;game=stages[i].setup();notice='';passed=false;replaying=practiceAgain;render()}
+function load(i,practiceAgain=false){if(i<0||i>=stages.length)return;stage=i;game=stages[i].setup();notice='';feedbackType='';passed=false;replaying=practiceAgain;render()}
 function navChapters(){const root=$('chapterNav');if(!root)return;root.replaceChildren();stages.forEach((s,i)=>{const b=add(root,'button',String(i+1).padStart(2,'0'));b.type='button';b.title=lessonInfo[i].title;b.setAttribute('aria-label','第 '+(i+1)+' 課：'+lessonInfo[i].title);if(i===stage)b.setAttribute('aria-current','step');if(completedLessons.has(i))b.classList.add('completed');b.onclick=()=>load(i)})}
 
 function render(){const st=stages[stage],container=$('labStage');if(!container)return;
@@ -120,12 +120,12 @@ const question=add(container,'div','','chapter-quiz');add(question,'div','現在
 const scoreboard=st.staticQuiz?null:add(container,'div','','arena');
 const panel=(label,who)=>{const div=add(scoreboard,'div','','zone');add(div,'div',label,'number');const p=game[who];add(div,'p','委託骰 '+p.gigs.length+' 顆 · 街頭聲望 '+(R.cred(p.gigs)??'尚無'));add(div,'p','角色：'+(p.units.length?p.units.map(u=>L.cardTitle(u.name)+'（'+R.power(u)+' 戰力 / '+(u.ready?'就緒':'已使用')+(u.lag?'，新登場限制':'')+'）').join('、'):'無'));if(p.gigs.length)add(div,'p',p.gigs.map(d=>L.dieLabel(d.sides)+'：'+d.value+' 點').join(' · '));if(p.fixer.length)add(div,'p','合事佬區：'+p.fixer.map(x=>L.dieLabel(x)).join(' · '));};if(!st.staticQuiz){panel('PLAYER / 你的區域','player');panel('RIVAL / 對手區域','ai');}
 const actions=add(container,'div','','actions');const isDone=passed;
-if(!isDone){for(const o of st.options(game)){const b=add(actions,'button',o.label,'btn');b.onclick=()=>{const result=o.run();if(!result.ok){notice=result.reason||'這個操作不符合目前規則，請再試一次。';render();return}
-if(o.done(result)){game=result.state;passed=true;completedLessons.add(stage);save();notice=(result.events||[]).join('；')}
-else{game=st.setup();notice='這個操作在規則上可以執行，但不符合本課的練習目標。場面已還原，請再選一次。'}
+if(!isDone){for(const o of st.options(game)){const b=add(actions,'button',o.label,'btn');b.onclick=()=>{const result=o.run();if(!result.ok){feedbackType='error';notice=result.reason||'這個操作不符合目前規則，請再試一次。';render();return}
+if(o.done(result)){game=result.state;passed=true;completedLessons.add(stage);save();feedbackType='success';notice=(result.events||[]).join('；')}
+else{game=st.setup();feedbackType='error';notice=o.hint||'這個操作在規則上可以執行，但不符合本課的練習目標。';notice+=' 場面已還原，請再選一次。'}
 render()}}}
 else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'muted');if(stage===stages.length-1)add(actions,'strong',completedLessons.size===stages.length?'恭喜完成全部 11 課！':'已完成第 11 課，可自由選擇其他課程。')}
-if(notice){const feedback=add(container,'div',notice,'notice');feedback.setAttribute('role','status')}
+if(notice){const feedback=add(container,'div','','notice lesson-feedback '+(feedbackType==='success'?'is-success':'is-error'));feedback.setAttribute('role','status');add(feedback,'strong',feedbackType==='success'?'操作正確':'請再試一次','lesson-feedback-title');add(feedback,'p',notice,'lesson-feedback-detail')}
 const bottom=add(container,'div','','chapter-actions');
 if(isDone){const retry=add(bottom,'button','重新練習這一課 ↻','btn');retry.onclick=()=>load(stage,true)}
 if(isDone&&stage<stages.length-1){const next=add(bottom,'button','下一課 →','btn primary');next.onclick=()=>load(stage+1)}
