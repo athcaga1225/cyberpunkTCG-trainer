@@ -98,7 +98,7 @@ assert(betaById.get('B061').abilityEnglish.includes('Equip to a friendly Unit or
 assert(gallerySource.includes('const PAGE_SIZE=25;'),'Catalogue must display 25 cards on each full page');
 assert.equal(Math.ceil(beta.length/25),8,'178 Beta printings must span 8 pages with 25 per full page');
 assert.equal(beta.length-25*7,3,'Last Beta-only page contains 3 cards');
-const reviewedRows=read('v3/ability-audit-2026-11-03.md').split('\n').filter(line=>/^\| (?:B\d{3}[AB]?|T\d{3}) \|/.test(line));
+const reviewedRows=read('v3/ability-audit-2026-11-03.md').split('## 逐張核對清單')[1].split('## 下一個驗證門檻')[0].split('\n').filter(line=>/^\| (?:B\d{3}[AB]?|T\d{3}) \|/.test(line));
 assert.equal(reviewedRows.length,178,'Audit document must include each of 178 printings');
 const reviewIds=reviewedRows.map(line=>line.split('|')[1].trim());
 assert.equal(new Set(reviewIds).size,178,'Audit must not duplicate a printing');
