@@ -58,11 +58,11 @@
  }
  function pass(state){
   if(state.turn!=='player'||state.phase!=='main'||state.finished)return fail('只能在自己的主要階段結束回合');
-  const s=copy(state);for(const unit of s.player.units)unit.lag=false;s.turn='ai';s.phase='opponent';s.step='paused';return ok(s,'本回合結束；所有己方單位失去 Lag，對手行動尚未實作。');
+  const s=copy(state);for(const unit of s.player.units)unit.lag=false;for(const side of ['player','ai'])for(const unit of s[side].units){unit.tempPowerModifier=0;}s.turn='ai';s.phase='opponent';s.step='paused';return ok(s,'本回合結束；所有己方單位失去 Lag，對手行動尚未實作。');
  }
  function next(state){
   if(state.turn!=='ai'||state.phase!=='opponent')return fail('必須先結束我方回合');
-  const s=copy(state);s.turn='player';s.phase='start';s.step='ready';s.round+=1;s.player.soldThisTurn=false;
+  const s=copy(state);s.turn='player';s.phase='start';s.step='ready';s.round+=1;s.player.soldThisTurn=false;for(const u of s.ai.units)if(u.trainingTarget)u.ready=true;
   if(s.player.gigs.length>=7){s.finished=true;return ok(s,'回合開始持有至少 7 顆委託骰，符合一般勝利條件。')}
   return ok(s,'開始下一個我方回合（對手行動在此練習中略過）。');
  }
