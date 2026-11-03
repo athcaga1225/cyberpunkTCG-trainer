@@ -90,4 +90,40 @@ assert(neutral.ok&&neutral.state.player.deck.length===deckBefore,'One Gig cannot
 /* Invalid source must be rejected without exception. */
 const A=require('../v3/battle-actions.js');
 assert.equal(A.pay(g,'player',1,[null]).ok,false);
+/* Stage 2: official passive card facts and exact controller targeting. */
+assert.equal(H.byName.get('MT0D12 Flathead').unimplementedEffect,false,'Flathead is playable before attack timing exists');
+assert.equal(H.byName.get('MT0D12 Flathead').power,7);
+assert.equal(H.byName.get('MT0D12 Flathead').deferredEffect,true,'Flathead unblockable condition awaits combat');
+assert.equal(H.byName.get('Secondhand Bombus').blocker,true);
+assert.equal(H.byName.get('Mandibular Upgrade').blocker,true);
+const stats=A.unitStats(g.player.units[0]);
+assert.equal(stats.power,1,'Kiroshi +1 Power applies to the attached Bombus');
+assert.equal(stats.blocker,true,'Bombus retains Blocker');
+const gearTarget={name:'Psycho Squad',power:6,gear:[{name:'Mandibular Upgrade',power:0,blocker:true}]};
+assert.deepEqual(A.unitStats(gearTarget),{power:6,blocker:true,cannotBeBlockedIfLowerCred:false});
+let flat=H.fresh();flat.turn='player';flat.phase='main';
+const flatCard=flat.player.deck.find(x=>x.name==='MT0D12 Flathead');
+flat.player.hand.push({...flatCard,id:'manual-flathead'});
+flat.player.eddies=Array.from({length:5},(_,i)=>({id:'cash-'+i,ready:true}));
+const flatPay=flat.player.eddies.map(c=>({kind:'eddie',id:c.id}));
+const playedFlat=P.play(flat,'manual-flathead',flatPay);
+assert(playedFlat.ok&&playedFlat.state.player.units.at(-1).cannotBeBlockedIfLowerCred,'Flathead can enter with deferred combat passive');
+/* Gig IDs are not unique across opponents: adjusting ai:gig-1 must not adjust player:gig-1. */
+let rival=H.fresh();rival.turn='player';rival.phase='main';
+rival.player.eddies=[{id:'cash',ready:true}];
+rival.player.hand.push({...H.byName.get("Afterparty at Lizzie's"),id:'versus'});
+rival.player.gigs=[{id:'gig-1',sides:4,value:2}];
+rival.ai.gigs=[{id:'gig-1',sides:6,value:4}];
+assert.equal(P.program(rival,'versus',[{kind:'eddie',id:'cash'}],{side:'opponent',gigId:'gig-1',delta:1}).ok,false,'Unknown controller rejected');
+const rivalResult=P.program(rival,'versus',[{kind:'eddie',id:'cash'}],{side:'ai',gigId:'gig-1',delta:1});
+assert(rivalResult.ok,'Adjusting rival Gig is valid');
+assert.equal(rivalResult.state.ai.gigs[0].value,5);
+assert.equal(rivalResult.state.player.gigs[0].value,2);
+assert.equal(rival.player.eddies[0].ready,true,'Rejecting invalid target must not spend payment');
+const edge=H.fresh();edge.turn='player';edge.phase='main';
+edge.player.eddies=[{id:'cash',ready:true}];
+edge.player.hand.push({...H.byName.get("Afterparty at Lizzie's"),id:'boundary'});
+edge.player.gigs=[{id:'gig-1',sides:4,value:4}];
+assert.equal(P.program(edge,'boundary',[{kind:'eddie',id:'cash'}],{side:'player',gigId:'gig-1',delta:1}).ok,false,'Cannot exceed a die maximum');
+assert.equal(edge.player.eddies[0].ready,true);
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
