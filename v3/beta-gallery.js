@@ -343,6 +343,9 @@ function openCard(c){
   const errata=create('p','beta-errata-notice','官方勘誤：這張 Beta Iconic 版本的可變賣（Sell）標記為誤印，遊戲中不能變賣為 1 €$。');
   effect.append(errata);
  }
+ if(c.set==='retail'&&c.retailNumber==='138'){
+  effect.append(create('p','beta-errata-notice','官方勘誤：Retail 138《Towerfall》的繪師署名誤植為 Mooncolony，正確為 Dardo Studios；卡牌能力與數值未更動。'));
+ }
  info.append(effect);
  const links=create('div','beta-detail-links');
  const addSourceLink=(href,label)=>{
