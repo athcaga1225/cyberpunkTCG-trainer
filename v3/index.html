@@ -2540,7 +2540,7 @@ header nav button.active{font-weight:400}
 /* V3 search/filter layout: keep the existing dropdown arrow, inset, colors and focus styling. */
 #decks #betaCardCollection .v3-filter-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 14px}
 #decks #betaCardCollection .v3-filter-title{font-size:18px;font-weight:500;color:#eff8f9}
-#decks #v3FiltersReset{border:1px solid #42606a;border-radius:4px;background:transparent;color:#abc4c9;font:inherit;font-size:12px;padding:9px 12px;cursor:pointer}
+#decks #v3FiltersReset{border:1px solid #42606a;border-radius:4px;background:transparent;color:#abc4c9;font:inherit;font-size:14px;padding:9px 12px;cursor:pointer}
 #decks #v3FiltersReset:hover{color:#29ffff;border-color:#29ffff}
 #decks #betaCardCollection .beta-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 14px;margin:0 0 22px}
 #decks #betaCardCollection .beta-filters label{min-width:0;grid-column:auto;gap:9px}
@@ -2555,7 +2555,7 @@ header nav button.active{font-weight:400}
 /* Desktop: one full-width search row, followed by four equal filter columns. */
 @media(min-width:900px){
  #decks #betaCardCollection .beta-filters{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:14px;row-gap:10px}
- #decks #betaCardCollection .beta-filters .v3-search-row{grid-column:1/-1}
+ #decks #betaCardCollection .beta-filters .v3-search-row{grid-column:1/-1;width:100%;max-width:920px}
  #decks #betaCardCollection .beta-filters label{gap:5px}
 }
 
