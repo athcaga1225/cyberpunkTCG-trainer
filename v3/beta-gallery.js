@@ -35,7 +35,18 @@ const localizedAbilityText=value=>String(value||'')
  .replaceAll('阻擋（Blocker）','攔截（Blocker）')
  .replaceAll('快速（Quick）','快速反應（Quick）')
  .replaceAll('重置狀態','就緒狀態')
- .replaceAll('已橫置的','已使用的');
+ .replaceAll('已重置的','就緒的')
+ .replaceAll('已橫置狀態','已使用狀態')
+ .replaceAll('已橫置的','已使用的')
+ .replaceAll('任務骰區','委託區');
+ 
+// Two choice cards must resolve BOTH effects when their printed condition is met.
+// Keep these correction texts scoped to V3, and preserve the checked card names.
+const correctedAbilityByName={
+ 'Pyramid Song':'選擇一項效果。若友方四面骰（d4）是最低點數的委託骰，則改為兩項都執行：① 本回合使一個對手單位戰力 -4；② 將一個戰力為 0 的對手單位放到其牌庫底部。',
+ 'Towerfall':'選擇一項效果。若你的街頭聲望低於對手，則改為兩項都執行：① 本回合使所有對手單位戰力 -5；② 將所有戰力為 0 的對手單位放到其牌庫底部。'
+};
+const localizedAbilityForCard=card=>correctedAbilityByName[card.name]||localizedAbilityText(card.abilityZh);
 
 const searchIdentifiers=c=>[c.id,printedNumber(c),c.set==='topper'?'B'+c.id.slice(1):'']
  .filter(Boolean).map(x=>x.toLowerCase().replace(/^β/,'b'));
@@ -531,7 +542,7 @@ pageSelect.addEventListener('change',()=>{page=Number(pageSelect.value);render()
 prev.addEventListener('click',()=>{if(page>0){page--;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 next.addEventListener('click',()=>{if((page+1)*PAGE_SIZE<filtered.length){page++;render();root.scrollIntoView({block:'start',behavior:'smooth'})}});
 fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(data=>{
- const cards=(data.cards||[]).map(card=>({...card,abilityZh:localizedAbilityText(card.abilityZh)}));
+ const cards=(data.cards||[]).map(card=>({...card,abilityZh:localizedAbilityForCard(card)}));
  // Validate the actual Beta numbering: B005 has two printings (A/B);
  // B172 is not part of this 178-card index. The six T cards are Box Toppers.
  const expectedIds=[
