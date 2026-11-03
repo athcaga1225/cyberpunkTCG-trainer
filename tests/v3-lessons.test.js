@@ -35,6 +35,25 @@ for(const card of beta){
  }
 }
 
+// V3-only card ability vocabulary: the shared Beta source and V2 are never rewritten.
+const gallerySource=read('v3/beta-gallery.js');
+const abilityMatch=gallerySource.match(/const localizedAbilityText=value=>([\\s\\S]*?);\\nconst searchIdentifiers/);
+assert(abilityMatch,'V3 ability terminology formatter must be present');
+const formatAbility=vm.runInNewContext('(()=>{const localizedAbilityText=value=>'+abilityMatch[1]+';return localizedAbilityText})()');
+const example='【獨闖（Go Solo）】【阻擋（Blocker）】【快速（Quick）】將一顆任務骰重置。攻擊已橫置的單位。以重置狀態打出。【橫置（Spend）】';
+assert.equal(formatAbility(example),'【獨武俠（Go Solo）】【攔截（Blocker）】【快速反應（Quick）】將一顆委託骰重置。攻擊已使用的單位。以就緒狀態打出。【橫置（Spend）】','Standardize only equivalent card ability terminology while retaining action verbs');
+let impacted=0;
+for(const card of beta){
+ const translated=formatAbility(card.abilityZh);
+ if(translated!==card.abilityZh)impacted++;
+ for(const old of ['任務骰','獨闖（Go Solo）','阻擋（Blocker）','快速（Quick）','重置狀態','已橫置的']){
+  assert(!translated.includes(old),'Old terminology leaked into V3 card detail: '+card.id+' / '+old);
+ }
+ assert.equal(formatAbility(translated),translated,'Terminology formatter must be idempotent: '+card.id);
+}
+assert(impacted>=79,'At least the 79 historical Gig Die translations must be standardized');
+assert(gallerySource.includes('localizedAbilityText(c.abilityZh'),'Card detail must display the standardized wording');
+assert(gallerySource.includes('abilityZh:localizedAbilityText(source.abilityZh'),'Starter cards must use the standardized wording');
 const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
