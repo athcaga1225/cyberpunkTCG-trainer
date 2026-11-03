@@ -2922,6 +2922,41 @@ header nav button.active{font-weight:400}
   font-size:16px;
   font-weight:600;
 }
+
+/* LEARN / tabletop dice labels: readable on desktop and mobile. */
+#learn #tableOrientation .field-map-die{
+  font-family:var(--learn-font,system-ui,sans-serif);
+  font-size:14px;
+  font-weight:600;
+  line-height:1.35;
+  gap:8px;
+}
+#learn #tableOrientation .field-map-die span{
+  min-width:30px;
+  white-space:nowrap;
+}
+#learn #tableOrientation .field-die-label{
+  gap:10px;
+  padding:13px 8px;
+  min-width:0;
+}
+#learn #tableOrientation .field-die-label strong{
+  font-family:var(--learn-font,system-ui,sans-serif);
+  font-size:16px;
+  line-height:1.4;
+  font-weight:600;
+}
+#learn #tableOrientation .field-die-label small{
+  font-family:var(--learn-font,system-ui,sans-serif);
+  font-size:14px;
+  line-height:1.4;
+  font-weight:400;
+}
+@media(max-width:600px){
+  #learn #tableOrientation .field-map-die{font-size:14px}
+  #learn #tableOrientation .field-die-label{gap:8px;padding:12px 7px}
+  #learn #tableOrientation .field-die-label svg{width:30px;height:30px;flex-basis:30px}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
