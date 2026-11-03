@@ -189,6 +189,7 @@ const context={window,document:{
  setItem:(k,v)=>storage.set(k,v)
 },console};
 window.NCTRules=require('../rules-core.js');
+window.NCTV3Actions=require('../v3/battle-actions.js');
 vm.runInNewContext(read('localization.js'),{window,globalThis:window});
 vm.runInNewContext(official,{window});
 window.NCT_OFFICIAL_CARDS=window.NCT_OFFICIAL_CARDS||[];
@@ -199,7 +200,7 @@ const action=(text)=>{const b=buttons().find(x=>x.textContent===text);assert(b,'
 const choose=(n)=>{const a=all(elements.labStage,'div').find(x=>x.className==='actions');assert(a,'Missing quiz choices');const bs=a.children.filter(x=>x.tag==='button');assert(bs[n],'Missing choice '+n);bs[n].onclick();};
 const goto=i=>{const b=elements.chapterNav.children[i];assert(b,'Missing lesson '+(i+1));b.onclick();};
 const progress=()=>JSON.parse(storage.get('nct-integrated-lessons-v3')||'[]');
-assert.equal(elements.chapterNav.children.length,11,'Exactly 11 chapters should be available');
+assert.equal(elements.chapterNav.children.length,12,'Exactly 12 chapters should be available');
 assert(!all(elements.labStage,'span').some(x=>x.textContent.includes('已完成 ')&&x.textContent.includes(' 課')),'No redundant completed-lesson count beside lesson label');
 assert(!buttons().some(x=>x.textContent==='← 上一課'),'Previous lesson button must not appear');
 goto(5);
@@ -230,7 +231,7 @@ for(const [i,color] of ['紅色','綠色','藍色','黃色'].entries()){
  assert.equal(colorPanels.filter(p=>p.style.display==='block').length,1,'Only one visible description');
 }
 assert.equal(explanations.size,4,'Different content for each color');
-for(let i=0;i<11;i++){assert.equal(typeof elements.chapterNav.children[i].onclick,'function','Chapter must be freely selectable: '+i);}
+for(let i=0;i<12;i++){assert.equal(typeof elements.chapterNav.children[i].onclick,'function','Chapter must be freely selectable: '+i);}
 goto(5);
 choose(0);
 assert.equal(progress().length,0,'Invalid attack must not pass lesson 06');
@@ -244,12 +245,12 @@ assert(progress().includes(5),'Retry must preserve recorded completion');
 goto(5);
 assert(!all(elements.labStage,'strong').some(x=>x.textContent.includes('本課已通過')),'Revisiting a completed lesson should allow a fresh attempt');
 assert(all(elements.labStage,'button').some(x=>x.textContent.includes('攻擊對手已使用的角色')),'Completed lesson must still display question choices');
-const correct=[0,0,0,0,0,1,0,0,0,0,0];
-const incorrect=new Map([[0,1],[1,1],[2,1],[3,1],[4,2],[5,2],[7,1],[8,1],[9,1],[10,1]]);
+const correct=[0,0,0,0,0,1,0,0,0,0,0,0];
+const incorrect=new Map([[0,1],[1,1],[2,1],[3,1],[4,2],[5,2],[7,1],[8,1],[9,1],[10,1],[11,1]]);
 const notice=()=>all(elements.labStage,'div').find(x=>x.className.includes('lesson-feedback'));
 const feedbackDetail=()=>notice()?.children.find(x=>x.className==='lesson-feedback-detail')?.textContent||'';
 const feedbackTitle=()=>notice()?.children.find(x=>x.className==='lesson-feedback-title')?.textContent||'';
-for(let i=0;i<11;i++){
+for(let i=0;i<12;i++){
  goto(i);
  assert(!all(elements.labStage,'strong').some(x=>x.textContent.includes('本課已通過')),'Lesson must not auto-pass on navigation: '+i);
  if(incorrect.has(i)){
@@ -264,6 +265,13 @@ for(let i=0;i<11;i++){
   assert(all(elements.labStage,'div').find(x=>x.className==='actions')?.children.some(x=>x.tag==='button'),'Wrong answer keeps exercise choices available: '+i);
  }
  choose(correct[i]);
+ if(i===11){
+  assert(!progress().includes(i),'Lesson 12 requires both payment steps');
+  assert.equal(all(elements.labStage,'div').find(x=>x.className==='actions').children.filter(x=>x.tag==='button').length,2,'Second stage also offers two choices');
+  choose(1);
+  assert(!progress().includes(i),'Cannot sell twice in the same turn');
+  choose(0);
+ }
  assert(progress().includes(i),'Lesson '+(i+1)+' must be completable');
  assert(notice()?.className.includes('is-success'),'Correct answer must render success feedback: '+i);
  assert.equal(feedbackTitle(),'操作正確','Correct answer heading: '+i);
@@ -272,7 +280,7 @@ for(let i=0;i<11;i++){
  }
  if(i===0){assert(feedbackDetail().includes('事前準備正確：'),'Correct answer explanation remains');assert(!feedbackDetail().includes('答對了，已記錄本課完成進度'),'Redundant success suffix removed');assert(!feedbackDetail().includes('。。'),'No doubled sentence punctuation');}
 }
-assert.equal(progress().length,11,'All eleven lessons must complete independently');
+assert.equal(progress().length,12,'All twelve lessons must complete independently');
 // Lesson 07 intentionally has two valid gig targets; both are correct.
 goto(6);
 choose(1);
@@ -282,6 +290,6 @@ goto(10);
 assert(all(elements.labStage,'button').some(b=>b.textContent==='重設教學進度'),'Reset should appear after all completed');
 action('重設教學進度');
 assert.equal(progress().length,0,'Reset clears lesson progress');
-assert.equal(elements.chapterNav.children.length,11,'Reset preserves free navigation');
-console.log('PASS: 11 lessons, invalid choices, free navigation, retry, progress and reset');
+assert.equal(elements.chapterNav.children.length,12,'Reset preserves free navigation');
+console.log('PASS: 12 lessons, invalid choices, free navigation, retry, progress and reset');
 console.log('PASS: five named cards and four Beta Chinese names match canonical card datasets');
