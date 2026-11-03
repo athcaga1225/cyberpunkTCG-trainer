@@ -10,7 +10,7 @@ const search=document.getElementById('betaSearch'),rarity=document.getElementByI
 const grid=document.getElementById('betaResults'),count=document.getElementById('betaCount');
 const pages=document.getElementById('betaPages'),pageSelect=document.getElementById('betaPageSelect'),prev=document.getElementById('betaPrevious'),next=document.getElementById('betaNext');
 const status=document.getElementById('betaLoadStatus'),detail=document.getElementById('betaCardDetail'),detailBody=document.getElementById('betaCardDetailBody');
-const PAGE_SIZE=24;
+const PAGE_SIZE=25;
 let all=[],starterCards=[],filtered=[],page=0;
 // Match printings by normalized official English name and verified gameplay
 // identity. English accents vary across catalog sources (Álvarez / Alvarez),
