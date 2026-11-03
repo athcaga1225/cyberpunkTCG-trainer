@@ -172,4 +172,31 @@ for(const [name,cost,power] of [["Dying Night: V's Pistol",2,2],['Tetratronic Ri
  assert.equal(A.unitStats(r.state.player.units[0]).power,6+power);
  assert.equal(r.state.player.units[0].gear.length,1);
 }
+/* Heywood: optional defeat, Gear is trashed by its controller, and matching Gig draws. */
+let hh=H.fresh();hh.turn='player';hh.phase='main';
+hh.player.hand.push({...H.byName.get('Heywood Ripperdoc'),id:'ripper'});
+hh.player.eddies=Array.from({length:6},(_,i)=>({id:'cash-'+i,ready:true}));
+hh.player.gigs=[{id:'gig-1',sides:4,value:1}];
+hh.ai.units=[{id:'rival-unit',name:'Opponent test unit',power:4,ready:true,gear:[{id:'rival-gear',name:'Kiroshi Optics',type:'Gear',cost:1,power:1}]}];
+const gearPayment=hh.player.eddies.map(x=>({kind:'eddie',id:x.id}));
+assert.equal(P.play(hh,'ripper',gearPayment,{gearTargetId:'bad',gearSide:'ai'}).ok,false);
+assert.equal(hh.player.eddies.every(x=>x.ready),true,'Invalid optional Gear target cannot spend resources');
+const hhHand=hh.player.hand.length,hhDeck=hh.player.deck.length;
+const hhResult=P.play(hh,'ripper',gearPayment,{gearTargetId:'rival-gear',gearSide:'ai'});
+assert(hhResult.ok);
+assert.equal(hhResult.state.ai.units[0].gear.length,0);
+assert.equal(hhResult.state.ai.trash[0].id,'rival-gear');
+assert.equal(hhResult.state.player.deck.length,hhDeck-1,'Matched own Gig draws 1');
+assert.equal(hhResult.state.player.hand.length,hhHand,'Unit leaves hand and conditional draw replaces it');
+/* Malfini: spend itself plus one ready rival Unit; disallow missing target. */
+let mm=H.fresh();mm.turn='player';mm.phase='main';
+mm.player.hand.push({...H.byName.get('Offduty Malfini'),id:'malfini'});
+mm.player.eddies=Array.from({length:4},(_,i)=>({id:'m-'+i,ready:true}));
+mm.ai.units=[{id:'rival-ready',name:'Rival',ready:true,power:2}];
+const malPay=mm.player.eddies.map(x=>({kind:'eddie',id:x.id}));
+assert.equal(P.play(mm,'malfini',malPay).ok,false,'A rival ready unit must be selected');
+assert.equal(mm.player.eddies[0].ready,true);
+const mal=P.play(mm,'malfini',malPay,{rivalUnitId:'rival-ready'});
+assert(mal.ok);assert.equal(mal.state.player.units.at(-1).ready,false);
+assert.equal(mal.state.ai.units[0].ready,false);
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
