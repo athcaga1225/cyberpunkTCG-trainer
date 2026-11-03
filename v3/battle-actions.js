@@ -28,18 +28,30 @@
   const s=clone(state),q=s[who];for(const src of sources)(src.kind==="eddie"?q.eddies:q.legends).find(x=>x.id===src.id).ready=false;
   return success(s,["支付 "+cost+" €$（Eddies／傳奇卡）"]);
  }
- function playUnit(state,who,cardId,sources){
+ function playUnit(state,who,cardId,sources,opts={}){
   const p=player(state,who);if(!p)return fail("玩家資料不完整");
   if(state.turn!==who||state.phase!=="main")return fail("只能在自己的主要階段打出一般單位");
   const c=p.hand.find(x=>x.id===cardId);
   if(!c||c.type!=="Unit")return fail("找不到可從手牌打出的單位卡");
   if(!Number.isSafeInteger(c.cost)||c.cost<0)return fail("單位費用資料無效");
   if(c.requiresTarget||c.playRestriction||c.unimplementedEffect)return fail("這張卡有尚未支援的額外出牌條件或能力，不能自動結算");
+  let gigTarget=null,side=who,delta=0;
+  if(c.onPlayGigAdjust){
+   if(!opts||typeof opts!=="object"||!Number.isInteger(opts.delta??0)||Math.abs(opts.delta??0)>1)return fail("請選擇有效的委託骰調整值");
+   delta=opts.delta??0;side=opts.side||who;
+   if(delta!==0){
+    if(![who,who==="player"?"ai":"player"].includes(side))return fail("委託骰控制者無效");
+    const pool=state[side]?.gigs;
+    gigTarget=Array.isArray(pool)?pool.find(g=>g.id===opts.gigId):null;
+    if(!gigTarget||!Number.isInteger(gigTarget.value)||!Number.isInteger(gigTarget.sides)||gigTarget.value+delta<1||gigTarget.value+delta>gigTarget.sides)return fail("無效的委託骰目標或調整點數");
+   }
+  }
   const payment=pay(state,who,c.cost,sources);if(!payment.ok)return payment;
   const s=payment.state,q=s[who],i=q.hand.findIndex(x=>x.id===cardId);
   q.hand.splice(i,1);
   q.units.push({...c,ready:true,lag:true,gear:[]});
-  return success(s,[...payment.events,"打出 "+c.name+"（Ready，帶有 Lag）"]);
+  if(gigTarget)s[side].gigs.find(g=>g.id===opts.gigId).value+=delta;
+  return success(s,[...payment.events,"打出 "+c.name+"（Ready，帶有 Lag）",...(c.onPlayGigAdjust?["登場調整委託骰 "+(delta>0?"+":"")+delta]:[])]);
  }
 
  // Read-only derived stats: equipment modifies Power, and Blocker is inherited.
