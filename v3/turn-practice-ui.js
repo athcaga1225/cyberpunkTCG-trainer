@@ -73,7 +73,14 @@ function paymentOptions(parent){
 function render(){
  const supported=picker.value==='theHeist';
  root.replaceChildren();
- if(!supported){add('p','目前只有 The Heist 已接入實際手牌與支付練習。Embracing Power 仍保留原本卡圖預覽。',root,'v3-turn-note');return}
+ if(!supported){
+  board.querySelectorAll('[data-practice-indicator]').forEach(el=>el.remove());
+  const slots=board.querySelector('.player-field .field-slots');
+  if(slots){slots.replaceChildren();['己方角色','己方角色','裝備'].forEach(label=>add('div',label,slots))}
+  if($('battlePreviewStatus'))$('battlePreviewStatus').textContent='Embracing Power 目前仍為卡圖預覽，尚未接入實際回合練習。';
+  add('p','目前只有 The Heist 已接入實際手牌與支付練習。Embracing Power 仍保留原本卡圖預覽。',root,'v3-turn-note');
+  return;
+ }
  const p=state.player;
  renderHand();renderField();
  const header=add('div','',root,'v3-turn-header');
