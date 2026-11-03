@@ -84,6 +84,7 @@ assert(special['Pyramid Song'].includes('兩項都執行')&&special['Pyramid Son
 assert(special['Towerfall'].includes('兩項都執行')&&special['Towerfall'].includes('②'),'Towerfall must apply both effects when Street Cred condition holds');
 assert(gallerySource.includes('abilityZh:localizedAbilityForCard(card)'),'Special rules corrections must reach Beta and Retail detail views');
 assert.equal(formatAbility('處於已橫置狀態，將已重置的單位放到任務骰區'), '處於已使用狀態，將就緒的單位放到委託區','State terms are normalized without changing active verbs');
+assert.equal(formatAbility('攻擊任務骰區，搶走一顆任務骰'),'攻擊委託區，搶走一顆委託骰','Gig area must not become Gig dice area when normalizing terminology');
 const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
