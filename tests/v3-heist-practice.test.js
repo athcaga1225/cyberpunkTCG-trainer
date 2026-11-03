@@ -14,6 +14,11 @@ assert.equal(s.player.legends.filter(x=>x.ready).length,1,'Two legends start spe
 assert(s.player.hand.some(x=>x.name==='Secondhand Bombus'&&x.cost===2&&x.type==='Unit'&&!x.sellTag&&!x.unimplementedEffect));
 assert(s.player.hand.some(x=>x.name==='Kiroshi Optics'&&x.sellTag));
 assert.equal(H.byName.get('Evelyn Parker: Scheming Siren').unimplementedEffect,true,'Do not silently skip effects');
+assert.equal(H.byName.get('Psycho Squad').unimplementedEffect,false,'Vanilla unit is available');
+assert.equal(H.byName.get('Kiroshi Optics').unimplementedEffect,false,'Verified Gear can be equipped');
+assert.equal(H.byName.get('Mandibular Upgrade').unimplementedEffect,false,'Blocker Gear can be equipped');
+assert.equal(H.byName.get("Afterparty at Lizzie's").unimplementedEffect,false,'Verified program can resolve');
+
 assert.equal(H.byName.get('MT0D12 Flathead').sellTag,true,'Unit can have sell tag');
 let r=P.ready(s);assert(r.ok);s=r.state;r=P.draw(s);assert(r.ok);s=r.state;r=P.roll(s,4,3);assert(r.ok);s=r.state;
 const bomb=s.player.hand.find(x=>x.name==='Secondhand Bombus');
@@ -44,4 +49,45 @@ assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
 assert(ui.includes("renderField()"),'UI must update tabletop field cards');
+
+/* Gear requires a valid target, exact payment, and never mutates a rejected state. */
+let g=H.fresh();g.turn='player';g.phase='main';
+const gearCard=g.player.hand.find(c=>c.name==='Kiroshi Optics');
+const gearUnit=g.player.hand.find(c=>c.name==='Secondhand Bombus');
+g.player.eddies.push({id:'cash',ready:true});
+assert.equal(P.gear(g,gearCard.id,[{kind:'eddie',id:'cash'}],'missing').ok,false,'Cannot equip without a valid target');
+assert.equal(g.player.eddies[0].ready,true,'Failed equip must not spend Eddie');
+let deployed=P.play(g,gearUnit.id,[{kind:'eddie',id:'cash'},{kind:'legend',id:'legend-jackie'}]);
+assert(deployed.ok,'Base Unit must deploy');g=deployed.state;
+g.player.eddies[0].ready=true;
+let equipped=P.gear(g,gearCard.id,[{kind:'eddie',id:'cash'}],gearUnit.id);
+assert(equipped.ok,'Kiroshi must attach to Unit');g=equipped.state;
+assert.equal(g.player.units[0].gear.length,1);
+assert.equal(g.player.units[0].gear[0].name,'Kiroshi Optics');
+assert.equal(g.player.eddies[0].ready,false);
+assert.equal(g.player.hand.some(c=>c.id===gearCard.id),false);
+/* Program: adjust selected Gig, draw only if 2 distinct friendly values, then trash. */
+let p=H.fresh();p.turn='player';p.phase='main';
+p.player.hand.push({...H.byName.get("Afterparty at Lizzie's"),id:'test-program'});
+p.player.eddies=[{id:'cash',ready:true}];
+p.player.gigs=[{id:'gig-1',sides:4,value:2},{id:'gig-2',sides:6,value:2}];
+const handBefore=p.player.hand.length;
+assert.equal(P.program(p,'test-program',[{kind:'eddie',id:'cash'}],{gigId:'missing',delta:1}).ok,false);
+let cast=P.program(p,'test-program',[{kind:'eddie',id:'cash'}],{gigId:'gig-2',delta:1});
+assert(cast.ok,'Program must resolve valid target');p=cast.state;
+assert.equal(p.player.gigs[1].value,3);
+assert.equal(p.player.trash.length,1);
+assert.equal(p.player.hand.length,handBefore,'Played card leaves hand and drawing replaces it');
+assert.equal(p.player.eddies[0].ready,false);
+assert.equal(P.program(p,'test-program',[{kind:'eddie',id:'cash'}],{delta:0}).ok,false,'Cannot reuse discarded program');
+/* Neutral option is legal, and not every cast draws a card. */
+let p2=H.fresh();p2.turn='player';p2.phase='main';p2.player.eddies=[{id:'cash',ready:true}];
+p2.player.hand.push({...H.byName.get("Afterparty at Lizzie's"),id:'zero-adjust'});
+p2.player.gigs=[{id:'gig-1',sides:4,value:2}];
+const deckBefore=p2.player.deck.length;
+let neutral=P.program(p2,'zero-adjust',[{kind:'eddie',id:'cash'}],{delta:0});
+assert(neutral.ok&&neutral.state.player.deck.length===deckBefore,'One Gig cannot trigger draw');
+/* Invalid source must be rejected without exception. */
+const A=require('../v3/battle-actions.js');
+assert.equal(A.pay(g,'player',1,[null]).ok,false);
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
