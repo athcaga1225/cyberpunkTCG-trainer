@@ -88,32 +88,32 @@ if(stage===0){
  const colors=add(container,'section','','lesson-colors');
  add(colors,'h3','四種顏色的玩法特色','lesson-colors-label');
  const row=add(colors,'div','','lesson-colors-row');
+ const details=add(colors,'div','','lesson-colors-details');
  const items=[
   {name:'紅色',en:'RED',tone:'#f8504a',heading:'強攻與高點數',body:'偏好高戰力、正面擊敗對手，以及提高委託骰點數或搶走高點數骰子。'},
   {name:'綠色',en:'GREEN',tone:'#55b980',heading:'組合與快速攻擊',body:'重視委託骰的點數組合、街頭聲望的奇偶條件，以及讓角色迅速展開攻擊。'},
   {name:'藍色',en:'BLUE',tone:'#42acda',heading:'速駭與干擾',body:'擅長使用程式與幻舞干擾對手，也會運用較低的委託骰點數與街頭聲望。'},
   {name:'黃色',en:'YELLOW',tone:'#e3ba52',heading:'裝備與資源再利用',body:'擅長使用裝備，運用不同點數的委託骰，並透過犧牲與回收資源取得優勢。'}
  ];
- const detail=add(colors,'div','','lesson-color-detail');
- detail.id='lessonColorDescription';
- detail.setAttribute('role','status');
- detail.setAttribute('aria-live','polite');
- const title=add(detail,'strong','','lesson-color-title');
- const body=add(detail,'p','','lesson-color-description');
- const selectColor=i=>{
-  const item=items[i];
-  row.children.forEach((button,index)=>button.setAttribute('aria-pressed',String(index===i)));
-  detail.style.borderLeftColor=item.tone;
-  title.textContent=item.name+' / '+item.en+' — '+item.heading;
-  body.textContent=item.body;
- };
+ const panels=[];
+ const buttons=[];
  items.forEach((item,i)=>{
   const button=add(row,'button',item.name);button.type='button';button.style.borderTopColor=item.tone;
-  button.setAttribute('aria-pressed','false');button.setAttribute('aria-controls',detail.id);
-  button.onclick=()=>selectColor(i);
+  button.setAttribute('aria-pressed',String(i===0));button.setAttribute('aria-controls','lessonColorDescription'+i);
+  buttons.push(button);
+  const panel=add(details,'div','','lesson-color-detail');
+  panel.id='lessonColorDescription'+i;
+  panel.setAttribute('role','region');panel.setAttribute('aria-label',item.name+'玩法說明');
+  panel.style.borderLeftColor=item.tone;
+  panel.style.display=i===0?'block':'none';
+  add(panel,'strong',item.name+' / '+item.en+' — '+item.heading,'lesson-color-title');
+  add(panel,'p',item.body,'lesson-color-description');
+  panels.push(panel);
+  button.onclick=()=>{
+   buttons.forEach((b,j)=>b.setAttribute('aria-pressed',String(i===j)));
+   panels.forEach((p,j)=>{p.style.display=i===j?'block':'none'});
+  };
  });
- selectColor(0);
-
 }
 
 const question=add(container,'div','','chapter-quiz');add(question,'div','現在試著操作','number');add(question,'p',st.instruction);
