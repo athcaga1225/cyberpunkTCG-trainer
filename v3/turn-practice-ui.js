@@ -139,6 +139,7 @@ function render(){
  add('span','委託骰 '+p.gigs.length+' 顆',stats);
  add('span','場地單位 '+p.units.length+' 張',stats);
  add('span','棄牌區 '+(p.trash?.length||0)+' 張',stats);
+ if(p.pendingRebootOptics)add('span','待觸發戰鬥保護 '+p.pendingRebootOptics+' 次（未實裝戰鬥）',stats);
  const chosen=p.hand.find(c=>c.id===selectedId);
  const details=add('div','',root,'v3-selected-detail');
  if(chosen){add('strong',chosen.name,details);add('p',chosen.type+' · COST '+chosen.cost+' · '+(chosen.sellTag?'有變賣標記':'不可變賣')+(chosen.unimplementedEffect?' · 尚未支援出牌效果':chosen.deferredEffect?' · 可登場／裝備，觸發效果待實作':''),details)}
@@ -213,6 +214,11 @@ function render(){
      button.addEventListener('click',()=>{rivalUnitId=unit.id;render()});
     }
     command('支付並執行 Floor It',()=>P.program(state,selectedId,paid,{rivalUnitId}),buttons,!affordable||(rivals.length>0&&!rivalUnitId));
+   }else if(chosen.type==='Program'&&chosen.name==='Reboot Optics'){
+    const area=add('div','',root,'v3-selected-detail');
+    add('strong','Quick：保護下一次戰鬥',area);
+    add('p','此牌可在主要階段打出，會記錄本回合下次對手單位戰鬥的保護效果；目前尚未實作戰鬥結算。',area);
+    command('支付並打出 Reboot Optics',()=>P.program(state,selectedId,paid,{}),buttons,!affordable);
    }
   }
   command('結束我的回合',()=>P.pass(state),buttons);
