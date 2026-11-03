@@ -83,7 +83,7 @@ const special=vm.runInNewContext('('+corrected[1]+')');
 assert(special['Pyramid Song'].includes('兩項都執行')&&special['Pyramid Song'].includes('②'),'Pyramid Song must apply both effects when d4 condition holds');
 assert(special['Towerfall'].includes('兩項都執行')&&special['Towerfall'].includes('②'),'Towerfall must apply both effects when Street Cred condition holds');
 assert(special['Nocturne OP55 N1'].includes('可以使用【獨武俠（Go Solo）】'),'Nocturne must preserve optional Go Solo permission');
-assert(special['Nocturne OP55 N1'].includes('最低仍為 1 €
+assert(special['Nocturne OP55 N1'].includes('最低仍為 1'),'Nocturne retains minimum one Eddie cost');
 assert(gallerySource.includes('abilityZh:localizedAbilityForCard(card)'),'Special rules corrections must reach Beta and Retail detail views');
 assert.equal(formatAbility('處於已橫置狀態，將已重置的單位放到任務骰區'), '處於已使用狀態，將就緒的單位放到委託區','State terms are normalized without changing active verbs');
 assert.equal(formatAbility('攻擊任務骰區，搶走一顆任務骰'),'攻擊委託區，搶走一顆委託骰','Gig area must not become Gig dice area when normalizing terminology');
