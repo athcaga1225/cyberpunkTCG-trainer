@@ -336,7 +336,11 @@ function openCard(c){
  const effect=create('section','beta-detail-effect');
  effect.append(create('h4','beta-detail-section-label','EFFECTS / 卡牌能力'));
  effect.append(create('p','beta-ability-text',localizedAbilityText(c.abilityZh||'此卡的中文能力尚未整理，請參考卡面英文原文。')));
- 
+ // Official errata applies to this physical printing only, not every card of the same name.
+ if(c.set==='beta'&&c.id==='B159'){
+  const errata=create('p','beta-errata-notice','官方勘誤：這張 Beta Iconic 版本的可變賣（Sell）標記為誤印，遊戲中不能變賣為 1 €$。');
+  effect.append(errata);
+ }
  info.append(effect);
  const links=create('div','beta-detail-links');
  const addSourceLink=(href,label)=>{
