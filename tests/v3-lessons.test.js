@@ -37,7 +37,7 @@ for(const card of beta){
 
 // V3-only card ability vocabulary: the shared Beta source and V2 are never rewritten.
 const gallerySource=read('v3/beta-gallery.js');
-const abilityMatch=gallerySource.match(/const localizedAbilityText=value=>([\s\S]*?);\s*const searchIdentifiers/);
+const abilityMatch=gallerySource.match(/const localizedAbilityText=value=>([\s\S]*?);\s*\/\/ Two choice cards/);
 assert(abilityMatch,'V3 ability terminology formatter must be present');
 const formatAbility=vm.runInNewContext('(()=>{const localizedAbilityText=value=>'+abilityMatch[1]+';return localizedAbilityText})()');
 const example='【獨闖（Go Solo）】【阻擋（Blocker）】【快速（Quick）】將一顆任務骰重置。攻擊已橫置的單位。以重置狀態打出。【橫置（Spend）】';
@@ -54,9 +54,41 @@ for(const card of beta){
 assert(impacted>=79,'At least the 79 historical Gig Die translations must be standardized');
 assert(gallerySource.includes('localizedAbilityText(c.abilityZh'),'Card detail must display the standardized wording');
 assert(gallerySource.includes('abilityZh:localizedAbilityText(source.abilityZh'),'Starter cards must use the standardized wording');
+// Bilingual gameplay audit: compare all 178 cards' printed effect labels and
+// preserve one Chinese wording for identical English effects across printings.
+const triggerLabels=[
+ [/\\{Call\\}/,'【呼叫（Call）】'],[/\\{Play\\}/,'【打出（Play）】'],
+ [/\\{Attack\\}/,'【攻擊（Attack）】'],[/\\{Spend\\}/,'【橫置（Spend）】'],
+ [/\\{Quick\\}/,'【快速（Quick）】'],[/\\{Blocker\\}/,'【阻擋（Blocker）】'],
+ [/\\{Defeated\\}/,'【被擊敗（Defeated）】'],[/\\{Go Solo\\}/,'【獨闖（Go Solo）】']
+];
+const sameRuleChinese=new Map();
+for(const card of beta){
+ const en=card.abilityEnglish,zh=card.abilityZh;
+ for(const [pattern,marker] of triggerLabels){
+  assert.equal(pattern.test(en),zh.includes(marker),'English/Chinese trigger mismatch: '+card.id+' / '+marker);
+ }
+ const established=sameRuleChinese.get(en);
+ if(established!==undefined)assert.equal(zh,established,'Same English ability must use the same Chinese wording: '+card.id);
+ else sameRuleChinese.set(en,zh);
+}
+for(const entry of retail){
+ if(entry.officialRulesEnglish!=null){
+  assert.equal(entry.officialRulesEnglish,betaById.get(entry.betaId).abilityEnglish,'Retail rule override differs from shared Chinese ability reference: '+entry.id);
+ }
+}
+const corrected=gallerySource.match(/const correctedAbilityByName=(\\{[\\s\\S]*?\\});\\nconst localizedAbilityForCard/);
+assert(corrected,'V3 card-specific corrections must be defined');
+const special=vm.runInNewContext('('+corrected[1]+')');
+assert(special['Pyramid Song'].includes('兩項都執行')&&special['Pyramid Song'].includes('②'),'Pyramid Song must apply both effects when d4 condition holds');
+assert(special['Towerfall'].includes('兩項都執行')&&special['Towerfall'].includes('②'),'Towerfall must apply both effects when Street Cred condition holds');
+assert(gallerySource.includes('abilityZh:localizedAbilityForCard(card)'),'Special rules corrections must reach Beta and Retail detail views');
+assert.equal(formatAbility('處於已橫置狀態，將已重置的單位放到任務骰區'), '處於已使用狀態，將就緒的單位放到委託區','State terms are normalized without changing active verbs');
 const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
+assert(!v3Html.includes('官方規則優先</h2>'),'Redundant official rules explanation is removed');
+assert(v3Html.includes('class="rules-official-link"'),'Official rules link remains available as a button');
 assert(v3Html.includes('V3 shared visual rhythm'),'Shared type and panel system must remain present');
 assert(v3Html.includes('#rules .term-entry>summary *'),'Rule accordion text selection guard must remain present');
 assert(v3Html.includes('#rules .term-entry[open]>summary span::before'),'Rule accordion has matching CSS minus indicator');
