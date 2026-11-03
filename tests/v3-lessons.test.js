@@ -53,8 +53,8 @@ const progress=()=>JSON.parse(storage.get('nct-integrated-lessons-v3')||'[]');
 assert.equal(elements.chapterNav.children.length,11,'Exactly 11 chapters should be available');
 const colorRoot=all(elements.labStage,'section').find(x=>x.className==='lesson-colors');
 assert(colorRoot,'Lesson 01 needs a visible color reference');
-const buttons=all(colorRoot,'button');
-assert.equal(buttons.length,4,'Four compact color buttons should be available');
+const colorButtons=all(colorRoot,'button');
+assert.equal(colorButtons.length,4,'Four compact color buttons should be available');
 const detail=all(colorRoot,'div').find(x=>x.className==='lesson-color-detail');
 assert(detail,'Color explanation must stay visible below the buttons');
 const colorTitle=()=>all(detail,'strong').find(x=>x.className==='lesson-color-title').textContent;
@@ -62,9 +62,9 @@ const colorDescription=()=>all(detail,'p').find(x=>x.className==='lesson-color-d
 assert(colorDescription().length>20,'Default red explanation must be visible');
 const explanations=new Set();
 for(const [i,color] of ['紅色','綠色','藍色','黃色'].entries()){
- buttons[i].onclick();
+ colorButtons[i].onclick();
  assert(colorTitle().includes(color),'Clicking a color must update its title');
- assert.equal(buttons[i].getAttribute('aria-pressed'),'true','Clicked color must be active');
+ assert.equal(colorButtons[i].getAttribute('aria-pressed'),'true','Clicked color must be active');
  assert(colorDescription().length>20,'Description must be readable after click');
  explanations.add(colorDescription());
 }
