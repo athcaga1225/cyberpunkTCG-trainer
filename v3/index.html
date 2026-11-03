@@ -2579,6 +2579,23 @@ header nav button.active{font-weight:400}
  #decks #betaCardCollection .beta-filters label{gap:5px}
 }
 
+
+/* Pregame preparation: clear reading rhythm, without extra heavy card surfaces. */
+#preGameChecklist .pregame-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:44px;row-gap:32px;margin:32px 0 30px}
+#preGameChecklist .pregame-step{min-width:0;padding:2px 0 6px}
+#preGameChecklist .pregame-step:nth-child(2){border-left:1px solid rgba(174,188,192,.18);padding-left:34px}
+#preGameChecklist .pregame-step-last{grid-column:1/-1;border-top:1px solid rgba(174,188,192,.2);padding-top:30px;margin-top:2px}
+#preGameChecklist .pregame-step h3{font-size:21px;line-height:1.45;margin:0 0 16px;color:#e8edef;font-weight:600}
+#preGameChecklist .pregame-step p{margin:0;line-height:1.9;max-width:65ch}
+#preGameChecklist .pregame-step-last p{max-width:82ch}
+#preGameChecklist>.muted{margin-top:28px}
+@media(max-width:750px){
+ #preGameChecklist .pregame-steps{grid-template-columns:1fr;row-gap:0;margin:26px 0}
+ #preGameChecklist .pregame-step{padding:0 0 26px}
+ #preGameChecklist .pregame-step:nth-child(2),#preGameChecklist .pregame-step-last{grid-column:1;border-left:0;border-top:1px solid rgba(174,188,192,.2);padding:26px 0;margin:0}
+ #preGameChecklist .pregame-step h3{font-size:19px;margin-bottom:12px}
+ #preGameChecklist .pregame-step p{max-width:none}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2588,7 +2605,7 @@ header nav button.active{font-weight:400}
 <h1>LEARN. THEN PLAY.</h1>
 <p class="lead">從開局準備、回合流程、支付資源到戰鬥，循序練習 11 個基本觀念。每課先理解規則，再透過選擇或局部操作確認觀念；完成後解鎖下一課。</p>
 <div class="notice">本教學只涵蓋已建立的部分規則與卡牌效果，並非完整對戰。卡牌能力仍以官方英文原文為準。<a href="#rules" data-rule-link>查看術語對照 ↗</a></div>
-<div class="panel" id="preGameChecklist"><div class="number">00 / BEFORE YOU PLAY</div><h2>事前準備：先組好自己的牌組</h2><p>每位玩家都要帶一副合法牌組和一組六顆委託骰。可以自行組牌，也可以使用符合規則的預組牌組；這裡介紹一般構築賽規則，特殊賽制（例如現開賽）可能不同。</p><div class="learning-overview"><div><h3>① 準備卡牌</h3><p><strong>3 張傳奇卡</strong>：名稱不能重複，獨立於主牌組。<strong>40～50 張主牌組</strong>：不含傳奇卡；同名、同副標題的卡最多 3 張。主牌組的顏色與單張 RAM 數值必須符合三張傳奇卡提供的各色 RAM 上限。</p></div><div><h3>② 準備委託骰</h3><p>每人各準備六顆：四面骰（d4）、六面骰（d6）、八面骰（d8）、十面骰（d10）、十二面骰（d12）、二十面骰（d20），各 1 顆。</p></div><div><h3>③ 開局擺放</h3><p>先隨機決定誰選先後手；各自洗勻主牌組，將 3 張傳奇卡隨機蓋放在傳奇區，再把六顆骰子依 d4 → d6 → d8 → d10 → d12 → d20 放在合事佬區。最後從主牌組抽 <strong>6 張起始手牌</strong>，可調度一次。先手玩家最左兩張傳奇卡開局為已使用。</p></div></div><p class="muted">注意：40～50 張是「主牌組」張數，不是起始手牌；3 張傳奇卡也不會放進主牌組抽取。官方詳細規範：<a href="https://cyberpunktcg.com/comprehensive-rules" target="_blank" rel="noopener noreferrer">Comprehensive Rules ↗</a></p></div><div class="learning-overview">
+<div class="panel" id="preGameChecklist"><div class="number">00 / BEFORE YOU PLAY</div><h2>事前準備：先組好自己的牌組</h2><p>每位玩家都要帶一副合法牌組和一組六顆委託骰。可以自行組牌，也可以使用符合規則的預組牌組；這裡介紹一般構築賽規則，特殊賽制（例如現開賽）可能不同。</p><div class="pregame-steps"><div class="pregame-step"><h3>① 準備卡牌</h3><p><strong>3 張傳奇卡</strong>：名稱不能重複，獨立於主牌組。<strong>40～50 張主牌組</strong>：不含傳奇卡；同名、同副標題的卡最多 3 張。主牌組的顏色與單張 RAM 數值必須符合三張傳奇卡提供的各色 RAM 上限。</p></div><div class="pregame-step"><h3>② 準備委託骰</h3><p>每人各準備六顆：四面骰（d4）、六面骰（d6）、八面骰（d8）、十面骰（d10）、十二面骰（d12）、二十面骰（d20），各 1 顆。</p></div><div class="pregame-step pregame-step-last"><h3>③ 開局擺放</h3><p>先隨機決定誰選先後手；各自洗勻主牌組，將 3 張傳奇卡隨機蓋放在傳奇區，再把六顆骰子依 d4 → d6 → d8 → d10 → d12 → d20 放在合事佬區。最後從主牌組抽 <strong>6 張起始手牌</strong>，可調度一次。先手玩家最左兩張傳奇卡開局為已使用。</p></div></div><p class="muted">注意：40～50 張是「主牌組」張數，不是起始手牌；3 張傳奇卡也不會放進主牌組抽取。官方詳細規範：<a href="https://cyberpunktcg.com/comprehensive-rules" target="_blank" rel="noopener noreferrer">Comprehensive Rules ↗</a></p></div><div class="learning-overview">
 <div class="panel"><div class="number">CARD TYPES</div><h2>先認識四類卡牌</h2><p>傳奇卡（Legend）決定牌組核心與 RAM 限制；單位卡（Unit）負責戰鬥，裝備卡（Gear）強化角色，程式卡（Program）則帶來一次性效果。</p></div>
 <div class="panel"><div class="number">PAYMENT</div><h2>出牌需要資源</h2><p>用歐元（Eddies／€$）支付卡牌費用。主要階段每回合可以變賣 1 張具有變賣標籤的手牌；傳奇區內的傳奇卡也能橫置支付，每張算 1 €$。完整支付操作仍待正式對戰引擎加入。</p></div>
 </div>
