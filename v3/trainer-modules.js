@@ -83,7 +83,7 @@ navChapters();container.replaceChildren();
 const header=add(container,'div','','chapter-progress');add(header,'strong','LESSON '+String(stage+1).padStart(2,'0')+' / '+String(stages.length).padStart(2,'0'),'number');add(header,'span','已完成 '+completedLessons.size+' / '+stages.length+' 課','muted');
 const track=add(container,'div','','progress');const fill=add(track,'span','');fill.style.width=(((stage+1)/stages.length)*100)+'%';track.setAttribute('role','progressbar');track.setAttribute('aria-label','目前教學步驟');track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax',String(stages.length));track.setAttribute('aria-valuenow',String(stage+1));
 add(container,'h2',lessonInfo[stage].title);
-const explain=add(container,'div','','chapter-learning');add(explain,'h3','本課重點');add(explain,'p',lessonInfo[stage].text);
+const explain=add(container,'div','','chapter-learning');add(explain,'p',lessonInfo[stage].text);
 if(stage===0){
  const colors=add(container,'section','','lesson-colors');
  add(colors,'h3','四種顏色的玩法特色','lesson-colors-label');
@@ -129,7 +129,7 @@ else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'m
 if(notice){const feedback=add(container,'div',notice,'notice');feedback.setAttribute('role','status')}
 const bottom=add(container,'div','','chapter-actions');
 if(stage>0){const prev=add(bottom,'button','← 上一課','btn');prev.onclick=()=>load(stage-1)}
-const retry=add(bottom,'button','重新練習這一課 ↻','btn');retry.onclick=()=>load(stage,true);
+if(isDone){const retry=add(bottom,'button','重新練習這一課 ↻','btn');retry.onclick=()=>load(stage,true)}
 if(isDone&&stage<stages.length-1){const next=add(bottom,'button','下一課 →','btn primary');next.onclick=()=>load(stage+1)}
 if(completedLessons.size>=stages.length){const reset=add(bottom,'button','重設教學進度','btn');reset.onclick=()=>{completedLessons.clear();save();load(0)}}
 add(container,'p','這些是官方規則的局部操作示範，尚未支援完整付費流程、快速反應（Quick）或完整 AI 對局。','muted');
