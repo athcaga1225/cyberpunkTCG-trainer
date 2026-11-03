@@ -94,6 +94,24 @@ assert(gallerySource.includes("c.set==='beta'&&c.id==='B159'"),'B159 Sell-tag wa
 assert(gallerySource.includes('可變賣（Sell）標記為誤印'),'Official errata must mention the misprinted Sell tag');
 assert(betaById.get('B159').name==='Johnny Silverhand: Never Stop Fighting','B159 official erratum must match card');
 assert(betaById.get('B061').abilityEnglish.includes('Equip to a friendly Unit or face-up Legend'),'Kiroshi Optics source already reflects official reminder erratum');
+// Catalogue pagination and complete 178-printing bilingual audit regression.
+assert(gallerySource.includes('const PAGE_SIZE=25;'),'Catalogue must display 25 cards on each full page');
+assert.equal(Math.ceil(beta.length/25),8,'178 Beta printings must span 8 pages with 25 per full page');
+assert.equal(beta.length-25*7,3,'Last Beta-only page contains 3 cards');
+const reviewedRows=read('v3/ability-audit-2026-11-03.md').split('\n').filter(line=>/^\\| (?:B\\d{3}[AB]?|T\\d{3}) \\|/.test(line));
+assert.equal(reviewedRows.length,178,'Audit document must include each of 178 printings');
+const reviewIds=reviewedRows.map(line=>line.split('|')[1].trim());
+assert.equal(new Set(reviewIds).size,178,'Audit must not duplicate a printing');
+for(const card of beta)assert(reviewIds.includes(card.id),'Audit missing '+card.id);
+const englishFamilies=new Map();
+for(const card of beta){
+ const current=englishFamilies.get(card.abilityEnglish);
+ if(current!==undefined)assert.equal(card.abilityZh,current,'Identical English rules translated inconsistently: '+card.id);
+ else englishFamilies.set(card.abilityEnglish,card.abilityZh);
+}
+assert.equal(englishFamilies.size,146,'Ability source has 146 distinct English gameplay texts');
+assert(special['Meredith Stout: Stone Cold Corpo'].includes('由該對手控制的委託骰'),'Meredith must identify whose Gigs are changed');
+assert(special['The Heist'].includes('可以改為免費打出'),'The Heist must present the free play as alternative to putting Gear in hand');
 const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
