@@ -5,10 +5,10 @@ const unit=(id,name,power,ready=true,extras={})=>({id,name,power,ready,lag:false
 const dice=(id,sides,value)=>({id,sides,value});
 const state=(p={},a={})=>({player:{units:[],gigs:[],fixer:[],deck:[],hand:[],...p},ai:{units:[],gigs:[],fixer:[],deck:[],hand:[],...a}});
 const basics=[
- {title:'01 / 開局與起手牌',staticQuiz:true,instruction:'雙方都準備好牌組和三張傳奇卡。以下哪個才是正確的開局流程？',setup:()=>state(),
+ {title:'01 / 事前準備與開局',staticQuiz:true,instruction:'一般構築賽開始前，每位玩家要自己準備哪些卡牌和骰子？開局的先後手、傳奇卡與起始手牌又如何處理？',setup:()=>state(),
   options:()=>[
-   {label:'傳奇卡隨機蓋放 → 擲 d20 決定先後 → 抽 6 張（可調度一次）',run:()=>({ok:true,state:state(),events:['開局流程正確：先手玩家的最左邊兩張傳奇卡須橫置，且第一回合不能重置。']}),done:()=>true},
-   {label:'先抽 7 張牌，再挑選三張傳奇卡',run:()=>({ok:false,reason:'正式開局是抽 6 張；三張傳奇卡在開始時就已確定並隨機蓋放。'}),done:()=>false}
+   {label:'3 張不同名傳奇卡＋40～50 張主牌組＋6 顆不同面數的委託骰；先決定先後手，再洗牌、蓋放傳奇與抽 6 張',run:()=>({ok:true,state:state(),events:['事前準備正確：40～50 張主牌組不包含傳奇卡；主牌組還須符合最多三張同名同副標題及 RAM 限制。先手最左兩張傳奇卡開局為已使用，第一回合不能重置。']}),done:()=>true},
+   {label:'只要帶 40 張手牌；開局再從中挑 3 張傳奇卡',run:()=>({ok:false,reason:'手牌不是整副牌組：每人另備 3 張傳奇卡與 40～50 張主牌組，開局才從主牌組抽取 6 張手牌。'}),done:()=>false}
   ]},
  {title:'02 / 回合流程',staticQuiz:true,instruction:'你的新回合開始了，以下操作順序何者正確？',setup:()=>state(),
   options:()=>[
@@ -44,7 +44,7 @@ const stages=[
   options:s=>[{label:'使用外勤幹員的登場能力，抽 1 張牌',run:()=>R.playTrigger(s,'player',{name:'Field Operator'}),done:r=>r.ok&&r.state.player.hand.length===1},{label:'街頭聲望是偶數，所以不能抽牌',run:()=>({ok:false,reason:'官方卡牌效果指定偶數時抽牌，6 是偶數'}),done:()=>false}]}
 ];
 const lessonInfo=[
- {title:'準備開局',text:'每人準備三張不同名的傳奇卡與 40～50 張主牌組。三張傳奇卡隨機面朝下放在傳奇區；雙方擲 d20 決定誰選先後手，接著各抽 6 張（可重新洗回並抽 6 張一次）。先手玩家的最左兩張傳奇卡開局已使用，第一回合不重置。'},
+ {title:'先準備牌組，才能開始對戰',text:'每位玩家自行準備 3 張不同名的傳奇卡、40～50 張不含傳奇的主牌組，以及 d4、d6、d8、d10、d12、d20 各一顆。牌組須符合最多 3 張同名同副標題與 RAM 限制。開局先決定先後手，再洗主牌組、隨機蓋放傳奇卡、把骰子放進合事佬區，最後抽 6 張起始手牌；可調度一次。先手最左兩張傳奇卡起始為已使用。'},
  {title:'先準備，再行動',text:'每回合先進入準備階段：重置已使用的卡牌 → 抽 1 張 → 從合事佬區擲出 1 顆委託骰。接著進入主要階段，才能變賣、出牌、呼叫傳奇或攻擊。'},
  {title:'歐元與傳奇卡都能支付',text:'歐元（Eddies／€$）是出牌資源：每回合在主要階段可變賣一張有變賣標籤的手牌，面朝下放到歐元區，成為 1 €$。傳奇區內的傳奇卡不論翻開與否，也可橫置支付 1 €$，但不算真正的歐元。'},
  {title:'呼叫傳奇，就是翻開蓋牌',text:'每回合最多呼叫傳奇一次：支付 1 €$，翻開傳奇區內一張隨機蓋放、尚未翻開的傳奇卡。若卡牌具有 CALL 能力，則在透過呼叫傳奇將其翻開時觸發。呼叫也可以在對手攻擊的反應時機進行。'},
