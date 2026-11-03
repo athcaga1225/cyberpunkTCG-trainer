@@ -2629,7 +2629,7 @@ header nav button.active{font-weight:400}
 #battle .v3-turn-log p{margin:4px 0}
 #battle .v3-practice-indicator{display:block;color:#91d2cf;font-size:12px;line-height:1.35;margin-top:5px}
 @media(max-width:650px){#battle .v3-turn-practice{padding:14px}#battle .v3-turn-actions .btn{width:100%}}
-/* Icon: Tabler Icons device-mobile-rotated (MIT), https://tabler.io/icons/icon/device-mobile-rotated */
+/* Icon: Gentleface smartphone-rotate, MIT, https://gentleface.com/icons/smartphone-rotate; native animated SVG with inline official static SVG fallback. */
 /* V3 battle-only portrait gate: portrait phone cannot enter or use the board. */
 #battle .v3-rotate-overlay{display:none}
 @media screen and (orientation:portrait) and (max-width:900px){
@@ -2650,7 +2650,11 @@ header nav button.active{font-weight:400}
  body.battle-wide #battle .v3-rotate-message p{font-size:16px;line-height:1.7;color:#b9cbd3}
  body.battle-wide #battle .v3-rotate-message .v3-rotate-note{font-size:14px;color:#d9b767}
  body.battle-wide #battle .v3-rotate-icon{width:88px;height:88px;margin:22px auto 8px;color:#5fe0ef}
+ body.battle-wide #battle .v3-rotate-icon{position:relative}
  body.battle-wide #battle .v3-rotate-icon svg{display:block;width:100%;height:100%}
+ body.battle-wide #battle .v3-rotate-icon .v3-rotate-animation{position:absolute;inset:0;display:block;width:100%;height:100%;filter:brightness(0) saturate(100%) invert(84%) sepia(36%) saturate(1073%) hue-rotate(147deg) brightness(107%) contrast(90%)}
+ body.battle-wide #battle .v3-rotate-icon .v3-rotate-animation[hidden]{display:none!important}
+ @media(prefers-reduced-motion:reduce){body.battle-wide #battle .v3-rotate-animation{display:none!important}}
  body.battle-wide #battle .v3-rotate-actions{display:flex;justify-content:center;margin-top:22px}
  body.battle-wide #battle .v3-rotate-actions .btn{min-width:150px;margin:0;text-align:center}
 }
@@ -3259,17 +3263,7 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
 
 <p class="muted">詳細術語與完整規則參考：<a href="https://cyberpunktcg.com/gameplay-guide" target="_blank" rel="noopener noreferrer">官方 Gameplay Guide <span class="external-arrow" aria-hidden="true">↗</span></a></p>
 </section>
-<section id="battle" class="hide"><div class="v3-rotate-overlay" role="region" aria-label="手機對戰方向限制"><div class="v3-rotate-message"><span class="v3-rotate-eyebrow">PHONE MODE</span><div class="v3-rotate-icon" aria-hidden="true"><svg aria-hidden="true" focusable="false"
-  xmlns="http://www.w3.org/2000/svg"
-  width="24"
-  height="24"
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-><path d="M3 8a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -8" /><path d="M20 11v2" /><path d="M7 12h-.01" /></svg></div><h2>請將手機橫向</h2><p>對戰桌面需要橫向操作。請先旋轉手機，畫面會自動切換至對戰桌面。</p><p class="v3-rotate-note">若畫面沒有切換，請確認手機已關閉「直向鎖定」。</p><div class="v3-rotate-actions"><button type="button" class="btn" data-go="home">返回首頁</button></div></div></div><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
+<section id="battle" class="hide"><div class="v3-rotate-overlay" role="region" aria-label="手機對戰方向限制"><div class="v3-rotate-message"><span class="v3-rotate-eyebrow">PHONE MODE</span><div class="v3-rotate-icon" aria-hidden="true"><svg class="v3-rotate-fallback" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.472 2.281C9.986 2.484 10.438 2.781 10.828 3.172C11.219 3.562 11.516 4.014 11.719 4.528C11.906 5.001 12 5.491 12 6L12 8.293L14.146 6.146C14.246 6.047 14.364 5.997 14.5 5.997C14.636 5.997 14.754 6.047 14.854 6.146C14.951 6.244 15 6.362 15 6.5C15 6.638 14.951 6.756 14.854 6.854L11.854 9.854C11.754 9.953 11.636 10.003 11.5 10.003C11.364 10.003 11.246 9.953 11.146 9.854L8.146 6.854C8.049 6.756 8 6.638 8 6.5C8 6.362 8.049 6.244 8.146 6.146C8.246 6.047 8.364 5.997 8.5 5.997C8.636 5.997 8.754 6.047 8.854 6.146L11 8.293L11 6C11 5.619 10.93 5.25 10.789 4.896C10.637 4.511 10.414 4.172 10.121 3.879C9.828 3.586 9.489 3.363 9.104 3.211C8.75 3.07 8.381 3 8 3L3.5 3C3.359 3 3.241 2.952 3.144 2.856C3.048 2.759 3 2.641 3 2.5C3 2.359 3.048 2.241 3.144 2.144C3.241 2.048 3.359 2 3.5 2L8 2C8.509 2 8.999 2.094 9.472 2.281ZM6.707 14.707C6.512 14.902 6.276 15 6 15L2 15C1.724 15 1.488 14.902 1.293 14.707C1.098 14.512 1 14.276 1 14L1 6C1 5.724 1.098 5.488 1.293 5.293C1.488 5.098 1.724 5 2 5L6 5C6.276 5 6.512 5.098 6.707 5.293C6.902 5.488 7 5.724 7 6L7 14C7 14.276 6.902 14.512 6.707 14.707ZM6 6L2 6L2 14L6 14L6 6ZM4.707 11.293C4.902 11.488 5 11.724 5 12C5 12.276 4.902 12.512 4.707 12.707C4.512 12.902 4.276 13 4 13C3.724 13 3.488 12.902 3.293 12.707C3.098 12.512 3 12.276 3 12C3 11.724 3.098 11.488 3.293 11.293C3.488 11.098 3.724 11 4 11C4.276 11 4.512 11.098 4.707 11.293Z"/></svg><img class="v3-rotate-animation" src="https://gentleface.com/motion/smartphone-rotate-turn.svg" alt="" loading="eager" decoding="async" onerror="this.hidden=true"></div><h2>請將手機橫向</h2><p>對戰桌面需要橫向操作。請先旋轉手機，畫面會自動切換至對戰桌面。</p><p class="v3-rotate-note">若畫面沒有切換，請確認手機已關閉「直向鎖定」。</p><div class="v3-rotate-actions"><button type="button" class="btn" data-go="home">返回首頁</button></div></div></div><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
  <div class="table-preview" id="tablePreview">
   <div class="preview-zone opponent-hand" data-tour-zone="opponent-hand"><small>OPPONENT / 手牌</small><div class="placeholder-label preview-card-rail">對手手牌 · 隱藏資訊</div></div>
   <div class="preview-zone opponent-legends" data-tour-zone="opponent-legends"><small>OPPONENT / 傳奇角色</small><div class="cardbacks"><div class="backcard">NCT</div><div class="backcard">NCT</div><div class="backcard">NCT</div></div></div>
