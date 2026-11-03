@@ -3143,6 +3143,46 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
 
 /* Official printing-specific errata is visually distinct from the translated effect. */
 #decks #betaCardDetail .beta-errata-notice{margin:14px 0 0;padding:12px 14px;border-left:2px solid #f8504a;background:rgba(80,24,32,.24);color:#e1c6c8;font-size:14px;line-height:1.7}
+
+/* V3 catalogue: distinguish search and each filter by a consistent accent.
+   Accessible labels and the original compact layout remain unchanged. */
+#decks #betaCardCollection .beta-filters{
+ --v3-search-accent:#29ffff;
+ --v3-series-accent:#f8504a;
+ --v3-rarity-accent:#e8bd62;
+ --v3-type-accent:#8fb8ff;
+ --v3-sort-accent:#b9a0ed;
+}
+#decks #betaCardCollection .beta-filters .v3-filter-search{--filter-accent:var(--v3-search-accent)}
+#decks #betaCardCollection .beta-filters .v3-filter-series{--filter-accent:var(--v3-series-accent)}
+#decks #betaCardCollection .beta-filters .v3-filter-rarity{--filter-accent:var(--v3-rarity-accent)}
+#decks #betaCardCollection .beta-filters .v3-filter-type{--filter-accent:var(--v3-type-accent)}
+#decks #betaCardCollection .beta-filters .v3-filter-sort{--filter-accent:var(--v3-sort-accent)}
+#decks #betaCardCollection .beta-filters label{color:var(--filter-accent,#abc4c9)}
+#decks #betaCardCollection .beta-filters label input,
+#decks #betaCardCollection .beta-filters label select{
+ border-color:color-mix(in srgb,var(--filter-accent,#42606a) 44%,#23363f);
+ border-left:3px solid var(--filter-accent,#42606a);
+ background-color:#0b1b22;
+ transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease;
+}
+#decks #betaCardCollection .beta-filters label input:hover,
+#decks #betaCardCollection .beta-filters label select:hover{
+ border-color:var(--filter-accent,#42606a);
+}
+#decks #betaCardCollection .beta-filters label input:focus-visible,
+#decks #betaCardCollection .beta-filters label select:focus-visible{
+ outline:2px solid var(--filter-accent,#29ffff);
+ outline-offset:2px;
+ box-shadow:0 0 0 3px color-mix(in srgb,var(--filter-accent,#29ffff) 18%,transparent);
+}
+#decks #betaCardCollection .v3-search-row #v3FiltersReset{
+ border-color:#42606a;color:#abc4c9;
+}
+@media(max-width:650px){
+ #decks #betaCardCollection .beta-filters label input,
+ #decks #betaCardCollection .beta-filters label select{border-left-width:3px}
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -3196,8 +3236,8 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
 <div class="beta-filters">
 <div class="v3-search-row"><label class="v3-filter-search">搜尋卡牌<span class="v3-search-field"><input id="betaSearch" type="search" placeholder="搜尋卡名、卡號或人物" autocomplete="off"><button type="button" id="v3SearchClear" aria-label="清除搜尋" title="清除搜尋" hidden>×</button></span></label><button type="button" id="v3FiltersReset">重設選項 ↺</button></div>
 <label class="v3-filter-series">系列<select id="betaSeries"><option value="all">所有系列</option><option value="retail">RETAIL</option><option value="beta">BETA BOOSTER</option><option value="topper">BOX TOPPER</option><option value="heist">THE HEIST</option><option value="power">EMBRACING POWER</option></select></label>
-<label>稀有度<select id="betaRarity"><option value="all">所有稀有度</option></select></label>
-<label>卡牌類型<select id="betaType"><option value="all">所有類型</option><option value="Legend">傳奇卡</option><option value="Unit">單位卡</option><option value="Program">程式卡</option><option value="Gear">裝備卡</option></select></label>
+<label class="v3-filter-rarity">稀有度<select id="betaRarity"><option value="all">所有稀有度</option></select></label>
+<label class="v3-filter-type">卡牌類型<select id="betaType"><option value="all">所有類型</option><option value="Legend">傳奇卡</option><option value="Unit">單位卡</option><option value="Program">程式卡</option><option value="Gear">裝備卡</option></select></label>
 <label class="v3-filter-sort">排序方式<select id="betaSort"><option value="id">卡牌編號（小至大）</option><option value="rarity-desc">稀有度（高至低）</option><option value="rarity-asc">稀有度（低至高）</option><option value="cost-asc">COST（低至高）</option><option value="cost-desc">COST（高至低）</option><option value="power-asc">POWER（低至高）</option><option value="power-desc">POWER（高至低）</option><option value="ram-asc">RAM（低至高）</option><option value="ram-desc">RAM（高至低）</option><option value="name">卡牌名稱（筆畫）</option></select></label>
 </div>
 <dialog id="betaCardDetail" class="beta-detail-panel beta-card-dialog" aria-label="卡牌詳細資訊"><div class="beta-detail-header"><strong id="betaDetailHeading" tabindex="-1">CARD DETAILS / 卡牌能力</strong><button type="button" id="betaDetailClose" aria-label="關閉卡牌詳細資訊" title="關閉">×</button></div><div id="betaCardDetailBody" class="beta-detail-body"></div></dialog><div id="betaResults" class="beta-results" aria-live="polite"></div>
