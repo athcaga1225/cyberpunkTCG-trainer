@@ -4,7 +4,7 @@ const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV
 const root=$('v3TurnPractice'),board=$('battleTour'),picker=$('battleDeckChoice');
 if(!root||!board||!P||!H||!picker)return;
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
-let state=H.fresh(),selectedId=null,selectedPayments=new Set(),message=initial;
+let state=H.fresh(),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigDelta=0,message=initial;
 const art=new Map();
 document.querySelectorAll('#starterDeckGallery [data-card-name][data-deck-image]').forEach(el=>{
  const name=el.getAttribute('data-card-name'),src=el.getAttribute('data-deck-image');
@@ -34,7 +34,7 @@ function renderHand(){
   const src=art.get(card.name);
   if(src){const image=document.createElement('img');image.src=src;image.alt=card.name+' 卡面';image.loading='lazy';image.decoding='async';btn.append(image)}
   else{btn.classList.add('missing-art');add('span',card.name,btn,'preview-art-fallback')}
-  btn.addEventListener('click',()=>{selectedId=selected?null:card.id;selectedPayments.clear();message=selectedId?'已選取 '+card.name:'已取消選取';render()});
+  btn.addEventListener('click',()=>{selectedId=selected?null:card.id;selectedPayments.clear();targetId=null;gigId=null;gigDelta=0;message=selectedId?'已選取 '+card.name:'已取消選取';render()});
   rail.append(btn);
  });
  // Preserve tabletop rail sizing on both mobile and desktop.
@@ -53,7 +53,7 @@ function renderField(){
   const image=art.get(card.name);
   if(image){const img=document.createElement('img');img.src=image;img.alt=card.name;img.loading='lazy';el.append(img)}
   else add('span',card.name,el);
-  add('small',card.lag?'LAG':'READY',el);
+  add('small',card.lag?'LAG':'READY',el);if(card.gear?.length)add('small','裝備：'+card.gear.map(g=>g.name).join('、'),el);
  }
  if(!state.player.units.length)add('div','尚無已打出的單位',slots);
 }
@@ -85,7 +85,7 @@ function render(){
  renderHand();renderField();
  const header=add('div','',root,'v3-turn-header');
  add('strong','THE HEIST / ROUND '+state.round,header);add('span',phase(),header);
- add('p','已接入 The Heist 真實 40 張牌組與卡圖。現階段只支援驗證過的基本出牌（Secondhand Bombus）；其他卡牌能力尚未實作，不會假裝已結算。開局手牌固定供測試。',root,'v3-turn-note');
+ add('p','已接入 The Heist 真實 40 張牌組與卡圖。目前可操作基礎單位、指定裝備目標與 Afterparty 程式。部分攻擊／回合觸發能力待完整對戰規則接通；其他未支援卡牌會阻擋出牌。開局手牌固定供測試。',root,'v3-turn-note');
  const stats=add('div','',root,'v3-turn-stats');
  add('span','手牌 '+p.hand.length+' 張',stats);
  add('span','Eddies '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length,stats);
@@ -109,11 +109,71 @@ function render(){
  }
  if(!state.finished&&state.turn==='player'&&state.phase==='main'){
   command('變賣選取的手牌',()=>P.sell(state,selectedId),buttons,!chosen?.sellTag||p.soldThisTurn);
-  if(chosen?.type==='Unit'&&!chosen.unimplementedEffect){
+  if(chosen&&!chosen.unimplementedEffect){
    const sources=paymentOptions(root);
    const selected=sources.filter(src=>selectedPayments.has(src.kind+':'+src.id));
-   add('p','已指定 '+selected.length+' / '+chosen.cost+' €$',root,'v3-payment-count');
-   command('支付並打出 '+chosen.name,()=>P.play(state,selectedId,selected.map(({kind,id})=>({kind,id}))),buttons,selected.length!==chosen.cost);
+   const paid=selected.map(({kind,id})=>({kind,id}));
+   add('p','已指定 '+selected.length+' / '+chosen.cost+' €
+  command('結束我的回合',()=>P.pass(state),buttons);
+ }
+ if(!state.finished&&state.turn==='ai')command('略過對手行動，開始下一回合',()=>P.next(state),buttons);
+ command('重新開始 The Heist 練習',()=>({ok:true,state:H.fresh(),message:initial}),buttons);
+ const status=add('p',message,root,'v3-turn-feedback');status.setAttribute('role','status');
+ const summary=add('div','',root,'v3-turn-log');add('strong','實際練習狀態',summary);
+ add('p','場地：'+(p.units.map(c=>c.name+'（'+(c.ready?'Ready':'Spent')+(c.lag?' / Lag':'')+'）').join('、')||'無'),summary);
+ add('p','委託骰：'+(p.gigs.map(d=>'d'+d.sides+'='+d.value).join('、')||'無'),summary);
+ indicator('.turn-info','THE HEIST：'+phase());
+ indicator('.player-eddies','Eddies 就緒 '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length);
+ indicator('.player-gigs',p.gigs.length+' 顆委託骰');
+ indicator('.player-field',p.units.length+' 張實際單位');
+ indicator('.player-deck','練習牌庫：'+p.deck.length+' 張');
+ if($('battlePreviewStatus'))$('battlePreviewStatus').textContent='The Heist 實際牌組操作練習。選取手牌後在下方指定支付資源；特殊能力仍未啟用。';
+}
+const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
+function syncDeck(){
+ if(picker.value==='theHeist'){
+  state=H.fresh();selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigDelta=0;message=initial;
+  if(shuffleButton)shuffleButton.disabled=true;
+  if(legendButton)legendButton.disabled=true;
+ }else{
+  if(shuffleButton)shuffleButton.disabled=false;
+  if(legendButton)legendButton.disabled=false;
+ }
+ render();
+}
+picker.addEventListener('change',syncDeck);
+syncDeck();
+})();
+,root,'v3-payment-count');
+   const affordable=selected.length===chosen.cost;
+   if(chosen.type==='Unit'){
+    command('支付並打出 '+chosen.name,()=>P.play(state,selectedId,paid),buttons,!affordable);
+   }else if(chosen.type==='Gear'){
+    const area=add('div','',root,'v3-selected-detail');
+    add('strong','裝備目標',area);
+    const targets=[...p.units,...p.legends.filter(l=>l.faceUp)];
+    if(!targets.length)add('p','需先有友方單位或已翻開的傳奇卡，才能裝備。',area);
+    for(const target of targets){
+     const b=add('button',target.name,area,'v3-resource-choice');
+     b.type='button';b.setAttribute('aria-pressed',String(target.id===targetId));
+     b.addEventListener('click',()=>{targetId=target.id;render()});
+    }
+    command('支付並裝備 '+chosen.name,()=>P.gear(state,selectedId,paid,targetId),buttons,!affordable||!targets.some(t=>t.id===targetId));
+   }else if(chosen.type==='Program'&&chosen.name==="Afterparty at Lizzie's"){
+    const area=add('div','',root,'v3-selected-detail');
+    add('strong','調整委託骰（最多 ±1）',area);
+    const pick=document.createElement('select');pick.setAttribute('aria-label','選擇委託骰');
+    const no=document.createElement('option');no.value='';no.textContent='不調整';pick.append(no);
+    const allGigs=[...p.gigs,...(state.ai?.gigs||[])];
+    for(const gig of allGigs){const o=document.createElement('option');o.value=gig.id;o.textContent='d'+gig.sides+'：'+gig.value;pick.append(o)}
+    pick.value=gigId||'';
+    pick.addEventListener('change',()=>{gigId=pick.value||null;if(!gigId)gigDelta=0;render()});area.append(pick);
+    const delta=document.createElement('select');delta.setAttribute('aria-label','委託骰增減');
+    for(const n of [-1,0,1]){const o=document.createElement('option');o.value=String(n);o.textContent=n>0?'+1':n<0?'-1':'不調整';delta.append(o)}
+    delta.value=String(gigDelta);
+    delta.addEventListener('change',()=>{gigDelta=Number(delta.value);render()});area.append(delta);
+    command('支付並執行 '+chosen.name,()=>P.program(state,selectedId,paid,{gigId,delta:gigDelta}),buttons,!affordable||(gigDelta!==0&&!gigId));
+   }
   }
   command('結束我的回合',()=>P.pass(state),buttons);
  }
