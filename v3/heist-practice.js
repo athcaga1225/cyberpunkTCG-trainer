@@ -1,8 +1,8 @@
 /* V3-only The Heist starter-card bridge.
  * Starter list: official cyberpunktcg.com/blog/wnc-starter-decks
  * Cost, types and Sell Tag: https://cyberpunktcg.wiki/decks/the-heist/
- * Only Secondhand Bombus is currently executable (Blocker is passive until attacks exist).
- * All other effects are visibly locked; this is not a complete gameplay rules engine.
+ * Basic cards can be deployed; attack/defeat/turn-triggered abilities remain pending until their timing engine exists.
+ * Official card text determines when a passive effect becomes applicable.
  */
 (function(root,factory){'use strict';const base=(typeof module!=='undefined'&&module.exports)?require('./turn-practice.js'):root.NCTV3TurnPractice;const api=factory(base);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3Heist=api;})(typeof globalThis!=='undefined'?globalThis:this,function(P){'use strict';
 const specs=[
@@ -27,12 +27,14 @@ const specs=[
 const total=specs.reduce((n,c)=>n+c[1],0);
 if(total!==40)throw Error('The Heist manifest must have 40 cards');
 // Whitelist only effects that are accurately represented by the current practice state.
-const supported=new Set(['Secondhand Bombus','Psycho Squad','Delamain Cab','Mandibular Upgrade','Kiroshi Optics',"Afterparty at Lizzie's"]);
-const powers={'Secondhand Bombus':0,'Psycho Squad':6,'Delamain Cab':4,'Mandibular Upgrade':0,'Kiroshi Optics':1};
+const supported=new Set(['Secondhand Bombus','Psycho Squad','Delamain Cab','MT0D12 Flathead','Mandibular Upgrade','Kiroshi Optics',"Afterparty at Lizzie's"]);
+const powers={'Secondhand Bombus':0,'Psycho Squad':6,'Delamain Cab':4,'MT0D12 Flathead':7,'Mandibular Upgrade':0,'Kiroshi Optics':1};
 const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
  name,type,cost,sellTag,power:powers[name]??null,
  unimplementedEffect:!supported.has(name),
- deferredEffect:['Kiroshi Optics','Delamain Cab','Mandibular Upgrade'].includes(name)
+ blocker:name==='Secondhand Bombus'||name==='Mandibular Upgrade',
+ cannotBeBlockedIfLowerCred:name==='MT0D12 Flathead',
+ deferredEffect:['Kiroshi Optics','Delamain Cab','Mandibular Upgrade','MT0D12 Flathead'].includes(name)
 }]));
 function fresh(){
  const s=P.fresh();
