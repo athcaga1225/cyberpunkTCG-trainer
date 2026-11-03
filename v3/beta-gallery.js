@@ -44,7 +44,8 @@ const localizedAbilityText=value=>String(value||'')
 // Keep these correction texts scoped to V3, and preserve the checked card names.
 const correctedAbilityByName={
  'Pyramid Song':'選擇一項效果。若友方四面骰（d4）是最低點數的委託骰，則改為兩項都執行：① 本回合使一個對手單位戰力 -4；② 將一個戰力為 0 的對手單位放到其牌庫底部。',
- 'Towerfall':'選擇一項效果。若你的街頭聲望低於對手，則改為兩項都執行：① 本回合使所有對手單位戰力 -5；② 將所有戰力為 0 的對手單位放到其牌庫底部。'
+ 'Towerfall':'選擇一項效果。若你的街頭聲望低於對手，則改為兩項都執行：① 本回合使所有對手單位戰力 -5；② 將所有戰力為 0 的對手單位放到其牌庫底部。',
+ 'Nocturne OP55 N1':'若你的合事佬區為空，打出此程式只需 1 €$。選擇一項效果：① 抽 2 張牌；② 使一個單位直到你的下個回合前無法攻擊；③ 本回合一名友方傳奇角色可以使用【獨武俠（Go Solo）】，其費用減少 2 €$，最低仍為 1 €$。'
 };
 const localizedAbilityForCard=card=>correctedAbilityByName[card.name]||localizedAbilityText(card.abilityZh);
 
