@@ -53,20 +53,22 @@ const progress=()=>JSON.parse(storage.get('nct-integrated-lessons-v3')||'[]');
 assert.equal(elements.chapterNav.children.length,11,'Exactly 11 chapters should be available');
 const colorRoot=all(elements.labStage,'section').find(x=>x.className==='lesson-colors');
 assert(colorRoot,'Lesson 01 needs a visible color reference');
-const tiles=all(colorRoot,'details');
-assert.equal(tiles.length,4,'Four native color disclosures must exist');
-assert.equal(tiles[0].getAttribute('open'),'','Red explanation must be visible immediately');
+const buttons=all(colorRoot,'button');
+assert.equal(buttons.length,4,'Four compact color buttons should be available');
+const detail=all(colorRoot,'div').find(x=>x.className==='lesson-color-detail');
+assert(detail,'Color explanation must stay visible below the buttons');
+const colorTitle=()=>all(detail,'strong').find(x=>x.className==='lesson-color-title').textContent;
+const colorDescription=()=>all(detail,'p').find(x=>x.className==='lesson-color-description').textContent;
+assert(colorDescription().length>20,'Default red explanation must be visible');
 const explanations=new Set();
 for(const [i,color] of ['紅色','綠色','藍色','黃色'].entries()){
- const summary=all(tiles[i],'summary')[0];
- const body=all(tiles[i],'div').find(x=>x.className==='lesson-color-tile-body');
- assert(summary.textContent.includes(color),'Color selector must be labeled: '+color);
- assert(body,'Each color should have an explanation container');
- const explanation=all(body,'p')[0];
- assert(explanation && explanation.textContent.length>20,'Each color needs substantive content');
- explanations.add(explanation.textContent);
+ buttons[i].onclick();
+ assert(colorTitle().includes(color),'Clicking a color must update its title');
+ assert.equal(buttons[i].getAttribute('aria-pressed'),'true','Clicked color must be active');
+ assert(colorDescription().length>20,'Description must be readable after click');
+ explanations.add(colorDescription());
 }
-assert.equal(explanations.size,4,'Color explanations must differ');
+assert.equal(explanations.size,4,'All four descriptions must be distinct');
 for(let i=0;i<11;i++){assert.equal(typeof elements.chapterNav.children[i].onclick,'function','Chapter must be freely selectable: '+i);}
 goto(5);
 choose(0);
