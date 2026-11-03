@@ -125,9 +125,13 @@ game=result.state;
 if(o.done(result)){passed=true;completedLessons.add(stage);save();notice=(result.events||[]).join('；')+'。答對了，已記錄本課完成進度。'}
 else notice='這個動作可以執行，但不是這一題要你練習的選擇。請重新開始本課，試試其他操作。';
 render()}}}
-else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'muted');if(stage<stages.length-1){const next=add(actions,'button','下一課 →','btn primary');next.onclick=()=>load(stage+1)}else add(actions,'strong',completedLessons.size===stages.length?'恭喜完成全部 11 課！':'已完成第 11 課，可自由選擇其他課程。')}
-const feedback=add(container,'div',notice||'先閱讀上方解說，再選一個操作。','notice');feedback.setAttribute('role','status');
-const bottom=add(container,'div','','chapter-actions');if(stage>0){const prev=add(bottom,'button','← 上一課','btn');prev.onclick=()=>load(stage-1)}const retry=add(bottom,'button','重新練習這一課','btn');retry.onclick=()=>load(stage,true);if(completedLessons.size>=stages.length){const reset=add(bottom,'button','重設教學進度','btn');reset.onclick=()=>{completedLessons.clear();save();load(0)}}
+else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'muted');if(stage===stages.length-1)add(actions,'strong',completedLessons.size===stages.length?'恭喜完成全部 11 課！':'已完成第 11 課，可自由選擇其他課程。')}
+if(notice){const feedback=add(container,'div',notice,'notice');feedback.setAttribute('role','status')}
+const bottom=add(container,'div','','chapter-actions');
+if(stage>0){const prev=add(bottom,'button','← 上一課','btn');prev.onclick=()=>load(stage-1)}
+const retry=add(bottom,'button','重新練習這一課 ↻','btn');retry.onclick=()=>load(stage,true);
+if(isDone&&stage<stages.length-1){const next=add(bottom,'button','下一課 →','btn primary');next.onclick=()=>load(stage+1)}
+if(completedLessons.size>=stages.length){const reset=add(bottom,'button','重設教學進度','btn');reset.onclick=()=>{completedLessons.clear();save();load(0)}}
 add(container,'p','這些是官方規則的局部操作示範，尚未支援完整付費流程、快速反應（Quick）或完整 AI 對局。','muted');
 }
 function cards(){const root=$('verifiedCardList');if(!root)return;root.replaceChildren();for(const card of window.NCT_OFFICIAL_CARDS){const div=add(root,'div','','panel');add(div,'h3',L.cardTitle(card.name)).style.color='#29ffff';add(div,'p',(card.type==='Unit'?'角色單位':card.type==='Gear'?'裝備':card.type)+' · 費用 '+card.cost+' · 戰力 '+card.power+' · RAM '+card.ram);add(div,'p',card.summary);add(div,'small',card.implemented.length?'已支援部分卡牌能力':'卡牌效果尚未加入對戰引擎');const link=add(div,'a','查看官方英文卡牌 ↗');link.href=card.source;link.target='_blank';link.rel='noopener noreferrer';}}
