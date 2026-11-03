@@ -57,10 +57,10 @@ assert(gallerySource.includes('abilityZh:localizedAbilityText(source.abilityZh')
 // Bilingual gameplay audit: compare all 178 cards' printed effect labels and
 // preserve one Chinese wording for identical English effects across printings.
 const triggerLabels=[
- [/\\{Call\\}/,'【呼叫（Call）】'],[/\\{Play\\}/,'【打出（Play）】'],
- [/\\{Attack\\}/,'【攻擊（Attack）】'],[/\\{Spend\\}/,'【橫置（Spend）】'],
- [/\\{Quick\\}/,'【快速（Quick）】'],[/\\{Blocker\\}/,'【阻擋（Blocker）】'],
- [/\\{Defeated\\}/,'【被擊敗（Defeated）】'],[/\\{Go Solo\\}/,'【獨闖（Go Solo）】']
+ [/\{Call\}/,'【呼叫（Call）】'],[/\{Play\}/,'【打出（Play）】'],
+ [/\{Attack\}/,'【攻擊（Attack）】'],[/\{Spend\}/,'【橫置（Spend）】'],
+ [/\{Quick\}/,'【快速（Quick）】'],[/\{Blocker\}/,'【阻擋（Blocker）】'],
+ [/\{Defeated\}/,'【被擊敗（Defeated）】'],[/\{Go Solo\}/,'【獨闖（Go Solo）】']
 ];
 const sameRuleChinese=new Map();
 for(const card of beta){
@@ -77,7 +77,7 @@ for(const entry of retail){
   assert.equal(entry.officialRulesEnglish,betaById.get(entry.betaId).abilityEnglish,'Retail rule override differs from shared Chinese ability reference: '+entry.id);
  }
 }
-const corrected=gallerySource.match(/const correctedAbilityByName=(\\{[\\s\\S]*?\\});\\nconst localizedAbilityForCard/);
+const corrected=gallerySource.match(/const correctedAbilityByName=(\{[\s\S]*?\});\nconst localizedAbilityForCard/);
 assert(corrected,'V3 card-specific corrections must be defined');
 const special=vm.runInNewContext('('+corrected[1]+')');
 assert(special['Pyramid Song'].includes('兩項都執行')&&special['Pyramid Song'].includes('②'),'Pyramid Song must apply both effects when d4 condition holds');
