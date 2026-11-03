@@ -1,0 +1,26 @@
+name: V3 beginner lesson acceptance
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'v3/trainer-modules.js'
+      - 'rules-core.js'
+      - 'localization.js'
+      - 'official-cards.js'
+      - 'starter-decks.js'
+      - 'beta-cards.json'
+      - 'tests/v3-lessons.test.js'
+      - '.github/workflows/v3-lessons.yml'
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify shared mechanics
+        run: node tests/rules-core.test.js
+      - name: Verify V3 eleven lessons and card names
+        run: node tests/v3-lessons.test.js
