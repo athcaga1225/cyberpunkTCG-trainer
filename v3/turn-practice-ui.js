@@ -4,7 +4,7 @@ const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV
 const root=$('v3TurnPractice'),board=$('battleTour'),picker=$('battleDeckChoice');
 if(!root||!board||!P||!H||!picker)return;
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
-let state=H.fresh(),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,message=initial;
+let state=H.fresh(),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 const art=new Map();
 document.querySelectorAll('#starterDeckGallery [data-card-name][data-deck-image]').forEach(el=>{
  const name=el.getAttribute('data-card-name'),src=el.getAttribute('data-deck-image');
@@ -34,7 +34,7 @@ function renderHand(){
   const src=art.get(card.name);
   if(src){const image=document.createElement('img');image.src=src;image.alt=card.name+' 卡面';image.loading='lazy';image.decoding='async';btn.append(image)}
   else{btn.classList.add('missing-art');add('span',card.name,btn,'preview-art-fallback')}
-  btn.addEventListener('click',()=>{selectedId=selected?null:card.id;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;message=selectedId?'已選取 '+card.name:'已取消選取';render()});
+  btn.addEventListener('click',()=>{selectedId=selected?null:card.id;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=selectedId?'已選取 '+card.name:'已取消選取';render()});
   rail.append(btn);
  });
  // Preserve tabletop rail sizing on both mobile and desktop.
@@ -142,7 +142,31 @@ function render(){
    const affordable=selected.length===chosen.cost;
    if(chosen.type==='Unit'){
     if(chosen.onPlayGigAdjust)gigAdjustmentOptions();
-    command('支付並打出 '+chosen.name,()=>P.play(state,selectedId,paid,{gigId,side:gigSide,delta:gigDelta}),buttons,!affordable||(chosen.onPlayGigAdjust&&gigDelta!==0&&!gigId));
+    const rivals=(state.ai?.units||[]).filter(u=>u.ready===true);
+    if(chosen.onPlaySpendRival){
+     const area=add('div','',root,'v3-selected-detail');
+     add('strong','登場效果：橫置自己與一張對手單位',area);
+     if(!rivals.length)add('p','對手目前沒有就緒單位，登場後僅橫置自己。',area);
+     for(const rival of rivals){
+      const btn=add('button',rival.name,area,'v3-resource-choice');btn.type='button';
+      btn.setAttribute('aria-pressed',String(rival.id===rivalUnitId));
+      btn.addEventListener('click',()=>{rivalUnitId=rival.id;render()});
+     }
+    }
+    if(chosen.onPlayDefeatGear){
+     const area=add('div','',root,'v3-selected-detail');
+     add('strong','登場效果：可選擇擊敗場上的一張裝備',area);
+     const candidates=['player','ai'].flatMap(side=>
+      [...(state[side]?.units||[]),...(state[side]?.legends||[])].flatMap(host=>
+       (host.gear||[]).map(gear=>({side,host,gear}))));
+     if(!candidates.length)add('p','目前沒有裝備，可以不選擇目標直接登場。',area);
+     for(const entry of candidates){
+      const btn=add('button',(entry.side==='player'?'我方':'對手')+' '+entry.gear.name+'（'+entry.host.name+'）',area,'v3-resource-choice');
+      btn.type='button';btn.setAttribute('aria-pressed',String(defeatGearId===entry.gear.id&&defeatGearSide===entry.side));
+      btn.addEventListener('click',()=>{if(defeatGearId===entry.gear.id&&defeatGearSide===entry.side){defeatGearId=null}else{defeatGearId=entry.gear.id;defeatGearSide=entry.side}render()});
+     }
+    }
+    command('支付並打出 '+chosen.name,()=>P.play(state,selectedId,paid,{gigId,side:gigSide,delta:gigDelta,rivalUnitId,gearTargetId:defeatGearId,gearSide:defeatGearSide}),buttons,!affordable||(chosen.onPlayGigAdjust&&gigDelta!==0&&!gigId)||(chosen.onPlaySpendRival&&rivals.length>0&&!rivalUnitId));
    }else if(chosen.type==='Gear'){
     const area=add('div','',root,'v3-selected-detail');
     add('strong','裝備目標',area);
