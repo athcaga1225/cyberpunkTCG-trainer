@@ -2554,6 +2554,7 @@ header nav button.active{font-weight:400}
 #decks #betaCardCollection .beta-filters{width:100%;max-width:none}
 /* Narrow screens: full-width search, reset alongside the label, and readable long selectors. */
 @media(max-width:650px){
+ #decks #betaCardCollection .beta-filters{gap:10px 14px}
  #decks #betaCardCollection .beta-filters .v3-search-row{
   display:block;position:relative;grid-column:1/-1;width:100%;
  }
@@ -2573,7 +2574,7 @@ header nav button.active{font-weight:400}
 /* Keep the four filters in their original equal desktop columns. */
 /* Desktop: one full-width search row, followed by four equal filter columns. */
 @media(min-width:900px){
- #decks #betaCardCollection .beta-filters{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:14px;row-gap:10px}
+ #decks #betaCardCollection .beta-filters{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:14px;row-gap:12px}
  #decks #betaCardCollection .beta-filters .v3-search-row{grid-column:1/-1;width:100%;max-width:none}
  #decks #betaCardCollection .beta-filters label{gap:5px}
 }
