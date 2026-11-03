@@ -11,7 +11,7 @@ const grid=document.getElementById('betaResults'),count=document.getElementById(
 const pages=document.getElementById('betaPages'),pageSelect=document.getElementById('betaPageSelect'),prev=document.getElementById('betaPrevious'),next=document.getElementById('betaNext');
 const status=document.getElementById('betaLoadStatus'),detail=document.getElementById('betaCardDetail'),detailBody=document.getElementById('betaCardDetailBody');
 const PAGE_SIZE=24;
-let all=[],starterCards=[],filtered=[],page=0,active='all';
+let all=[],starterCards=[],filtered=[],page=0;
 // Match printings by normalized official English name and verified gameplay
 // identity. English accents vary across catalog sources (Álvarez / Alvarez),
 // and Chinese wording may differ even when the original rules are identical.
@@ -237,7 +237,7 @@ function sortResults(cards){
    if(av===null||bv===null)return (av===null?1:0)-(bv===null?1:0)||cardNumberSort(a,b);
    return (av-bv)*direction||cardNumberSort(a,b);
   }
-  if(mode==='name')return zhName(a).localeCompare(zhName(b),'zh-Hant-TW')||cardNumberSort(a,b);
+  if(mode==='name')return zhName(a).localeCompare(zhName(b),'zh-Hant-u-co-stroke')||cardNumberSort(a,b);
   return cardNumberSort(a,b);
  });
 }
@@ -555,7 +555,6 @@ fetch('./beta-cards.json?v=32',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error
    const option=create('option','',label);option.value=label;rarity.append(option);
    existingRarityValues.add(label);
   }
-  const retailButton=null;
   filter();
  }).catch(error=>console.warn('Retail printings not ready:',error));
  all=cards;filtered=all.slice();
