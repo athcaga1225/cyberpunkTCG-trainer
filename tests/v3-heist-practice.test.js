@@ -156,4 +156,20 @@ face.player.units=[{id:'unit-1',name:'Psycho Squad',power:6,ready:true,gear:[]}]
 face.player.hand.push({...faceplate,id:'faceplate-1'});
 let faceResult=P.gear(face,'faceplate-1',[{kind:'eddie',id:'a'},{kind:'eddie',id:'b'}],'unit-1');
 assert(faceResult.ok);assert.equal(A.unitStats(faceResult.state.player.units[0]).power,8,'Faceplate gives +2 Power');
+/* Additional basic Gear cards whose triggered effects are deferred until the combat/spend engine. */
+for(const [name,cost,power] of [["Dying Night: V's Pistol",2,2],['Tetratronic Rippler',1,1]]){
+ const c=H.byName.get(name);
+ assert.equal(c.unimplementedEffect,false,name+' should be attachable');
+ assert.equal(c.deferredEffect,true,name+' has a pending combat/spend trigger');
+ assert.equal(c.cost,cost);assert.equal(c.power,power);
+ const state=H.fresh();state.turn='player';state.phase='main';
+ state.player.units.push({id:'sample-unit',name:'Psycho Squad',power:6,ready:true,gear:[]});
+ state.player.eddies=Array.from({length:cost},(_,i)=>({id:'cash-'+i,ready:true}));
+ state.player.hand.push({...c,id:'gear-under-test'});
+ const paid=state.player.eddies.map(e=>({kind:'eddie',id:e.id}));
+ const r=P.gear(state,'gear-under-test',paid,'sample-unit');
+ assert(r.ok,name+' basic attachment');
+ assert.equal(A.unitStats(r.state.player.units[0]).power,6+power);
+ assert.equal(r.state.player.units[0].gear.length,1);
+}
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
