@@ -27,14 +27,14 @@ const specs=[
 const total=specs.reduce((n,c)=>n+c[1],0);
 if(total!==40)throw Error('The Heist manifest must have 40 cards');
 // Whitelist only effects that are accurately represented by the current practice state.
-const supported=new Set(['Secondhand Bombus','Psycho Squad','Delamain Cab','MT0D12 Flathead','Mandibular Upgrade','Kiroshi Optics',"Afterparty at Lizzie's"]);
-const powers={'Secondhand Bombus':0,'Psycho Squad':6,'Delamain Cab':4,'MT0D12 Flathead':7,'Mandibular Upgrade':0,'Kiroshi Optics':1};
+const supported=new Set(['Secondhand Bombus','Psycho Squad','Delamain Cab','MT0D12 Flathead','Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Mandibular Upgrade','Kiroshi Optics','Zetatech Faceplate',"Afterparty at Lizzie's"]);
+const powers={'Secondhand Bombus':0,'Psycho Squad':6,'Delamain Cab':4,'MT0D12 Flathead':7,'Evelyn Parker: Scheming Siren':0,'T-Bug: Amateur Philosopher':4,'Mandibular Upgrade':0,'Kiroshi Optics':1,'Zetatech Faceplate':2};
 const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
  name,type,cost,sellTag,power:powers[name]??null,
  unimplementedEffect:!supported.has(name),
  blocker:name==='Secondhand Bombus'||name==='Mandibular Upgrade',
  cannotBeBlockedIfLowerCred:name==='MT0D12 Flathead',
- deferredEffect:['Kiroshi Optics','Delamain Cab','Mandibular Upgrade','MT0D12 Flathead'].includes(name)
+ deferredEffect:['Kiroshi Optics','Delamain Cab','Mandibular Upgrade','MT0D12 Flathead','Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Zetatech Faceplate'].includes(name)
 }]));
 function fresh(){
  const s=P.fresh();
