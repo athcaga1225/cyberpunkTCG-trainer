@@ -7,6 +7,7 @@ on:
       - 'v3/battle-actions.js'
       - 'v3/turn-practice.js'
       - 'v3/turn-practice-ui.js'
+      - 'v3/heist-practice.js'
       - 'v3/index.html'
       - 'rules-core.js'
       - 'localization.js'
@@ -15,6 +16,7 @@ on:
       - 'beta-cards.json'
       - 'tests/v3-lessons.test.js'
       - 'tests/v3-turn-practice.test.js'
+      - 'tests/v3-heist-practice.test.js'
       - '.github/workflows/v3-lessons.yml'
   workflow_dispatch:
 jobs:
@@ -31,3 +33,5 @@ jobs:
         run: node tests/v3-lessons.test.js
       - name: Verify V3 basic turn practice
         run: node tests/v3-turn-practice.test.js
+      - name: Verify The Heist real-card payment practice
+        run: node tests/v3-heist-practice.test.js
