@@ -26,7 +26,14 @@ const specs=[
 ];
 const total=specs.reduce((n,c)=>n+c[1],0);
 if(total!==40)throw Error('The Heist manifest must have 40 cards');
-const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{name,type,cost,sellTag,unimplementedEffect:name!=='Secondhand Bombus'}]));
+// Whitelist only effects that are accurately represented by the current practice state.
+const supported=new Set(['Secondhand Bombus','Psycho Squad','Delamain Cab','Mandibular Upgrade','Kiroshi Optics',"Afterparty at Lizzie's"]);
+const powers={'Secondhand Bombus':0,'Psycho Squad':6,'Delamain Cab':4,'Mandibular Upgrade':0,'Kiroshi Optics':1};
+const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
+ name,type,cost,sellTag,power:powers[name]??null,
+ unimplementedEffect:!supported.has(name),
+ deferredEffect:['Kiroshi Optics','Delamain Cab','Mandibular Upgrade'].includes(name)
+}]));
 function fresh(){
  const s=P.fresh();
  const cards=specs.flatMap(([name,qty])=>Array.from({length:qty},(_,i)=>({...byName.get(name),id:'heist-'+name.replace(/[^a-z0-9]/gi,'-')+'-'+(i+1)})));
