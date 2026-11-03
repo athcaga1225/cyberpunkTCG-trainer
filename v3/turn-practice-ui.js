@@ -1,10 +1,10 @@
 /* V3: real starter-hand basic practice. Safely limited to verified basic unit interactions. */
 (()=>{'use strict';
-const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV3Heist;
+const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV3Heist,A=window.NCTV3Actions;
 const root=$('v3TurnPractice'),board=$('battleTour'),picker=$('battleDeckChoice');
 if(!root||!board||!P||!H||!picker)return;
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
-let state=H.fresh(),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigDelta=0,message=initial;
+let state=H.fresh(),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,message=initial;
 const art=new Map();
 document.querySelectorAll('#starterDeckGallery [data-card-name][data-deck-image]').forEach(el=>{
  const name=el.getAttribute('data-card-name'),src=el.getAttribute('data-deck-image');
@@ -34,7 +34,7 @@ function renderHand(){
   const src=art.get(card.name);
   if(src){const image=document.createElement('img');image.src=src;image.alt=card.name+' 卡面';image.loading='lazy';image.decoding='async';btn.append(image)}
   else{btn.classList.add('missing-art');add('span',card.name,btn,'preview-art-fallback')}
-  btn.addEventListener('click',()=>{selectedId=selected?null:card.id;selectedPayments.clear();targetId=null;gigId=null;gigDelta=0;message=selectedId?'已選取 '+card.name:'已取消選取';render()});
+  btn.addEventListener('click',()=>{selectedId=selected?null:card.id;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;message=selectedId?'已選取 '+card.name:'已取消選取';render()});
   rail.append(btn);
  });
  // Preserve tabletop rail sizing on both mobile and desktop.
@@ -53,7 +53,11 @@ function renderField(){
   const image=art.get(card.name);
   if(image){const img=document.createElement('img');img.src=image;img.alt=card.name;img.loading='lazy';el.append(img)}
   else add('span',card.name,el);
-  add('small',card.lag?'LAG':'READY',el);if(card.gear?.length)add('small','裝備：'+card.gear.map(g=>g.name).join('、'),el);
+  const stats=A?.unitStats?.(card);
+  add('small',(card.lag?'LAG':'READY')+(stats?' · PWR '+stats.power:''),el);
+  if(stats?.blocker)add('small','BLOCKER',el);
+  if(card.gear?.length)add('small','裝備：'+card.gear.map(g=>g.name).join('、'),el);
+  if(card.deferredEffect)add('small','特殊效果：待對戰系統',el);
  }
  if(!state.player.units.length)add('div','尚無已打出的單位',slots);
 }
@@ -92,9 +96,10 @@ function render(){
  add('span','傳奇可支付 '+p.legends.filter(e=>e.ready&&(!e.faceUp||e.sellTag)).length,stats);
  add('span','委託骰 '+p.gigs.length+' 顆',stats);
  add('span','場地單位 '+p.units.length+' 張',stats);
+ add('span','棄牌區 '+(p.trash?.length||0)+' 張',stats);
  const chosen=p.hand.find(c=>c.id===selectedId);
  const details=add('div','',root,'v3-selected-detail');
- if(chosen){add('strong',chosen.name,details);add('p',chosen.type+' · COST '+chosen.cost+' · '+(chosen.sellTag?'有變賣標記':'不可變賣')+(chosen.unimplementedEffect?' · 尚未支援出牌效果':''),details)}
+ if(chosen){add('strong',chosen.name,details);add('p',chosen.type+' · COST '+chosen.cost+' · '+(chosen.sellTag?'有變賣標記':'不可變賣')+(chosen.unimplementedEffect?' · 尚未支援出牌效果':chosen.deferredEffect?' · 可登場／裝備，觸發效果待實作':''),details)}
  else add('p','點選上方手牌以查看操作。',details);
  const buttons=add('div','',root,'v3-turn-actions');
  if(!state.finished&&state.turn==='player'&&state.phase==='start'){
@@ -133,15 +138,19 @@ function render(){
     add('strong','調整委託骰（最多正負 1）',area);
     const pick=document.createElement('select');pick.setAttribute('aria-label','選擇委託骰');
     const no=document.createElement('option');no.value='';no.textContent='不調整';pick.append(no);
-    const allGigs=[...p.gigs,...(state.ai?.gigs||[])];
-    for(const gig of allGigs){const o=document.createElement('option');o.value=gig.id;o.textContent='d'+gig.sides+'：'+gig.value;pick.append(o)}
-    pick.value=gigId||'';
-    pick.addEventListener('change',()=>{gigId=pick.value||null;if(!gigId)gigDelta=0;render()});area.append(pick);
+    const allGigs=[...p.gigs.map(g=>({gig:g,side:'player'})),...(state.ai?.gigs||[]).map(g=>({gig:g,side:'ai'}))];
+    for(const {gig,side} of allGigs){const o=document.createElement('option');o.value=side+':'+gig.id;o.textContent=(side==='player'?'我方':'對手')+' d'+gig.sides+'：'+gig.value;pick.append(o)}
+    pick.value=gigId?gigSide+':'+gigId:'';
+    pick.addEventListener('change',()=>{
+     const option=allGigs.find(x=>x.side+':'+x.gig.id===pick.value);
+     gigId=option?.gig.id||null;gigSide=option?.side||'player';
+     if(!gigId)gigDelta=0;render();
+    });area.append(pick);
     const delta=document.createElement('select');delta.setAttribute('aria-label','委託骰增減');
     for(const n of [-1,0,1]){const o=document.createElement('option');o.value=String(n);o.textContent=n>0?'+1':n<0?'-1':'不調整';delta.append(o)}
     delta.value=String(gigDelta);
     delta.addEventListener('change',()=>{gigDelta=Number(delta.value);render()});area.append(delta);
-    command('支付並執行 '+chosen.name,()=>P.program(state,selectedId,paid,{gigId,delta:gigDelta}),buttons,!affordable||(gigDelta!==0&&!gigId));
+    command('支付並執行 '+chosen.name,()=>P.program(state,selectedId,paid,{gigId,side:gigSide,delta:gigDelta}),buttons,!affordable||(gigDelta!==0&&!gigId));
    }
   }
   command('結束我的回合',()=>P.pass(state),buttons);
@@ -152,6 +161,7 @@ function render(){
  const summary=add('div','',root,'v3-turn-log');add('strong','實際練習狀態',summary);
  add('p','場地：'+(p.units.map(c=>c.name+'（'+(c.ready?'Ready':'Spent')+(c.lag?' / Lag':'')+'）').join('、')||'無'),summary);
  add('p','委託骰：'+(p.gigs.map(d=>'d'+d.sides+'='+d.value).join('、')||'無'),summary);
+ add('p','棄牌區：'+((p.trash||[]).map(c=>c.name).join('、')||'無'),summary);
  indicator('.turn-info','THE HEIST：'+phase());
  indicator('.player-eddies','Eddies 就緒 '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length);
  indicator('.player-gigs',p.gigs.length+' 顆委託骰');
@@ -162,7 +172,7 @@ function render(){
 const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
  if(picker.value==='theHeist'){
-  state=H.fresh();selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigDelta=0;message=initial;
+  state=H.fresh();selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
   if(legendButton)legendButton.disabled=true;
  }else{
