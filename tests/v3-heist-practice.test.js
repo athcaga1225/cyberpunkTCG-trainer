@@ -227,4 +227,19 @@ assert.equal(quickNext.state.ai.units[0].ready,true,'Training rival is reset for
 const practiceUI=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(practiceUI.includes('renderRivalField()'),'Rival training target must render');
 assert(practiceUI.includes("H.fresh(scenario)"),'Practice hand scenarios must be wired');
+/* Reboot Optics may be played in the open Main Phase; effect is pending until combat exists. */
+assert.equal(H.byName.get('Reboot Optics').unimplementedEffect,false);
+let protect=H.fresh('quick');protect.turn='player';protect.phase='main';
+const reboot=protect.player.hand.find(c=>c.name==='Reboot Optics');
+assert(reboot&&reboot.cost===2);
+protect.player.eddies=[{id:'cash-1',ready:true}];
+const rebootPayment=[{kind:'eddie',id:'cash-1'},{kind:'legend',id:'legend-jackie'}];
+const queued=P.program(protect,reboot.id,rebootPayment,{});
+assert(queued.ok);assert.equal(queued.state.player.pendingRebootOptics,1);
+assert.equal(queued.state.player.trash.at(-1).name,'Reboot Optics');
+assert.equal(queued.state.player.hand.some(c=>c.id===reboot.id),false);
+assert.equal(protect.player.pendingRebootOptics,undefined,'Pure action must not mutate its input');
+assert.equal(P.program(queued.state,reboot.id,rebootPayment,{}).ok,false,'Queued card cannot replay from trash');
+const expired=P.pass(queued.state);
+assert(expired.ok&&expired.state.player.pendingRebootOptics===0,'Queued turn-limited protection expires without a fight');
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
