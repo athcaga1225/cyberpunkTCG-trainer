@@ -27,7 +27,7 @@ const specs=[
 const total=specs.reduce((n,c)=>n+c[1],0);
 if(total!==40)throw Error('The Heist manifest must have 40 cards');
 // Whitelist only effects that are accurately represented by the current practice state.
-const supported=new Set(['Dexter DeShawn: One Last Chance','Heywood Ripperdoc','Offduty Malfini','Secondhand Bombus','Psycho Squad','Delamain Cab','MT0D12 Flathead','Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Mandibular Upgrade','Kiroshi Optics','Zetatech Faceplate',"Dying Night: V's Pistol",'Tetratronic Rippler',"Afterparty at Lizzie's"]);
+const supported=new Set(['Floor It','Dexter DeShawn: One Last Chance','Heywood Ripperdoc','Offduty Malfini','Secondhand Bombus','Psycho Squad','Delamain Cab','MT0D12 Flathead','Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Mandibular Upgrade','Kiroshi Optics','Zetatech Faceplate',"Dying Night: V's Pistol",'Tetratronic Rippler',"Afterparty at Lizzie's"]);
 const powers={'Heywood Ripperdoc':8,'Offduty Malfini':5,'Dexter DeShawn: One Last Chance':4,'Secondhand Bombus':0,'Psycho Squad':6,'Delamain Cab':4,'MT0D12 Flathead':7,'Evelyn Parker: Scheming Siren':0,'T-Bug: Amateur Philosopher':4,'Mandibular Upgrade':0,'Kiroshi Optics':1,'Zetatech Faceplate':2,"Dying Night: V's Pistol":2,'Tetratronic Rippler':1};
 const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
  name,type,cost,sellTag,power:powers[name]??null,
@@ -39,10 +39,13 @@ const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
  cannotBeBlockedIfLowerCred:name==='MT0D12 Flathead',
  deferredEffect:['Dexter DeShawn: One Last Chance','Kiroshi Optics','Delamain Cab','Mandibular Upgrade','MT0D12 Flathead','Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Zetatech Faceplate',"Dying Night: V's Pistol",'Tetratronic Rippler'].includes(name)
 }]));
-function fresh(){
+function fresh(scenario='basic'){
+ if(!['basic','quick'].includes(scenario))throw new Error('Unknown Heist practice scenario');
  const s=P.fresh();
  const cards=specs.flatMap(([name,qty])=>Array.from({length:qty},(_,i)=>({...byName.get(name),id:'heist-'+name.replace(/[^a-z0-9]/gi,'-')+'-'+(i+1)})));
- const opening=['Secondhand Bombus','Kiroshi Optics','Mandibular Upgrade',"Afterparty at Lizzie's",'Evelyn Parker: Scheming Siren','Dexter DeShawn: One Last Chance'];
+ const opening=scenario==='basic'
+ ? ['Secondhand Bombus','Kiroshi Optics','Mandibular Upgrade',"Afterparty at Lizzie's",'Evelyn Parker: Scheming Siren','Dexter DeShawn: One Last Chance']
+ : ['Floor It','Offduty Malfini','Heywood Ripperdoc','Psycho Squad',"Dying Night: V's Pistol",'Tetratronic Rippler'];
  const hand=opening.map(name=>cards.splice(cards.findIndex(c=>c.name===name),1)[0]);
  // Deterministic 34-card remainder for repeatable training, not a shuffled official opening.
  s.player.hand=hand;s.player.deck=cards;
@@ -50,7 +53,10 @@ function fresh(){
   {id:'legend-viktor',name:'Viktor Vektor: Sit Down and Relax',ready:false,faceUp:false},
   {id:'legend-v',name:'V: Corporate Exile',ready:false,faceUp:false},
   {id:'legend-jackie',name:'Jackie Welles: Pour One Out For Me',ready:true,faceUp:false}
- ];s.practiceKind='the-heist';return s;
+ ];
+ // A clearly labeled training target, NOT a simulated opponent opening or AI decision.
+ s.ai.units=[{id:'training-rival-ruthless',name:'Ruthless Lowlife',type:'Unit',power:4,ready:true,lag:false,gear:[],trainingTarget:true}];
+ s.practiceKind='the-heist';s.practiceScenario=scenario;return s;
 }
 return {fresh,byName,cardCount:total};
 });
