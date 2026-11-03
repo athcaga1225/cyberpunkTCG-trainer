@@ -3146,7 +3146,7 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
 
 
 
-/* V3: four centered color swatches below filters, same hierarchy on mobile and desktop. */
+/* V3: compact centered color filters; 28px swatches with 40px touch targets. */
 #decks #betaCardCollection .beta-filters .v3-search-row{
  grid-column:1/-1;
  display:block;
@@ -3162,23 +3162,23 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
  display:flex;
  align-items:center;
  justify-content:center;
- gap:22px;
+ gap:12px;
  width:100%;
- min-height:60px;
- margin:2px 0 0;
- padding:6px 0;
+ min-height:40px;
+ margin:0;
+ padding:0;
 }
 #decks #betaCardCollection .v3-color-dot{
  --dot:#f8504a;
  appearance:none;
  position:relative;
- flex:0 0 48px;
- width:48px;
- height:48px;
- border:2px solid transparent;
+ flex:0 0 40px;
+ width:40px;
+ height:40px;
+ border:1.5px solid transparent;
  border-radius:50%;
  background:transparent;
- padding:6px;
+ padding:5px;
  cursor:pointer;
  transition:border-color .16s ease,transform .16s ease;
 }
@@ -3195,7 +3195,7 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
 #decks #betaCardCollection .v3-color-dot[data-card-color="green"]{--dot:#55b980}
 #decks #betaCardCollection .v3-color-dot[data-card-color="blue"]{--dot:#42acda}
 #decks #betaCardCollection .v3-color-dot[data-card-color="yellow"]{--dot:#e3ba52}
-#decks #betaCardCollection .v3-color-dot[aria-pressed="true"]{border-color:#eaf7fa}
+#decks #betaCardCollection .v3-color-dot[aria-pressed="true"]{border-color:#c1d6dd}
 #decks #betaCardCollection .v3-color-dot:hover{transform:scale(1.06)}
 #decks #betaCardCollection .v3-color-dot:focus-visible{outline:2px solid #29ffff;outline-offset:3px}
 @media(min-width:900px){
@@ -3211,8 +3211,8 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
  #decks #betaCardCollection .beta-filters .v3-search-row .v3-filter-search{width:100%}
  #decks #betaCardCollection .beta-filters .v3-filter-series,
  #decks #betaCardCollection .beta-filters .v3-filter-sort{grid-column:auto}
- #decks #betaCardCollection .beta-filters .v3-color-picker{gap:14px;min-height:58px}
- #decks #betaCardCollection .v3-color-dot{flex-basis:44px;width:44px;height:44px;padding:6px}
+ #decks #betaCardCollection .beta-filters .v3-color-picker{gap:12px;min-height:40px}
+ #decks #betaCardCollection .v3-color-dot{flex-basis:40px;width:40px;height:40px;padding:5px}
 }
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
