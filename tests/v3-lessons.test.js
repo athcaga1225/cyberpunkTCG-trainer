@@ -51,6 +51,11 @@ const choose=(n)=>{const a=all(elements.labStage,'div').find(x=>x.className==='a
 const goto=i=>{const b=elements.chapterNav.children[i];assert(b,'Missing lesson '+(i+1));b.onclick();};
 const progress=()=>JSON.parse(storage.get('nct-integrated-lessons-v3')||'[]');
 assert.equal(elements.chapterNav.children.length,11,'Exactly 11 chapters should be available');
+
+// Control layout is consistent after lesson completion.
+goto(0);
+assert(!all(elements.labStage,'div').some(x=>x.textContent==='先閱讀上方解說，再選一個操作。'),'Do not show idle instruction notice');
+assert(all(elements.labStage,'button').some(x=>x.textContent==='重新練習這一課 ↻'),'Retry has icon after label');
 const colorRoot=all(elements.labStage,'section').find(x=>x.className==='lesson-colors');
 assert(colorRoot,'Lesson 01 must show color reference');
 const colorButtons=all(colorRoot,'button');
@@ -77,13 +82,13 @@ choose(0);
 assert.equal(progress().length,0,'Invalid attack must not pass lesson 06');
 choose(1);
 assert(progress().includes(5),'Valid attack must pass lesson 06');
-action('重新練習這一課');
+action('重新練習這一課 ↻');
 assert(all(elements.labStage,'button').some(b=>b.textContent.includes('攻擊對手已使用的角色')),'Retry should restore the exercise');
 assert(progress().includes(5),'Retry must preserve recorded completion');
 const correct=[0,0,0,0,0,1,0,0,0,0,0];
 for(let i=0;i<11;i++){
  goto(i);
- if(progress().includes(i))action('重新練習這一課');
+ if(progress().includes(i))action('重新練習這一課 ↻');
  choose(correct[i]);
  assert(progress().includes(i),'Lesson '+(i+1)+' must be completable');
 }
