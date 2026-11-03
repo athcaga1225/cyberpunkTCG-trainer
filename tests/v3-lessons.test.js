@@ -51,22 +51,22 @@ const choose=(n)=>{const a=all(elements.labStage,'div').find(x=>x.className==='a
 const goto=i=>{const b=elements.chapterNav.children[i];assert(b,'Missing lesson '+(i+1));b.onclick();};
 const progress=()=>JSON.parse(storage.get('nct-integrated-lessons-v3')||'[]');
 assert.equal(elements.chapterNav.children.length,11,'Exactly 11 chapters should be available');
-const colorRoot=all(elements.labStage,'div').find(x=>x.className==='lesson-colors');
+const colorRoot=all(elements.labStage,'section').find(x=>x.className==='lesson-colors');
 assert(colorRoot,'Lesson 01 needs a visible color reference');
-const colorButtons=all(colorRoot,'button');
-assert.equal(colorButtons.length,4,'Four color choices should be available');
-const detail=all(colorRoot,'div').find(x=>x.className==='lesson-color-detail');
-const colorTitle=()=>all(detail,'strong').find(x=>x.className==='lesson-color-title').textContent;
-const colorDescription=()=>all(detail,'p').find(x=>x.className==='lesson-color-description').textContent;
-assert(colorDescription().length>15,'Color explanation must be visible by default');
-const descriptions=new Set();
+const tiles=all(colorRoot,'details');
+assert.equal(tiles.length,4,'Four native color disclosures must exist');
+assert.equal(tiles[0].getAttribute('open'),'','Red explanation must be visible immediately');
+const explanations=new Set();
 for(const [i,color] of ['紅色','綠色','藍色','黃色'].entries()){
- colorButtons[i].onclick();
- assert(colorTitle().includes(color),'Clicking a color must update the explanatory title');
- assert.equal(colorButtons[i].getAttribute('aria-pressed'),'true','Clicked color is active');
- descriptions.add(colorDescription());
+ const summary=all(tiles[i],'summary')[0];
+ const body=all(tiles[i],'div').find(x=>x.className==='lesson-color-tile-body');
+ assert(summary.textContent.includes(color),'Color selector must be labeled: '+color);
+ assert(body,'Each color should have an explanation container');
+ const explanation=all(body,'p')[0];
+ assert(explanation && explanation.textContent.length>20,'Each color needs substantive content');
+ explanations.add(explanation.textContent);
 }
-assert.equal(descriptions.size,4,'Each color needs its own meaningful explanation');
+assert.equal(explanations.size,4,'Color explanations must differ');
 for(let i=0;i<11;i++){assert.equal(typeof elements.chapterNav.children[i].onclick,'function','Chapter must be freely selectable: '+i);}
 goto(5);
 choose(0);
