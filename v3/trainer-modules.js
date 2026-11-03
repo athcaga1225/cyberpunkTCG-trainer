@@ -44,7 +44,7 @@ const stages=[
   options:s=>[{label:'使用外勤幹員的登場能力，抽 1 張牌',run:()=>R.playTrigger(s,'player',{name:'Field Operator'}),done:r=>r.ok&&r.state.player.hand.length===1},{label:'街頭聲望是偶數，所以不能抽牌',run:()=>({ok:false,reason:'官方卡牌效果指定偶數時抽牌，6 是偶數'}),done:()=>false}]}
 ];
 const lessonInfo=[
- {title:'先準備牌組，才能開始對戰',text:'每位玩家自行準備 3 張不同名的傳奇卡（認卡面右上角 Legend 類型標示；Iconic 不等於傳奇卡）、40～50 張不含傳奇的主牌組，以及 d4、d6、d8、d10、d12、d20 各一顆。牌組須符合最多 3 張同名同副標題與 RAM 限制。開局先決定先後手，再洗主牌組、隨機蓋放傳奇卡、把骰子放進合事佬區，最後抽 6 張起始手牌；可調度一次。先手最左兩張傳奇卡起始為已使用。'},
+ {title:'先準備牌組，才能開始對戰',text:'每人準備 3 張不同名傳奇卡、40～50 張主牌組與 6 顆委託骰。傳奇卡決定組牌顏色與 RAM 限制；開局先決定先後手，洗牌、蓋放傳奇卡並抽 6 張起始手牌。詳細配置可在本課下方的「組牌與開局細節」展開查看。'},
  {title:'先準備，再行動',text:'每回合先進入準備階段：重置已使用的卡牌 → 抽 1 張 → 從合事佬區擲出 1 顆委託骰。接著進入主要階段，才能變賣、出牌、呼叫傳奇或攻擊。'},
  {title:'歐元與傳奇卡都能支付',text:'歐元（Eddies／€$）是出牌資源：每回合在主要階段可變賣一張有變賣標籤的手牌，面朝下放到歐元區，成為 1 €$。傳奇區內的傳奇卡不論翻開與否，也可橫置支付 1 €$，但不算真正的歐元。'},
  {title:'呼叫傳奇，就是翻開蓋牌',text:'每回合最多呼叫傳奇一次：支付 1 €$，翻開傳奇區內一張隨機蓋放、尚未翻開的傳奇卡。若卡牌具有 CALL 能力，則在透過呼叫傳奇將其翻開時觸發。呼叫也可以在對手攻擊的反應時機進行。'},
@@ -83,7 +83,18 @@ navChapters();container.replaceChildren();
 const header=add(container,'div','','chapter-progress');add(header,'strong','LESSON '+String(stage+1).padStart(2,'0')+' / '+String(stages.length).padStart(2,'0'),'number');add(header,'span','已完成 '+completedLessons.size+' / '+stages.length+' 課','muted');
 const track=add(container,'div','','progress');const fill=add(track,'span','');fill.style.width=(((stage+1)/stages.length)*100)+'%';track.setAttribute('role','progressbar');track.setAttribute('aria-label','目前教學步驟');track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax',String(stages.length));track.setAttribute('aria-valuenow',String(stage+1));
 add(container,'h2',lessonInfo[stage].title);
-const explain=add(container,'div','','chapter-learning');add(explain,'h3','先理解這個觀念');add(explain,'p',lessonInfo[stage].text);
+const explain=add(container,'div','','chapter-learning');add(explain,'h3','本課重點');add(explain,'p',lessonInfo[stage].text);
+if(stage===0){
+ const colors=add(container,'div','','lesson-colors');
+ add(colors,'div','認識卡牌顏色（點選查看 RAM 提示）','lesson-colors-label');
+ const row=add(colors,'div','','lesson-colors-row');
+ const note=add(colors,'p','RAM 是組牌限制，€$ 才是出牌費用。選一種顏色查看說明。','lesson-colors-note');
+ [['紅色','#f8504a'],['綠色','#55b980'],['藍色','#42acda'],['黃色','#e3ba52']].forEach(([name,tone])=>{
+  const chip=add(row,'button',name);chip.type='button';chip.style.borderTopColor=tone;chip.setAttribute('aria-pressed','false');
+  chip.onclick=()=>{row.children.forEach(b=>b.setAttribute('aria-pressed',String(b===chip)));note.textContent=name+'卡牌：組牌時須符合傳奇卡提供的該顏色 RAM 上限。RAM 不會在出牌時消耗。';};
+ });
+}
+
 const question=add(container,'div','','chapter-quiz');add(question,'div','現在試著操作','number');add(question,'p',st.instruction);
 const scoreboard=st.staticQuiz?null:add(container,'div','','arena');
 const panel=(label,who)=>{const div=add(scoreboard,'div','','zone');add(div,'div',label,'number');const p=game[who];add(div,'p','委託骰 '+p.gigs.length+' 顆 · 街頭聲望 '+(R.cred(p.gigs)??'尚無'));add(div,'p','角色：'+(p.units.length?p.units.map(u=>L.cardTitle(u.name)+'（'+R.power(u)+' 戰力 / '+(u.ready?'就緒':'已使用')+(u.lag?'，新登場限制':'')+'）').join('、'):'無'));if(p.gigs.length)add(div,'p',p.gigs.map(d=>L.dieLabel(d.sides)+'：'+d.value+' 點').join(' · '));if(p.fixer.length)add(div,'p','合事佬區：'+p.fixer.map(x=>L.dieLabel(x)).join(' · '));};if(!st.staticQuiz){panel('PLAYER / 你的區域','player');panel('RIVAL / 對手區域','ai');}
