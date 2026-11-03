@@ -113,7 +113,37 @@ function render(){
    const sources=paymentOptions(root);
    const selected=sources.filter(src=>selectedPayments.has(src.kind+':'+src.id));
    const paid=selected.map(({kind,id})=>({kind,id}));
-   add('p','已指定 '+selected.length+' / '+chosen.cost+' €
+   add('p','已指定 '+selected.length+' / '+chosen.cost+' Eddies',root,'v3-payment-count');
+   const affordable=selected.length===chosen.cost;
+   if(chosen.type==='Unit'){
+    command('支付並打出 '+chosen.name,()=>P.play(state,selectedId,paid),buttons,!affordable);
+   }else if(chosen.type==='Gear'){
+    const area=add('div','',root,'v3-selected-detail');
+    add('strong','裝備目標',area);
+    const targets=[...p.units,...p.legends.filter(l=>l.faceUp)];
+    if(!targets.length)add('p','需先有友方單位或已翻開的傳奇卡。',area);
+    for(const target of targets){
+     const b=add('button',target.name,area,'v3-resource-choice');
+     b.type='button';b.setAttribute('aria-pressed',String(target.id===targetId));
+     b.addEventListener('click',()=>{targetId=target.id;render()});
+    }
+    command('支付並裝備 '+chosen.name,()=>P.gear(state,selectedId,paid,targetId),buttons,!affordable||!targets.some(t=>t.id===targetId));
+   }else if(chosen.type==='Program'&&chosen.name==="Afterparty at Lizzie's"){
+    const area=add('div','',root,'v3-selected-detail');
+    add('strong','調整委託骰（最多正負 1）',area);
+    const pick=document.createElement('select');pick.setAttribute('aria-label','選擇委託骰');
+    const no=document.createElement('option');no.value='';no.textContent='不調整';pick.append(no);
+    const allGigs=[...p.gigs,...(state.ai?.gigs||[])];
+    for(const gig of allGigs){const o=document.createElement('option');o.value=gig.id;o.textContent='d'+gig.sides+'：'+gig.value;pick.append(o)}
+    pick.value=gigId||'';
+    pick.addEventListener('change',()=>{gigId=pick.value||null;if(!gigId)gigDelta=0;render()});area.append(pick);
+    const delta=document.createElement('select');delta.setAttribute('aria-label','委託骰增減');
+    for(const n of [-1,0,1]){const o=document.createElement('option');o.value=String(n);o.textContent=n>0?'+1':n<0?'-1':'不調整';delta.append(o)}
+    delta.value=String(gigDelta);
+    delta.addEventListener('change',()=>{gigDelta=Number(delta.value);render()});area.append(delta);
+    command('支付並執行 '+chosen.name,()=>P.program(state,selectedId,paid,{gigId,delta:gigDelta}),buttons,!affordable||(gigDelta!==0&&!gigId));
+   }
+  }
   command('結束我的回合',()=>P.pass(state),buttons);
  }
  if(!state.finished&&state.turn==='ai')command('略過對手行動，開始下一回合',()=>P.next(state),buttons);
