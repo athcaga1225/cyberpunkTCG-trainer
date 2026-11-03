@@ -128,7 +128,6 @@ render()}}}
 else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'muted');if(stage===stages.length-1)add(actions,'strong',completedLessons.size===stages.length?'恭喜完成全部 11 課！':'已完成第 11 課，可自由選擇其他課程。')}
 if(notice){const feedback=add(container,'div',notice,'notice');feedback.setAttribute('role','status')}
 const bottom=add(container,'div','','chapter-actions');
-if(stage>0){const prev=add(bottom,'button','← 上一課','btn');prev.onclick=()=>load(stage-1)}
 if(isDone){const retry=add(bottom,'button','重新練習這一課 ↻','btn');retry.onclick=()=>load(stage,true)}
 if(isDone&&stage<stages.length-1){const next=add(bottom,'button','下一課 →','btn primary');next.onclick=()=>load(stage+1)}
 if(completedLessons.size>=stages.length){const reset=add(bottom,'button','重設教學進度','btn');reset.onclick=()=>{completedLessons.clear();save();load(0)}}
