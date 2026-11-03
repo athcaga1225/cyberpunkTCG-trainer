@@ -2626,6 +2626,37 @@ header nav button.active{font-weight:400}
 
 @media(max-width:800px){.table-orientation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.table-orientation-grid>div:nth-child(n){padding:15px 18px;border-left:0}.table-orientation-grid>div:nth-child(odd){padding-left:0}.table-orientation-grid>div:nth-child(even){border-left:1px solid rgba(174,188,192,.12)}}
 @media(max-width:510px){.table-orientation-grid{grid-template-columns:1fr}.table-orientation-grid>div:nth-child(n){padding:13px 0;border-left:0}}
+
+/* Beginner-only field map: schematic matching the official playmat zone relationships. */
+#tableOrientation{margin:20px 0 24px}
+#tableOrientation>.number{margin-bottom:9px}
+#tableOrientation h2{margin:0 0 12px}
+#tableOrientation>p{max-width:84ch}
+#tableOrientation .field-map-scroll{overflow-x:auto;overscroll-behavior-x:contain;margin-top:24px;padding:4px 2px 12px}
+#tableOrientation .field-map-board{display:grid;grid-template-columns:116px minmax(150px,1fr) minmax(150px,1fr) 100px;grid-template-rows:77px 190px 135px 65px;grid-template-areas:". rival gigs deck" "fixer field field deck" "fixer legends eddies trash" ". hand hand .";gap:9px;min-width:600px;padding:16px;border:1px solid rgba(41,255,255,.24);background:linear-gradient(145deg,rgba(23,38,44,.7),rgba(8,16,20,.96));border-radius:4px}
+#tableOrientation .field-map-zone{appearance:none;display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:0;padding:12px 7px;gap:7px;border:1px solid rgba(128,153,159,.35);background:rgba(5,14,18,.58);color:#eef2f3;cursor:pointer;border-radius:2px;transition:border-color .15s ease,background .15s ease,box-shadow .15s ease;text-align:center}
+#tableOrientation .field-map-zone:hover{border-color:rgba(41,255,255,.6)}
+#tableOrientation .field-map-zone[aria-pressed="true"]{border-color:#29ffff;background:rgba(41,255,255,.085);box-shadow:inset 0 0 0 1px rgba(41,255,255,.16)}
+#tableOrientation .field-map-zone:focus-visible{outline:2px solid #f8504a;outline-offset:2px}
+#tableOrientation .field-map-en{font:600 10px/1.25 system-ui,sans-serif;letter-spacing:.15em;color:#f8504a}
+#tableOrientation .field-map-zone strong{font-size:15px;line-height:1.4;font-weight:600}
+#tableOrientation .field-map-symbol{font:500 11px/1.55 system-ui,sans-serif;color:#859ea5;letter-spacing:.06em}
+#tableOrientation .zone-rival{grid-area:rival}
+#tableOrientation .zone-gigs{grid-area:gigs}
+#tableOrientation .zone-fixer{grid-area:fixer}
+#tableOrientation .zone-field{grid-area:field;border-style:dashed}
+#tableOrientation .zone-legends{grid-area:legends}
+#tableOrientation .zone-eddies{grid-area:eddies}
+#tableOrientation .zone-deck{grid-area:deck}
+#tableOrientation .zone-trash{grid-area:trash}
+#tableOrientation .zone-hand{grid-area:hand}
+#tableOrientation .field-map-key{display:grid;grid-template-columns:190px 1fr;gap:4px 18px;align-items:baseline;border-top:1px solid rgba(174,188,192,.2);margin-top:12px;padding:19px 0 0}
+#tableOrientation .field-map-key>.number{grid-column:1/-1;font-size:11px}
+#tableOrientation .field-map-key strong{color:#29ffff;font-weight:600}
+#tableOrientation .field-map-key p{margin:0;line-height:1.8}
+#tableOrientation .field-map-note{margin:15px 0 0;font-size:13px}
+@media(max-width:750px){#tableOrientation .field-map-board{padding:10px;gap:7px}#tableOrientation .field-map-key{grid-template-columns:1fr;gap:4px}#tableOrientation .field-map-key p{margin-top:2px}}
+@media(prefers-reduced-motion:reduce){#tableOrientation .field-map-zone{transition:none}}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -2639,7 +2670,7 @@ header nav button.active{font-weight:400}
 <div class="panel"><div class="number">CARD TYPES</div><h2>先認識四類卡牌</h2><p>傳奇卡（Legend）決定牌組核心與 RAM 限制；單位卡（Unit）負責戰鬥，裝備卡（Gear）強化角色，程式卡（Program）則帶來一次性效果。<strong>看卡面右上角的 Legend 類型標示</strong>才能辨認傳奇卡；Iconic 是特殊版本／稀有度，兩者不是同一件事。</p></div>
 <div class="panel"><div class="number">PAYMENT</div><h2>出牌需要資源</h2><p>用歐元（Eddies／€$）支付卡牌費用。主要階段每回合可以變賣 1 張具有變賣標籤的手牌；傳奇區內的傳奇卡也能橫置支付，每張算 1 €$。完整支付操作仍待正式對戰引擎加入。</p></div>
 </div>
-<div class="panel" id="tableOrientation"><div class="number">TABLE GUIDE / WHERE TO PLACE CARDS</div><h2>認識遊戲區域</h2><p>初始牌組附的紙製遊戲墊可以幫你辨認區域。這裡先了解每個位置的用途，再進入下方新手練習；正式對戰功能則保留在獨立的對戰頁。</p><div class="table-orientation-grid"><div><strong>傳奇區</strong><p>開局放 3 張面朝下的傳奇卡。</p></div><div><strong>合事佬區</strong><p>放尚未擲出的 6 顆委託骰。</p></div><div><strong>委託區</strong><p>放取得或從對手搶來的委託骰。</p></div><div><strong>歐元區</strong><p>放用來支付卡牌費用的資源。</p></div><div><strong>戰場</strong><p>放已打出的單位卡與裝備卡。</p></div><div><strong>牌庫／手牌／棄牌區</strong><p>抽牌、持有卡牌與放置已棄置的卡牌。</p></div></div></div>
+<div class="panel" id="tableOrientation"><div class="number">TABLE GUIDE / WHERE TO PLACE CARDS</div><h2>認識遊戲區域</h2><p>這是從<strong>自己座位</strong>看向桌面的場地示意。點選任一區域，就能看到用途；對手位於上方。位置參考官方遊戲墊配置，並不是實際對戰介面。</p><div class="field-map-scroll" tabindex="0" aria-label="遊戲場地示意圖，窄螢幕可水平捲動"><div class="field-map-board" role="group" aria-label="玩家視角的場地區域"><button class="field-map-zone zone-rival" type="button" data-field-zone="rival" aria-pressed="false"><span class="field-map-en">RIVAL GIGS</span><strong>對手委託區</strong><span class="field-map-symbol">對手</span></button><button class="field-map-zone zone-gigs" type="button" data-field-zone="gigs" aria-pressed="true"><span class="field-map-en">GIGS</span><strong>我的委託區</strong><span class="field-map-symbol">我方</span></button><button class="field-map-zone zone-fixer" type="button" data-field-zone="fixer" aria-pressed="false"><span class="field-map-en">FIXER</span><strong>合事佬區</strong><span class="field-map-symbol">d20  d12  d10  d8  d6  d4</span></button><button class="field-map-zone zone-field" type="button" data-field-zone="field" aria-pressed="false"><span class="field-map-en">FIELD</span><strong>戰場</strong><span class="field-map-symbol">UNIT  /  GEAR</span></button><button class="field-map-zone zone-legends" type="button" data-field-zone="legends" aria-pressed="false"><span class="field-map-en">LEGENDS</span><strong>傳奇區</strong><span class="field-map-symbol">LEGEND  ×3</span></button><button class="field-map-zone zone-eddies" type="button" data-field-zone="eddies" aria-pressed="false"><span class="field-map-en">EDDIES</span><strong>歐元區</strong><span class="field-map-symbol">€$  /  SELL</span></button><button class="field-map-zone zone-deck" type="button" data-field-zone="deck" aria-pressed="false"><span class="field-map-en">DECK</span><strong>牌庫</strong><span class="field-map-symbol">40–50</span></button><button class="field-map-zone zone-trash" type="button" data-field-zone="trash" aria-pressed="false"><span class="field-map-en">TRASH</span><strong>棄牌區</strong><span class="field-map-symbol">DISCARD</span></button><button class="field-map-zone zone-hand" type="button" data-field-zone="hand" aria-pressed="false"><span class="field-map-en">HAND</span><strong>手牌</strong><span class="field-map-symbol">6 START</span></button></div></div><div class="field-map-key" id="fieldMapKey" role="status" aria-live="polite"><span class="number">SELECTED AREA / 02</span><strong id="fieldMapName">我的委託區</strong><p id="fieldMapDescription">從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。</p></div><p class="muted field-map-note">示意圖用於辨認位置；卡牌效果與配置仍以官方規則及實體遊戲墊為準。手機可左右滑動查看完整場地。</p></div>
 <nav class="chapter-nav" id="chapterNav" aria-label="教學章節"></nav>
 <div class="panel" id="labStage" aria-live="polite"><p>正在載入互動教學…</p></div>
 <p class="muted">詳細術語與完整規則參考：<a href="https://cyberpunktcg.com/gameplay-guide" target="_blank" rel="noopener noreferrer">官方 Gameplay Guide ↗</a></p>
@@ -2737,4 +2768,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1-gig"></script><script src="v3/trainer-modules.js?v=4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=6"></script><script src="v3/beta-gallery.js?v=34"></script></body></html>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1-gig"></script><script src="v3/trainer-modules.js?v=4"></script><script src="battle-preview.js?v=13"></script><script src="board-tour.js?v=6"></script><script src="v3/beta-gallery.js?v=34"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8},{"key":"hand","name":"手牌","description":"自己持有、尚未打出的卡牌。對手通常不能查看你的手牌內容。","number":9}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');const marker=root.querySelector('.field-map-key .number');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;marker.textContent='SELECTED AREA / '+String(item.number).padStart(2,'0')}));})();</script></body></html>
