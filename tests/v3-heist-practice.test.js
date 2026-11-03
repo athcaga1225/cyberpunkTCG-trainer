@@ -126,4 +126,30 @@ edge.player.hand.push({...H.byName.get("Afterparty at Lizzie's"),id:'boundary'})
 edge.player.gigs=[{id:'gig-1',sides:4,value:4}];
 assert.equal(P.program(edge,'boundary',[{kind:'eddie',id:'cash'}],{side:'player',gigId:'gig-1',delta:1}).ok,false,'Cannot exceed a die maximum');
 assert.equal(edge.player.eddies[0].ready,true);
+/* Stage 2: correct Dexter Play trigger and separate deferred Attack/Defeated triggers. */
+assert.equal(H.byName.get('Dexter DeShawn: One Last Chance').onPlayGigAdjust,true);
+assert.equal(H.byName.get('Dexter DeShawn: One Last Chance').deferredEffect,true);
+for(const name of ['Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Zetatech Faceplate']){
+ assert.equal(H.byName.get(name).unimplementedEffect,false,name+' can enter play before its trigger');
+ assert.equal(H.byName.get(name).deferredEffect,true,name+' retains an unimplemented trigger');
+}
+const faceplate=H.byName.get('Zetatech Faceplate');
+assert.equal(faceplate.cost,2);assert.equal(faceplate.power,2);
+let d=H.fresh();d.turn='player';d.phase='main';
+d.player.hand.push({...H.byName.get('Dexter DeShawn: One Last Chance'),id:'dexter-demo'});
+d.player.eddies=Array.from({length:3},(_,i)=>({id:'cash-'+i,ready:true}));
+d.player.gigs=[{id:'gig-1',sides:4,value:2}];
+const dexterPayment=d.player.eddies.map(x=>({kind:'eddie',id:x.id}));
+assert.equal(P.play(d,'dexter-demo',dexterPayment,{gigId:'gig-1',side:'player',delta:3}).ok,false,'Out-of-range Dexter effect is rejected before payment');
+assert.equal(d.player.eddies[0].ready,true);
+let dexter=P.play(d,'dexter-demo',dexterPayment,{gigId:'gig-1',side:'player',delta:1});
+assert(dexter.ok,'Dexter resolves its Play adjustment');assert.equal(dexter.state.player.gigs[0].value,3);
+assert.equal(dexter.state.player.units.at(-1).name,'Dexter DeShawn: One Last Chance');
+assert(dexter.state.player.eddies.every(x=>!x.ready));
+let face=H.fresh();face.turn='player';face.phase='main';
+face.player.eddies=[{id:'a',ready:true},{id:'b',ready:true}];
+face.player.units=[{id:'unit-1',name:'Psycho Squad',power:6,ready:true,gear:[]}];
+face.player.hand.push({...faceplate,id:'faceplate-1'});
+let faceResult=P.gear(face,'faceplate-1',[{kind:'eddie',id:'a'},{kind:'eddie',id:'b'}],'unit-1');
+assert(faceResult.ok);assert.equal(A.unitStats(faceResult.state.player.units[0]).power,8,'Faceplate gives +2 Power');
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
