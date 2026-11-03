@@ -43,7 +43,13 @@ const stages=[
  {title:'11 / 卡牌登場能力',instruction:'外勤幹員（Field Operator）登場時，如果街頭聲望是偶數，就抽 1 張牌。你有兩顆委託骰，點數是 2 和 4，所以街頭聲望是 6，屬於偶數。',setup:()=>state({gigs:[dice('g1',4,2),dice('g2',6,4)],hand:[],deck:[{name:'測試抽到的卡'}]}),
   options:s=>[{label:'使用外勤幹員的登場能力，抽 1 張牌',run:()=>R.playTrigger(s,'player',{name:'Field Operator'}),done:r=>r.ok&&r.state.player.hand.length===1},{label:'街頭聲望是偶數，所以不能抽牌',run:()=>({ok:false,reason:'官方卡牌效果指定偶數時抽牌，6 是偶數'}),done:()=>false}]}
  ,{title:'12 / 實際變賣、支付與出牌',instruction:'第一步變賣一張有標記的手牌，取得 1 個 Eddie；第二步使用 2 個 Eddies 支付費用，打出一般單位。這是可執行的規則練習，不包含卡牌額外能力。',setup:()=>({...state({hand:[{id:'sale',name:'測試資源卡',type:'Program',sellTag:true},{id:'unit',name:'測試單位',type:'Unit',cost:2,power:2}],eddies:[{id:'e1',ready:true}],legends:[],soldThisTurn:false}),turn:'player',phase:'main'}),
-  options:s=>!s.player.soldThisTurn?[{label:'變賣有標記的手牌，取得 1 個 Eddie',run:()=>window.NCTV3Actions.sell(s,'player','sale'),progress:true,done:()=>false}]:[{label:'使用 2 個 Eddies，支付並打出單位',run:()=>window.NCTV3Actions.playUnit(s,'player','unit',[{kind:'eddie',id:'e1'},{kind:'eddie',id:'eddie-sale'}]),done:r=>r.ok&&r.state.player.units.length===1&&r.state.player.units[0].lag}]}
+  options:s=>!s.player.soldThisTurn?[
+   {label:'變賣有標記的手牌，取得 1 個 Eddie',run:()=>window.NCTV3Actions.sell(s,'player','sale'),progress:true,done:()=>false},
+   {label:'直接支付 2 €$ 打出單位',run:()=>window.NCTV3Actions.playUnit(s,'player','unit',[{kind:'eddie',id:'e1'}]),done:()=>false}
+  ]:[
+   {label:'使用 2 個 Eddies，支付並打出單位',run:()=>window.NCTV3Actions.playUnit(s,'player','unit',[{kind:'eddie',id:'e1'},{kind:'eddie',id:'eddie-sale'}]),done:r=>r.ok&&r.state.player.units.length===1&&r.state.player.units[0].lag},
+   {label:'再變賣一次手牌，取得更多 Eddies',run:()=>window.NCTV3Actions.sell(s,'player','unit'),done:()=>false}
+  ]}
 ];
 const lessonInfo=[
  {title:'先準備牌組，才能開始對戰',text:'每人準備 3 張不同名傳奇卡、40～50 張主牌組與 6 顆委託骰。傳奇卡決定組牌顏色與 RAM 限制；開局先決定先後手，洗牌、蓋放傳奇卡並抽 6 張起始手牌。詳細配置可在本課下方的「組牌與開局細節」展開查看。'},
@@ -121,7 +127,7 @@ if(stage===0){
 
 const question=add(container,'div','','chapter-quiz');add(question,'div','現在試著操作','number');add(question,'p',st.instruction);
 const scoreboard=st.staticQuiz?null:add(container,'div','','arena');
-const panel=(label,who)=>{const div=add(scoreboard,'div','','zone');add(div,'div',label,'number');const p=game[who];add(div,'p','委託骰 '+p.gigs.length+' 顆 · 街頭聲望 '+(R.cred(p.gigs)??'尚無'));add(div,'p','角色：'+(p.units.length?p.units.map(u=>L.cardTitle(u.name)+'（'+R.power(u)+' 戰力 / '+(u.ready?'就緒':'已使用')+(u.lag?'，新登場限制':'')+'）').join('、'):'無'));if(p.gigs.length)add(div,'p',p.gigs.map(d=>L.dieLabel(d.sides)+'：'+d.value+' 點').join(' · '));if(p.fixer.length)add(div,'p','合事佬區：'+p.fixer.map(x=>L.dieLabel(x)).join(' · '));};if(!st.staticQuiz){panel('PLAYER / 你的區域','player');panel('RIVAL / 對手區域','ai');}
+const panel=(label,who)=>{const div=add(scoreboard,'div','','zone');add(div,'div',label,'number');const p=game[who];add(div,'p','委託骰 '+p.gigs.length+' 顆 · 街頭聲望 '+(R.cred(p.gigs)??'尚無'));add(div,'p','角色：'+(p.units.length?p.units.map(u=>L.cardTitle(u.name)+'（'+R.power(u)+' 戰力 / '+(u.ready?'就緒':'已使用')+(u.lag?'，新登場限制':'')+'）').join('、'):'無'));if(p.gigs.length)add(div,'p',p.gigs.map(d=>L.dieLabel(d.sides)+'：'+d.value+' 點').join(' · '));if(p.fixer.length)add(div,'p','合事佬區：'+p.fixer.map(x=>L.dieLabel(x)).join(' · '));if(stage===11&&who==='player'){const ready=p.eddies.filter(e=>e.ready).length;add(div,'p','Eddies：'+ready+' 個就緒／'+p.eddies.length+' 個總計');add(div,'p','手牌：'+p.hand.map(c=>c.name).join('、'));}};if(!st.staticQuiz){panel('PLAYER / 你的區域','player');panel('RIVAL / 對手區域','ai');}
 const actions=add(container,'div','','actions');const isDone=passed;
 if(!isDone){for(const o of st.options(game)){const b=add(actions,'button',o.label,'btn');b.onclick=()=>{const result=o.run();if(!result.ok){feedbackType='error';notice=result.reason||'這個操作不符合目前規則，請再試一次。';render();return}
 if(o.progress){game=result.state;feedbackType='success';notice=(result.events||[]).join('；');render();return}
