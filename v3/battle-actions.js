@@ -99,7 +99,7 @@
  function unitStats(unit){
   if(!unit||typeof unit!=="object")return {power:0,blocker:false};
   const gear=Array.isArray(unit.gear)?unit.gear:[];
-  return {power:(Number.isFinite(unit.power)?unit.power:0)+gear.reduce((n,g)=>n+(Number.isFinite(g.power)?g.power:0),0),
+  return {power:(Number.isFinite(unit.power)?unit.power:0)+(Number.isFinite(unit.tempPowerModifier)?unit.tempPowerModifier:0)+gear.reduce((n,g)=>n+(Number.isFinite(g.power)?g.power:0),0),
    blocker:unit.blocker===true||gear.some(g=>g.blocker===true),
    cannotBeBlockedIfLowerCred:unit.cannotBeBlockedIfLowerCred===true};
  }
@@ -125,7 +125,28 @@
   if(state.turn!==who||state.phase!=="main")return fail("目前不是可打出程式卡的主要階段");
   const card=p.hand.find(c=>c.id===cardId);
   if(!card||card.type!=="Program")return fail("找不到程式卡");
-  if(card.name!=="Afterparty at Lizzie's"||card.unimplementedEffect)return fail("此程式的效果尚未支援");
+  if(card.unimplementedEffect)return fail("此程式的效果尚未支援");
+  if(card.name==='Floor It'){
+   // Quick is also playable in the controller's open Main Phase (rules 11.26.2).
+   const rivalSide=who==='player'?'ai':'player';
+   const rivals=state[rivalSide]?.units||[];
+   const target=rivals.find(x=>x.id===opts?.rivalUnitId);
+   if(rivals.length&&!target)return fail("請選擇一張對手單位作為 Floor It 目標");
+   const paid=pay(state,who,card.cost,sources);if(!paid.ok)return paid;
+   const next=paid.state,q=next[who];
+   if(target){
+    const unit=next[rivalSide].units.find(x=>x.id===target.id);
+    unit.tempPowerModifier=(unit.tempPowerModifier||0)-1;
+   }
+   const index=q.hand.findIndex(x=>x.id===cardId);
+   q.hand.splice(index,1);
+   if(!Array.isArray(q.trash))q.trash=[];
+   q.trash.push(card);
+   if(!q.deck.length){next.finished=true;next.loser=who;}
+   else q.hand.push(q.deck.pop());
+   return success(next,[...paid.events,'執行 Floor It：'+(target?'對手 '+target.name+' 本回合戰力 -1':'無可選單位')+'；抽 1 張',...(next.finished?['牌庫已空，遊戲結束']:[])]);
+  }
+  if(card.name!=="Afterparty at Lizzie's")return fail("此程式的效果尚未支援");
   if(!opts||typeof opts!=="object")return fail("程式效果選項無效");
   const delta=opts.delta;
   if(!Number.isInteger(delta)||Math.abs(delta)>1)return fail("請選擇 -1、0 或 +1");
