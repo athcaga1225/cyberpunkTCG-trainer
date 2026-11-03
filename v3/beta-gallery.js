@@ -79,6 +79,7 @@ const verifiedCharacterNames={
 };
 // V3-only Taiwanese localization refinements; the shared Beta file and V2 remain unchanged.
 const localizedCardOverrides={
+ 'Royce: Don\'t Call Me Simon':'羅伊斯：別叫我大磚',
  'MT0D12 Flathead':'扁頭小型戰鬥機器人',
  'The Relic: Experimental Biochip':'聖物：原型階段生物晶片',
  'Modded Kusanagi':'改 草薙',
