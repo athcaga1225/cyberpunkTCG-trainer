@@ -86,7 +86,7 @@ add(container,'h2',lessonInfo[stage].title);
 const explain=add(container,'div','','chapter-learning');add(explain,'h3','本課重點');add(explain,'p',lessonInfo[stage].text);
 if(stage===0){
  const colors=add(container,'section','','lesson-colors');
- add(colors,'h3','認識卡牌顏色','lesson-colors-label');
+ add(colors,'h3','四種顏色的玩法特色','lesson-colors-label');
  const row=add(colors,'div','','lesson-colors-row');
  const items=[
   {name:'紅色',en:'RED',tone:'#f8504a',heading:'強攻與高點數',body:'偏好高戰力、正面擊敗對手，以及提高委託骰點數或搶走高點數骰子。'},
@@ -113,7 +113,7 @@ if(stage===0){
   button.onclick=()=>selectColor(i);
  });
  selectColor(0);
- add(colors,'p','組牌時，卡牌 RAM 必須符合傳奇卡提供的相同顏色 RAM 上限。RAM 是組牌限制，不是出牌費用。','lesson-colors-note');
+
 }
 
 const question=add(container,'div','','chapter-quiz');add(question,'div','現在試著操作','number');add(question,'p',st.instruction);
