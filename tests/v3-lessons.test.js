@@ -37,7 +37,7 @@ for(const card of beta){
 
 // V3-only card ability vocabulary: the shared Beta source and V2 are never rewritten.
 const gallerySource=read('v3/beta-gallery.js');
-const abilityMatch=gallerySource.match(/const localizedAbilityText=value=>([\s\S]*?);\nconst searchIdentifiers/);
+const abilityMatch=gallerySource.match(/const localizedAbilityText=value=>([\s\S]*?);\s*const searchIdentifiers/);
 assert(abilityMatch,'V3 ability terminology formatter must be present');
 const formatAbility=vm.runInNewContext('(()=>{const localizedAbilityText=value=>'+abilityMatch[1]+';return localizedAbilityText})()');
 const example='【獨闖（Go Solo）】【阻擋（Blocker）】【快速（Quick）】將一顆任務骰重置。攻擊已橫置的單位。以重置狀態打出。【橫置（Spend）】';
