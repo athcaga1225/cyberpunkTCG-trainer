@@ -3471,6 +3471,42 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
   z-index:1200!important;
  }
 }
+
+/* Standalone setup before the match: do not reuse the turn-action tray. */
+body.battle-wide #battle #v3OpeningSetup[hidden]{display:none!important}
+body.battle-wide #battle #v3OpeningSetup{
+ position:fixed!important;
+ inset:0!important;
+ z-index:1180!important;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:70px 18px 20px;
+ overflow-y:auto;
+ background:rgba(3,10,14,.76);
+ backdrop-filter:blur(3px);
+ -webkit-backdrop-filter:blur(3px);
+}
+body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail{
+ box-sizing:border-box;
+ width:min(510px,100%);
+ max-height:calc(100dvh - 100px);
+ overflow-y:auto;
+ padding:24px;
+ margin:0;
+ background:#102129;
+ border:1px solid #3e7781;
+ border-left:3px solid #29ffff;
+ box-shadow:0 18px 65px #000d;
+ border-radius:6px;
+}
+body.battle-wide #battle #v3OpeningSetup .btn{
+ display:block;
+ width:100%;
+ margin-top:10px;
+ min-height:42px;
+ text-align:center;
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -3589,4 +3625,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
 </script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1-gig"></script><script src="v3/battle-actions.js?v=1"></script><script src="v3/trainer-modules.js?v=20"></script><script src="v3/turn-practice.js?v=1"></script>
 <script src="v3/heist-practice.js?v=1"></script>
 <script src="battle-preview.js?v=15"></script>
-<script src="board-tour.js?v=6"></script><script src="v3/turn-practice-ui.js?v=11"></script><script src="v3/beta-gallery.js?v=49"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;const details=root.querySelector('#fieldMapKey');details.classList.remove('field-map-flash');void details.offsetWidth;details.classList.add('field-map-flash');details.scrollIntoView({block:'nearest',behavior:'instant'})}));})();</script></body></html>
+<script src="board-tour.js?v=6"></script><script src="v3/turn-practice-ui.js?v=12"></script><script src="v3/beta-gallery.js?v=49"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;const details=root.querySelector('#fieldMapKey');details.classList.remove('field-map-flash');void details.offsetWidth;details.classList.add('field-map-flash');details.scrollIntoView({block:'nearest',behavior:'instant'})}));})();</script></body></html>
