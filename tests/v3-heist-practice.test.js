@@ -269,7 +269,7 @@ assert(animatedUI.includes("hover.style.display='none'"),'Preview can be hidden 
 assert(animatedUI.includes("rail.dataset.v3HoverOwned='true'"),'Legacy hover is disabled for the live hand');
 assert(animatedUI.includes("document.addEventListener('pointermove',event=>"),'One document-level pointer tracker must be used');
 assert(!animatedUI.includes("rail.addEventListener('pointermove',update)"),'Legacy rail pointermove must not be duplicated in live mode');
-assert(animatedUI.includes("x>=nodes[n].getBoundingClientRect().left+4"),'Card selection uses stable overlapping slot boundaries');
+assert(animatedUI.includes("x>=r.left+nodes[n].offsetLeft+4"),'Card selection uses untransformed slot positions even when cards grow');
 assert(animatedUI.includes("liveHandAt(lastPointerX,lastPointerY)"),'Delayed hover validates the latest pointer coordinates');
 assert(animatedUI.includes("if(hoverPendingId===card.id)return"),'Repeated pointer moves must not restart debounce timer');
 assert(animatedUI.includes("},70)"),'Hover transition uses a bounded debounce');
@@ -279,4 +279,12 @@ assert(animatedUI.includes("hoverImageCache.get(image)"),'Repeated hover imagery
 assert(animatedUI.includes("pointer-events:none"),'Preview must never capture the pointer');
 assert(animatedUI.includes("if(previewId===card.id&&!hover.hidden)return"),'Unchanged hovered card must not rebuild preview');
 assert(animatedUI.includes("if(token!==previewLoad)return"),'Stale async artwork must never replace the current card');
+const handStyles=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
+assert(handStyles.includes('.hand-card.is-hand-hover'),'Hover must enlarge the real hand card');
+assert(handStyles.includes('scale(1.65)'),'Hovered card should be visibly larger than its neighbors');
+assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped by hand rail');
+assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
+assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
+assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=5'),'Updated hover script must bypass browser cache');
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
