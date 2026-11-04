@@ -351,4 +351,33 @@ assert(!handStyles.includes('translateY(-53px) scale(1.17)'),'Excessive hand lif
  const deferred=structuredClone(battleState);deferred.player.units[0].deferredEffect=true;
  assert.equal(P.fight(deferred,attacker.id,'training-rival-ruthless').ok,false,'Deferred combat effect must not be skipped');
 }
+
+// Scripted Gig attack: selection, transfer, power thresholds, and safety restrictions.
+{
+ const practice=H.fresh();
+ assert.equal(practice.ai.gigs.length,3,'Scripted rival starts with three explicitly labeled Gigs');
+ let r=P.ready(practice);assert(r.ok);r=P.draw(r.state);assert(r.ok);r=P.roll(r.state,4,2);assert(r.ok);
+ const base=r.state;const actor={id:'attack-gig-unit',name:'Basic training attacker',type:'Unit',power:6,ready:true,lag:false,gear:[]};
+ base.player.units.push(actor);
+ assert.equal(P.steal(base,actor.id,[]).ok,false,'Gig count must match attack power');
+ assert.equal(P.steal(base,actor.id,['training-gig-d4','training-gig-d4']).ok,false,'Duplicate Gig choices rejected');
+ let result=P.steal(base,actor.id,['training-gig-d4']);
+ assert(result.ok,'Power 6 can steal one Gig');
+ assert.equal(result.state.player.gigs.length,2,'Stolen Gig enters friendly area');
+ assert.equal(result.state.ai.gigs.length,2,'Stolen Gig leaves rival area');
+ assert.equal(result.state.player.units.at(-1).ready,false,'Attack spends its Unit');
+ assert.equal(base.ai.gigs.length,3,'Steal must not mutate its input');
+ const stronger=JSON.parse(JSON.stringify(base));stronger.player.units.at(-1).power=10;
+ result=P.steal(stronger,actor.id,['training-gig-d4','training-gig-d6']);
+ assert(result.ok,'Power 10 steals two Gigs');
+ assert.equal(result.state.ai.gigs.length,1);
+ const zero=JSON.parse(JSON.stringify(base));zero.player.units.at(-1).power=0;
+ result=P.steal(zero,actor.id,[]);
+ assert(result.ok,'Power 0 attacks but steals zero Gigs');
+ assert.equal(result.state.player.units.at(-1).ready,false);
+ const lag=JSON.parse(JSON.stringify(base));lag.player.units.at(-1).lag=true;
+ assert.equal(P.steal(lag,actor.id,['training-gig-d4']).ok,false,'Lag prevents Gig attack');
+ const deferred=JSON.parse(JSON.stringify(base));deferred.player.units.at(-1).deferredEffect=true;
+ assert.equal(P.steal(deferred,actor.id,['training-gig-d4']).ok,false,'Unresolved trigger cannot be silently skipped');
+}
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
