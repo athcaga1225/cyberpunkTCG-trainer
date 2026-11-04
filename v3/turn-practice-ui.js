@@ -375,7 +375,7 @@ function render(){
  }
  const header=add('div','',root,'v3-turn-header');
  add('strong','THE HEIST / ROUND '+state.round,header);add('span',phase(),header);
- add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；戰鬥及未完成的觸發能力仍不會自動結算。',root,'v3-turn-note');
+ add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；可練習限定的已使用單位交戰；Quick、攔截、委託區攻擊及未完成觸發能力仍不會自動結算。',root,'v3-turn-note');
  const stats=add('div','',root,'v3-turn-stats');
  add('span','手牌 '+p.hand.length+' 張',stats);
  add('span','Eddies '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length,stats);
@@ -401,6 +401,30 @@ function render(){
  }
  if(!state.finished&&state.turn==='player'&&state.phase==='main'){
   command('變賣選取的手牌',()=>P.sell(state,selectedId),buttons,!chosen?.sellTag||p.soldThisTurn);
+  // Bounded combat exercise. The target setup is explicitly a trainer action,
+  // never presented as an AI turn or a completed Quick/blocker window.
+  const trainingTargets=(state.ai?.units||[]).filter(u=>u.trainingTarget);
+  if(trainingTargets.length){
+   const exercise=add('div','',root,'v3-selected-detail');
+   add('strong','單位交戰練習（限定已使用的對手單位）',exercise);
+   const unspent=trainingTargets.filter(u=>u.ready===true);
+   for(const u of unspent)command('練習設定：將 '+u.name+' 橫置',()=>P.prepareTrainingTarget(state,u.id),exercise);
+   const exhausted=trainingTargets.filter(u=>u.ready===false);
+   const attackers=p.units.filter(u=>u.ready===true&&!u.lag&&!u.deferredEffect&&!u.unimplementedEffect);
+   if(exhausted.length&&attackers.length){
+    const attackSelect=document.createElement('select');
+    attackSelect.setAttribute('aria-label','選擇攻擊單位');
+    for(const u of attackers){const o=document.createElement('option');o.value=u.id;o.textContent=u.name+' / '+A.unitStats(u).power+' PWR';attackSelect.append(o)}
+    exercise.append(attackSelect);
+    const targetSelect=document.createElement('select');
+    targetSelect.setAttribute('aria-label','選擇已使用的對手單位');
+    for(const u of exhausted){const o=document.createElement('option');o.value=u.id;o.textContent=u.name+' / '+A.unitStats(u).power+' PWR';targetSelect.append(o)}
+    exercise.append(targetSelect);
+    command('攻擊已使用的對手單位',()=>P.fight(state,attackSelect.value,targetSelect.value),exercise);
+   }else if(exhausted.length)add('p','需有一張已解除 Lag、就緒且沒有待處理攻擊能力的己方單位。',exercise);
+   add('p','此練習僅處理基本戰力比較與擊敗。未支援 Quick、攔截、攻擊委託區及特殊觸發效果。',exercise);
+  }
+
   if(chosen&&!chosen.unimplementedEffect){
    const sources=paymentOptions(root);
    const selected=sources.filter(src=>selectedPayments.has(src.kind+':'+src.id));
