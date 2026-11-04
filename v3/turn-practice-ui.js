@@ -262,7 +262,7 @@ document.addEventListener('pointermove',event=>{
 },{passive:true});
 window.addEventListener('scroll',hideHandHover,{passive:true});
 window.addEventListener('resize',()=>{hideHandHover()});
-const phase=()=>state.finished?'已結束':state.turn==='ai'?'對手回合（暫停）':state.phase==='main'?'主要階段':'準備階段：'+({ready:'重置',draw:'抽牌',roll:'擲骰'}[state.step]||state.step);
+const phase=()=>state.finished?'已結束':state.turn==='ai'?(state.ai.practiceBot?.kind==='mirror-the-heist'?'對手回合（待執行）':'對手回合（暫停）'):state.phase==='main'?'主要階段':'準備階段：'+({ready:'重置',draw:'抽牌',roll:'擲骰'}[state.step]||state.step);
 const add=(tag,txt,parent,cls)=>{const el=document.createElement(tag);el.textContent=txt||'';if(cls)el.className=cls;parent.append(el);return el};
 function command(label,fn,parent,disabled=false){
  const b=add('button',label,parent,'btn');b.type='button';b.disabled=disabled;
@@ -329,14 +329,14 @@ function renderRivalField(){
  const slots=board.querySelector('.opponent-field .field-slots');if(!slots)return;
  slots.replaceChildren();
  for(const unit of state.ai.units){
-  const el=add('button','',slots,'v3-played-card');el.type='button';el.title=unit.name+'（練習對手，不代表 AI 行動）';
+  const el=add('button','',slots,'v3-played-card');el.type='button';el.title=unit.name+(state.ai.practiceBot?.kind==='mirror-the-heist'?'（鏡像對手）':'（練習對手，非 AI 行動）');
   el.addEventListener('click',()=>{if(attackUnitId&&state.phase==='main'&&!unit.ready)runTableAttack({kind:'unit',defenderId:unit.id});else{message=unit.ready?'對手單位仍就緒；先選擇合法目標或使用攔截練習。':'請先點選我方就緒單位，再點選對手。';render()}});
   const src=art.get(unit.name);
   if(src){const img=document.createElement('img');img.src=src;img.alt=unit.name;img.loading='lazy';el.append(img)}
   else add('span',unit.name,el);
   const stats=A?.unitStats?.(unit);
   add('small',(unit.ready?'READY':'SPENT')+' · PWR '+(stats?.power??unit.power),el);
-  if(unit.trainingTarget)add('small','練習目標 / 無 AI',el);
+  if(unit.trainingTarget)add('small','練習目標 / 無 AI',el);else if(state.ai.practiceBot?.kind==='mirror-the-heist')add('small','鏡像對手',el);
  }
 }
 function paymentOptions(parent){
