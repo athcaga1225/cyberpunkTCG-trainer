@@ -8,12 +8,20 @@ const toggleActions=$('toggleV3BattleActions');
 const phaseZone=board.querySelector('.turn-info');
 if(toggleActions&&phaseZone)phaseZone.append(toggleActions);
 function setActionTray(open){
+ // The tutorial and turn controls are mutually exclusive overlays.
+ // board-tour.js now initializes first; closing via its own control clears spotlight.
+ if(open)document.getElementById('closeBoardTour')?.click();
  root.classList.toggle('is-open',open);
  toggleActions?.setAttribute('aria-expanded',String(open));
  toggleActions?.classList.toggle('active',open);
  if(open)hideHandHover();
 }
 toggleActions?.addEventListener('click',()=>setActionTray(!root.classList.contains('is-open')));
+document.getElementById('startBoardTour')?.addEventListener('click',()=>setActionTray(false));
+// Activating a highlighted tour region must also dismiss the action tray.
+board.addEventListener('click',event=>{
+ if(event.target.closest('[data-tour-zone]')&&!event.target.closest('#v3TurnPractice'))setActionTray(false);
+});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root.classList.contains('is-open'))setActionTray(false)});
 
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
@@ -352,7 +360,7 @@ function render(){
  setup.append(deckSelect);
  const tourButton=add('button','桌面導覽',setup,'btn');
  tourButton.type='button';
- tourButton.addEventListener('click',()=>{$('startBoardTour')?.click();setActionTray(false)});
+ tourButton.addEventListener('click',()=>{setActionTray(false);$('startBoardTour')?.click()});
  if(!supported){
   const liveRail=board.querySelector('.player-hand .hand-placeholder');if(liveRail)liveRail.dataset.v3HoverOwned='false';
   board.querySelectorAll('[data-practice-indicator]').forEach(el=>el.remove());
