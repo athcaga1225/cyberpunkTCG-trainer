@@ -238,7 +238,7 @@ const phase=()=>state.finished?'已結束':state.turn==='ai'?'對手回合（暫
 const add=(tag,txt,parent,cls)=>{const el=document.createElement(tag);el.textContent=txt||'';if(cls)el.className=cls;parent.append(el);return el};
 function command(label,fn,parent,disabled=false){
  const b=add('button',label,parent,'btn');b.type='button';b.disabled=disabled;
- b.addEventListener('click',()=>{const before=new Set(state.player.hand.map(c=>c.id));const r=fn();message=r.ok?r.message:r.reason;if(r.ok){state=r.state;selectedPayments.clear();if(!state.player.hand.some(c=>c.id===selectedId))selectedId=null;const added=state.player.hand.map(c=>c.id).filter(id=>!before.has(id));if(added.length)pendingDeal=added;if(state.player.hand.length===6&&r.message===initial)pendingDeal='all';}render()});return b;
+ b.addEventListener('click',()=>{const wasPregame=state.phase==='pregame';const before=new Set(state.player.hand.map(c=>c.id));const r=fn();message=r.ok?r.message:r.reason;if(r.ok){state=r.state;if(wasPregame&&state.phase==='start')pendingDeal='all';selectedPayments.clear();if(!state.player.hand.some(c=>c.id===selectedId))selectedId=null;const added=state.player.hand.map(c=>c.id).filter(id=>!before.has(id));if(added.length)pendingDeal=added;if(state.player.hand.length===6&&r.message===initial)pendingDeal='all';}render()});return b;
 }
 function indicator(selector,summary){
  const zone=board.querySelector(selector);if(!zone)return;
@@ -249,6 +249,7 @@ function indicator(selector,summary){
 function renderHand(){
  const rail=board.querySelector('.player-hand .hand-placeholder');if(!rail)return;
  rail.replaceChildren();rail.classList.add('preview-card-rail');
+ if(state.phase==='pregame')return;
  state.player.hand.forEach((card,i)=>{
   const btn=document.createElement('button');btn.type='button';btn.className='preview-art-card hand-card';btn.dataset.cardName=card.name;btn.dataset.cardId=card.id;btn.dataset.handIndex=String(i);
   const selected=selectedId===card.id;btn.classList.toggle('is-selected',selected);
@@ -613,7 +614,7 @@ function dealOnEntry(){
  if(entryDealt||picker.value!=='theHeist')return;
  entryDealt=true;
  if(picker.value==='theHeist'&&state.phase==='pregame')setActionTray(true);
- requestAnimationFrame(()=>{if(!battlePage.classList.contains('hide')&&picker.value==='theHeist')dealHand('all')});
+ requestAnimationFrame(()=>{if(!battlePage.classList.contains('hide')&&picker.value==='theHeist'&&state.phase!=='pregame')dealHand('all')});
 }
 if(battlePage&&typeof MutationObserver!=='undefined'){
  new MutationObserver(dealOnEntry).observe(battlePage,{attributes:true,attributeFilter:['class']});
