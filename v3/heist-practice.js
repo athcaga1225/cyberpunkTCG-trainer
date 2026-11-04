@@ -58,6 +58,8 @@ function fresh(scenario='basic'){
  s.ai.units=[{id:'training-rival-ruthless',name:'Ruthless Lowlife',type:'Unit',power:4,ready:true,lag:false,gear:[],trainingTarget:true}];
  // Scripted public Gig targets, not an AI's simulated opening hand or turn.
  s.ai.gigs=[{id:'training-gig-d4',sides:4,value:2,trainingTarget:true},{id:'training-gig-d6',sides:6,value:4,trainingTarget:true},{id:'training-gig-d8',sides:8,value:5,trainingTarget:true}];
+ // Optional one-use scripted defender Quick. No autonomous opponent decisions.
+ s.ai.quickExercise={enabled:false};
  s.practiceKind='the-heist';s.practiceScenario=scenario;return s;
 }
 return {fresh,byName,cardCount:total};
