@@ -448,7 +448,7 @@ function render(){
      const unit=eligible.find(u=>u.id===chooser.value),power=A.unitStats(unit).power;
      const count=power<=0?0:Math.min(gigTargets.length,Math.floor(power/10)+1);
      countNote.textContent='戰力 '+power+'：需選擇 '+count+' 顆骰子（目前 '+picked.size+' 顆）';
-     attack.disabled=count===0||picked.size!==count;
+     attack.disabled=picked.size!==count;
     };
     chooser.addEventListener('change',update);
     for(const checkbox of picks.querySelectorAll('input'))checkbox.addEventListener('change',update);
@@ -533,6 +533,7 @@ function render(){
  indicator('.turn-info','THE HEIST：'+phase());
  indicator('.player-eddies','Eddies 就緒 '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length);
  indicator('.player-gigs',p.gigs.length+' 顆委託骰');
+ indicator('.opponent-gigs',(state.ai.gigs||[]).length+' 顆練習委託骰');
  indicator('.player-field',p.units.length+' 張實際單位');
  indicator('.player-deck','練習牌庫：'+p.deck.length+' 張');
  if($('battlePreviewStatus'))$('battlePreviewStatus').textContent='The Heist 實際牌組操作練習。選取手牌後在下方指定支付資源；未支援的特殊能力仍不會自動結算。';
