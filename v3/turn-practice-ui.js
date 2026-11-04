@@ -364,20 +364,6 @@ function render(){
   document.getElementById('closeBoardTour')?.click();
   setActionTray(false);
  }
- // Preserve setup tools without a site-style toolbar across the top of the room.
- const setup=add('div','',root,'v3-room-setup');
- const deckLabel=add('label','牌組',setup);deckLabel.setAttribute('for','v3RoomDeckSelect');
- const deckSelect=document.createElement('select');
- deckSelect.id='v3RoomDeckSelect';deckSelect.setAttribute('aria-label','切換練習牌組');
- for(const [value,label] of [['theHeist','The Heist'],['embracingPower','Embracing Power（卡圖預覽）']]){
-  const opt=document.createElement('option');opt.value=value;opt.textContent=label;deckSelect.append(opt);
- }
- deckSelect.value=picker.value;
- deckSelect.addEventListener('change',()=>{picker.value=deckSelect.value;picker.dispatchEvent(new Event('change',{bubbles:true}))});
- setup.append(deckSelect);
- const tourButton=add('button','桌面導覽',setup,'btn');
- tourButton.type='button';
- tourButton.addEventListener('click',()=>{setActionTray(false);$('startBoardTour')?.click()});
  if(!supported){
   const liveRail=board.querySelector('.player-hand .hand-placeholder');if(liveRail)liveRail.dataset.v3HoverOwned='false';
   board.querySelectorAll('[data-practice-indicator]').forEach(el=>el.remove());
@@ -390,22 +376,36 @@ function render(){
  const p=state.player;
  renderHand();bindLiveHandHover();renderField();renderRivalField();
  if(deal)requestAnimationFrame(()=>{if(sequence===renderSequence&&picker.value==='theHeist'&&!$('battle')?.classList.contains('hide'))dealHand(deal)});
- const scenarios=add('div','',root,'v3-turn-actions');
- for(const [mode,label] of [['basic','基礎出牌手牌'],['quick','效果與 Quick 手牌']]){
-  const button=add('button',label,scenarios,'btn');button.type='button';button.disabled=scenario===mode;
-  button.addEventListener('click',()=>{
-   scenario=mode;state=H.fresh(scenario,{preGame:true});pendingDeal='all';selectedId=null;selectedPayments.clear();
-   targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';
-   message='已切換練習手牌。此處預置一張對手單位作為測試目標，並非正式開局。';render();
-  });
- }
  const header=add('div','',root,'v3-turn-header');
  add('strong','THE HEIST / '+(state.phase==='pregame'?'開局設定':'ROUND '+state.round),header);add('span',state.phase==='pregame'?'等待先後攻':phase(),header);
  add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；可進行限定單位交戰、搶骰與腳本 Floor It／Blocker 反應；其他 Quick、完整反應時機及未完成觸發能力仍未支援。',root,'v3-turn-note');
  if(state.phase==='pregame'){
   const order=add('div','',openingRoot,'v3-selected-detail');
-  add('strong','開局設定 / 決定先攻後攻',order);
-  add('p','依官方規則，雙方各擲一顆 d20；點數較高者選擇先攻或後攻。同點需重擲。',order);
+  add('strong','開局設定 / 選擇牌組與先後攻',order);
+  const deckLabel=add('label','牌組',order);
+  const deckSelect=document.createElement('select');
+  deckSelect.id='v3RoomDeckSelect';deckSelect.setAttribute('aria-label','選擇實戰牌組');
+  const playable=document.createElement('option');playable.value='theHeist';playable.textContent='The Heist（目前可操作）';deckSelect.append(playable);
+  const unavailable=document.createElement('option');unavailable.value='embracingPower';unavailable.textContent='Embracing Power（尚未接入實戰）';unavailable.disabled=true;deckSelect.append(unavailable);
+  deckSelect.value='theHeist';
+  deckSelect.addEventListener('change',()=>{picker.value=deckSelect.value;picker.dispatchEvent(new Event('change',{bubbles:true}))});
+  deckLabel.append(deckSelect);
+  const handLabel=add('label','起始手牌（固定測試牌組）',order);
+  const handSelect=document.createElement('select');handSelect.setAttribute('aria-label','選擇六張起始測試手牌');
+  for(const [value,label] of [['basic','基礎出牌手牌'],['quick','效果與 Quick 手牌']]){
+   const option=document.createElement('option');option.value=value;option.textContent=label;handSelect.append(option);
+  }
+  handSelect.value=scenario;
+  handSelect.addEventListener('change',()=>{
+   scenario=handSelect.value;state=H.fresh(scenario,{preGame:true});
+   pendingDeal=null;selectedId=null;selectedPayments.clear();targetId=null;
+   gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';
+   message='已更新本局六張起始測試手牌。';render();
+  });
+  handLabel.append(handSelect);
+  add('p','本局起始六張：'+state.player.hand.map(c=>c.name).join('、'),order,'v3-opening-hand-list');
+  add('p','目前僅支援兩組固定手牌的練習，尚未支援自由選卡、洗牌與正式重抽。',order);
+  add('p','雙方各擲一顆 d20，點數較高者決定先攻或後攻；同點重擲。',order);
   const roll=state.opening;
   if(!roll?.winner){
    command('雙方擲 d20 決定選擇權',()=>{
@@ -430,9 +430,9 @@ function render(){
  add('span','棄牌區 '+(p.trash?.length||0)+' 張',stats);
  if(p.pendingRebootOptics)add('span','待觸發戰鬥保護 '+p.pendingRebootOptics+' 次（未實裝戰鬥）',stats);
  const chosen=state.phase==='pregame'?null:p.hand.find(c=>c.id===selectedId);
- const details=add('div','',root,'v3-selected-detail');
- if(chosen){add('strong',chosen.name,details);add('p',chosen.type+' · COST '+chosen.cost+' · '+(chosen.sellTag?'有變賣標記':'不可變賣')+(chosen.unimplementedEffect?' · 尚未支援出牌效果':chosen.deferredEffect?' · 可登場／裝備，觸發效果待實作':''),details)}
- else add('p','點選上方手牌以查看操作。',details);
+ const details=state.phase==='pregame'?null:add('div','',root,'v3-selected-detail');
+ if(chosen&&details){add('strong',chosen.name,details);add('p',chosen.type+' · COST '+chosen.cost+' · '+(chosen.sellTag?'有變賣標記':'不可變賣')+(chosen.unimplementedEffect?' · 尚未支援出牌效果':chosen.deferredEffect?' · 可登場／裝備，觸發效果待實作':''),details)}
+ else if(details)add('p','點選上方手牌以查看操作。',details);
  const buttons=add('div','',root,'v3-turn-actions');
  if(!state.finished&&state.turn==='player'&&state.phase==='start'){
   if(state.step==='ready')command('01 重置資源',()=>P.ready(state),buttons);
