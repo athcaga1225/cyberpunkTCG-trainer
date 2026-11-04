@@ -433,4 +433,31 @@ assert(!handStyles.includes('translateY(-53px) scale(1.17)'),'Excessive hand lif
  assert.equal(acted.state.ai.gigs.length,3,'Redirected Quick attack does not steal Gigs');
  assert.equal(acted.state.ai.trash.some(c=>c.name==='Floor It'),true,'Quick card remains in trash after Blocker');
 }
+
+// Rule 7.5 opening: roll off before turns, winner selects turn order,
+// and first player's two left-most Legends remain spent on the opening turn.
+{
+ const setup=H.fresh('basic',{preGame:true});
+ assert.equal(setup.phase,'pregame','New interactive games begin at pregame');
+ assert.equal(P.ready(setup).ok,false,'No turn action is legal before the roll-off');
+ assert(setup.player.legends.every(l=>l.ready),'Legend orientation is undecided until the first player is selected');
+ const tie=P.rollForOrder(setup,10,10);
+ assert(tie.ok&&tie.state.opening.winner===null,'Tied d20 results require another roll');
+ const win=P.rollForOrder(setup,17,6);
+ assert(win.ok&&win.state.opening.winner==='player','Higher d20 wins choice');
+ const first=P.chooseOrder(win.state,'player');
+ assert(first.ok,'Roll winner can choose to play first');
+ assert.deepEqual(first.state.player.legends.map(l=>l.ready),[false,false,true],'First player spends two left-most Legends');
+ assert(P.ready(first.state).ok,'First turn can begin after selection');
+ const second=P.chooseOrder(win.state,'ai');
+ assert(second.ok,'Roll winner can choose second');
+ assert(second.state.player.legends.every(l=>l.ready),'Second player's Legends begin ready');
+ assert.equal(second.state.opening.scriptedOpponentTurnSkipped,true,'Skipped rival opening turn must be labeled');
+ const lose=P.rollForOrder(setup,3,20);
+ assert(lose.ok&&lose.state.opening.winner==='ai');
+ assert.equal(P.chooseOrder(lose.state,'player').ok,false,'Player may not override rival selection');
+ assert(P.chooseOrder(lose.state,'ai').ok,'Scripted rival chooses first when it wins the roll');
+ assert.equal(P.chooseOrder(first.state,'ai').ok,false,'Cannot change order after beginning');
+ assert.equal(P.rollForOrder(setup,21,2).ok,false,'Reject invalid dice');
+}
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
