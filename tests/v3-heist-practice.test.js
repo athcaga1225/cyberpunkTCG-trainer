@@ -226,7 +226,7 @@ const quickNext=P.next(quickResult.state);assert(quickNext.ok);
 assert.equal(quickNext.state.ai.units[0].ready,true,'Training rival is reset for repeatable turns');
 const practiceUI=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(practiceUI.includes('renderRivalField()'),'Rival training target must render');
-assert(practiceUI.includes("H.fresh(scenario)"),'Practice hand scenarios must be wired');
+assert(practiceUI.includes("H.fresh(scenario,{preGame:true})"),'Practice hand scenarios must be wired');
 /* Reboot Optics may be played in the open Main Phase; effect is pending until combat exists. */
 assert.equal(H.byName.get('Reboot Optics').unimplementedEffect,false);
 let protect=H.fresh('quick');protect.turn='player';protect.phase='main';
