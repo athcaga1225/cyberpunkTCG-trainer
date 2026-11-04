@@ -45,7 +45,7 @@ board.addEventListener('click',event=>{
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root.classList.contains('is-open'))setActionTray(false)});
 
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
-let scenario='basic',state=H.fresh(scenario,{preGame:true}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
+let scenario='basic',defensePreset='none',state=H.fresh(scenario,{preGame:true,defense:defensePreset}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
 let pendingDeal=null;
 let activeDeals=[];
@@ -601,12 +601,24 @@ function render(){
   }
   handSelect.value=scenario;
   handSelect.addEventListener('change',()=>{
-   scenario=handSelect.value;state=H.fresh(scenario,{preGame:true});
+   scenario=handSelect.value;state=H.fresh(scenario,{preGame:true,defense:defensePreset});
    pendingDeal=null;selectedId=null;selectedPayments.clear();targetId=null;
    gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';
    message='已更新本局六張起始測試手牌。';render();
   });
   handLabel.append(handSelect);
+  const defenderLabel=add('label','腳本對手反應（測試模式）',order);
+  const defenderSelect=document.createElement('select');defenderSelect.setAttribute('aria-label','選擇測試對手反應');
+  for(const [value,label] of [['none','基本對手（無額外反應）'],['blocker','Blocker 攔截'],['quick','Floor It Quick'],['both','Blocker + Floor It']]){
+   const option=document.createElement('option');option.value=value;option.textContent=label;defenderSelect.append(option);
+  }
+  defenderSelect.value=defensePreset;
+  defenderSelect.addEventListener('change',()=>{
+   defensePreset=defenderSelect.value;state=H.fresh(scenario,{preGame:true,defense:defensePreset});
+   pendingDeal=null;selectedId=null;attackUnitId=null;selectedPayments.clear();
+   message='已更新腳本對手設定。';render();
+  });
+  defenderLabel.append(defenderSelect);
   add('p','本局起始六張：'+state.player.hand.map(c=>c.name).join('、'),order,'v3-opening-hand-list');
   add('p','目前僅支援兩組固定手牌的練習，尚未支援自由選卡、洗牌與正式重抽。',order);
   add('p','雙方各擲一顆 d20，點數較高者決定先攻或後攻；同點重擲。',order);
@@ -654,15 +666,9 @@ function render(){
   // never presented as an AI turn or a completed Quick/blocker window.
   // The scripted defender's reaction is a visible choice, never an AI assumption.
   const trainingBlockers=(state.ai?.units||[]).filter(u=>u.ready&&A.unitStats(u).blocker);
-  if(!state.ai.units.some(u=>u.trainingBlocker)){
-   const prep=add('div','',root,'v3-selected-detail');
-   command('加入練習 Blocker（測試攔截）',()=>P.addTrainingBlocker(state),prep);
-  }
+
   const quickAvailable=Boolean(state.ai.quickExercise?.enabled&&state.ai.hand.some(c=>c.id==='training-quick-floor-it'));
-  if(!state.ai.quickExercise?.enabled){
-   const quickSetup=add('div','',root,'v3-selected-detail');
-   command('加入對手 Quick：Floor It 練習',()=>P.addTrainingQuick(state),quickSetup);
-  }
+
   function reactionPicker(panel){
    const wrap=add('div','',panel,'v3-selected-detail');
    add('strong','防守方 React Step（腳本選擇）',wrap);
@@ -806,7 +812,7 @@ function render(){
   command('結束我的回合',()=>P.pass(state),buttons);
  }
  if(!state.finished&&state.turn==='ai')command('略過對手行動，開始下一回合',()=>P.next(state),buttons);
- command('重新開始 The Heist 練習',()=>({ok:true,state:H.fresh(scenario,{preGame:true}),message:initial}),buttons);
+ command('重新開始 The Heist 練習',()=>({ok:true,state:H.fresh(scenario,{preGame:true,defense:defensePreset}),message:initial}),buttons);
  const status=add('p',message,root,'v3-turn-feedback');status.setAttribute('role','status');
  const summary=add('div','',root,'v3-turn-log');add('strong','實際練習狀態',summary);
  add('p','場地：'+(p.units.map(c=>c.name+'（'+(c.ready?'Ready':'Spent')+(c.lag?' / Lag':'')+'）').join('、')||'無'),summary);
@@ -824,7 +830,7 @@ function render(){
 const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
  if(picker.value==='theHeist'){
-  scenario='basic';state=H.fresh(scenario,{preGame:true});pendingDeal=$('battle')?.classList.contains('hide')?null:'all';selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
+  scenario='basic';state=H.fresh(scenario,{preGame:true,defense:defensePreset});pendingDeal=$('battle')?.classList.contains('hide')?null:'all';selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
   if(legendButton)legendButton.disabled=true;
  }else{
