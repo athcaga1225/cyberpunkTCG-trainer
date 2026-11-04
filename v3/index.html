@@ -3273,50 +3273,107 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
  #decks #betaCardCollection .beta-filters .v3-filter-sort{grid-column:auto}
 }
 
-/* V3 tabletop-only fullscreen desktop mode. All game actions are in an
-   optional floating control tray, rather than a second page below the board. */
+/* V3 game viewport. Site pages keep their original layout; only #battle is fixed.
+   The exit control floats over the board. Play controls belong to PHASE, not a site toolbar. */
 @media screen and (min-width:901px){
  html:has(body.battle-wide),body.battle-wide{height:100%;overflow:hidden;overscroll-behavior:none}
  body.battle-wide>header,body.battle-wide>footer{display:none!important}
- body.battle-wide .wrap{width:100%!important;max-width:none!important;height:100dvh!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
- body.battle-wide #battle{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;position:relative;padding:0 8px 7px}
- body.battle-wide #battle.hide{display:none!important}
- body.battle-wide #battle .battle-toolbar{height:46px;min-height:46px;flex-shrink:0;display:flex;align-items:center;gap:12px;justify-content:space-between;padding:0 8px;margin:0}
- body.battle-wide #battle .battle-toolbar .battle-deck-picker{margin-right:auto}
- body.battle-wide #battle .battle-toolbar .board-tour-controls{flex-wrap:nowrap}
- body.battle-wide #battle .battle-toolbar .board-tour-controls .btn{font-size:13px;min-height:34px;padding:6px 12px;white-space:nowrap}
- body.battle-wide #battle .battle-preview-deckline{display:none!important}
- body.battle-wide #battle .board-tour{flex:1 1 0;height:auto;min-height:0!important;max-height:none;margin:0!important;padding:6px!important;overflow:visible}
- body.battle-wide #battle .table-preview{
-  height:100%;min-height:0;max-height:100%;
-  grid-auto-rows:minmax(0,1fr)!important;
-  gap:6px;overflow:visible;
+ body.battle-wide .wrap{
+  width:100%!important;max-width:none!important;height:100dvh!important;
+  min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important
  }
- body.battle-wide #battle .preview-zone{min-height:0;padding:6px 9px;gap:4px;overflow:visible}
- body.battle-wide #battle .preview-zone small{font-size:11px;letter-spacing:.04em}
- body.battle-wide #battle .cardbacks{height:100%;max-height:90px;min-height:0;gap:5px}
- body.battle-wide #battle .backcard{font-size:12px;min-height:0}
- body.battle-wide #battle .field-slots{min-height:0!important;height:100%;gap:5px}
- body.battle-wide #battle .hand-placeholder{min-height:0!important}
- body.battle-wide #battle .mini-dice{min-height:0;gap:3px;flex-wrap:nowrap}
- body.battle-wide #battle .mini-dice .die-icon{width:clamp(28px,3.3vw,55px);height:clamp(28px,3.3vw,55px);min-width:0;max-width:55px;max-height:55px}
- body.battle-wide #battle .mini-dice .die-icon b{font-size:11px!important}
- body.battle-wide #battle .player-hand:has(.is-hand-hover){z-index:500!important;isolation:auto!important}
- body.battle-wide #battle .player-fixer{z-index:1}
+ body.battle-wide #battle{
+  height:100dvh;min-height:0;display:block;overflow:hidden;position:relative;padding:5px
+ }
+ body.battle-wide #battle.hide{display:none!important}
+ body.battle-wide #battle .battle-toolbar{
+  position:absolute;right:13px;top:11px;width:auto;height:auto;min-height:0;
+  display:block;margin:0;padding:0;z-index:1200;pointer-events:none
+ }
+ body.battle-wide #battle .battle-toolbar .battle-deck-picker{display:none!important}
+ body.battle-wide #battle .battle-toolbar .board-tour-controls{display:block!important;margin:0;padding:0}
+ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn{display:none!important}
+ body.battle-wide #battle .battle-toolbar #leaveBattleScreen{
+  display:block!important;pointer-events:auto;min-height:32px;margin:0;padding:5px 12px;
+  font-size:12px;white-space:nowrap;color:#e5f2f3;border:1px solid #52707b;
+  background:#0a141cee;border-radius:3px
+ }
+ body.battle-wide #battle .battle-preview-deckline{display:none!important}
+ body.battle-wide #battle .board-tour{
+  width:100%;height:100%;min-height:0!important;max-height:100%;
+  margin:0!important;padding:5px!important;overflow:visible
+ }
+ body.battle-wide #battle .table-preview{
+  display:grid;height:100%;min-height:0;max-height:100%;overflow:visible;
+  grid-template-columns:minmax(0,1.15fr) minmax(0,2.2fr) minmax(0,1.15fr);
+  grid-template-rows:repeat(6,minmax(0,1fr));
+  grid-auto-rows:minmax(0,1fr)!important;gap:5px
+ }
+ body.battle-wide #battle .preview-zone{
+  min-height:0;min-width:0;padding:5px 7px;gap:3px;overflow:hidden
+ }
+ body.battle-wide #battle .preview-zone small{font-size:clamp(9px,.74vw,12px);letter-spacing:.03em}
+ body.battle-wide #battle .preview-zone strong{font-size:clamp(13px,1.1vw,18px)}
+ body.battle-wide #battle .preview-zone .placeholder-label{font-size:clamp(10px,.82vw,13px)}
+ body.battle-wide #battle .opponent-hand,
+ body.battle-wide #battle .player-hand{padding:4px 7px;overflow:visible}
+ body.battle-wide #battle .preview-zone .preview-card-rail{
+  min-height:0;height:100%;flex:1 1 0;overflow:hidden;align-items:stretch
+ }
  body.battle-wide #battle .player-hand .preview-card-rail{overflow:visible!important}
+ body.battle-wide #battle .preview-zone .preview-card-rail .preview-art-card{
+  height:100%!important;max-height:100%!important;min-height:0!important
+ }
+ body.battle-wide #battle .cardbacks{height:100%;max-height:100%;min-height:0;gap:5px;overflow:hidden}
+ body.battle-wide #battle .backcard{font-size:12px;min-height:0;max-height:100%}
+ body.battle-wide #battle .field-slots{
+  min-height:0!important;max-height:100%;height:100%;gap:5px;
+  align-items:stretch;overflow:hidden
+ }
+ body.battle-wide #battle .field-slots>div{height:100%;min-height:0;max-height:100%;font-size:12px}
+ body.battle-wide #battle .v3-played-card{
+  height:100%;max-height:100%;width:auto;max-width:84px;min-width:0;flex:0 1 84px;gap:2px;padding:2px
+ }
+ body.battle-wide #battle .v3-played-card img{height:calc(100% - 16px);min-height:0;object-fit:contain}
+ body.battle-wide #battle .v3-played-card small{font-size:9px}
+ body.battle-wide #battle .mini-dice{
+  min-height:0;gap:2px;flex-wrap:nowrap;justify-content:flex-start;overflow:hidden
+ }
+ body.battle-wide #battle .mini-dice .die-icon{
+  width:min(3.1vw,47px,100%);height:min(3.1vw,47px,100%);
+  min-width:0;min-height:0;max-width:47px;max-height:47px;flex:0 1 47px
+ }
+ body.battle-wide #battle .mini-dice .die-icon b{font-size:10px!important}
+ body.battle-wide #battle .turn-info{
+  justify-content:center;min-height:0!important;padding:8px 7px;gap:5px;overflow:hidden
+ }
+ body.battle-wide #battle .turn-info>span:not([data-practice-indicator]){display:none}
+ body.battle-wide #battle .turn-info [data-practice-indicator]{
+  display:block;max-width:100%;font-size:clamp(9px,.78vw,12px);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+ }
+ body.battle-wide #battle #toggleV3BattleActions{
+  display:block!important;min-height:32px;padding:5px 12px;margin:3px auto 0;
+  background:#102932;border:1px solid #29a8b6;color:#d7f6f8;
+  font-size:12px;cursor:pointer;white-space:nowrap
+ }
+ body.battle-wide #battle .player-fixer{z-index:1}
+ body.battle-wide #battle .player-hand:has(.is-hand-hover){
+  position:relative;z-index:500!important;isolation:auto!important;overflow:visible
+ }
  body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-hand-hover,
  body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-hand-hover:hover:not(:disabled){
-  transform:translateY(-53px) scale(1.17)!important;
-  transition:none!important;z-index:501!important;
+  transform:translateY(-7px) scale(1.12)!important;
+  transform-origin:bottom center;transition:none!important;z-index:501!important
  }
  body.battle-wide #battle .battle-instructions,
  body.battle-wide #battle #battlePreviewStatus{display:none!important}
  body.battle-wide #battle #v3TurnPractice{
-  display:none;position:fixed;right:12px;top:55px;bottom:12px;
-  width:min(410px,calc(100vw - 24px));max-height:none;z-index:9500;
+  display:none;position:fixed;right:12px;top:50px;bottom:12px;
+  width:min(405px,calc(100vw - 24px));max-height:none;z-index:9500;
   margin:0;padding:14px;overflow-y:auto;overscroll-behavior:contain;
-  background:#0b151bef;border:1px solid #3d6c79;box-shadow:0 18px 60px #000d;
-  border-radius:7px;
+  background:#0b151bf5;border:1px solid #3d6c79;box-shadow:0 18px 60px #000d;
+  border-radius:7px
  }
  body.battle-wide #battle #v3TurnPractice.is-open{display:block}
  body.battle-wide #battle #v3TurnPractice .v3-turn-note,
@@ -3327,6 +3384,12 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
  body.battle-wide #battle #v3TurnPractice .v3-turn-stats span{font-size:11px;padding:4px 6px}
  body.battle-wide #battle #v3TurnPractice .v3-turn-feedback{font-size:12px}
 }
+/* Hide obsolete top toolbar controls on landscape touch screens as well.
+   Portrait-phone rotation warning keeps its existing separate layout. */
+@media screen and (max-width:900px) and (orientation:landscape){
+ body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:not(#leaveBattleScreen){display:none}
+}
+
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
