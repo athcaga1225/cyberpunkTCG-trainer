@@ -48,7 +48,7 @@ const path=require('node:path');
 const html=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 const ui=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(html.includes('src="v3/heist-practice.js?v=1"'),'Heist module must load in V3');
-assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=13"'),'Module must load before UI');
+assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=14"'),'Module must load before UI');
 assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
@@ -292,7 +292,7 @@ assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped 
 assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
 assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
-assert(handStyles.includes('v3/turn-practice-ui.js?v=13'),'Updated hover script must bypass browser cache');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=14'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
 assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
@@ -313,7 +313,7 @@ assert(handStyles.includes('body.battle-wide #battle .battle-toolbar .battle-dec
 assert(handStyles.includes('body.battle-wide #battle .battle-toolbar .board-tour-controls .btn{display:none!important}'),'Top action buttons must be hidden');
 assert(handStyles.includes('body.battle-wide #battle .battle-toolbar #leaveBattleScreen'),'Only exit remains visible at top');
 assert(handStyles.includes('body.battle-wide #battle .table-preview'),'Tabletop occupies game viewport');
-assert(animatedUI.includes("if(selectedId)setActionTray(true)"),'Selecting a card opens its game action controls');
+assert(animatedUI.includes("renderTableControls()"),'Selecting a card updates tabletop contextual controls');
 assert(animatedUI.includes("deckSelect.addEventListener('change'"),'Deck selection must remain available in the action tray');
 assert(!animatedUI.includes("tourButton.addEventListener('click'"),'The tour must not occupy live turn controls');
 assert(animatedUI.includes("const handSelect=document.createElement('select')"),'Starting hand must be selected before the match');
@@ -474,7 +474,13 @@ assert(animatedUI.includes("const openingRoot=document.createElement('section')"
 assert(animatedUI.includes("const order=add('div','',openingRoot,'v3-selected-detail')"),'Roll-off must render outside the turn tray');
 assert(animatedUI.includes("state.player.hand.map(c=>c.name).join('、')"),'Starting six cards must be listed in pregame');
 assert(handStyles.includes('v3/board-tour.js?v=1'),'Optional tour must be V3-specific');
+assert(animatedUI.includes("tableControls.id='v3TableControls'"),'The playable actions need an on-table context surface');
+assert(animatedUI.includes("P.play(state,card.id,pay||[])"),'Selected hand units can be deployed from the table');
+assert(animatedUI.includes("P.sell(state,card.id)"),'Selected hand can be sold from the table');
+assert(animatedUI.includes("P.reactAttack(state,attackUnitId"),'Table attacks use the real training combat engine');
+assert(handStyles.includes('body.battle-wide #battle #v3TableControls'),'Table control strip requires a compact stylesheet');
+assert(animatedUI.includes("setActionTray(false)"),'Hand selection must not open the full-height test tray');
 assert(handStyles.includes('body.battle-wide #battle #v3OpeningSetup'),'Standalone opening dialog must have its own layout');
-assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=13'),
+assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=14'),
   'Tour click handlers must initialize before practice controls');
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
