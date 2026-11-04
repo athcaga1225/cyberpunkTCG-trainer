@@ -3,6 +3,16 @@
 const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV3Heist,A=window.NCTV3Actions;
 const root=$('v3TurnPractice'),board=$('battleTour'),picker=$('battleDeckChoice');
 if(!root||!board||!P||!H||!picker)return;
+const toggleActions=$('toggleV3BattleActions');
+function setActionTray(open){
+ root.classList.toggle('is-open',open);
+ toggleActions?.setAttribute('aria-expanded',String(open));
+ toggleActions?.classList.toggle('active',open);
+ if(open)hideHandHover();
+}
+toggleActions?.addEventListener('click',()=>setActionTray(!root.classList.contains('is-open')));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root.classList.contains('is-open'))setActionTray(false)});
+
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
 let scenario='basic',state=H.fresh(scenario),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
@@ -88,8 +98,8 @@ const hover=document.createElement('div');
 hover.id='v3HandPreview';hover.hidden=true;hover.setAttribute('aria-hidden','true');
 hover.style.cssText='position:fixed;z-index:9999;pointer-events:none;display:none;box-sizing:border-box;align-items:flex-start;gap:14px;max-width:calc(100vw - 32px);padding:10px;background:#071015f8;border:1px solid #567c85;border-radius:8px;box-shadow:0 16px 44px #000d;color:#e9eff0;';
 const hoverArt=document.createElement('img');
-hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(270px,27vw);height:auto;max-height:min(63vh,425px);aspect-ratio:5/7;object-fit:contain;background:#101820;flex:none;';
-const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(195px,19vw);max-height:min(63vh,425px);overflow:hidden;font-size:14px;line-height:1.65;';
+hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(220px,23vw);height:auto;max-height:min(56vh,360px);aspect-ratio:5/7;object-fit:contain;background:#101820;flex:none;';
+const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(165px,17vw);max-height:min(56vh,360px);overflow:hidden;font-size:14px;line-height:1.65;';
 hover.append(hoverArt,hoverInfo);document.body.append(hover);
 let previewId=null,leaveTimer=null,previewLoad=0,hoverPending=null,hoverPendingId=null;
 let raisedHandId=null;
