@@ -3419,6 +3419,21 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
  body.battle-wide #battle .battle-toolbar .board-tour-controls .btn:not(#leaveBattleScreen){display:none}
 }
 
+
+/* V3 desktop: central field-only refinement; keep shared left-side Grid rows intact. */
+@media screen and (min-width:901px){
+ body.battle-wide #battle .opponent-field{margin-top:-14px;z-index:2}
+ body.battle-wide #battle .player-field{margin-bottom:-14px;z-index:2}
+ body.battle-wide #battle .opponent-field .v3-played-card,
+ body.battle-wide #battle .player-field .v3-played-card{
+  max-width:clamp(96px,8.2vw,132px);
+  flex:0 1 clamp(96px,8.2vw,132px);
+ }
+ body.battle-wide #battle .tour-coach{
+  top:56px;
+  max-height:calc(100% - 70px);
+ }
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
