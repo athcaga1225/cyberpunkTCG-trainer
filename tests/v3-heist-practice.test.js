@@ -267,7 +267,13 @@ assert(animatedUI.includes("hover.style.display='none'"),'Preview can be hidden 
 assert(animatedUI.includes("rail.dataset.v3HoverOwned='true'"),'Legacy hover is disabled for the live hand');
 assert(animatedUI.includes("rail.dataset.v3HoverBound==='true'"),'Delegated events must bind only once');
 assert(animatedUI.includes("rail.addEventListener('pointermove',update)"),'Pointer movement across overlapping cards is delegated');
-assert(animatedUI.includes("e.clientX>=nodes[i].getBoundingClientRect().left"),'Card selection uses stable slot coordinates');
+assert(animatedUI.includes("const left=nodes[i].getBoundingClientRect().left"),'Card selection measures actual card slots');
+assert(animatedUI.includes("if(e.clientX>=left+5)"),'Card hover has a stable boundary inset');
+assert(animatedUI.includes("if(hoverPendingId===card.id)return"),'Repeated pointer moves must not restart debounce timer');
+assert(animatedUI.includes("},65)"),'Hover transition is lightly debounced');
+assert(animatedUI.includes("const rect=(el||rail).getBoundingClientRect()"),'Floating preview must anchor to hovered card');
+assert(animatedUI.includes("left=rect.right+gap"),'Preview must fall back beside hovered card');
+assert(animatedUI.includes("hoverImageCache.get(image)"),'Repeated hover imagery is cached');
 assert(animatedUI.includes("pointer-events:none"),'Preview must never capture the pointer');
 assert(animatedUI.includes("if(previewId===card.id&&!hover.hidden)return"),'Unchanged hovered card must not rebuild preview');
 assert(animatedUI.includes("if(token!==previewLoad)return"),'Stale async artwork must never replace the current card');
