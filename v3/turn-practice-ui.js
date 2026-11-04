@@ -396,7 +396,7 @@ function runTableAttack(attack){
  let reaction={kind:'pass'};
  if(blockers.length){
   const chosen=tableControls.querySelector('[data-table-blocker]')?.value;
-  if(!chosen){message='請先選擇對手是否使用 Blocker';renderTableControls();return}
+  if(!chosen){message='請先選擇對手是否使用 Blocker';return}
   reaction=chosen==='pass'?{kind:'pass'}:{kind:'block',blockerId:chosen};
  }
  const quick=tableControls.querySelector('[data-table-quick]');
@@ -408,6 +408,7 @@ function renderTableControls(){
  if(picker.value!=='theHeist'||state.phase==='pregame')return;
  const p=state.player;
  const headline=add('span',state.phase==='main'?'主要階段':phase(),tableControls,'v3-table-phase');
+ if(message&&message!==initial)add('span',message,tableControls,'v3-table-feedback');
  if(state.finished){headline.textContent='練習已結束';return}
  if(state.turn==='ai'){
   tableButton('下一回合',()=>P.next(state));return;
@@ -448,7 +449,7 @@ function renderTableControls(){
     }else if(card.name==='Reboot Optics')tableButton('使用 Reboot Optics',()=>P.program(state,card.id,pay||[],{}),!pay);
     else add('span','需指定委託骰效果，使用進階測試',tableControls,'v3-table-hint');
    }
-   tableButton('取消選取',()=>({ok:true,state,message:'已取消選取'}));
+   tableButton('取消選取',()=>{selectedId=null;return {ok:true,state,message:'已取消選取'}});
   }
  }else if(attackUnitId){
   const attacker=p.units.find(u=>u.id===attackUnitId);
