@@ -252,4 +252,10 @@ assert(animatedUI.includes("const sequence=++renderSequence"),'Stale renders mus
 assert(animatedUI.includes("prefers-reduced-motion: reduce"),'Reduced motion must be respected');
 assert(animatedUI.includes("animation.finished.then(clean,clean)"),'Transient flying cards must be removed on success and cancel');
 assert(!animatedUI.includes('setInterval('),'No permanent animation loops');
+assert(animatedUI.includes("document.documentElement.append(layer)"),'Flight layer must escape the grid CSS coordinate system');
+assert(animatedUI.includes("clone.style.left=end.left+'px'"),'Flight destination must use measured card position');
+assert(animatedUI.includes("clone.style.top=end.top+'px'"),'Flight destination must use measured viewport Y');
+assert(animatedUI.includes("start.left+start.width/2"),'Flight origin must be deck centre');
+assert(animatedUI.includes("startY-(end.top+end.height/2)"),'Flight path must account for the target centre');
+assert(animatedUI.includes("document.querySelectorAll('[data-v3-deal-layer]')"),'Canceled animations must remove the overlay');
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
