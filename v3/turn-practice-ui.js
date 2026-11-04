@@ -5,6 +5,45 @@ const root=$('v3TurnPractice'),board=$('battleTour'),picker=$('battleDeckChoice'
 if(!root||!board||!P||!H||!picker)return;
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
 let scenario='basic',state=H.fresh(scenario),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
+// Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
+let pendingDeal='all';
+let activeDeals=[];
+function cancelDeals(){
+ for(const item of activeDeals){item.animation?.cancel();item.clone.remove();if(item.target?.isConnected)item.target.style.visibility='';}
+ activeDeals=[];
+}
+function dealHand(mode){
+ if(!mode||window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return;
+ const source=board.querySelector('.player-deck .deck-pile');
+ const rail=board.querySelector('.player-hand .hand-placeholder');
+ if(!source||!rail||typeof Element.prototype.animate!=='function')return;
+ const start=source.getBoundingClientRect();
+ if(!start.width||!start.height)return;
+ const cards=[...rail.querySelectorAll('.hand-card')];
+ const targets=mode==='all'?cards:cards.filter(el=>mode.includes(el.dataset.cardId));
+ targets.forEach((target,index)=>{
+  const end=target.getBoundingClientRect();
+  if(!end.width||!end.height)return;
+  const clone=target.cloneNode(true);
+  clone.removeAttribute('id');clone.setAttribute('aria-hidden','true');
+  clone.style.cssText='position:fixed!important;z-index:20000!important;pointer-events:none!important;box-sizing:border-box!important;transition:none!important;transform:none!important;opacity:1;'
+   +'left:'+end.left+'px!important;top:'+end.top+'px!important;width:'+end.width+'px!important;height:'+end.height+'px!important;margin:0!important;';
+  clone.querySelectorAll('img').forEach(img=>{img.loading='eager';});
+  document.body.append(clone);
+  target.style.visibility='hidden';
+  const dx=start.left+start.width/2-(end.left+end.width/2);
+  const dy=start.top+start.height/2-(end.top+end.height/2);
+  const delay=index*95;
+  const animation=clone.animate([
+   {transform:'translate('+dx+'px,'+dy+'px) scale(.73) rotate(-7deg)',opacity:.65,offset:0},
+   {transform:'translate('+(dx*.18)+'px,'+(dy*.12)+'px) scale(1.025) rotate(1deg)',opacity:1,offset:.83},
+   {transform:'translate(0px,0px) scale(1) rotate(0deg)',opacity:1,offset:1}
+  ],{duration:490,delay,easing:'cubic-bezier(.22,.72,.2,1)',fill:'both'});
+  const item={animation,clone,target};activeDeals.push(item);
+  const clean=()=>{clone.remove();if(target.isConnected)target.style.visibility='';activeDeals=activeDeals.filter(x=>x!==item)};
+  animation.finished.then(clean,clean);
+ });
+}
 const art=new Map();
 document.querySelectorAll('#starterDeckGallery [data-card-name][data-deck-image]').forEach(el=>{
  const name=el.getAttribute('data-card-name'),src=el.getAttribute('data-deck-image');
@@ -14,7 +53,7 @@ const phase=()=>state.finished?'已結束':state.turn==='ai'?'對手回合（暫
 const add=(tag,txt,parent,cls)=>{const el=document.createElement(tag);el.textContent=txt||'';if(cls)el.className=cls;parent.append(el);return el};
 function command(label,fn,parent,disabled=false){
  const b=add('button',label,parent,'btn');b.type='button';b.disabled=disabled;
- b.addEventListener('click',()=>{const r=fn();message=r.ok?r.message:r.reason;if(r.ok){state=r.state;selectedPayments.clear();if(!state.player.hand.some(c=>c.id===selectedId))selectedId=null;}render()});return b;
+ b.addEventListener('click',()=>{const before=new Set(state.player.hand.map(c=>c.id));const r=fn();message=r.ok?r.message:r.reason;if(r.ok){state=r.state;selectedPayments.clear();if(!state.player.hand.some(c=>c.id===selectedId))selectedId=null;const added=state.player.hand.map(c=>c.id).filter(id=>!before.has(id));if(added.length)pendingDeal=added;if(state.player.hand.length===6&&r.message===initial)pendingDeal='all';}render()});return b;
 }
 function indicator(selector,summary){
  const zone=board.querySelector(selector);if(!zone)return;
@@ -26,7 +65,7 @@ function renderHand(){
  const rail=board.querySelector('.player-hand .hand-placeholder');if(!rail)return;
  rail.replaceChildren();rail.classList.add('preview-card-rail');
  state.player.hand.forEach((card,i)=>{
-  const btn=document.createElement('button');btn.type='button';btn.className='preview-art-card hand-card';btn.dataset.cardName=card.name;btn.dataset.handIndex=String(i);
+  const btn=document.createElement('button');btn.type='button';btn.className='preview-art-card hand-card';btn.dataset.cardName=card.name;btn.dataset.cardId=card.id;btn.dataset.handIndex=String(i);
   const selected=selectedId===card.id;btn.classList.toggle('is-selected',selected);
   btn.setAttribute('aria-pressed',String(selected));
   btn.setAttribute('aria-label','選取 '+card.name+'，費用 '+card.cost+(card.sellTag?'，可變賣':''));
@@ -108,6 +147,8 @@ function gigAdjustmentOptions(){
  return {gigId,side:gigSide,delta:gigDelta};
 }
 function render(){
+ cancelDeals();
+ const deal=pendingDeal;pendingDeal=null;
  const supported=picker.value==='theHeist';
  root.replaceChildren();
  if(!supported){
@@ -120,11 +161,12 @@ function render(){
  }
  const p=state.player;
  renderHand();renderField();renderRivalField();
+ if(deal)requestAnimationFrame(()=>{if(picker.value==='theHeist')dealHand(deal)});
  const scenarios=add('div','',root,'v3-turn-actions');
  for(const [mode,label] of [['basic','基礎出牌手牌'],['quick','效果與 Quick 手牌']]){
   const button=add('button',label,scenarios,'btn');button.type='button';button.disabled=scenario===mode;
   button.addEventListener('click',()=>{
-   scenario=mode;state=H.fresh(scenario);selectedId=null;selectedPayments.clear();
+   scenario=mode;state=H.fresh(scenario);pendingDeal='all';selectedId=null;selectedPayments.clear();
    targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';
    message='已切換練習手牌。此處預置一張對手單位作為測試目標，並非正式開局。';render();
   });
@@ -241,7 +283,7 @@ function render(){
 const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
  if(picker.value==='theHeist'){
-  scenario='basic';state=H.fresh(scenario);selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
+  scenario='basic';state=H.fresh(scenario);pendingDeal='all';selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
   if(legendButton)legendButton.disabled=true;
  }else{
