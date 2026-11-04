@@ -79,5 +79,10 @@
   const r=actions.fightSpentUnit(state,'player',attackerId,defenderId);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
- return {fresh,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,pass,next};
+ function steal(state,attackerId,gigIds){
+  if(!actions)return fail('對戰模組未載入');
+  const r=actions.stealTrainingGigs(state,'player',attackerId,gigIds);
+  return r.ok?ok(r.state,r.events.join('；')):r;
+ }
+ return {fresh,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,pass,next};
 });
