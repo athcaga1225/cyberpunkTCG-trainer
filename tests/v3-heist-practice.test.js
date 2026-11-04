@@ -295,7 +295,11 @@ assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class 
 assert(handStyles.includes('v3/turn-practice-ui.js?v=9'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
-assert(handStyles.includes('grid-template-rows:repeat(6,minmax(0,1fr))'),'All six battlefield rows must fit the viewport');
+assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
+assert(handStyles.includes('minmax(0,.7fr) minmax(0,.9fr)'),'Dice and Gig rows must use compact heights');
+assert(handStyles.includes('minmax(155px,.78fr)'),'Unused room sidebar width must be reclaimed');
+assert(handStyles.includes('.opponent-legends .cardbacks .preview-art-card'),'Legend cards must fill their larger row');
+assert(handStyles.includes('.player-hand .preview-card-rail{width:100%;height:calc(100% - 2px)'),'Hand rail must use the available row height');
 assert(handStyles.includes('body.battle-wide>header,body.battle-wide>footer{display:none!important}'),'Site chrome must be hidden in fullscreen play');
 assert(handStyles.includes('body.battle-wide #battle #v3TurnPractice.is-open{display:block}'),'Gameplay actions remain accessible in an overlay');
 assert(handStyles.includes('id="toggleV3BattleActions"'),'The phase control must exist');
