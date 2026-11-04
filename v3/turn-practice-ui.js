@@ -286,7 +286,7 @@ function render(){
 const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
  if(picker.value==='theHeist'){
-  scenario='basic';state=H.fresh(scenario);pendingDeal=null;selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
+  scenario='basic';state=H.fresh(scenario);pendingDeal=$('battle')?.classList.contains('hide')?null:'all';selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
   if(legendButton)legendButton.disabled=true;
  }else{
