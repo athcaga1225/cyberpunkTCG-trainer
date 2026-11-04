@@ -413,12 +413,13 @@ function render(){
    const wrap=add('div','',panel,'v3-selected-detail');
    add('strong','防守方 React Step（腳本選擇）',wrap);
    const chooser=document.createElement('select');chooser.setAttribute('aria-label','選擇對手反應');
+   if(trainingBlockers.length){const pending=document.createElement('option');pending.value='';pending.textContent='請選擇防守方反應';chooser.append(pending)}
    const pass=document.createElement('option');pass.value='pass';pass.textContent='不使用 Blocker → 繼續原目標';chooser.append(pass);
    for(const blocker of trainingBlockers){
     const opt=document.createElement('option');opt.value=blocker.id;opt.textContent='使用 Blocker：'+blocker.name;chooser.append(opt);
    }
    wrap.append(chooser);
-   return ()=>chooser.value==='pass'?{kind:'pass'}:{kind:'block',blockerId:chooser.value};
+   return ()=>!chooser.value?null:chooser.value==='pass'?{kind:'pass'}:{kind:'block',blockerId:chooser.value};
   }
   const trainingTargets=(state.ai?.units||[]).filter(u=>u.trainingTarget);
   if(trainingTargets.length){
