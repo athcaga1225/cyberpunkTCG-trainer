@@ -33,9 +33,16 @@
   if(state.opening.winner==='ai'&&firstPlayer!=='ai')return fail('本練習的腳本對手取得選擇權後固定選擇先攻');
   const s=copy(state);
   s.opening.resolved=true;s.opening.first=firstPlayer;
-  s.opening.scriptedOpponentTurnSkipped=firstPlayer==='ai';
-  s.turn='player';s.phase='start';s.step='ready';s.round=1;
+  const mirror=Boolean(s.ai.practiceBot?.kind==='mirror-the-heist');
+  s.opening.scriptedOpponentTurnSkipped=!mirror&&firstPlayer==='ai';
+  s.turn=mirror&&firstPlayer==='ai'?'ai':'player';
+  s.phase=mirror&&firstPlayer==='ai'?'opponent':'start';
+  s.step=mirror&&firstPlayer==='ai'?'pendingBot':'ready';
+  s.round=1;
   for(const [index,legend] of s.player.legends.entries())legend.ready=firstPlayer!=='player'||index>=2;
+  if(mirror)for(const [index,legend] of s.ai.legends.entries())legend.ready=firstPlayer!=='ai'||index>=2;
+  if(mirror&&firstPlayer==='ai')return ok(s,'鏡像對手先攻：先執行其首回合，再由我方開始第一回合。');
+  if(mirror)return ok(s,firstPlayer==='player'?'我方先攻：兩張傳奇卡已使用；完成後交給鏡像對手。':'我方後攻：鏡像對手須先完成首回合。');
   return ok(s,firstPlayer==='player'?'我方先攻：左側兩張傳奇卡已使用，第一回合不能重置。':'腳本對手先攻：目前沒有 AI 回合，已明確略過對手第一回合；我方後攻，三張傳奇卡保持就緒。');
  }
  function ready(state){
@@ -81,7 +88,67 @@
  }
  function pass(state){
   if(state.turn!=='player'||state.phase!=='main'||state.finished)return fail('只能在自己的主要階段結束回合');
-  const s=copy(state);for(const unit of s.player.units)unit.lag=false;for(const side of ['player','ai']){for(const unit of s[side].units){unit.tempPowerModifier=0;}s[side].pendingRebootOptics=0;}s.turn='ai';s.phase='opponent';s.step='paused';return ok(s,'本回合結束；所有己方單位失去 Lag，對手行動尚未實作。');
+  const s=copy(state);for(const unit of s.player.units)unit.lag=false;for(const side of ['player','ai']){for(const unit of s[side].units){unit.tempPowerModifier=0;}s[side].pendingRebootOptics=0;}s.turn='ai';s.phase='opponent';s.step=s.ai.practiceBot?.kind==='mirror-the-heist'?'pendingBot':'paused';return ok(s,s.step==='pendingBot'?'我方回合結束；輪到鏡像對手執行回合。':'本回合結束；所有己方單位失去 Lag，對手行動尚未實作。');
+ }
+ // One bounded automated opponent turn; uses real pay/sell/playUnit validators.
+ // No attack is auto-declared until defender React (including Quick) is implemented.
+ function opponentTurn(state,dieValue){
+  if(state.finished||state.turn!=='ai'||state.phase!=='opponent'||state.step!=='pendingBot')
+   return fail('目前不是對手回合');
+  if(state.ai?.practiceBot?.kind!=='mirror-the-heist')return fail('此模式沒有自動測試對手');
+  const s=copy(state),p=s.ai,notes=[];
+  if(p.gigs.length>=7){
+   s.finished=true;s.winner='ai';s.loser='player';
+   return ok(s,'對手回合開始時持有至少 7 顆委託骰，對手獲勝。');
+  }
+  if(p.practiceBot.turnsTaken>0){
+   for(const zone of ['eddies','legends','units'])for(const card of p[zone])card.ready=true;
+  }
+  for(const unit of p.units)unit.lag=false;
+  notes.push('對手重置可重置的卡牌');
+  if(!p.deck.length){
+   s.finished=true;s.winner='player';s.loser='ai';
+   return ok(s,'對手需要抽牌但牌庫已空，我方獲勝。');
+  }
+  p.hand.push(p.deck.pop());notes.push('抽牌 1 張');
+  const side=p.fixer.find(d=>d!==20)??p.fixer[0];
+  if(side!==undefined){
+   if(!Number.isInteger(dieValue)||dieValue<1||dieValue>side)return fail('對手委託骰點數無效');
+   p.fixer.splice(p.fixer.indexOf(side),1);
+   p.gigs.push({id:'mirror-gig-'+p.practiceBot.turnsTaken,sides:side,value:dieValue});
+   notes.push('擲出 d'+side+'（'+dieValue+'）');
+  }
+  s.phase='main';s.step='actions';
+  const sale=p.hand.find(c=>c.sellTag&&c.id!=='training-quick-floor-it');
+  if(sale){
+   const sold=actions.sell(s,'ai',sale.id);
+   if(sold.ok){Object.assign(s,sold.state);notes.push(...sold.events)}
+  }
+  const q=s.ai;
+  const available=[...q.eddies.filter(x=>x.ready).map(x=>({kind:'eddie',id:x.id})),
+    ...q.legends.filter(x=>x.ready&&(!x.faceUp||x.sellTag)).map(x=>({kind:'legend',id:x.id}))];
+  // Only vanilla units with verified base deployment; no invented target decisions.
+  const unit=q.hand.filter(c=>c.type==='Unit'&&!c.unimplementedEffect&&!c.requiresTarget&&
+   !c.onPlaySpendRival&&!c.onPlayDefeatGear&&!c.onPlayGigAdjust&&!c.deferredEffect&&
+   c.cost<=available.length).sort((a,b)=>b.cost-a.cost)[0];
+  if(unit){
+   const sources=available.slice(0,unit.cost);
+   const played=actions.playUnit(s,'ai',unit.id,sources);
+   if(played.ok){Object.assign(s,played.state);notes.push(...played.events)}
+  }
+  // Both players may have reactions to attacks. Do not silently waive them.
+  notes.push('對手攻擊尚未啟用：保留玩家 Quick／Blocker 的反應時機');
+  for(const zone of ['player','ai'])for(const unit of s[zone].units)unit.tempPowerModifier=0;
+  for(const unit of s.ai.units)unit.lag=false;
+  s.ai.practiceBot.turnsTaken++;
+  s.ai.soldThisTurn=false;
+  s.turn='player';s.phase='start';s.step='ready';
+  if(!(s.opening?.first==='ai'&&s.ai.practiceBot.turnsTaken===1))s.round++;
+  if(s.player.gigs.length>=7){
+   s.finished=true;s.winner='player';s.loser='ai';
+   notes.push('我方回合開始已有 7 顆委託骰，我方獲勝');
+  }
+  return ok(s,'鏡像對手完成回合：'+notes.join('；'));
  }
  function next(state){
   if(state.turn!=='ai'||state.phase!=='opponent')return fail('必須先結束我方回合');
@@ -131,5 +198,5 @@
   const r=actions.resolveTrainingReaction(state,'player',attackerId,attack,reaction);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
- return {fresh,rollForOrder,chooseOrder,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,pass,next};
+ return {fresh,rollForOrder,chooseOrder,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,opponentTurn,pass,next};
 });
