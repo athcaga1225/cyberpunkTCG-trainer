@@ -66,5 +66,18 @@
   if(s.player.gigs.length>=7){s.finished=true;return ok(s,'回合開始持有至少 7 顆委託骰，符合一般勝利條件。')}
   return ok(s,'開始下一個我方回合（對手行動在此練習中略過）。');
  }
- return {fresh,ready,draw,roll,sell,play,gear,program,pass,next};
+ function prepareTrainingTarget(state,targetId){
+  if(state.finished||state.turn!=='player'||state.phase!=='main'||state.practiceKind!=='the-heist')
+   return fail('只能在 The Heist 主要階段設定練習目標');
+  const target=state.ai?.units?.find(u=>u.id===targetId&&u.trainingTarget);
+  if(!target)return fail('找不到練習單位');
+  const s=copy(state);s.ai.units.find(u=>u.id===targetId).ready=false;
+  return ok(s,'練習設定：對手 '+target.name+' 改為已使用（非 AI 行動）');
+ }
+ function fight(state,attackerId,defenderId){
+  if(!actions)return fail('對戰模組未載入');
+  const r=actions.fightSpentUnit(state,'player',attackerId,defenderId);
+  return r.ok?ok(r.state,r.events.join('；')):r;
+ }
+ return {fresh,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,pass,next};
 });
