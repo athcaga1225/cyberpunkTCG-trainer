@@ -86,10 +86,10 @@ document.querySelectorAll('#starterDeckGallery [data-card-name][data-deck-image]
 // is disabled while this rail is owned by V3, preventing two competing popups.
 const hover=document.createElement('div');
 hover.id='v3HandPreview';hover.hidden=true;hover.setAttribute('aria-hidden','true');
-hover.style.cssText='position:fixed;z-index:9999;pointer-events:none;display:none;box-sizing:border-box;align-items:flex-start;gap:16px;max-width:calc(100vw - 32px);padding:12px;background:#071015f8;border:1px solid #567c85;border-radius:8px;box-shadow:0 16px 44px #000d;color:#e9eff0;';
+hover.style.cssText='position:fixed;z-index:9999;pointer-events:none;display:none;box-sizing:border-box;align-items:flex-start;gap:14px;max-width:calc(100vw - 32px);padding:10px;background:#071015f8;border:1px solid #567c85;border-radius:8px;box-shadow:0 16px 44px #000d;color:#e9eff0;';
 const hoverArt=document.createElement('img');
-hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(300px,29vw);height:auto;max-height:min(66vh,470px);aspect-ratio:5/7;object-fit:contain;background:#101820;flex:none;';
-const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(210px,20vw);max-height:min(66vh,470px);overflow:hidden;font-size:14px;line-height:1.65;';
+hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(270px,27vw);height:auto;max-height:min(63vh,425px);aspect-ratio:5/7;object-fit:contain;background:#101820;flex:none;';
+const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(195px,19vw);max-height:min(63vh,425px);overflow:hidden;font-size:14px;line-height:1.65;';
 hover.append(hoverArt,hoverInfo);document.body.append(hover);
 let previewId=null,leaveTimer=null,previewLoad=0,hoverPending=null,hoverPendingId=null;
 let raisedHandId=null;
@@ -107,18 +107,21 @@ function positionHandHover(anchor){
  if(hover.hidden)return;
  const rail=board.querySelector('.player-hand .hand-placeholder');
  if(!rail)return;
- const el=anchor||rail.querySelector('.hand-card[data-card-id="'+previewId+'"]');
- const rect=(el||rail).getBoundingClientRect();
- const w=hover.offsetWidth,h=hover.offsetHeight,pad=14,gap=14;
- // Anchor to the actual hovered card, not the center of the entire table.
- // Prefer immediately above its slot; otherwise sit beside that slot.
- let left=rect.left,top=rect.top-h-gap;
- if(top<pad){
-  left=rect.right+gap;top=rect.top-Math.min(85,h*.25);
-  if(left+w>innerWidth-pad)left=rect.left-w-gap;
- }
- left=Math.max(pad,Math.min(innerWidth-w-pad,left));
- top=Math.max(pad,Math.min(innerHeight-h-pad,top));
+ const el=anchor||[...rail.querySelectorAll('.hand-card')].find(card=>card.dataset.cardId===previewId);
+ if(!el)return;
+ const railRect=rail.getBoundingClientRect();
+ const w=hover.offsetWidth,h=hover.offsetHeight,pad=14,gap=16;
+ // offsetLeft/offsetWidth deliberately ignore the card's visual scale:
+ // the popup is positioned from its ORIGINAL slot, not its enlarged bounds.
+ const slotLeft=railRect.left+el.offsetLeft;
+ const slotTop=railRect.top+el.offsetTop;
+ const slotRight=slotLeft+el.offsetWidth;
+ const slotBottom=slotTop+el.offsetHeight;
+ // Keep the preview beside the selected hand card, aligned to its lower edge.
+ let left=slotRight+gap;
+ if(left+w>innerWidth-pad)left=slotLeft-w-gap;
+ if(left<pad)left=Math.max(pad,Math.min(innerWidth-w-pad,slotRight+gap));
+ const top=Math.max(pad,Math.min(innerHeight-h-pad,slotBottom-h));
  hover.style.left=Math.round(left)+'px';
  hover.style.top=Math.round(top)+'px';
 }
