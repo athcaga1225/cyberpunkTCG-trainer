@@ -403,6 +403,23 @@ function render(){
   command('變賣選取的手牌',()=>P.sell(state,selectedId),buttons,!chosen?.sellTag||p.soldThisTurn);
   // Bounded combat exercise. The target setup is explicitly a trainer action,
   // never presented as an AI turn or a completed Quick/blocker window.
+  // The scripted defender's reaction is a visible choice, never an AI assumption.
+  const trainingBlockers=(state.ai?.units||[]).filter(u=>u.ready&&A.unitStats(u).blocker);
+  if(!state.ai.units.some(u=>u.trainingBlocker)){
+   const prep=add('div','',root,'v3-selected-detail');
+   command('加入練習 Blocker（測試攔截）',()=>P.addTrainingBlocker(state),prep);
+  }
+  function reactionPicker(panel){
+   const wrap=add('div','',panel,'v3-selected-detail');
+   add('strong','防守方 React Step（腳本選擇）',wrap);
+   const chooser=document.createElement('select');chooser.setAttribute('aria-label','選擇對手反應');
+   const pass=document.createElement('option');pass.value='pass';pass.textContent='不使用 Blocker → 繼續原目標';chooser.append(pass);
+   for(const blocker of trainingBlockers){
+    const opt=document.createElement('option');opt.value=blocker.id;opt.textContent='使用 Blocker：'+blocker.name;chooser.append(opt);
+   }
+   wrap.append(chooser);
+   return ()=>chooser.value==='pass'?{kind:'pass'}:{kind:'block',blockerId:chooser.value};
+  }
   const trainingTargets=(state.ai?.units||[]).filter(u=>u.trainingTarget);
   if(trainingTargets.length){
    const exercise=add('div','',root,'v3-selected-detail');
@@ -420,9 +437,10 @@ function render(){
     targetSelect.setAttribute('aria-label','選擇已使用的對手單位');
     for(const u of exhausted){const o=document.createElement('option');o.value=u.id;o.textContent=u.name+' / '+A.unitStats(u).power+' PWR';targetSelect.append(o)}
     exercise.append(targetSelect);
-    command('攻擊已使用的對手單位',()=>P.fight(state,attackSelect.value,targetSelect.value),exercise);
+    const reaction=reactionPicker(exercise);
+    command('攻擊已使用的對手單位',()=>P.reactAttack(state,attackSelect.value,{kind:'unit',defenderId:targetSelect.value},reaction()),exercise);
    }else if(exhausted.length)add('p','需有一張已解除 Lag、就緒且沒有待處理攻擊能力的己方單位。',exercise);
-   add('p','此練習僅處理基本戰力比較與擊敗。未支援 Quick、攔截及特殊觸發效果。',exercise);
+   add('p','此練習可手動選擇 Blocker；未支援 Quick 與其他特殊觸發效果。',exercise);
   }
 
   const gigTargets=state.ai?.gigs||[];
@@ -443,7 +461,8 @@ function render(){
      checkbox.addEventListener('change',()=>{if(checkbox.checked)picked.add(gig.id);else picked.delete(gig.id)});
     }
     const countNote=add('p','選擇對手骰子，數量需符合攻擊單位戰力。',panel);
-    const attack=command('攻擊委託區並搶骰',()=>P.steal(state,chooser.value,[...picked]),panel);
+    const reaction=reactionPicker(panel);
+    const attack=command('宣告攻擊並進入反應結算',()=>P.reactAttack(state,chooser.value,{kind:'gig',gigIds:[...picked]},reaction()),panel);
     const update=()=>{
      const unit=eligible.find(u=>u.id===chooser.value),power=A.unitStats(unit).power;
      const count=power<=0?0:Math.min(gigTargets.length,Math.floor(power/10)+1);
@@ -454,7 +473,7 @@ function render(){
     for(const checkbox of picks.querySelectorAll('input'))checkbox.addEventListener('change',update);
     update();
    }else add('p','需要一張已解除 Lag、目前就緒的己方單位。',panel);
-   add('p','僅供無對手反應的腳本練習；Quick 與 Blocker 對戰尚未完成。',panel);
+   add('p','可手動選擇腳本 Blocker 是否介入；Quick 與其他反應仍未完成。',panel);
   }
   if(chosen&&!chosen.unimplementedEffect){
    const sources=paymentOptions(root);
