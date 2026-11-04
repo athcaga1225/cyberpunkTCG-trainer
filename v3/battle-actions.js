@@ -229,5 +229,36 @@
   next[who].gigs.push(...selected.map(g=>({...g,trainingTarget:false})));
   return success(next,['攻擊對手委託區：'+attacker.name+'（'+power+' PWR）','搶得 '+selected.length+' 顆委託骰']);
  }
- return {sell,pay,playUnit,playGear,playProgram,unitStats,fightSpentUnit,stealTrainingGigs};
+ function resolveTrainingReaction(state,who,attackerId,attack,reaction){
+  const p=player(state,who),opposite=who==='player'?'ai':'player',rival=player(state,opposite);
+  if(!p||!rival||state.practiceKind!=='the-heist')return fail('僅適用 The Heist 腳本練習');
+  if(state.finished||state.phase!=='main'||state.turn!==who)return fail('只能在主要階段宣告攻擊');
+  const attacker=p.units.find(u=>u.id===attackerId);
+  if(!attacker||attacker.ready!==true||attacker.lag===true)return fail('攻擊者必須就緒且沒有 Lag');
+  if(attacker.deferredEffect||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
+   return fail('尚未支援的攻擊、Quick 或觸發效果不可跳過');
+  if(!attack||!['gig','unit'].includes(attack.kind))return fail('必須指定攻擊目標');
+  if(attack.kind==='gig'&&(!rival.gigs?.length||!rival.gigs.every(g=>g.trainingTarget)))
+   return fail('只支援公開的練習委託骰');
+  if(attack.kind==='unit'&&!rival.units.some(u=>u.id===attack.defenderId&&u.ready===false))
+   return fail('只能宣告攻擊已使用的對手單位');
+  const blockers=rival.units.filter(u=>u.ready===true&&unitStats(u).blocker);
+  if(blockers.length&&(!reaction||!['pass','block'].includes(reaction.kind)))
+   return fail('防守方必須先決定是否使用 Blocker');
+  if(reaction?.kind==='block'){
+   const defender=blockers.find(u=>u.id===reaction.blockerId);
+   if(!defender)return fail('Blocker 必須是就緒的防守方單位');
+   if(defender.deferredEffect||defender.unimplementedEffect)return fail('Blocker 特殊效果尚未驗證');
+   // React: spend Blocker, replacing the original attack target.
+   const staged=clone(state);
+   staged[opposite].units.find(u=>u.id===defender.id).ready=false;
+   const result=fightSpentUnit(staged,who,attackerId,defender.id);
+   if(!result.ok)return result;
+   return success(result.state,['防守方使用 Blocker：'+defender.name+'，轉移攻擊目標',...result.events]);
+  }
+  if(reaction&&reaction.kind!=='pass')return fail('反應選擇無效');
+  if(attack.kind==='unit')return fightSpentUnit(state,who,attackerId,attack.defenderId);
+  return stealTrainingGigs(state,who,attackerId,attack.gigIds);
+ }
+ return {sell,pay,playUnit,playGear,playProgram,unitStats,fightSpentUnit,stealTrainingGigs,resolveTrainingReaction};
 });
