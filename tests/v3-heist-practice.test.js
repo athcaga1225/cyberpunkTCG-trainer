@@ -380,4 +380,31 @@ assert(!handStyles.includes('translateY(-53px) scale(1.17)'),'Excessive hand lif
  const deferred=JSON.parse(JSON.stringify(base));deferred.player.units.at(-1).deferredEffect=true;
  assert.equal(P.steal(deferred,actor.id,['training-gig-d4']).ok,false,'Unresolved trigger cannot be silently skipped');
 }
+
+// Explicit scripted React Step: Blocker redirect, pass, and zero-power fight.
+{
+ let r=P.ready(H.fresh());assert(r.ok);r=P.draw(r.state);assert(r.ok);r=P.roll(r.state,4,2);assert(r.ok);
+ const base=r.state;
+ base.player.units.push({id:'react-attacker',name:'Test attacker',type:'Unit',power:6,ready:true,lag:false,gear:[]});
+ const added=P.addTrainingBlocker(base);assert(added.ok,'Training defender may create a script Blocker');
+ const withBlocker=added.state;
+ const attack={kind:'gig',gigIds:['training-gig-d4']};
+ assert.equal(P.steal(withBlocker,'react-attacker',attack.gigIds).ok,false,'Direct Gig attacks cannot bypass ready Blocker response');
+ assert.equal(P.reactAttack(withBlocker,'react-attacker',attack).ok,false,'React Step requires an explicit choice');
+ assert.equal(P.reactAttack(withBlocker,'react-attacker',attack,{kind:'block',blockerId:'missing'}).ok,false,'Unknown blocker must fail');
+ const intercepted=P.reactAttack(withBlocker,'react-attacker',attack,{kind:'block',blockerId:'training-blocker-bombus'});
+ assert(intercepted.ok,'Ready Blocker redirects Gig attack to its fight');
+ assert.equal(intercepted.state.ai.gigs.length,3,'Intercepted Gig attack must not steal Gigs');
+ assert.equal(intercepted.state.player.units[0].ready,false,'Attacker is spent');
+ assert(!intercepted.state.ai.units.some(u=>u.id==='training-blocker-bombus'),'Power 6 defeats Blocker at power 0');
+ assert.equal(withBlocker.ai.units.at(-1).ready,true,'Intercept does not mutate old state');
+ const passed=P.reactAttack(withBlocker,'react-attacker',attack,{kind:'pass'});
+ assert(passed.ok,'Explicit defender pass allows normal Gig steal');
+ assert.equal(passed.state.ai.gigs.length,2,'Unblocked attack steals one Gig');
+ const equal=JSON.parse(JSON.stringify(withBlocker));equal.player.units[0].power=0;
+ const noDefeat=P.reactAttack(equal,'react-attacker',{kind:'gig',gigIds:[]},{kind:'block',blockerId:'training-blocker-bombus'});
+ assert(noDefeat.ok,'Two zero-power units may fight');
+ assert.equal(noDefeat.state.ai.units.length,2,'Power zero cannot defeat the opposing unit');
+ assert.equal(noDefeat.state.player.units.length,1,'Zero-power Blocker cannot defeat attacker');
+}
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
