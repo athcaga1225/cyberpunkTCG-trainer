@@ -12,6 +12,7 @@ let renderSequence=0;
 let entryDealt=false;
 function cancelDeals(){
  for(const item of activeDeals){item.animation?.cancel();item.clone.remove();if(item.target?.isConnected)item.target.style.visibility='';}
+ document.querySelectorAll('[data-v3-deal-layer]').forEach(layer=>layer.remove());
  activeDeals=[];
 }
 function dealHand(mode){
@@ -23,29 +24,59 @@ function dealHand(mode){
  if(!start.width||!start.height)return;
  const cards=[...rail.querySelectorAll('.hand-card')];
  const targets=mode==='all'?cards:cards.filter(el=>mode.includes(el.dataset.cardId));
- targets.forEach((target,index)=>{
+ // The flight layer is attached to the document root, outside all tabletop
+ // grid, stacking, clipping and hover styles; its CSS pixels are viewport pixels.
+ const layer=document.createElement('div');
+ layer.setAttribute('aria-hidden','true');
+ layer.dataset.v3DealLayer='';
+ layer.style.cssText='position:fixed;inset:0;z-index:20000;pointer-events:none;overflow:visible;';
+ document.documentElement.append(layer);
+ let remaining=0;
+ const startX=start.left+start.width/2,startY=start.top+start.height/2;
+ for(const [index,target] of targets.entries()){
   const end=target.getBoundingClientRect();
-  if(!end.width||!end.height)return;
-  const clone=target.cloneNode(true);
-  clone.removeAttribute('id');clone.setAttribute('aria-hidden','true');
-  clone.style.cssText='position:fixed!important;z-index:20000!important;pointer-events:none!important;box-sizing:border-box!important;transition:none!important;display:flex!important;align-items:center;justify-content:center;padding:0!important;overflow:hidden!important;background:#15212a!important;border:1px solid #9d4b52!important;border-radius:3px!important;box-shadow:0 8px 20px #0009!important;'
-   +'left:'+end.left+'px!important;top:'+end.top+'px!important;width:'+end.width+'px!important;height:'+end.height+'px!important;margin:0!important;';
-  clone.querySelectorAll('img').forEach(img=>{img.loading='eager';img.style.cssText='position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;background:#101820;';});
-  document.body.append(clone);
+  if(!end.width||!end.height)continue;
+  const img=target.querySelector('img');
+  const clone=document.createElement('div');
+  clone.style.cssText='position:absolute;display:block;box-sizing:border-box;overflow:hidden;border:1px solid #9d4b52;border-radius:3px;background:#15212a;box-shadow:0 8px 20px #0009;pointer-events:none;transform-origin:center center;';
+  // End coordinates are exact target bounding boxes (no layout or margins).
+  clone.style.left=end.left+'px';
+  clone.style.top=end.top+'px';
+  clone.style.width=end.width+'px';
+  clone.style.height=end.height+'px';
+  if(img){
+   const copy=img.cloneNode(false);
+   copy.removeAttribute('id');
+   copy.loading='eager';
+   copy.style.cssText='position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;background:#101820;';
+   clone.append(copy);
+  }else{
+   const text=document.createElement('span');text.textContent=target.dataset.cardName||'CARD';
+   text.style.cssText='display:grid;place-items:center;width:100%;height:100%;font-size:12px;color:#e9f1f3;';
+   clone.append(text);
+  }
+  layer.append(clone);
   target.style.visibility='hidden';
-  const dx=start.left+start.width/2-(end.left+end.width/2);
-  const dy=start.top+start.height/2-(end.top+end.height/2);
-  const delay=index*95;
+  // The deck's centre is the actual start; the card's final rectangle is
+  // measured from its own hand slot. No extra scale on landing.
+  const dx=startX-(end.left+end.width/2);
+  const dy=startY-(end.top+end.height/2);
   const animation=clone.animate([
-   {transform:'translate('+dx+'px,'+dy+'px) scale(.73) rotate(-7deg)',opacity:.65,offset:0},
-   {transform:'translate('+(dx*.18)+'px,'+(dy*.12)+'px) scale(1.025) rotate(1deg)',opacity:1,offset:.83},
-   {transform:'translate(0px,0px) scale(1) rotate(0deg)',opacity:1,offset:1}
-  ],{duration:490,delay,easing:'cubic-bezier(.22,.72,.2,1)',fill:'both'});
-  const item={animation,clone,target};activeDeals.push(item);
-  const clean=()=>{clone.remove();if(target.isConnected)target.style.visibility='';activeDeals=activeDeals.filter(x=>x!==item)};
+   {transform:'translate3d('+dx+'px,'+dy+'px,0) scale(.9) rotate(-3deg)',opacity:.8},
+   {transform:'translate3d(0,0,0) scale(1) rotate(0deg)',opacity:1}
+  ],{duration:530,delay:index*95,easing:'cubic-bezier(.25,.75,.18,1)',fill:'both'});
+  const item={animation,clone,target};activeDeals.push(item);remaining++;
+  const clean=()=>{
+   clone.remove();
+   if(target.isConnected)target.style.visibility='';
+   activeDeals=activeDeals.filter(x=>x!==item);
+   if(!--remaining)layer.remove();
+  };
   animation.finished.then(clean,clean);
- });
+ }
+ if(!remaining)layer.remove();
 }
+
 const art=new Map();
 document.querySelectorAll('#starterDeckGallery [data-card-name][data-deck-image]').forEach(el=>{
  const name=el.getAttribute('data-card-name'),src=el.getAttribute('data-deck-image');
