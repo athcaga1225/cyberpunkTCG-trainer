@@ -3,11 +3,21 @@
 const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV3Heist,A=window.NCTV3Actions;
 const root=$('v3TurnPractice'),board=$('battleTour'),picker=$('battleDeckChoice');
 if(!root||!board||!P||!H||!picker)return;
+const openingRoot=document.createElement('section');
+openingRoot.id='v3OpeningSetup';
+openingRoot.className='v3-opening-setup';
+openingRoot.setAttribute('aria-label','開局先後攻設定');
+openingRoot.setAttribute('role','dialog');
+openingRoot.setAttribute('aria-modal','true');
+openingRoot.hidden=true;
+root.before(openingRoot);
+
 const toggleActions=$('toggleV3BattleActions');
 // The turn controls live inside the game board, not in a second website toolbar.
 const phaseZone=board.querySelector('.turn-info');
 if(toggleActions&&phaseZone)phaseZone.append(toggleActions);
 function setActionTray(open){
+ if(open&&state.phase==='pregame')return;
  // The tutorial and turn controls are mutually exclusive overlays.
  // board-tour.js now initializes first; closing via its own control clears spotlight.
  if(open)document.getElementById('closeBoardTour')?.click();
@@ -347,6 +357,13 @@ function render(){
  const deal=pendingDeal;pendingDeal=null;
  const supported=picker.value==='theHeist';
  root.replaceChildren();
+ openingRoot.replaceChildren();
+ openingRoot.hidden=state.phase!=='pregame'||picker.value!=='theHeist';
+ if(!openingRoot.hidden){
+  // Opening is its own pre-match dialog, separate from both tutorial and turn actions.
+  document.getElementById('closeBoardTour')?.click();
+  setActionTray(false);
+ }
  // Preserve setup tools without a site-style toolbar across the top of the room.
  const setup=add('div','',root,'v3-room-setup');
  const deckLabel=add('label','牌組',setup);deckLabel.setAttribute('for','v3RoomDeckSelect');
@@ -386,7 +403,7 @@ function render(){
  add('strong','THE HEIST / '+(state.phase==='pregame'?'開局設定':'ROUND '+state.round),header);add('span',state.phase==='pregame'?'等待先後攻':phase(),header);
  add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；可進行限定單位交戰、搶骰與腳本 Floor It／Blocker 反應；其他 Quick、完整反應時機及未完成觸發能力仍未支援。',root,'v3-turn-note');
  if(state.phase==='pregame'){
-  const order=add('div','',root,'v3-selected-detail');
+  const order=add('div','',openingRoot,'v3-selected-detail');
   add('strong','開局設定 / 決定先攻後攻',order);
   add('p','依官方規則，雙方各擲一顆 d20；點數較高者選擇先攻或後攻。同點需重擲。',order);
   const roll=state.opening;
@@ -621,7 +638,7 @@ function dealOnEntry(){
  if(!visible){entryDealt=false;cancelDeals();return}
  if(entryDealt||picker.value!=='theHeist')return;
  entryDealt=true;
- if(picker.value==='theHeist'&&state.phase==='pregame')setActionTray(true);
+ if(picker.value==='theHeist'&&state.phase==='pregame'){document.getElementById('closeBoardTour')?.click();setActionTray(false)}
  requestAnimationFrame(()=>{if(!battlePage.classList.contains('hide')&&picker.value==='theHeist'&&state.phase!=='pregame')dealHand('all')});
 }
 if(battlePage&&typeof MutationObserver!=='undefined'){
