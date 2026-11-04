@@ -295,10 +295,15 @@ assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class 
 assert(handStyles.includes('v3/turn-practice-ui.js?v=9'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
-assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
-assert(handStyles.includes('minmax(0,.7fr) minmax(0,.9fr)'),'Dice and Gig rows must use compact heights');
-assert(handStyles.includes('minmax(155px,.78fr)'),'Unused room sidebar width must be reclaimed');
+assert(handStyles.includes('grid-template-rows:minmax(0,1.25fr)'),'The viewport uses mirrored upper and lower card rows');
+assert(handStyles.includes('minmax(0,.38fr) minmax(0,1.43fr)'),'Compact fixer rows leave height for both field areas');
+assert(handStyles.includes('minmax(135px,.51fr)'),'Right sidebar must stay compact to prioritize the fields');
 assert(handStyles.includes('.opponent-legends .cardbacks .preview-art-card'),'Legend cards must fill their larger row');
+assert(handStyles.includes('minmax(0,1.43fr) minmax(0,.38fr) minmax(0,1.25fr)'),'Player field rows mirror opponent field rows');
+assert(handStyles.includes('minmax(0,3.05fr)'),'Central combat column should dominate width');
+assert(handStyles.includes('body.battle-wide #battle .opponent-field,'),'Opponent and player field share height rules');
+assert(handStyles.includes('max-width:165px'),'In-play units must be larger than the old 84px width');
+assert(!handStyles.includes('flex:0 1 84px'),'Old tiny in-play card dimensions must not regress');
 assert(handStyles.includes('.player-hand .preview-card-rail{width:100%;height:calc(100% - 2px)'),'Hand rail must use the available row height');
 assert(handStyles.includes('body.battle-wide>header,body.battle-wide>footer{display:none!important}'),'Site chrome must be hidden in fullscreen play');
 assert(handStyles.includes('body.battle-wide #battle #v3TurnPractice.is-open{display:block}'),'Gameplay actions remain accessible in an overlay');
