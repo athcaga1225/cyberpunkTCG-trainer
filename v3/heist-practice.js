@@ -60,6 +60,19 @@ function fresh(scenario='basic',opts={}){
  s.ai.gigs=[{id:'training-gig-d4',sides:4,value:2,trainingTarget:true},{id:'training-gig-d6',sides:6,value:4,trainingTarget:true},{id:'training-gig-d8',sides:8,value:5,trainingTarget:true}];
  // Optional one-use scripted defender Quick. No autonomous opponent decisions.
  s.ai.quickExercise={enabled:false};
+ // Explicitly selected scripted defensive response presets are prepared
+ // before the first turn; no simulated AI action is implied.
+ if(opts.defense==='blocker'||opts.defense==='both'){
+  s.ai.units.push({id:'training-blocker-bombus',name:'Secondhand Bombus',type:'Unit',power:0,
+   ready:true,lag:false,blocker:true,trainingTarget:true,trainingBlocker:true,gear:[]});
+ }
+ if(opts.defense==='quick'||opts.defense==='both'){
+  s.ai.quickExercise={enabled:true};
+  s.ai.hand.push({id:'training-quick-floor-it',name:'Floor It',type:'Program',cost:3,sellTag:true});
+  s.ai.eddies.push(...Array.from({length:3},(_,i)=>({id:'training-quick-eddie-'+i,ready:true})));
+  s.ai.deck.push({id:'training-quick-draw',name:'練習抽牌',type:'Unit'});
+ }
+
  if(opts.preGame){
   s.turn='none';s.phase='pregame';s.step='choose-order';
   s.opening={resolved:false,winner:null};
