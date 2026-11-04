@@ -3306,12 +3306,10 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
  body.battle-wide #battle .table-preview{
   display:grid;height:100%;min-height:0;max-height:100%;overflow:visible;
   /* No chat column: allocate its unused width to playable cards. */
-  grid-template-columns:minmax(0,1.37fr) minmax(0,3.05fr) minmax(135px,.51fr);
-  /* Mirrored field regions: opponent rows 2+3 and player rows 4+5
-     each receive exactly the same height, with roughly 59% of the
-     playable viewport shared between both fields. */
-  grid-template-rows:minmax(0,1.25fr) minmax(0,.38fr) minmax(0,1.43fr)
-                     minmax(0,1.43fr) minmax(0,.38fr) minmax(0,1.25fr);
+  grid-template-columns:minmax(0,1.4fr) minmax(0,2.65fr) minmax(155px,.78fr);
+  /* Large top/bottom cards, compact dice/gig rows, broad combat center. */
+  grid-template-rows:minmax(0,1.45fr) minmax(0,.7fr) minmax(0,.9fr)
+                     minmax(0,.9fr) minmax(0,.7fr) minmax(0,1.45fr);
   grid-auto-rows:minmax(0,1fr)!important;gap:5px
  }
  body.battle-wide #battle .preview-zone{
@@ -3350,16 +3348,10 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
   align-items:stretch;overflow:hidden
  }
  body.battle-wide #battle .field-slots>div{height:100%;min-height:0;max-height:100%;font-size:12px}
- body.battle-wide #battle .opponent-field,
- body.battle-wide #battle .player-field{min-height:0;height:100%;align-self:stretch}
  body.battle-wide #battle .v3-played-card{
-  height:100%;max-height:100%;width:clamp(114px,9.4vw,165px);
-  max-width:165px;min-width:0;flex:0 1 clamp(114px,9.4vw,165px);
-  gap:2px;padding:2px
+  height:100%;max-height:100%;width:auto;max-width:84px;min-width:0;flex:0 1 84px;gap:2px;padding:2px
  }
- body.battle-wide #battle .v3-played-card img{
-  height:calc(100% - 30px);min-height:0;max-height:100%;object-fit:contain
- }
+ body.battle-wide #battle .v3-played-card img{height:calc(100% - 16px);min-height:0;object-fit:contain}
  body.battle-wide #battle .v3-played-card small{font-size:9px}
  body.battle-wide #battle .mini-dice{
   min-height:0;gap:2px;flex-wrap:nowrap;justify-content:flex-start;overflow:hidden
