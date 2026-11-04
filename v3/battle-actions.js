@@ -236,7 +236,7 @@
   if(!p||!rival||state.practiceKind!=='the-heist')return fail('僅適用 The Heist 腳本練習');
   if(state.finished||state.phase!=='main'||state.turn!==who)return fail('只能在主要階段宣告攻擊');
   const attacker=p.units.find(u=>u.id===attackerId);
-  if(!attacker||attacker.ready!==true||attacker.lag===true)return fail('攻擊者必須就緒且沒有 Lag');
+  if(!attacker||!attacker.ready||attacker.lag)return fail('攻擊者必須就緒且沒有 Lag');
   if(attacker.deferredEffect||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
    return fail('尚未支援的攻擊、Quick 或觸發效果不可跳過');
   if(!attack||!['gig','unit'].includes(attack.kind))return fail('必須指定攻擊目標');
@@ -247,20 +247,43 @@
   const blockers=rival.units.filter(u=>u.ready===true&&unitStats(u).blocker);
   if(blockers.length&&(!reaction||!['pass','block'].includes(reaction.kind)))
    return fail('防守方必須先決定是否使用 Blocker');
-  if(reaction?.kind==='block'){
-   const defender=blockers.find(u=>u.id===reaction.blockerId);
-   if(!defender)return fail('Blocker 必須是就緒的防守方單位');
-   if(defender.deferredEffect||defender.unimplementedEffect)return fail('Blocker 特殊效果尚未驗證');
-   // React: spend Blocker, replacing the original attack target.
-   const staged=clone(state);
-   staged[opposite].units.find(u=>u.id===defender.id).ready=false;
-   const result=fightSpentUnit(staged,who,attackerId,defender.id,{reactionResolved:true});
-   if(!result.ok)return result;
-   return success(result.state,['防守方使用 Blocker：'+defender.name+'，轉移攻擊目標',...result.events]);
+  if(reaction&&reaction.kind!=='pass'&&reaction.kind!=='block')return fail('反應選擇無效');
+  const quickAvailable=rival.quickExercise?.enabled&&rival.hand.some(c=>c.id==='training-quick-floor-it');
+  if(quickAvailable&&(!reaction||typeof reaction.quick!=='boolean'))
+   return fail('防守方必須先決定是否使用 Floor It');
+  const staged=clone(state),events=[];
+  if(reaction?.quick){
+   if(!quickAvailable)return fail('對手沒有可用的 Floor It');
+   const quick=staged[opposite].hand.find(c=>c.id==='training-quick-floor-it');
+   const sources=staged[opposite].eddies.filter(e=>e.ready===true).slice(0,quick.cost).map(e=>({kind:'eddie',id:e.id}));
+   const payment=pay(staged,opposite,quick.cost,sources);
+   if(!payment.ok)return fail('對手 Floor It 資源不足：'+payment.reason);
+   const q=payment.state[opposite];
+   q.hand.splice(q.hand.findIndex(c=>c.id===quick.id),1);
+   if(!Array.isArray(q.trash))q.trash=[];
+   q.trash.push(quick);
+   const target=payment.state[who].units.find(u=>u.id===attackerId);
+   target.tempPowerModifier=(target.tempPowerModifier||0)-1;
+   if(!q.deck.length)return fail('腳本對手抽牌牌庫已空，無法完成 Quick');
+   q.hand.push(q.deck.pop());
+   Object.assign(staged,payment.state);
+   events.push('防守方 Quick：支付 3 €$，打出 Floor It；攻擊者戰力 -1，對手抽 1 張');
   }
-  if(reaction&&reaction.kind!=='pass')return fail('反應選擇無效');
-  if(attack.kind==='unit')return fightSpentUnit(state,who,attackerId,attack.defenderId,{reactionResolved:true});
-  return stealTrainingGigs(state,who,attackerId,attack.gigIds,{reactionResolved:true});
+  if(reaction?.kind==='block'){
+   const blocker=staged[opposite].units.find(u=>u.id===reaction.blockerId&&u.ready===true&&unitStats(u).blocker);
+   if(!blocker)return fail('Blocker 必須是就緒的防守方單位');
+   if(blocker.deferredEffect||blocker.unimplementedEffect)return fail('Blocker 特殊效果尚未驗證');
+   blocker.ready=false;
+   const result=fightSpentUnit(staged,who,attackerId,blocker.id,{reactionResolved:true});
+   if(!result.ok)return result;
+   return success(result.state,[...events,'防守方使用 Blocker：'+blocker.name+'，轉移攻擊目標',...result.events]);
+  }
+  if(attack.kind==='unit'){
+   const result=fightSpentUnit(staged,who,attackerId,attack.defenderId,{reactionResolved:true});
+   return result.ok?success(result.state,[...events,...result.events]):result;
+  }
+  const result=stealTrainingGigs(staged,who,attackerId,attack.gigIds,{reactionResolved:true});
+  return result.ok?success(result.state,[...events,...result.events]):result;
  }
  return {sell,pay,playUnit,playGear,playProgram,unitStats,fightSpentUnit,stealTrainingGigs,resolveTrainingReaction};
 });
