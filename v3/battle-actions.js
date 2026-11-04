@@ -200,8 +200,8 @@
   if(!Array.isArray(s[who].trash))s[who].trash=[];
   if(!Array.isArray(s[rivalSide].trash))s[rivalSide].trash=[];
   const defeated=[];
-  if(attackPower<=defendPower){s[who].units=s[who].units.filter(u=>u.id!==a.id);s[who].trash.push(a,...(a.gear||[]));defeated.push(a.name)}
-  if(defendPower<=attackPower){s[rivalSide].units=s[rivalSide].units.filter(u=>u.id!==d.id);s[rivalSide].trash.push(d,...(d.gear||[]));defeated.push(d.name)}
+  if(attackPower<=defendPower&&defendPower>0){s[who].units=s[who].units.filter(u=>u.id!==a.id);s[who].trash.push(a,...(a.gear||[]));defeated.push(a.name)}
+  if(defendPower<=attackPower&&attackPower>0){s[rivalSide].units=s[rivalSide].units.filter(u=>u.id!==d.id);s[rivalSide].trash.push(d,...(d.gear||[]));defeated.push(d.name)}
   return success(s,['單位交戰：'+a.name+' '+attackPower+' PWR vs '+d.name+' '+defendPower+' PWR','擊敗：'+defeated.join('、')]);
  }
  function stealTrainingGigs(state,who,attackerId,gigIds){
