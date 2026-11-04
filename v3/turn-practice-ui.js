@@ -92,8 +92,11 @@ hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(300px,29vw);heig
 const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(210px,20vw);max-height:min(66vh,470px);overflow:hidden;font-size:14px;line-height:1.65;';
 hover.append(hoverArt,hoverInfo);document.body.append(hover);
 let previewId=null,leaveTimer=null,previewLoad=0,hoverPending=null,hoverPendingId=null;
+let raisedHandId=null;
 const hoverImageCache=new Map();
 function hideHandHover(){
+ raisedHandId=null;
+ board.querySelectorAll('.player-hand .hand-card.is-hand-hover').forEach(el=>el.classList.remove('is-hand-hover'));
  if(leaveTimer!==null){clearTimeout(leaveTimer);leaveTimer=null;}
  if(hoverPending!==null){clearTimeout(hoverPending);hoverPending=null;hoverPendingId=null;}
  handPointerInside=false;
@@ -132,7 +135,7 @@ function liveHandAt(x,y){
  if(!nodes.length)return null;
  let index=0;
  for(let n=1;n<nodes.length;n++){
-  if(x>=nodes[n].getBoundingClientRect().left+4)index=n;
+  if(x>=r.left+nodes[n].offsetLeft+4)index=n;
  }
  return state.player.hand.find(c=>c.id===nodes[index].dataset.cardId)||null;
 }
@@ -157,6 +160,9 @@ function scheduleHandHover(card){
 function showHandHover(card){
  if(!card||!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
  if(previewId===card.id&&!hover.hidden)return;
+ // Raise the card IN the actual hand, without reflowing or replacing it.
+ raisedHandId=card.id;
+ board.querySelectorAll('.player-hand .hand-card').forEach(el=>el.classList.toggle('is-hand-hover',el.dataset.cardId===raisedHandId));
  const token=++previewLoad;
  previewId=card.id;
  const name=card.name,image=art.get(name);
