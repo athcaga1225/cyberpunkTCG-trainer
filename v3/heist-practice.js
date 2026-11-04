@@ -54,6 +54,26 @@ function fresh(scenario='basic',opts={}){
   {id:'legend-v',name:'V: Corporate Exile',ready:false,faceUp:false},
   {id:'legend-jackie',name:'Jackie Welles: Pour One Out For Me',ready:true,faceUp:false}
  ];
+ // Optional deterministic mirror-deck opponent for economical turn-sequence tests.
+ // This is not the Embracing Power deck, and no unverified card effects are simulated.
+ if(opts.aiMode==='mirror'){
+  const rivalCards=specs.flatMap(([name,qty])=>Array.from({length:qty},(_,i)=>({
+   ...byName.get(name),id:'mirror-'+name.replace(/[^a-z0-9]/gi,'-')+'-'+(i+1)
+  })));
+  const rivalOpening=['Secondhand Bombus','Psycho Squad','Kiroshi Optics','Mandibular Upgrade','Floor It','Offduty Malfini'];
+  s.ai.hand=rivalOpening.map(name=>rivalCards.splice(rivalCards.findIndex(c=>c.name===name),1)[0]);
+  s.ai.deck=rivalCards;
+  s.ai.legends=s.player.legends.map(l=>({...l,id:'mirror-'+l.id,ready:true}));
+  s.ai.eddies=[];s.ai.units=[];s.ai.gigs=[];s.ai.fixer=[4,6,8,10,12,20];
+  s.ai.practiceBot={kind:'mirror-the-heist',turnsTaken:0};
+  s.practiceKind='the-heist';s.practiceScenario=scenario;
+  if(opts.preGame){
+   s.turn='none';s.phase='pregame';s.step='choose-order';
+   s.opening={resolved:false,winner:null};
+   for(const legend of s.player.legends)legend.ready=true;
+  }
+  return s;
+ }
  // A clearly labeled training target, NOT a simulated opponent opening or AI decision.
  s.ai.units=[{id:'training-rival-ruthless',name:'Ruthless Lowlife',type:'Unit',power:4,ready:true,lag:false,gear:[],trainingTarget:true}];
  // Scripted public Gig targets, not an AI's simulated opening hand or turn.
