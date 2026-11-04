@@ -3437,6 +3437,27 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
   max-height:calc(100% - 70px);
  }
 }
+
+/* Desktop tour is top-anchored below the exit; expansion stays downward.
+   Never let content-size or bottom anchoring push it over the home button. */
+@media screen and (min-width:901px){
+ body.battle-wide #battle .board-tour>.tour-coach{
+  position:absolute!important;
+  top:58px!important;
+  bottom:auto!important;
+  left:auto!important;
+  right:14px!important;
+  transform:none!important;
+  margin:0!important;
+  max-height:min(620px,calc(100dvh - 80px))!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain;
+  z-index:1100;
+ }
+ body.battle-wide #battle .board-tour>.tour-coach.is-compact{
+  bottom:auto!important;
+ }
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
