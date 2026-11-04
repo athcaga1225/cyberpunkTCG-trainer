@@ -23,7 +23,8 @@ let attackUnitId=null,modeOnTable=null;
 
 // The turn controls live inside the game board, not in a second website toolbar.
 const phaseZone=board.querySelector('.turn-info');
-if(phaseZone){phaseZone.append(tableControls);if(toggleActions)phaseZone.append(toggleActions);}
+board.append(tableControls);
+if(phaseZone&&toggleActions)phaseZone.append(toggleActions);
 if(toggleActions)toggleActions.textContent='進階測試';
 function setActionTray(open){
  if(open&&state.phase==='pregame')return;
@@ -303,7 +304,16 @@ function renderField(){
  for(const card of state.player.units){
   const el=add('button','',slots,'v3-played-card');el.type='button';el.title=card.name+' / '+(card.lag?'Lag':'Ready');
   el.classList.toggle('is-table-selected',attackUnitId===card.id);
-  el.addEventListener('click',()=>{attackUnitId=attackUnitId===card.id?null:card.id;modeOnTable=attackUnitId?'attack':null;selectedId=null;render()});
+  el.addEventListener('click',()=>{
+   const selected=state.player.hand.find(c=>c.id===selectedId);
+   if(selected?.type==='Gear'){
+    const payments=readyPayments(selected.cost);
+    runTableCommand(()=>P.gear(state,selected.id,payments||[],card.id));
+    return;
+   }
+   attackUnitId=attackUnitId===card.id?null:card.id;
+   modeOnTable=attackUnitId?'attack':null;selectedId=null;render();
+  });
   const image=art.get(card.name);
   if(image){const img=document.createElement('img');img.src=image;img.alt=card.name;img.loading='lazy';el.append(img)}
   else add('span',card.name,el);
@@ -411,7 +421,7 @@ function renderTableControls(){
  if(message&&message!==initial)add('span',message,tableControls,'v3-table-feedback');
  if(state.finished){headline.textContent='練習已結束';return}
  if(state.turn==='ai'){
-  tableButton('下一回合',()=>P.next(state));return;
+  tableButton('略過腳本對手回合',()=>P.next(state));return;
  }
  if(state.phase==='start'){
   if(state.step==='ready')tableButton('重置資源',()=>P.ready(state));
@@ -548,6 +558,7 @@ function render(){
  cancelDeals();
  const deal=pendingDeal;pendingDeal=null;
  const supported=picker.value==='theHeist';
+ if(!supported)tableControls.replaceChildren();
  root.replaceChildren();
  openingRoot.replaceChildren();
  openingRoot.hidden=state.phase!=='pregame'||picker.value!=='theHeist';
