@@ -48,7 +48,7 @@ const path=require('node:path');
 const html=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 const ui=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(html.includes('src="v3/heist-practice.js?v=1"'),'Heist module must load in V3');
-assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=9"'),'Module must load before UI');
+assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=12"'),'Module must load before UI');
 assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
@@ -292,7 +292,7 @@ assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped 
 assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
 assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
-assert(handStyles.includes('v3/turn-practice-ui.js?v=11'),'Updated hover script must bypass browser cache');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=12'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
 assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
@@ -451,7 +451,7 @@ assert(!handStyles.includes('translateY(-53px) scale(1.17)'),'Excessive hand lif
  assert(P.ready(first.state).ok,'First turn can begin after selection');
  const second=P.chooseOrder(win.state,'ai');
  assert(second.ok,'Roll winner can choose second');
- assert(second.state.player.legends.every(l=>l.ready),'Second player's Legends begin ready');
+ assert(second.state.player.legends.every(l=>l.ready),'Second-player Legends begin ready');
  assert.equal(second.state.opening.scriptedOpponentTurnSkipped,true,'Skipped rival opening turn must be labeled');
  const lose=P.rollForOrder(setup,3,20);
  assert(lose.ok&&lose.state.opening.winner==='ai');
@@ -470,6 +470,9 @@ assert(animatedUI.includes("document.getElementById('startBoardTour')?.addEventL
 assert(handStyles.includes('z-index:1150!important'),'Action tray must stack below exit toolbar');
 assert(handStyles.includes('z-index:1200!important'),'Exit toolbar remains above floating panels');
 assert(handStyles.includes('top:58px!important'),'The action tray must not start over the exit button');
-assert(handStyles.indexOf('board-tour.js?v=6')<handStyles.indexOf('v3/turn-practice-ui.js?v=11'),
+assert(animatedUI.includes("const openingRoot=document.createElement('section')"),'Opening setup must be a standalone dialog');
+assert(animatedUI.includes("const order=add('div','',openingRoot,'v3-selected-detail')"),'Roll-off must render outside the turn tray');
+assert(handStyles.includes('body.battle-wide #battle #v3OpeningSetup'),'Standalone opening dialog must have its own layout');
+assert(handStyles.indexOf('board-tour.js?v=6')<handStyles.indexOf('v3/turn-practice-ui.js?v=12'),
   'Tour click handlers must initialize before practice controls');
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
