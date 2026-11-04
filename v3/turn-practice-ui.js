@@ -4,6 +4,9 @@ const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV
 const root=$('v3TurnPractice'),board=$('battleTour'),picker=$('battleDeckChoice');
 if(!root||!board||!P||!H||!picker)return;
 const toggleActions=$('toggleV3BattleActions');
+// The turn controls live inside the game board, not in a second website toolbar.
+const phaseZone=board.querySelector('.turn-info');
+if(toggleActions&&phaseZone)phaseZone.append(toggleActions);
 function setActionTray(open){
  root.classList.toggle('is-open',open);
  toggleActions?.setAttribute('aria-expanded',String(open));
@@ -98,8 +101,8 @@ const hover=document.createElement('div');
 hover.id='v3HandPreview';hover.hidden=true;hover.setAttribute('aria-hidden','true');
 hover.style.cssText='position:fixed;z-index:9999;pointer-events:none;display:none;box-sizing:border-box;align-items:flex-start;gap:14px;max-width:calc(100vw - 32px);padding:10px;background:#071015f8;border:1px solid #567c85;border-radius:8px;box-shadow:0 16px 44px #000d;color:#e9eff0;';
 const hoverArt=document.createElement('img');
-hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(220px,23vw);height:auto;max-height:min(56vh,360px);aspect-ratio:5/7;object-fit:contain;background:#101820;flex:none;';
-const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(165px,17vw);max-height:min(56vh,360px);overflow:hidden;font-size:14px;line-height:1.65;';
+hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(185px,19vw);height:auto;max-height:min(52vh,300px);aspect-ratio:5/7;object-fit:contain;background:#101820;flex:none;';
+const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(155px,16vw);max-height:min(52vh,300px);overflow:hidden;font-size:14px;line-height:1.65;';
 hover.append(hoverArt,hoverInfo);document.body.append(hover);
 let previewId=null,leaveTimer=null,previewLoad=0,hoverPending=null,hoverPendingId=null;
 let raisedHandId=null;
@@ -255,7 +258,7 @@ function renderHand(){
   const src=art.get(card.name);
   if(src){const image=document.createElement('img');image.src=src;image.alt=card.name+' 卡面';image.loading='lazy';image.decoding='async';btn.append(image)}
   else{btn.classList.add('missing-art');add('span',card.name,btn,'preview-art-fallback')}
-  btn.addEventListener('click',()=>{selectedId=selected?null:card.id;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=selectedId?'已選取 '+card.name:'已取消選取';render()});
+  btn.addEventListener('click',()=>{selectedId=selected?null:card.id;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=selectedId?'已選取 '+card.name:'已取消選取';render();if(selectedId)setActionTray(true)});
   rail.append(btn);
  });
  // Preserve tabletop rail sizing on both mobile and desktop.
