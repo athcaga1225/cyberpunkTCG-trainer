@@ -45,7 +45,7 @@ board.addEventListener('click',event=>{
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root.classList.contains('is-open'))setActionTray(false)});
 
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
-let scenario='basic',defensePreset='none',state=H.fresh(scenario,{preGame:true,defense:defensePreset}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
+let scenario='basic',defensePreset='none',opponentMode='mirror',state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
 let pendingDeal=null;
 let activeDeals=[];
@@ -421,7 +421,11 @@ function renderTableControls(){
  if(message&&message!==initial)add('span',message,tableControls,'v3-table-feedback');
  if(state.finished){headline.textContent='練習已結束';return}
  if(state.turn==='ai'){
-  tableButton('略過腳本對手回合',()=>P.next(state));return;
+  if(state.ai.practiceBot?.kind==='mirror-the-heist'){
+   const die=state.ai.fixer.find(side=>side!==20)??state.ai.fixer[0];
+   tableButton('執行對手回合',()=>P.opponentTurn(state,die?Math.floor(Math.random()*die)+1:null));
+  }else tableButton('略過腳本對手回合',()=>P.next(state));
+  return;
  }
  if(state.phase==='start'){
   if(state.step==='ready')tableButton('重置資源',()=>P.ready(state));
@@ -601,12 +605,27 @@ function render(){
   }
   handSelect.value=scenario;
   handSelect.addEventListener('change',()=>{
-   scenario=handSelect.value;state=H.fresh(scenario,{preGame:true,defense:defensePreset});
+   scenario=handSelect.value;state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode});
    pendingDeal=null;selectedId=null;selectedPayments.clear();targetId=null;
    gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';
    message='已更新本局六張起始測試手牌。';render();
   });
   handLabel.append(handSelect);
+  const opponentLabel=add('label','對手類型',order);
+  const opponentSelect=document.createElement('select');opponentSelect.setAttribute('aria-label','選擇對手模式');
+  for(const [value,label] of [['mirror','自動測試對手：The Heist 鏡像牌組'],['script','固定目標：Blocker／Quick 腳本練習']]){
+   const option=document.createElement('option');option.value=value;option.textContent=label;opponentSelect.append(option);
+  }
+  opponentSelect.value=opponentMode;
+  opponentSelect.addEventListener('change',()=>{
+   opponentMode=opponentSelect.value;
+   state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode});
+   pendingDeal=null;selectedId=null;attackUnitId=null;selectedPayments.clear();
+   message='已更新對手模式。';render();
+  });
+  opponentLabel.append(opponentSelect);
+  add('p',opponentMode==='mirror'?'鏡像對手使用 The Heist 40 張牌的固定測試起手；可自動重置、抽牌、擲骰、變賣與合法出牌，攻擊反應尚未實作。':'固定目標模式保留原本預先配置的單位與委託骰，可測試腳本 Blocker／Quick。',order);
+  if(opponentMode==='script'){
   const defenderLabel=add('label','腳本對手反應（測試模式）',order);
   const defenderSelect=document.createElement('select');defenderSelect.setAttribute('aria-label','選擇測試對手反應');
   for(const [value,label] of [['none','基本對手（無額外反應）'],['blocker','Blocker 攔截'],['quick','Floor It Quick'],['both','Blocker + Floor It']]){
@@ -614,11 +633,12 @@ function render(){
   }
   defenderSelect.value=defensePreset;
   defenderSelect.addEventListener('change',()=>{
-   defensePreset=defenderSelect.value;state=H.fresh(scenario,{preGame:true,defense:defensePreset});
+   defensePreset=defenderSelect.value;state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode});
    pendingDeal=null;selectedId=null;attackUnitId=null;selectedPayments.clear();
    message='已更新腳本對手設定。';render();
   });
   defenderLabel.append(defenderSelect);
+  }
   add('p','本局起始六張：'+state.player.hand.map(c=>c.name).join('、'),order,'v3-opening-hand-list');
   add('p','目前僅支援兩組固定手牌的練習，尚未支援自由選卡、洗牌與正式重抽。',order);
   add('p','雙方各擲一顆 d20，點數較高者決定先攻或後攻；同點重擲。',order);
@@ -811,8 +831,13 @@ function render(){
   }
   command('結束我的回合',()=>P.pass(state),buttons);
  }
- if(!state.finished&&state.turn==='ai')command('略過對手行動，開始下一回合',()=>P.next(state),buttons);
- command('重新開始 The Heist 練習',()=>({ok:true,state:H.fresh(scenario,{preGame:true,defense:defensePreset}),message:initial}),buttons);
+ if(!state.finished&&state.turn==='ai'){
+  if(state.ai.practiceBot?.kind==='mirror-the-heist'){
+   const die=state.ai.fixer.find(side=>side!==20)??state.ai.fixer[0];
+   command('執行鏡像對手回合',()=>P.opponentTurn(state,die?Math.floor(Math.random()*die)+1:null),buttons);
+  }else command('略過對手行動，開始下一回合',()=>P.next(state),buttons);
+ }
+ command('重新開始 The Heist 練習',()=>({ok:true,state:H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode}),message:initial}),buttons);
  const status=add('p',message,root,'v3-turn-feedback');status.setAttribute('role','status');
  const summary=add('div','',root,'v3-turn-log');add('strong','實際練習狀態',summary);
  add('p','場地：'+(p.units.map(c=>c.name+'（'+(c.ready?'Ready':'Spent')+(c.lag?' / Lag':'')+'）').join('、')||'無'),summary);
@@ -830,7 +855,7 @@ function render(){
 const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
  if(picker.value==='theHeist'){
-  scenario='basic';state=H.fresh(scenario,{preGame:true,defense:defensePreset});pendingDeal=$('battle')?.classList.contains('hide')?null:'all';selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
+  scenario='basic';state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode});pendingDeal=$('battle')?.classList.contains('hide')?null:'all';selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
   if(legendButton)legendButton.disabled=true;
  }else{
