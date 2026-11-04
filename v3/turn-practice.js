@@ -84,5 +84,18 @@
   const r=actions.stealTrainingGigs(state,'player',attackerId,gigIds);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
- return {fresh,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,pass,next};
+ function addTrainingBlocker(state){
+  if(state.practiceKind!=='the-heist'||state.phase!=='main'||state.turn!=='player'||state.finished)
+   return fail('只能在 The Heist 主要階段加入攔截練習');
+  if(state.ai.units.some(u=>u.trainingBlocker))return fail('已有攔截練習單位');
+  const s=copy(state);
+  s.ai.units.push({id:'training-blocker-bombus',name:'Secondhand Bombus',type:'Unit',power:0,ready:true,lag:false,blocker:true,trainingTarget:true,trainingBlocker:true,gear:[]});
+  return ok(s,'已加入腳本 Blocker：防守反應可選擇攔截或不攔截（非 AI 行動）');
+ }
+ function reactAttack(state,attackerId,attack,reaction){
+  if(!actions)return fail('對戰模組未載入');
+  const r=actions.resolveTrainingReaction(state,'player',attackerId,attack,reaction);
+  return r.ok?ok(r.state,r.events.join('；')):r;
+ }
+ return {fresh,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,reactAttack,pass,next};
 });
