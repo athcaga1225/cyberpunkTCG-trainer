@@ -242,4 +242,14 @@ assert.equal(protect.player.pendingRebootOptics,undefined,'Pure action must not 
 assert.equal(P.program(queued.state,reboot.id,rebootPayment,{}).ok,false,'Queued card cannot replay from trash');
 const expired=P.pass(queued.state);
 assert(expired.ok&&expired.state.player.pendingRebootOptics===0,'Queued turn-limited protection expires without a fight');
+/* Dealing animation safety: only when cards enter, never for routine hand selection. */
+const animatedUI=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
+assert(animatedUI.includes("entryDealt=false"),'First visit should reset entry deal state');
+assert(animatedUI.includes("new MutationObserver(dealOnEntry)"),'Battle navigation must trigger its initial deal');
+assert(animatedUI.includes("const added=state.player.hand.map(c=>c.id).filter(id=>!before.has(id))"),'Draw animation detects actual new cards');
+assert(animatedUI.includes("pendingDeal=added"),'Newly drawn cards should animate without redealing existing hand');
+assert(animatedUI.includes("const sequence=++renderSequence"),'Stale renders must not animate');
+assert(animatedUI.includes("prefers-reduced-motion: reduce"),'Reduced motion must be respected');
+assert(animatedUI.includes("animation.finished.then(clean,clean)"),'Transient flying cards must be removed on success and cancel');
+assert(!animatedUI.includes('setInterval('),'No permanent animation loops');
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
