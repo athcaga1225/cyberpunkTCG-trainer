@@ -338,6 +338,20 @@ function render(){
  const deal=pendingDeal;pendingDeal=null;
  const supported=picker.value==='theHeist';
  root.replaceChildren();
+ // Preserve setup tools without a site-style toolbar across the top of the room.
+ const setup=add('div','',root,'v3-room-setup');
+ const deckLabel=add('label','牌組',setup);deckLabel.setAttribute('for','v3RoomDeckSelect');
+ const deckSelect=document.createElement('select');
+ deckSelect.id='v3RoomDeckSelect';deckSelect.setAttribute('aria-label','切換練習牌組');
+ for(const [value,label] of [['theHeist','The Heist'],['embracingPower','Embracing Power（卡圖預覽）']]){
+  const opt=document.createElement('option');opt.value=value;opt.textContent=label;deckSelect.append(opt);
+ }
+ deckSelect.value=picker.value;
+ deckSelect.addEventListener('change',()=>{picker.value=deckSelect.value;picker.dispatchEvent(new Event('change',{bubbles:true}))});
+ setup.append(deckSelect);
+ const tourButton=add('button','桌面導覽',setup,'btn');
+ tourButton.type='button';
+ tourButton.addEventListener('click',()=>{$('startBoardTour')?.click();setActionTray(false)});
  if(!supported){
   const liveRail=board.querySelector('.player-hand .hand-placeholder');if(liveRail)liveRail.dataset.v3HoverOwned='false';
   board.querySelectorAll('[data-practice-indicator]').forEach(el=>el.remove());
