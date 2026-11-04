@@ -92,10 +92,21 @@
   s.ai.units.push({id:'training-blocker-bombus',name:'Secondhand Bombus',type:'Unit',power:0,ready:true,lag:false,blocker:true,trainingTarget:true,trainingBlocker:true,gear:[]});
   return ok(s,'已加入腳本 Blocker：防守反應可選擇攔截或不攔截（非 AI 行動）');
  }
+ function addTrainingQuick(state){
+  if(state.practiceKind!=='the-heist'||state.phase!=='main'||state.turn!=='player'||state.finished)
+   return fail('只能在 The Heist 主要階段加入 Quick 練習');
+  if(state.ai.quickExercise?.enabled)return fail('已有 Quick 練習');
+  const s=copy(state);
+  s.ai.quickExercise={enabled:true};
+  s.ai.hand.push({id:'training-quick-floor-it',name:'Floor It',type:'Program',cost:3,sellTag:true});
+  s.ai.eddies.push(...Array.from({length:3},(_,i)=>({id:'training-quick-eddie-'+i,ready:true})));
+  s.ai.deck.push({id:'training-quick-draw',name:'練習抽牌',type:'Unit'});
+  return ok(s,'已配置對手 Floor It 與 3 €$；可在 React Step 選擇使用（非 AI）');
+ }
  function reactAttack(state,attackerId,attack,reaction){
   if(!actions)return fail('對戰模組未載入');
   const r=actions.resolveTrainingReaction(state,'player',attackerId,attack,reaction);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
- return {fresh,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,reactAttack,pass,next};
+ return {fresh,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,pass,next};
 });
