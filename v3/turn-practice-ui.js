@@ -6,8 +6,10 @@ if(!root||!board||!P||!H||!picker)return;
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
 let scenario='basic',state=H.fresh(scenario),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
-let pendingDeal='all';
+let pendingDeal=null;
 let activeDeals=[];
+let renderSequence=0;
+let entryDealt=false;
 function cancelDeals(){
  for(const item of activeDeals){item.animation?.cancel();item.clone.remove();if(item.target?.isConnected)item.target.style.visibility='';}
  activeDeals=[];
@@ -26,7 +28,7 @@ function dealHand(mode){
   if(!end.width||!end.height)return;
   const clone=target.cloneNode(true);
   clone.removeAttribute('id');clone.setAttribute('aria-hidden','true');
-  clone.style.cssText='position:fixed!important;z-index:20000!important;pointer-events:none!important;box-sizing:border-box!important;transition:none!important;transform:none!important;opacity:1!important;display:flex!important;align-items:center;justify-content:center;padding:0!important;overflow:hidden!important;background:#15212a!important;border:1px solid #9d4b52!important;border-radius:3px!important;box-shadow:0 8px 20px #0009!important;'
+  clone.style.cssText='position:fixed!important;z-index:20000!important;pointer-events:none!important;box-sizing:border-box!important;transition:none!important;display:flex!important;align-items:center;justify-content:center;padding:0!important;overflow:hidden!important;background:#15212a!important;border:1px solid #9d4b52!important;border-radius:3px!important;box-shadow:0 8px 20px #0009!important;'
    +'left:'+end.left+'px!important;top:'+end.top+'px!important;width:'+end.width+'px!important;height:'+end.height+'px!important;margin:0!important;';
   clone.querySelectorAll('img').forEach(img=>{img.loading='eager';img.style.cssText='position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;background:#101820;';});
   document.body.append(clone);
@@ -147,6 +149,7 @@ function gigAdjustmentOptions(){
  return {gigId,side:gigSide,delta:gigDelta};
 }
 function render(){
+ const sequence=++renderSequence;
  cancelDeals();
  const deal=pendingDeal;pendingDeal=null;
  const supported=picker.value==='theHeist';
@@ -161,7 +164,7 @@ function render(){
  }
  const p=state.player;
  renderHand();renderField();renderRivalField();
- if(deal)requestAnimationFrame(()=>{if(picker.value==='theHeist')dealHand(deal)});
+ if(deal)requestAnimationFrame(()=>{if(sequence===renderSequence&&picker.value==='theHeist'&&!$('battle')?.classList.contains('hide'))dealHand(deal)});
  const scenarios=add('div','',root,'v3-turn-actions');
  for(const [mode,label] of [['basic','基礎出牌手牌'],['quick','效果與 Quick 手牌']]){
   const button=add('button',label,scenarios,'btn');button.type='button';button.disabled=scenario===mode;
@@ -283,7 +286,7 @@ function render(){
 const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
  if(picker.value==='theHeist'){
-  scenario='basic';state=H.fresh(scenario);pendingDeal='all';selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
+  scenario='basic';state=H.fresh(scenario);pendingDeal=null;selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
   if(legendButton)legendButton.disabled=true;
  }else{
@@ -294,4 +297,17 @@ function syncDeck(){
 }
 picker.addEventListener('change',syncDeck);
 syncDeck();
+// The page initializes while #battle is hidden; deal only when the player enters the table.
+const battlePage=$('battle');
+function dealOnEntry(){
+ const visible=battlePage&&!battlePage.classList.contains('hide');
+ if(!visible){entryDealt=false;cancelDeals();return}
+ if(entryDealt||picker.value!=='theHeist')return;
+ entryDealt=true;
+ requestAnimationFrame(()=>{if(!battlePage.classList.contains('hide')&&picker.value==='theHeist')dealHand('all')});
+}
+if(battlePage&&typeof MutationObserver!=='undefined'){
+ new MutationObserver(dealOnEntry).observe(battlePage,{attributes:true,attributeFilter:['class']});
+ dealOnEntry();
+}
 })();
