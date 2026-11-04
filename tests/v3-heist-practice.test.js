@@ -48,7 +48,7 @@ const path=require('node:path');
 const html=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 const ui=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(html.includes('src="v3/heist-practice.js?v=1"'),'Heist module must load in V3');
-assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=15"'),'Module must load before UI');
+assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=16"'),'Module must load before UI');
 assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
@@ -226,7 +226,7 @@ const quickNext=P.next(quickResult.state);assert(quickNext.ok);
 assert.equal(quickNext.state.ai.units[0].ready,true,'Training rival is reset for repeatable turns');
 const practiceUI=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(practiceUI.includes('renderRivalField()'),'Rival training target must render');
-assert(practiceUI.includes("H.fresh(scenario,{preGame:true,defense:defensePreset})"),'Practice hand scenarios must be wired');
+assert(practiceUI.includes("H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode})"),'Practice hand scenarios must be wired');
 /* Reboot Optics may be played in the open Main Phase; effect is pending until combat exists. */
 assert.equal(H.byName.get('Reboot Optics').unimplementedEffect,false);
 let protect=H.fresh('quick');protect.turn='player';protect.phase='main';
@@ -292,7 +292,7 @@ assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped 
 assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
 assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
-assert(handStyles.includes('v3/turn-practice-ui.js?v=15'),'Updated hover script must bypass browser cache');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=16'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
 assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
@@ -485,6 +485,40 @@ assert(animatedUI.includes("P.reactAttack(state,attackUnitId"),'Table attacks us
 assert(handStyles.includes('body.battle-wide #battle #v3TableControls'),'Table control strip requires a compact stylesheet');
 assert(animatedUI.includes("setActionTray(false)"),'Hand selection must not open the full-height test tray');
 assert(handStyles.includes('body.battle-wide #battle #v3OpeningSetup'),'Standalone opening dialog must have its own layout');
-assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=15'),
+assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=16'),
   'Tour click handlers must initialize before practice controls');
+
+// Bounded mirror opponent turn: real cards and resource payments, no fake attacks.
+{
+ const source=H.fresh('basic',{preGame:true,aiMode:'mirror'});
+ assert.equal(source.ai.hand.length,6,'Mirror opponent has 6 actual starter cards');
+ assert.equal(source.ai.deck.length,34,'Mirror deck contains remaining 34 cards');
+ assert.equal(source.ai.gigs.length,0,'Mirror opponent has no invented starting Gigs');
+ const playerWins=P.rollForOrder(source,18,2);
+ let start=P.chooseOrder(playerWins.state,'player');
+ assert(start.ok,'Human may choose first');
+ let r=P.ready(start.state);assert(r.ok);r=P.draw(r.state);assert(r.ok);r=P.roll(r.state,4,2);assert(r.ok);
+ const pass=P.pass(r.state);
+ assert(pass.ok&&pass.state.turn==='ai'&&pass.state.step==='pendingBot','Passing enters executable rival turn');
+ assert.equal(P.opponentTurn(pass.state,9).ok,false,'Out-of-range dice rejected without changing the state');
+ const done=P.opponentTurn(pass.state,3);
+ assert(done.ok,'Mirror opponent can complete its turn');
+ assert.equal(done.state.ai.deck.length,33,'Opponent draws exactly one');
+ assert.equal(done.state.ai.gigs.length,1,'Opponent gains its first Gig');
+ assert.equal(done.state.ai.eddies.length,1,'Opponent sells at most one card');
+ assert.equal(done.state.ai.units.length,1,'Opponent deploys a payable vanilla Unit');
+ assert.equal(done.state.ai.units[0].name,'Psycho Squad','Opponent plays its highest affordable vanilla Unit');
+ assert.equal(done.state.ai.units[0].lag,false,'Lag ends with the opponent turn');
+ assert.equal(done.state.turn,'player','Opponent completes and returns the turn to human');
+ assert.equal(done.state.round,2,'Human receives the second round after playing first');
+ assert.equal(pass.state.ai.units.length,0,'Opponent turn never mutates its input');
+ const enemyWins=P.rollForOrder(source,4,17);
+ start=P.chooseOrder(enemyWins.state,'ai');
+ assert(start.ok&&start.state.turn==='ai','Opponent can truly take the opening turn');
+ assert.equal(start.state.ai.legends.filter(l=>l.ready).length,1,'Mirror first player has two Legends spent');
+ const first=P.opponentTurn(start.state,2);
+ assert(first.ok&&first.state.turn==='player'&&first.state.round===1,'Opponent opening turn precedes human first turn');
+ assert.equal(first.state.ai.units.length,1,'Opponent first turn pays for a two-cost Unit');
+ assert.equal(first.state.ai.units[0].name,'Secondhand Bombus');
+}
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
