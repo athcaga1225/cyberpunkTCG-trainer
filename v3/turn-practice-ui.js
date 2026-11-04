@@ -13,9 +13,18 @@ openingRoot.hidden=true;
 root.before(openingRoot);
 
 const toggleActions=$('toggleV3BattleActions');
+// Compact tabletop controls live in PHASE. The old diagnostic tray stays
+// available only through an explicit advanced-test action.
+const tableControls=document.createElement('div');
+tableControls.id='v3TableControls';
+tableControls.className='v3-table-controls';
+tableControls.setAttribute('aria-label','桌面操作');
+let attackUnitId=null,modeOnTable=null;
+
 // The turn controls live inside the game board, not in a second website toolbar.
 const phaseZone=board.querySelector('.turn-info');
-if(toggleActions&&phaseZone)phaseZone.append(toggleActions);
+if(phaseZone){phaseZone.append(tableControls);if(toggleActions)phaseZone.append(toggleActions);}
+if(toggleActions)toggleActions.textContent='進階測試';
 function setActionTray(open){
  if(open&&state.phase==='pregame')return;
  // The tutorial and turn controls are mutually exclusive overlays.
@@ -277,7 +286,7 @@ function renderHand(){
   const src=art.get(card.name);
   if(src){const image=document.createElement('img');image.src=src;image.alt=card.name+' 卡面';image.loading='lazy';image.decoding='async';btn.append(image)}
   else{btn.classList.add('missing-art');add('span',card.name,btn,'preview-art-fallback')}
-  btn.addEventListener('click',()=>{selectedId=selected?null:card.id;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=selectedId?'已選取 '+card.name:'已取消選取';render();if(selectedId)setActionTray(true)});
+  btn.addEventListener('click',()=>{selectedId=selected?null:card.id;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=selectedId?'已選取 '+card.name:'已取消選取';render();setActionTray(false)});
   rail.append(btn);
  });
  // Preserve tabletop rail sizing on both mobile and desktop.
@@ -293,6 +302,8 @@ function renderField(){
  slots.replaceChildren();
  for(const card of state.player.units){
   const el=add('button','',slots,'v3-played-card');el.type='button';el.title=card.name+' / '+(card.lag?'Lag':'Ready');
+  el.classList.toggle('is-table-selected',attackUnitId===card.id);
+  el.addEventListener('click',()=>{attackUnitId=attackUnitId===card.id?null:card.id;modeOnTable=attackUnitId?'attack':null;selectedId=null;render()});
   const image=art.get(card.name);
   if(image){const img=document.createElement('img');img.src=image;img.alt=card.name;img.loading='lazy';el.append(img)}
   else add('span',card.name,el);
@@ -308,7 +319,8 @@ function renderRivalField(){
  const slots=board.querySelector('.opponent-field .field-slots');if(!slots)return;
  slots.replaceChildren();
  for(const unit of state.ai.units){
-  const el=add('div','',slots,'v3-played-card');el.title=unit.name+'（練習對手，不代表 AI 行動）';
+  const el=add('button','',slots,'v3-played-card');el.type='button';el.title=unit.name+'（練習對手，不代表 AI 行動）';
+  el.addEventListener('click',()=>{if(attackUnitId&&state.phase==='main'&&!unit.ready)runTableAttack({kind:'unit',defenderId:unit.id});else{message=unit.ready?'對手單位仍就緒；先選擇合法目標或使用攔截練習。':'請先點選我方就緒單位，再點選對手。';render()}});
   const src=art.get(unit.name);
   if(src){const img=document.createElement('img');img.src=src;img.alt=unit.name;img.loading='lazy';el.append(img)}
   else add('span',unit.name,el);
@@ -350,6 +362,134 @@ function gigAdjustmentOptions(){
  delta.addEventListener('change',()=>{gigDelta=Number(delta.value);render()});area.append(delta);
  return {gigId,side:gigSide,delta:gigDelta};
 }
+
+// Visible board interaction is the default; these controls are not a second page.
+function runTableCommand(fn){
+ const before=new Set(state.player.hand.map(c=>c.id));
+ const result=fn();
+ message=result.ok?result.message:result.reason;
+ if(result.ok){
+  const wasPregame=state.phase==='pregame';state=result.state;
+  if(wasPregame&&state.phase==='start')pendingDeal='all';
+  const added=state.player.hand.filter(c=>!before.has(c.id)).map(c=>c.id);
+  if(added.length)pendingDeal=added;
+  selectedPayments.clear();
+  if(!state.player.hand.some(c=>c.id===selectedId))selectedId=null;
+  attackUnitId=null;modeOnTable=null;
+ }
+ render();
+}
+function tableButton(label,fn,disabled=false){
+ const b=add('button',label,tableControls,'v3-table-btn');b.type='button';b.disabled=disabled;
+ b.addEventListener('click',()=>runTableCommand(fn));return b;
+}
+function readyPayments(cost){
+ const p=state.player;
+ const sources=[...p.eddies.filter(c=>c.ready).map(c=>({kind:'eddie',id:c.id})),
+ ...p.legends.filter(c=>c.ready&&(!c.faceUp||c.sellTag)).map(c=>({kind:'legend',id:c.id}))];
+ return sources.length>=cost?sources.slice(0,cost):null;
+}
+function runTableAttack(attack){
+ if(!attackUnitId)return;
+ const blockers=state.ai.units.filter(u=>u.ready&&A.unitStats(u).blocker);
+ // Choosing a defender response remains explicit in the compact phase controls.
+ let reaction={kind:'pass'};
+ if(blockers.length){
+  const chosen=tableControls.querySelector('[data-table-blocker]')?.value;
+  if(!chosen){message='請先選擇對手是否使用 Blocker';renderTableControls();return}
+  reaction=chosen==='pass'?{kind:'pass'}:{kind:'block',blockerId:chosen};
+ }
+ const quick=tableControls.querySelector('[data-table-quick]');
+ if(quick)reaction.quick=quick.checked;
+ runTableCommand(()=>P.reactAttack(state,attackUnitId,attack,reaction));
+}
+function renderTableControls(){
+ tableControls.replaceChildren();
+ if(picker.value!=='theHeist'||state.phase==='pregame')return;
+ const p=state.player;
+ const headline=add('span',state.phase==='main'?'主要階段':phase(),tableControls,'v3-table-phase');
+ if(state.finished){headline.textContent='練習已結束';return}
+ if(state.turn==='ai'){
+  tableButton('下一回合',()=>P.next(state));return;
+ }
+ if(state.phase==='start'){
+  if(state.step==='ready')tableButton('重置資源',()=>P.ready(state));
+  if(state.step==='draw')tableButton('抽 1 張',()=>P.draw(state));
+  if(state.step==='roll'){
+   const select=document.createElement('select');select.setAttribute('aria-label','選擇合事佬骰子');
+   for(const side of p.fixer){const option=document.createElement('option');option.value=side;option.textContent='d'+side;option.disabled=side===20&&p.fixer.length>1;select.append(option)}
+   tableControls.append(select);
+   tableButton('擲骰',()=>{const side=Number(select.value);return P.roll(state,side,Math.floor(Math.random()*side)+1)});
+  }
+  return;
+ }
+ if(state.phase!=='main')return;
+ if(selectedId){
+  const card=p.hand.find(c=>c.id===selectedId);
+  if(card){
+   add('span',card.name+' · '+card.cost+' €$',tableControls,'v3-table-selection');
+   if(card.sellTag)tableButton('變賣',()=>P.sell(state,card.id),p.soldThisTurn);
+   if(card.unimplementedEffect)add('span','這張卡的效果尚未完成',tableControls,'v3-table-hint');
+   else if(card.type==='Unit'){
+    const pay=readyPayments(card.cost);
+    if(card.onPlayGigAdjust||card.onPlayDefeatGear||card.onPlaySpendRival)
+     tableButton('指定效果與出牌',()=>({ok:false,reason:'這張卡需要指定效果目標；請使用進階測試操作。'}));
+    else tableButton('打出單位',()=>P.play(state,card.id,pay||[]),!pay);
+   }else if(card.type==='Gear'){
+    add('span','點選場上的友方單位指定裝備目標',tableControls,'v3-table-hint');
+    for(const unit of p.units){const pay=readyPayments(card.cost);
+     tableButton('裝備至 '+unit.name,()=>P.gear(state,card.id,pay||[],unit.id),!pay);
+    }
+   }else if(card.type==='Program'){
+    const pay=readyPayments(card.cost);
+    if(card.name==='Floor It'){
+     const rival=state.ai.units[0];
+     tableButton('使用 Floor It'+(rival?' → '+rival.name:''),()=>P.program(state,card.id,pay||[],{rivalUnitId:rival?.id}),!pay);
+    }else if(card.name==='Reboot Optics')tableButton('使用 Reboot Optics',()=>P.program(state,card.id,pay||[],{}),!pay);
+    else add('span','需指定委託骰效果，使用進階測試',tableControls,'v3-table-hint');
+   }
+   tableButton('取消選取',()=>({ok:true,state,message:'已取消選取'}));
+  }
+ }else if(attackUnitId){
+  const attacker=p.units.find(u=>u.id===attackUnitId);
+  if(attacker){
+   add('span','攻擊：'+attacker.name+' · '+A.unitStats(attacker).power+' PWR',tableControls,'v3-table-selection');
+   if(attacker.lag||!attacker.ready)add('span','此單位尚不可攻擊',tableControls,'v3-table-hint');
+   else{
+    const quick=state.ai.quickExercise?.enabled&&state.ai.hand.some(c=>c.id==='training-quick-floor-it');
+    if(quick){const label=add('label','防守方 Floor It',tableControls,'v3-table-hint');const cb=document.createElement('input');cb.type='checkbox';cb.dataset.tableQuick='';label.prepend(cb);}
+    const blockers=state.ai.units.filter(u=>u.ready&&A.unitStats(u).blocker);
+    if(blockers.length){
+     const sel=document.createElement('select');sel.dataset.tableBlocker='';sel.setAttribute('aria-label','防守方攔截選擇');
+     for(const [value,label] of [['','選擇對手反應'],['pass','不攔截'],...blockers.map(u=>[u.id,'Blocker：'+u.name])]){
+      const opt=document.createElement('option');opt.value=value;opt.textContent=label;sel.append(opt);
+     }
+     tableControls.append(sel);
+    }
+    const rival=state.ai.gigs;
+    if(rival.length){
+     const select=document.createElement('select');select.setAttribute('aria-label','選擇對手委託骰');
+     for(const gig of rival){const option=document.createElement('option');option.value=gig.id;option.textContent='d'+gig.sides+' / '+gig.value;select.append(option)}
+     tableControls.append(select);
+     tableButton('攻擊委託區',()=>{
+      const modifier=tableControls.querySelector('[data-table-quick]')?.checked?1:0;
+      const power=A.unitStats(attacker).power-modifier;
+      const count=power<=0?0:Math.min(rival.length,Math.floor(power/10)+1);
+      const ids=[select.value,...rival.filter(g=>g.id!==select.value).map(g=>g.id)].slice(0,count);
+      const blockers=state.ai.units.filter(u=>u.ready&&A.unitStats(u).blocker);
+      const choice=tableControls.querySelector('[data-table-blocker]')?.value;
+      if(blockers.length&&!choice)return {ok:false,reason:'請先選擇防守反應'};
+      const reaction={kind:choice&&choice!=='pass'?'block':'pass',...(choice&&choice!=='pass'?{blockerId:choice}:{}),
+       ...(state.ai.quickExercise?.enabled&&state.ai.hand.some(c=>c.id==='training-quick-floor-it')?{quick:!!tableControls.querySelector('[data-table-quick]')?.checked}:{})};
+      return P.reactAttack(state,attackUnitId,{kind:'gig',gigIds:ids},reaction);
+     });
+    }
+    add('span','也可以直接點擊對手已使用的單位',tableControls,'v3-table-hint');
+   }
+  }
+ }else add('span','點擊手牌出牌，或點擊己方單位攻擊',tableControls,'v3-table-hint');
+ tableButton('結束回合',()=>P.pass(state));
+}
 function render(){
  hideHandHover();
  const sequence=++renderSequence;
@@ -375,6 +515,7 @@ function render(){
  }
  const p=state.player;
  renderHand();bindLiveHandHover();renderField();renderRivalField();
+ renderTableControls();
  if(deal)requestAnimationFrame(()=>{if(sequence===renderSequence&&picker.value==='theHeist'&&!$('battle')?.classList.contains('hide'))dealHand(deal)});
  const header=add('div','',root,'v3-turn-header');
  add('strong','THE HEIST / '+(state.phase==='pregame'?'開局設定':'ROUND '+state.round),header);add('span',state.phase==='pregame'?'等待先後攻':phase(),header);
