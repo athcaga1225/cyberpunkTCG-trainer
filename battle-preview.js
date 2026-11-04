@@ -105,7 +105,7 @@ function card(k,name,back=false,kind='standard',isHand=false){
   el.append(fallback);
   const image=document.createElement('img');
   image.src=src;image.alt='';image.className='preview-card-back-image';
-  image.loading='lazy';image.decoding='async';
+  image.loading='eager';image.decoding='async';image.fetchPriority='high';
   image.addEventListener('error',()=>{image.remove();el.classList.add('missing-back')});
   el.append(image);
   return el;
