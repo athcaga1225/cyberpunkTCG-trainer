@@ -284,7 +284,10 @@ assert(animatedUI.includes("if(previewId===card.id&&!hover.hidden)return"),'Unch
 assert(animatedUI.includes("if(token!==previewLoad)return"),'Stale async artwork must never replace the current card');
 const handStyles=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 assert(handStyles.includes('.hand-card.is-hand-hover'),'Hover must enlarge the real hand card');
-assert(handStyles.includes('scale(1.22)'),'Hovered card should be visibly larger than its neighbors');
+assert(handStyles.includes('scale(1.38)'),'Hovered card should enlarge immediately over neighboring cards');
+assert(handStyles.includes('translateY(-22px) scale(1.38)'),'Raised card may overlap the Fixer zone');
+assert(handStyles.includes('.player-hand:has(.is-hand-hover){z-index:100;overflow:visible}'),'Raised hand area must stack over Fixer');
+assert(handStyles.includes('.player-hand .preview-card-rail .hand-card{\n  transition:none!important;'),'Hover scale must not animate in or out');
 assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped by hand rail');
 assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
