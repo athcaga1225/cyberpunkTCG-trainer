@@ -375,7 +375,7 @@ function render(){
  }
  const header=add('div','',root,'v3-turn-header');
  add('strong','THE HEIST / ROUND '+state.round,header);add('span',phase(),header);
- add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；可練習限定的已使用單位交戰；Quick、攔截、委託區攻擊及未完成觸發能力仍不會自動結算。',root,'v3-turn-note');
+ add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；可練習限定的已使用單位交戰；Quick、攔截及未完成觸發能力仍不會自動結算。',root,'v3-turn-note');
  const stats=add('div','',root,'v3-turn-stats');
  add('span','手牌 '+p.hand.length+' 張',stats);
  add('span','Eddies '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length,stats);
@@ -422,9 +422,40 @@ function render(){
     exercise.append(targetSelect);
     command('攻擊已使用的對手單位',()=>P.fight(state,attackSelect.value,targetSelect.value),exercise);
    }else if(exhausted.length)add('p','需有一張已解除 Lag、就緒且沒有待處理攻擊能力的己方單位。',exercise);
-   add('p','此練習僅處理基本戰力比較與擊敗。未支援 Quick、攔截、攻擊委託區及特殊觸發效果。',exercise);
+   add('p','此練習僅處理基本戰力比較與擊敗。未支援 Quick、攔截及特殊觸發效果。',exercise);
   }
 
+  const gigTargets=state.ai?.gigs||[];
+  if(gigTargets.length){
+   const panel=add('div','',root,'v3-selected-detail');
+   add('strong','攻擊委託區 / 搶骰練習',panel);
+   add('p','預設練習對手持有 '+gigTargets.length+' 顆委託骰；非正式 AI 對局。',panel);
+   const eligible=p.units.filter(u=>u.ready===true&&!u.lag&&!u.deferredEffect&&!u.unimplementedEffect);
+   if(eligible.length){
+    const chooser=document.createElement('select');chooser.setAttribute('aria-label','選擇搶骰攻擊單位');panel.append(chooser);
+    for(const u of eligible){const op=document.createElement('option');op.value=u.id;op.textContent=u.name+' / '+A.unitStats(u).power+' PWR';chooser.append(op)}
+    const picks=add('div','',panel,'v3-payment-pool');
+    const picked=new Set();
+    for(const gig of gigTargets){
+     const label=add('label','',picks,'v3-resource-choice');
+     const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.value=gig.id;
+     label.append(checkbox,document.createTextNode(' d'+gig.sides+' = '+gig.value));
+     checkbox.addEventListener('change',()=>{if(checkbox.checked)picked.add(gig.id);else picked.delete(gig.id)});
+    }
+    const countNote=add('p','選擇對手骰子，數量需符合攻擊單位戰力。',panel);
+    const attack=command('攻擊委託區並搶骰',()=>P.steal(state,chooser.value,[...picked]),panel);
+    const update=()=>{
+     const unit=eligible.find(u=>u.id===chooser.value),power=A.unitStats(unit).power;
+     const count=power<=0?0:Math.min(gigTargets.length,Math.floor(power/10)+1);
+     countNote.textContent='戰力 '+power+'：需選擇 '+count+' 顆骰子（目前 '+picked.size+' 顆）';
+     attack.disabled=count===0||picked.size!==count;
+    };
+    chooser.addEventListener('change',update);
+    for(const checkbox of picks.querySelectorAll('input'))checkbox.addEventListener('change',update);
+    update();
+   }else add('p','需要一張已解除 Lag、目前就緒的己方單位。',panel);
+   add('p','僅供無對手反應的腳本練習；Quick 與 Blocker 對戰尚未完成。',panel);
+  }
   if(chosen&&!chosen.unimplementedEffect){
    const sources=paymentOptions(root);
    const selected=sources.filter(src=>selectedPayments.has(src.kind+':'+src.id));
