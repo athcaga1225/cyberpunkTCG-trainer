@@ -88,26 +88,48 @@ const hover=document.createElement('div');
 hover.id='v3HandPreview';hover.hidden=true;hover.setAttribute('aria-hidden','true');
 hover.style.cssText='position:fixed;z-index:9999;pointer-events:none;display:none;box-sizing:border-box;align-items:flex-start;gap:16px;max-width:calc(100vw - 32px);padding:12px;background:#071015f8;border:1px solid #567c85;border-radius:8px;box-shadow:0 16px 44px #000d;color:#e9eff0;';
 const hoverArt=document.createElement('img');
-hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(340px,34vw);max-height:calc(100vh - 48px);aspect-ratio:5/7;object-fit:contain;background:#101820;flex:none;';
-const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(220px,20vw);max-height:calc(100vh - 48px);overflow:hidden;font-size:14px;line-height:1.65;';
+hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(300px,29vw);height:auto;max-height:min(66vh,470px);aspect-ratio:5/7;object-fit:contain;background:#101820;flex:none;';
+const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(210px,20vw);max-height:min(66vh,470px);overflow:hidden;font-size:14px;line-height:1.65;';
 hover.append(hoverArt,hoverInfo);document.body.append(hover);
-let previewId=null,leaveTimer=null,previewLoad=0;
+let previewId=null,leaveTimer=null,previewLoad=0,hoverPending=null,hoverPendingId=null;
+const hoverImageCache=new Map();
 function hideHandHover(){
  if(leaveTimer!==null){clearTimeout(leaveTimer);leaveTimer=null;}
+ if(hoverPending!==null){clearTimeout(hoverPending);hoverPending=null;hoverPendingId=null;}
  previewId=null;previewLoad++;
  hover.hidden=true;hover.style.display='none';hover.setAttribute('aria-hidden','true');
 }
-function positionHandHover(){
+function positionHandHover(anchor){
  if(hover.hidden)return;
  const rail=board.querySelector('.player-hand .hand-placeholder');
  if(!rail)return;
- const r=rail.getBoundingClientRect(),w=hover.offsetWidth,h=hover.offsetHeight,pad=16;
- const mid=(window.innerWidth-w)/2;
- // Keep the full preview over the tabletop, never overlapping the hand strip.
- const left=Math.max(pad,Math.min(window.innerWidth-w-pad,mid));
- const above=r.top-h-18;
- const top=above>=pad?above:Math.max(pad,Math.min(window.innerHeight-h-pad,r.top-h*.62));
- hover.style.left=Math.round(left)+'px';hover.style.top=Math.round(top)+'px';
+ const el=anchor||rail.querySelector('.hand-card[data-card-id="'+previewId+'"]');
+ const rect=(el||rail).getBoundingClientRect();
+ const w=hover.offsetWidth,h=hover.offsetHeight,pad=14,gap=14;
+ // Anchor to the actual hovered card, not the center of the entire table.
+ // Prefer immediately above its slot; otherwise sit beside that slot.
+ let left=rect.left,top=rect.top-h-gap;
+ if(top<pad){
+  left=rect.right+gap;top=rect.top-Math.min(85,h*.25);
+  if(left+w>innerWidth-pad)left=rect.left-w-gap;
+ }
+ left=Math.max(pad,Math.min(innerWidth-w-pad,left));
+ top=Math.max(pad,Math.min(innerHeight-h-pad,top));
+ hover.style.left=Math.round(left)+'px';
+ hover.style.top=Math.round(top)+'px';
+}
+function scheduleHandHover(card){
+ if(!card)return;
+ if(previewId===card.id&&!hover.hidden)return;
+ if(hoverPendingId===card.id)return;
+ if(hoverPending!==null)clearTimeout(hoverPending);
+ hoverPendingId=card.id;
+ hoverPending=setTimeout(()=>{
+  hoverPending=null;hoverPendingId=null;
+  const rail=board.querySelector('.player-hand .hand-placeholder');
+  if(!rail?.matches(':hover')||picker.value!=='theHeist')return;
+  showHandHover(card);
+ },65);
 }
 function showHandHover(card){
  if(!card||!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
@@ -128,13 +150,20 @@ function showHandHover(card){
  if(!image){
   hoverArt.removeAttribute('src');hoverArt.alt='此卡暫無圖片';hoverArt.style.visibility='hidden';
  }else{
-  // Keep the last image until the next one has decoded; never blank the popup.
-  const update=()=>{if(token!==previewLoad)return;hoverArt.src=image;hoverArt.alt=name+' 卡面';hoverArt.style.visibility='visible';positionHandHover()};
-  const ready=new Image();
-  ready.onload=update;
-  ready.onerror=()=>{if(token===previewLoad){hoverArt.removeAttribute('src');hoverArt.style.visibility='hidden'}};
-  ready.src=image;
-  if(ready.complete&&ready.naturalWidth)update();
+  // Cache the decoded image: moving between neighboring cards never clears the overlay.
+  let loaded=hoverImageCache.get(image);
+  if(!loaded){
+   loaded=new Promise(resolve=>{
+    const pic=new Image();pic.onload=()=>resolve(true);pic.onerror=()=>resolve(false);pic.src=image;
+   });
+   hoverImageCache.set(image,loaded);
+  }
+  loaded.then(ok=>{
+   if(token!==previewLoad)return;
+   if(ok){if(hoverArt.getAttribute('src')!==image)hoverArt.src=image;hoverArt.alt=name+' 卡面';hoverArt.style.visibility='visible';}
+   else{hoverArt.removeAttribute('src');hoverArt.style.visibility='hidden';}
+   positionHandHover();
+  });
  }
  hover.hidden=false;hover.style.display='flex';hover.setAttribute('aria-hidden','false');
  positionHandHover();
@@ -153,16 +182,19 @@ function bindLiveHandHover(){
   if(e.clientY<rect.top||e.clientY>rect.bottom)return;
   // The visible slot starts, not overlapping DOM targets, determine the card.
   let index=0;
-  for(let i=1;i<nodes.length;i++)if(e.clientX>=nodes[i].getBoundingClientRect().left)index=i;
+  for(let i=1;i<nodes.length;i++){
+   const left=nodes[i].getBoundingClientRect().left;
+   if(e.clientX>=left+5)index=i;
+  }
   const id=nodes[index].dataset.cardId;
   const card=state.player.hand.find(x=>x.id===id);
-  if(card)showHandHover(card);
+  if(card)scheduleHandHover(card);
  };
  rail.addEventListener('pointerenter',update);
  rail.addEventListener('pointermove',update);
  rail.addEventListener('pointerleave',()=>{
   if(leaveTimer!==null)clearTimeout(leaveTimer);
-  leaveTimer=setTimeout(()=>{leaveTimer=null;if(!rail.matches(':hover'))hideHandHover()},85);
+  leaveTimer=setTimeout(()=>{leaveTimer=null;if(!rail.matches(':hover'))hideHandHover()},160);
  });
 }
 window.addEventListener('scroll',hideHandHover,{passive:true});
