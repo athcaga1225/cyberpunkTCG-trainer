@@ -319,4 +319,36 @@ assert(animatedUI.includes("tourButton.addEventListener('click'"),'Tour controls
 assert(handStyles.includes('.v3-room-setup'),'In-room setup controls must have compact styling');
 assert(!handStyles.includes('translateY(-53px) scale(1.17)'),'Excessive hand lift must not regress');
 
+
+// Bounded combat exercise regression: only spent rival Units may be attacked.
+{
+ const battle=require('../v3/battle-actions.js');
+ const source=H.fresh();
+ const setup=P.ready(source);assert(setup.ok);
+ const drawStep=P.draw(setup.state);assert(drawStep.ok);
+ const main=P.roll(drawStep.state,4,2);assert(main.ok);
+ const training=P.prepareTrainingTarget(main.state,'training-rival-ruthless');
+ assert(training.ok,'Trainer can explicitly spend its dedicated training target');
+ assert.equal(training.state.ai.units[0].ready,false);
+ assert.equal(main.state.ai.units[0].ready,true,'Training setup does not mutate input');
+ const attacker={id:'training-attacker',name:'Test attacker',power:6,ready:true,lag:false,gear:[]};
+ const battleState=structuredClone(training.state);battleState.player.units.push(attacker);
+ const won=P.fight(battleState,attacker.id,'training-rival-ruthless');
+ assert(won.ok,'Stronger ready attacker defeats spent rival');
+ assert.equal(won.state.player.units[0].ready,false,'Attack spends surviving attacker');
+ assert.equal(won.state.ai.units.length,0,'Defeated rival leaves field');
+ assert.equal(won.state.ai.trash.length,1,'Defeated rival enters trash');
+ assert.equal(battleState.ai.units.length,1,'Combat does not mutate input');
+ const readyTarget=structuredClone(battleState);readyTarget.ai.units[0].ready=true;
+ assert.equal(P.fight(readyTarget,attacker.id,'training-rival-ruthless').ok,false,'Cannot directly attack ready Unit');
+ const lagged=structuredClone(battleState);lagged.player.units[0].lag=true;
+ assert.equal(P.fight(lagged,attacker.id,'training-rival-ruthless').ok,false,'Lag prevents attacks');
+ const tied=structuredClone(battleState);tied.player.units[0].power=4;
+ const tie=P.fight(tied,attacker.id,'training-rival-ruthless');
+ assert(tie.ok,'Equal power combat resolves');
+ assert.equal(tie.state.player.units.length,0,'Tie defeats attacker');
+ assert.equal(tie.state.ai.units.length,0,'Tie defeats defender');
+ const deferred=structuredClone(battleState);deferred.player.units[0].deferredEffect=true;
+ assert.equal(P.fight(deferred,attacker.id,'training-rival-ruthless').ok,false,'Deferred combat effect must not be skipped');
+}
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
