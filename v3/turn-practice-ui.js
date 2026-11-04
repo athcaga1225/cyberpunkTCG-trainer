@@ -145,6 +145,7 @@ function bindLiveHandHover(){
  if(rail.dataset.v3HoverBound==='true')return;
  rail.dataset.v3HoverBound='true';
  const update=e=>{
+  if(picker.value!=='theHeist'||board.closest('.hide')){hideHandHover();return;}
   if(e.pointerType!=='mouse'&&e.pointerType!=='pen')return;
   const nodes=[...rail.querySelectorAll('.hand-card')];
   if(!nodes.length)return;
