@@ -475,7 +475,7 @@ assert(animatedUI.includes("const order=add('div','',openingRoot,'v3-selected-de
 assert(animatedUI.includes("state.player.hand.map(c=>c.name).join('、')"),'Starting six cards must be listed in pregame');
 assert(handStyles.includes('v3/board-tour.js?v=1'),'Optional tour must be V3-specific');
 assert(animatedUI.includes("tableControls.id='v3TableControls'"),'The playable actions need an on-table context surface');
-assert(animatedUI.includes("P.play(state,card.id,pay||[])"),'Selected hand units can be deployed from the table');
+assert(animatedUI.includes("P.play(state,card.id,pay||[],opts)"),'Selected hand units can be deployed from the table');
 assert(animatedUI.includes("P.sell(state,card.id)"),'Selected hand can be sold from the table');
 assert(animatedUI.includes("P.reactAttack(state,attackUnitId"),'Table attacks use the real training combat engine');
 assert(handStyles.includes('body.battle-wide #battle #v3TableControls'),'Table control strip requires a compact stylesheet');
