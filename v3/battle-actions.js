@@ -182,7 +182,7 @@
   q.trash.push(card);
   return success(next,[...paid.events,"結算 "+card.name+"（委託骰 "+(delta>=0?"+":"")+delta+"）"+(distinct.size>=2?"，抽 1 張牌":""),"程式移至棄牌區"]);
  }
- function fightSpentUnit(state,who,attackerId,defenderId){
+ function fightSpentUnit(state,who,attackerId,defenderId,opts={}){
   const p=player(state,who),rivalSide=who==='player'?'ai':'player',rival=player(state,rivalSide);
   if(!p||!rival)return fail('對戰資料不完整');
   if(state.finished||state.turn!==who||state.phase!=='main')return fail('只能在自己的主要階段攻擊');
@@ -190,6 +190,7 @@
   if(!attacker||!defender)return fail('找不到攻擊或防守單位');
   if(attacker.ready!==true||attacker.lag===true)return fail('攻擊單位必須就緒，且沒有 Lag');
   if(defender.ready!==false)return fail('只能直接攻擊已使用的對手單位');
+  if(!opts.reactionResolved&&rival.units.some(u=>u.ready===true&&unitStats(u).blocker))return fail('防守方尚未決定 Blocker 反應');
   // This bounded trainer deliberately rejects unresolved attack/defeat abilities.
   if(attacker.deferredEffect||defender.deferredEffect||attacker.unimplementedEffect||defender.unimplementedEffect)
    return fail('此單位涉及尚未驗證的攻擊或擊敗能力，暫不結算');
@@ -204,7 +205,7 @@
   if(defendPower<=attackPower&&attackPower>0){s[rivalSide].units=s[rivalSide].units.filter(u=>u.id!==d.id);s[rivalSide].trash.push(d,...(d.gear||[]));defeated.push(d.name)}
   return success(s,['單位交戰：'+a.name+' '+attackPower+' PWR vs '+d.name+' '+defendPower+' PWR','擊敗：'+defeated.join('、')]);
  }
- function stealTrainingGigs(state,who,attackerId,gigIds){
+ function stealTrainingGigs(state,who,attackerId,gigIds,opts={}){
   const p=player(state,who),rivalSide=who==='player'?'ai':'player',rival=player(state,rivalSide);
   if(!p||!rival)return fail('對戰資料不完整');
   if(state.finished||state.phase!=='main'||state.turn!==who)return fail('只能在自己的主要階段攻擊');
@@ -213,6 +214,7 @@
   if(attacker.deferredEffect||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
    return fail('攻擊或 Quick 相關效果尚未驗證，不可略過');
   if(!Array.isArray(rival.gigs)||!rival.gigs.length)return fail('對手委託區沒有委託骰');
+  if(!opts.reactionResolved&&rival.units.some(u=>u.ready===true&&unitStats(u).blocker))return fail('防守方尚未決定 Blocker 反應');
   // No automatic bypass of Blocker/Quick in a real match. This action is limited to a
   // clearly labeled scripted practice target with no opponent reaction controller.
   if(!state.practiceKind||!rival.gigs.every(g=>g.trainingTarget))
@@ -252,13 +254,13 @@
    // React: spend Blocker, replacing the original attack target.
    const staged=clone(state);
    staged[opposite].units.find(u=>u.id===defender.id).ready=false;
-   const result=fightSpentUnit(staged,who,attackerId,defender.id);
+   const result=fightSpentUnit(staged,who,attackerId,defender.id,{reactionResolved:true});
    if(!result.ok)return result;
    return success(result.state,['防守方使用 Blocker：'+defender.name+'，轉移攻擊目標',...result.events]);
   }
   if(reaction&&reaction.kind!=='pass')return fail('反應選擇無效');
-  if(attack.kind==='unit')return fightSpentUnit(state,who,attackerId,attack.defenderId);
-  return stealTrainingGigs(state,who,attackerId,attack.gigIds);
+  if(attack.kind==='unit')return fightSpentUnit(state,who,attackerId,attack.defenderId,{reactionResolved:true});
+  return stealTrainingGigs(state,who,attackerId,attack.gigIds,{reactionResolved:true});
  }
  return {sell,pay,playUnit,playGear,playProgram,unitStats,fightSpentUnit,stealTrainingGigs,resolveTrainingReaction};
 });
