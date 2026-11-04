@@ -292,7 +292,7 @@ assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped 
 assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
 assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
-assert(handStyles.includes('v3/turn-practice-ui.js?v=10'),'Updated hover script must bypass browser cache');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=11'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
 assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
@@ -460,4 +460,16 @@ assert(!handStyles.includes('translateY(-53px) scale(1.17)'),'Excessive hand lif
  assert.equal(P.chooseOrder(first.state,'ai').ok,false,'Cannot change order after beginning');
  assert.equal(P.rollForOrder(setup,21,2).ok,false,'Reject invalid dice');
 }
+
+// Desktop overlay regression: opening the practice tray closes the tutorial,
+// opening the tutorial closes the tray, and the exit remains above both.
+assert(animatedUI.includes("if(open)document.getElementById('closeBoardTour')?.click()"),
+  'Opening turn controls must close the tutorial and its spotlight');
+assert(animatedUI.includes("document.getElementById('startBoardTour')?.addEventListener('click',()=>setActionTray(false))"),
+  'Opening tour must dismiss turn controls');
+assert(handStyles.includes('z-index:1150!important'),'Action tray must stack below exit toolbar');
+assert(handStyles.includes('z-index:1200!important'),'Exit toolbar remains above floating panels');
+assert(handStyles.includes('top:58px!important'),'The action tray must not start over the exit button');
+assert(handStyles.indexOf('board-tour.js?v=6')<handStyles.indexOf('v3/turn-practice-ui.js?v=11'),
+  'Tour click handlers must initialize before practice controls');
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
