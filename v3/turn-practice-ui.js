@@ -409,9 +409,20 @@ function render(){
    const prep=add('div','',root,'v3-selected-detail');
    command('加入練習 Blocker（測試攔截）',()=>P.addTrainingBlocker(state),prep);
   }
+  const quickAvailable=Boolean(state.ai.quickExercise?.enabled&&state.ai.hand.some(c=>c.id==='training-quick-floor-it'));
+  if(!state.ai.quickExercise?.enabled){
+   const quickSetup=add('div','',root,'v3-selected-detail');
+   command('加入對手 Quick：Floor It 練習',()=>P.addTrainingQuick(state),quickSetup);
+  }
   function reactionPicker(panel){
    const wrap=add('div','',panel,'v3-selected-detail');
    add('strong','防守方 React Step（腳本選擇）',wrap);
+   let quickCheck=null;
+   if(quickAvailable){
+    const label=add('label','',wrap,'v3-resource-choice');
+    quickCheck=document.createElement('input');quickCheck.type='checkbox';
+    label.append(quickCheck,document.createTextNode(' 先打出 Floor It：支付 3 €$，攻擊者戰力 -1、抽 1 張'));
+   }
    const chooser=document.createElement('select');chooser.setAttribute('aria-label','選擇對手反應');
    if(trainingBlockers.length){const pending=document.createElement('option');pending.value='';pending.textContent='請選擇防守方反應';chooser.append(pending)}
    const pass=document.createElement('option');pass.value='pass';pass.textContent='不使用 Blocker → 繼續原目標';chooser.append(pass);
@@ -419,7 +430,9 @@ function render(){
     const opt=document.createElement('option');opt.value=blocker.id;opt.textContent='使用 Blocker：'+blocker.name;chooser.append(opt);
    }
    wrap.append(chooser);
-   return ()=>!chooser.value?null:chooser.value==='pass'?{kind:'pass'}:{kind:'block',blockerId:chooser.value};
+   const read=()=>!chooser.value?null:{kind:chooser.value==='pass'?'pass':'block',...(chooser.value==='pass'?{}:{blockerId:chooser.value}),...(quickAvailable?{quick:quickCheck.checked}:{})};
+   read.onChange=callback=>quickCheck?.addEventListener('change',callback);
+   return read;
   }
   const trainingTargets=(state.ai?.units||[]).filter(u=>u.trainingTarget);
   if(trainingTargets.length){
@@ -465,16 +478,17 @@ function render(){
     const reaction=reactionPicker(panel);
     const attack=command('宣告攻擊並進入反應結算',()=>P.reactAttack(state,chooser.value,{kind:'gig',gigIds:[...picked]},reaction()),panel);
     const update=()=>{
-     const unit=eligible.find(u=>u.id===chooser.value),power=A.unitStats(unit).power;
+     const unit=eligible.find(u=>u.id===chooser.value),power=A.unitStats(unit).power-(reaction()?.quick?1:0);
      const count=power<=0?0:Math.min(gigTargets.length,Math.floor(power/10)+1);
      countNote.textContent='戰力 '+power+'：需選擇 '+count+' 顆骰子（目前 '+picked.size+' 顆）';
      attack.disabled=picked.size!==count;
     };
     chooser.addEventListener('change',update);
+    reaction.onChange(update);
     for(const checkbox of picks.querySelectorAll('input'))checkbox.addEventListener('change',update);
     update();
    }else add('p','需要一張已解除 Lag、目前就緒的己方單位。',panel);
-   add('p','可手動選擇腳本 Blocker 是否介入；Quick 與其他反應仍未完成。',panel);
+   add('p','可依序選擇腳本 Floor It 與 Blocker；其他 Quick 與完整反應流程尚未完成。',panel);
   }
   if(chosen&&!chosen.unimplementedEffect){
    const sources=paymentOptions(root);
