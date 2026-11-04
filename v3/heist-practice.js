@@ -39,7 +39,7 @@ const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
  cannotBeBlockedIfLowerCred:name==='MT0D12 Flathead',
  deferredEffect:['Dexter DeShawn: One Last Chance','Kiroshi Optics','Delamain Cab','Mandibular Upgrade','MT0D12 Flathead','Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Zetatech Faceplate',"Dying Night: V's Pistol",'Tetratronic Rippler'].includes(name)
 }]));
-function fresh(scenario='basic'){
+function fresh(scenario='basic',opts={}){
  if(!['basic','quick'].includes(scenario))throw new Error('Unknown Heist practice scenario');
  const s=P.fresh();
  const cards=specs.flatMap(([name,qty])=>Array.from({length:qty},(_,i)=>({...byName.get(name),id:'heist-'+name.replace(/[^a-z0-9]/gi,'-')+'-'+(i+1)})));
@@ -60,6 +60,12 @@ function fresh(scenario='basic'){
  s.ai.gigs=[{id:'training-gig-d4',sides:4,value:2,trainingTarget:true},{id:'training-gig-d6',sides:6,value:4,trainingTarget:true},{id:'training-gig-d8',sides:8,value:5,trainingTarget:true}];
  // Optional one-use scripted defender Quick. No autonomous opponent decisions.
  s.ai.quickExercise={enabled:false};
+ if(opts.preGame){
+  s.turn='none';s.phase='pregame';s.step='choose-order';
+  s.opening={resolved:false,winner:null};
+  // The first player is unknown until Rule 7.5 finishes.
+  for(const legend of s.player.legends)legend.ready=true;
+ }
  s.practiceKind='the-heist';s.practiceScenario=scenario;return s;
 }
 return {fresh,byName,cardCount:total};
