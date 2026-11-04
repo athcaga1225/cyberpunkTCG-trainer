@@ -196,7 +196,7 @@ function selectHandCard(el){
 function hoverHandAt(rail,event){
  // V3 live practice owns hover for actual hand cards; the preview-deck
  // handler must never compete for the same pointer events or artwork.
- if(rail.dataset.v3HoverOwned==='true')return;
+ if(rail.dataset.v3HoverOwned==='true'){if(!hoverBox?.hidden)hideHover();return;}
  if(!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
  cancelHoverLeave();
  const nodes=[...rail.querySelectorAll('.hand-card')];
