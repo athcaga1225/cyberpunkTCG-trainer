@@ -26,9 +26,9 @@ function dealHand(mode){
   if(!end.width||!end.height)return;
   const clone=target.cloneNode(true);
   clone.removeAttribute('id');clone.setAttribute('aria-hidden','true');
-  clone.style.cssText='position:fixed!important;z-index:20000!important;pointer-events:none!important;box-sizing:border-box!important;transition:none!important;transform:none!important;opacity:1;'
+  clone.style.cssText='position:fixed!important;z-index:20000!important;pointer-events:none!important;box-sizing:border-box!important;transition:none!important;transform:none!important;opacity:1!important;display:flex!important;align-items:center;justify-content:center;padding:0!important;overflow:hidden!important;background:#15212a!important;border:1px solid #9d4b52!important;border-radius:3px!important;box-shadow:0 8px 20px #0009!important;'
    +'left:'+end.left+'px!important;top:'+end.top+'px!important;width:'+end.width+'px!important;height:'+end.height+'px!important;margin:0!important;';
-  clone.querySelectorAll('img').forEach(img=>{img.loading='eager';});
+  clone.querySelectorAll('img').forEach(img=>{img.loading='eager';img.style.cssText='position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;background:#101820;';});
   document.body.append(clone);
   target.style.visibility='hidden';
   const dx=start.left+start.width/2-(end.left+end.width/2);
