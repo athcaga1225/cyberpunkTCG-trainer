@@ -204,5 +204,30 @@
   if(defendPower<=attackPower){s[rivalSide].units=s[rivalSide].units.filter(u=>u.id!==d.id);s[rivalSide].trash.push(d,...(d.gear||[]));defeated.push(d.name)}
   return success(s,['單位交戰：'+a.name+' '+attackPower+' PWR vs '+d.name+' '+defendPower+' PWR','擊敗：'+defeated.join('、')]);
  }
- return {sell,pay,playUnit,playGear,playProgram,unitStats,fightSpentUnit};
+ function stealTrainingGigs(state,who,attackerId,gigIds){
+  const p=player(state,who),rivalSide=who==='player'?'ai':'player',rival=player(state,rivalSide);
+  if(!p||!rival)return fail('對戰資料不完整');
+  if(state.finished||state.phase!=='main'||state.turn!==who)return fail('只能在自己的主要階段攻擊');
+  const attacker=p.units.find(u=>u.id===attackerId);
+  if(!attacker||attacker.ready!==true||attacker.lag===true)return fail('攻擊單位必須就緒，且沒有 Lag');
+  if(attacker.deferredEffect||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
+   return fail('攻擊或 Quick 相關效果尚未驗證，不可略過');
+  if(!Array.isArray(rival.gigs)||!rival.gigs.length)return fail('對手委託區沒有委託骰');
+  // No automatic bypass of Blocker/Quick in a real match. This action is limited to a
+  // clearly labeled scripted practice target with no opponent reaction controller.
+  if(!state.practiceKind||!rival.gigs.every(g=>g.trainingTarget))
+   return fail('目前僅支援預設練習骰，正式對手反應尚未實作');
+  const power=unitStats(attacker).power;
+  const count=power<=0?0:Math.min(rival.gigs.length,Math.floor(power/10)+1);
+  if(!Array.isArray(gigIds)||gigIds.length!==count||new Set(gigIds).size!==count)
+   return fail('請指定正確數量且不重複的委託骰');
+  if(gigIds.some(id=>!rival.gigs.some(g=>g.id===id)))return fail('委託骰目標不存在');
+  const next=clone(state),a=next[who].units.find(u=>u.id===attackerId);
+  a.ready=false;
+  const selected=next[rivalSide].gigs.filter(g=>gigIds.includes(g.id));
+  next[rivalSide].gigs=next[rivalSide].gigs.filter(g=>!gigIds.includes(g.id));
+  next[who].gigs.push(...selected.map(g=>({...g,trainingTarget:false})));
+  return success(next,['攻擊對手委託區：'+attacker.name+'（'+power+' PWR）','搶得 '+selected.length+' 顆委託骰']);
+ }
+ return {sell,pay,playUnit,playGear,playProgram,unitStats,fightSpentUnit,stealTrainingGigs};
 });
