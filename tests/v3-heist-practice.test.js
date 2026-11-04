@@ -258,4 +258,17 @@ assert(animatedUI.includes("clone.style.top=end.top+'px'"),'Flight destination m
 assert(animatedUI.includes("start.left+start.width/2"),'Flight origin must be deck centre');
 assert(animatedUI.includes("startY-(end.top+end.height/2)"),'Flight path must account for the target centre');
 assert(animatedUI.includes("document.querySelectorAll('[data-v3-deal-layer]')"),'Canceled animations must remove the overlay');
+/* V3 hover is a single delegated preview; preview-deck hover must yield ownership. */
+const legacyPreview=fs.readFileSync(path.resolve(__dirname,'../battle-preview.js'),'utf8');
+assert(legacyPreview.includes("rail.dataset.v3HoverOwned==='true'"),'Legacy hover must yield to active practice');
+assert(animatedUI.includes("hover.id='v3HandPreview'"),'Live practice must own one standalone preview');
+assert(animatedUI.includes("hover.style.display='flex'"),'Preview is shown without rebuilding hand cards');
+assert(animatedUI.includes("hover.style.display='none'"),'Preview can be hidden cleanly');
+assert(animatedUI.includes("rail.dataset.v3HoverOwned='true'"),'Legacy hover is disabled for the live hand');
+assert(animatedUI.includes("rail.dataset.v3HoverBound==='true'"),'Delegated events must bind only once');
+assert(animatedUI.includes("rail.addEventListener('pointermove',update)"),'Pointer movement across overlapping cards is delegated');
+assert(animatedUI.includes("e.clientX>=nodes[i].getBoundingClientRect().left"),'Card selection uses stable slot coordinates');
+assert(animatedUI.includes("pointer-events:none"),'Preview must never capture the pointer');
+assert(animatedUI.includes("if(previewId===card.id&&!hover.hidden)return"),'Unchanged hovered card must not rebuild preview');
+assert(animatedUI.includes("if(token!==previewLoad)return"),'Stale async artwork must never replace the current card');
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
