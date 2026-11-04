@@ -48,7 +48,7 @@ const path=require('node:path');
 const html=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 const ui=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(html.includes('src="v3/heist-practice.js?v=1"'),'Heist module must load in V3');
-assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=8"'),'Module must load before UI');
+assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=9"'),'Module must load before UI');
 assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
@@ -292,7 +292,7 @@ assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped 
 assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
 assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
-assert(handStyles.includes('v3/turn-practice-ui.js?v=8'),'Updated hover script must bypass browser cache');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=9'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
 assert(handStyles.includes('grid-template-rows:repeat(6,minmax(0,1fr))'),'All six battlefield rows must fit the viewport');
@@ -310,6 +310,9 @@ assert(handStyles.includes('body.battle-wide #battle .battle-toolbar .board-tour
 assert(handStyles.includes('body.battle-wide #battle .battle-toolbar #leaveBattleScreen'),'Only exit remains visible at top');
 assert(handStyles.includes('body.battle-wide #battle .table-preview'),'Tabletop occupies game viewport');
 assert(animatedUI.includes("if(selectedId)setActionTray(true)"),'Selecting a card opens its game action controls');
+assert(animatedUI.includes("deckSelect.addEventListener('change'"),'Deck selection must remain available in the action tray');
+assert(animatedUI.includes("tourButton.addEventListener('click'"),'Tour controls must remain available in the action tray');
+assert(handStyles.includes('.v3-room-setup'),'In-room setup controls must have compact styling');
 assert(!handStyles.includes('translateY(-53px) scale(1.17)'),'Excessive hand lift must not regress');
 
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
