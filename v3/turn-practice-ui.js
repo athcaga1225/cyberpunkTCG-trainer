@@ -612,6 +612,7 @@ function dealOnEntry(){
  if(!visible){entryDealt=false;cancelDeals();return}
  if(entryDealt||picker.value!=='theHeist')return;
  entryDealt=true;
+ if(picker.value==='theHeist'&&state.phase==='pregame')setActionTray(true);
  requestAnimationFrame(()=>{if(!battlePage.classList.contains('hide')&&picker.value==='theHeist')dealHand('all')});
 }
 if(battlePage&&typeof MutationObserver!=='undefined'){
