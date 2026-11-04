@@ -1052,23 +1052,24 @@ body.battle-wide #battle .tour-coach .tour-coach-tools .tour-close-x{
  #battleCardHover.hand-preview img{height:min(62vh,510px)}
 }
 
-/* V3 live hand: magnify the hovered card itself, never the hand layout.
-   Card hit testing uses untransformed offsetLeft slots in turn-practice-ui.js. */
+/* V3 live hand: no zoom animation. The raised card can overlay the
+   player's Fixer zone; original hand slot geometry stays unchanged. */
 @media(hover:hover) and (pointer:fine){
- #battle .player-hand:has(.is-hand-hover){z-index:25;overflow:visible}
+ #battle .table-preview{overflow:visible}
+ #battle .player-hand:has(.is-hand-hover){z-index:100;overflow:visible}
  #battle .player-hand .preview-card-rail{position:relative;overflow:visible}
+ #battle .player-hand .preview-card-rail .hand-card{
+  transition:none!important;
+ }
  #battle .player-hand .preview-card-rail .hand-card.is-hand-hover,
  #battle .player-hand .preview-card-rail .hand-card.is-hand-hover:hover:not(:disabled){
-  transform:translateY(-5px) scale(1.22)!important;
+  transform:translateY(-22px) scale(1.38)!important;
   transform-origin:bottom center;
-  z-index:50!important;
+  z-index:101!important;
   outline:2px solid #29ffff;
   box-shadow:0 14px 32px #000d,0 0 15px #29ffff5c;
-  transition:transform .14s ease-out,box-shadow .14s ease-out;
+  transition:none!important;
  }
-}
-@media(prefers-reduced-motion:reduce){
- #battle .player-hand .preview-card-rail .hand-card.is-hand-hover{transition:none!important}
 }
 /* Battle action menu: text-only cyan commands separated by vertical bars. */
 body.battle-wide #battle .battle-toolbar .board-tour-controls{
