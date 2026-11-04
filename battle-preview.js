@@ -55,6 +55,7 @@ function positionHover(anchor){
  hoverBox.style.top=Math.round(top)+'px';
 }
 function showHover(anchor,k,name,image){
+ if(anchor?.closest('.player-hand')?.querySelector('[data-v3-hover-owned="true"]')){hideHover();return;}
  if(!hoverBox||!image?.url||!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
  cancelHoverLeave();
  if(hoverTarget===anchor&&!hoverBox.hidden)return;
@@ -78,6 +79,7 @@ function showHover(anchor,k,name,image){
  requestAnimationFrame(()=>{if(token===hoverToken)positionHover(anchor)});
 }
 function scheduleHandHoverLeave(rail){
+ if(rail?.dataset.v3HoverOwned==='true'){hideHover();return;}
  cancelHoverLeave();
  hoverLeaveTimer=setTimeout(()=>{
   hoverLeaveTimer=null;
