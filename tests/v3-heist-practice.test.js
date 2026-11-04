@@ -277,7 +277,7 @@ assert(animatedUI.includes("const slotLeft=railRect.left+el.offsetLeft"),'Floati
 assert(animatedUI.includes("let left=slotRight+gap"),'Preview should appear to the right of hovered card');
 assert(animatedUI.includes("if(left+w>innerWidth-pad)left=slotLeft-w-gap"),'Preview should move left when no room');
 assert(animatedUI.includes("const slotBottom=slotTop+el.offsetHeight"),'Preview should align with the original hand slot');
-assert(animatedUI.includes("max-height:min(56vh,360px)"),'Details popup remains compact');
+assert(animatedUI.includes("max-height:min(52vh,300px)"),'Details popup remains compact');
 assert(animatedUI.includes("hoverImageCache.get(image)"),'Repeated hover imagery is cached');
 assert(animatedUI.includes("pointer-events:none"),'Preview must never capture the pointer');
 assert(animatedUI.includes("if(previewId===card.id&&!hover.hidden)return"),'Unchanged hovered card must not rebuild preview');
