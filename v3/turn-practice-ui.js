@@ -82,6 +82,90 @@ document.querySelectorAll('#starterDeckGallery [data-card-name][data-deck-image]
  const name=el.getAttribute('data-card-name'),src=el.getAttribute('data-deck-image');
  if(name&&src&&!art.has(name))art.set(name,src);
 });
+// One immutable overlay for the REAL V3 hand. The old deck-preview hover
+// is disabled while this rail is owned by V3, preventing two competing popups.
+const hover=document.createElement('div');
+hover.id='v3HandPreview';hover.hidden=true;hover.setAttribute('aria-hidden','true');
+hover.style.cssText='position:fixed;z-index:9999;pointer-events:none;display:none;box-sizing:border-box;align-items:flex-start;gap:16px;max-width:calc(100vw - 32px);padding:12px;background:#071015f8;border:1px solid #567c85;border-radius:8px;box-shadow:0 16px 44px #000d;color:#e9eff0;';
+const hoverArt=document.createElement('img');
+hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(340px,34vw);max-height:calc(100vh - 48px);aspect-ratio:5/7;object-fit:contain;background:#101820;flex:none;';
+const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(220px,20vw);max-height:calc(100vh - 48px);overflow:hidden;font-size:14px;line-height:1.65;';
+hover.append(hoverArt,hoverInfo);document.body.append(hover);
+let previewId=null,leaveTimer=null,previewLoad=0;
+function hideHandHover(){
+ if(leaveTimer!==null){clearTimeout(leaveTimer);leaveTimer=null;}
+ previewId=null;previewLoad++;
+ hover.hidden=true;hover.style.display='none';hover.setAttribute('aria-hidden','true');
+}
+function positionHandHover(){
+ if(hover.hidden)return;
+ const rail=board.querySelector('.player-hand .hand-placeholder');
+ if(!rail)return;
+ const r=rail.getBoundingClientRect(),w=hover.offsetWidth,h=hover.offsetHeight,pad=16;
+ const mid=(window.innerWidth-w)/2;
+ // Keep the full preview over the tabletop, never overlapping the hand strip.
+ const left=Math.max(pad,Math.min(window.innerWidth-w-pad,mid));
+ const above=r.top-h-18;
+ const top=above>=pad?above:Math.max(pad,Math.min(window.innerHeight-h-pad,r.top-h*.62));
+ hover.style.left=Math.round(left)+'px';hover.style.top=Math.round(top)+'px';
+}
+function showHandHover(card){
+ if(!card||!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
+ if(leaveTimer!==null){clearTimeout(leaveTimer);leaveTimer=null;}
+ if(previewId===card.id&&!hover.hidden)return;
+ const token=++previewLoad;
+ previewId=card.id;
+ const name=card.name;
+ const image=art.get(name);
+ hoverInfo.replaceChildren();
+ const h=document.createElement('strong');h.textContent=name;h.style.cssText='display:block;font-size:17px;color:#29ffff;margin-bottom:12px;';hoverInfo.append(h);
+ const detail=document.createElement('p');
+ detail.textContent=card.type+' · COST '+card.cost+(card.sellTag?' · SELL TAG':'');
+ detail.style.margin='0 0 14px';hoverInfo.append(detail);
+ const note=document.createElement('p');
+ note.textContent=card.unimplementedEffect?'此卡能力尚未支援，無法打出。':card.deferredEffect?'可執行基本出牌；攻擊、反應等觸發效果仍待實作。':'已支援目前練習中的基本操作。';
+ note.style.cssText='margin:0;color:#b4c9ce';hoverInfo.append(note);
+ if(!image){
+  hoverArt.removeAttribute('src');hoverArt.alt='此卡暫無圖片';hoverArt.style.visibility='hidden';
+ }else{
+  // Keep the last image until the next one has decoded; never blank the popup.
+  const update=()=>{if(token!==previewLoad)return;hoverArt.src=image;hoverArt.alt=name+' 卡面';hoverArt.style.visibility='visible';positionHandHover()};
+  const ready=new Image();
+  ready.onload=update;
+  ready.onerror=()=>{if(token===previewLoad){hoverArt.removeAttribute('src');hoverArt.style.visibility='hidden'}};
+  ready.src=image;
+  if(ready.complete&&ready.naturalWidth)update();
+ }
+ hover.hidden=false;hover.style.display='flex';hover.setAttribute('aria-hidden','false');
+ positionHandHover();
+}
+function bindLiveHandHover(){
+ const rail=board.querySelector('.player-hand .hand-placeholder');if(!rail)return;
+ rail.dataset.v3HoverOwned='true';
+ if(rail.dataset.v3HoverBound==='true')return;
+ rail.dataset.v3HoverBound='true';
+ const update=e=>{
+  if(e.pointerType!=='mouse'&&e.pointerType!=='pen')return;
+  const nodes=[...rail.querySelectorAll('.hand-card')];
+  if(!nodes.length)return;
+  const rect=rail.getBoundingClientRect();
+  if(e.clientY<rect.top||e.clientY>rect.bottom)return;
+  // The visible slot starts, not overlapping DOM targets, determine the card.
+  let index=0;
+  for(let i=1;i<nodes.length;i++)if(e.clientX>=nodes[i].getBoundingClientRect().left)index=i;
+  const id=nodes[index].dataset.cardId;
+  const card=state.player.hand.find(x=>x.id===id);
+  if(card)showHandHover(card);
+ };
+ rail.addEventListener('pointerenter',update);
+ rail.addEventListener('pointermove',update);
+ rail.addEventListener('pointerleave',()=>{
+  if(leaveTimer!==null)clearTimeout(leaveTimer);
+  leaveTimer=setTimeout(()=>{leaveTimer=null;if(!rail.matches(':hover'))hideHandHover()},85);
+ });
+}
+window.addEventListener('scroll',hideHandHover,{passive:true});
+window.addEventListener('resize',()=>{hideHandHover()});
 const phase=()=>state.finished?'已結束':state.turn==='ai'?'對手回合（暫停）':state.phase==='main'?'主要階段':'準備階段：'+({ready:'重置',draw:'抽牌',roll:'擲骰'}[state.step]||state.step);
 const add=(tag,txt,parent,cls)=>{const el=document.createElement(tag);el.textContent=txt||'';if(cls)el.className=cls;parent.append(el);return el};
 function command(label,fn,parent,disabled=false){
@@ -180,12 +264,14 @@ function gigAdjustmentOptions(){
  return {gigId,side:gigSide,delta:gigDelta};
 }
 function render(){
+ hideHandHover();
  const sequence=++renderSequence;
  cancelDeals();
  const deal=pendingDeal;pendingDeal=null;
  const supported=picker.value==='theHeist';
  root.replaceChildren();
  if(!supported){
+  const liveRail=board.querySelector('.player-hand .hand-placeholder');if(liveRail)liveRail.dataset.v3HoverOwned='false';
   board.querySelectorAll('[data-practice-indicator]').forEach(el=>el.remove());
   const slots=board.querySelector('.player-field .field-slots');
   if(slots){slots.replaceChildren();['己方角色','己方角色','裝備'].forEach(label=>add('div',label,slots))}
@@ -194,7 +280,7 @@ function render(){
   return;
  }
  const p=state.player;
- renderHand();renderField();renderRivalField();
+ renderHand();bindLiveHandHover();renderField();renderRivalField();
  if(deal)requestAnimationFrame(()=>{if(sequence===renderSequence&&picker.value==='theHeist'&&!$('battle')?.classList.contains('hide'))dealHand(deal)});
  const scenarios=add('div','',root,'v3-turn-actions');
  for(const [mode,label] of [['basic','基礎出牌手牌'],['quick','效果與 Quick 手牌']]){
