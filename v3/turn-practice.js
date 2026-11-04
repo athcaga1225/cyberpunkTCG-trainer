@@ -15,6 +15,29 @@
    player:{hand:[sale(),unit()],deck:addCard(sale,14),eddies:[{id:'opening-eddie',ready:true}],legends:[{id:'legend-1',ready:false,faceUp:false},{id:'legend-2',ready:false,faceUp:false},{id:'legend-3',ready:true,faceUp:false}],units:[],gigs:[],fixer:[...sides],soldThisTurn:false},
    ai:{hand:[],deck:[],eddies:[],legends:[],units:[],gigs:[],fixer:[],soldThisTurn:false}};
  }
+ // Rule 7.5: a randomized winner chooses whether to play first or second.
+ // The rival is scripted, so its initial turn is explicitly skipped when it goes first.
+ function rollForOrder(state,playerRoll,rivalRoll){
+  if(state.phase!=='pregame'||state.opening?.resolved)return fail('先後攻已決定');
+  if(!Number.isInteger(playerRoll)||playerRoll<1||playerRoll>20||
+     !Number.isInteger(rivalRoll)||rivalRoll<1||rivalRoll>20)return fail('d20 點數必須為 1 到 20');
+  const s=copy(state);
+  if(playerRoll===rivalRoll)return ok(s,'雙方 d20 同點，請重新擲骰');
+  s.opening={resolved:false,playerRoll,rivalRoll,winner:playerRoll>rivalRoll?'player':'ai'};
+  return ok(s,'先後攻擲骰：我方 '+playerRoll+'、對手 '+rivalRoll+'；'+(s.opening.winner==='player'?'由我方選先後攻。':'由腳本對手決定先後攻。'));
+ }
+ function chooseOrder(state,firstPlayer){
+  if(state.phase!=='pregame'||state.opening?.resolved||!state.opening?.winner)return fail('請先擲骰決定選擇權');
+  if(firstPlayer!=='player'&&firstPlayer!=='ai')return fail('先攻選擇無效');
+  // No opponent decision engine exists: the scripted defender always picks first.
+  if(state.opening.winner==='ai'&&firstPlayer!=='ai')return fail('本練習的腳本對手取得選擇權後固定選擇先攻');
+  const s=copy(state);
+  s.opening.resolved=true;s.opening.first=firstPlayer;
+  s.opening.scriptedOpponentTurnSkipped=firstPlayer==='ai';
+  s.turn='player';s.phase='start';s.step='ready';s.round=1;
+  for(const [index,legend] of s.player.legends.entries())legend.ready=firstPlayer!=='player'||index>=2;
+  return ok(s,firstPlayer==='player'?'我方先攻：左側兩張傳奇卡已使用，第一回合不能重置。':'腳本對手先攻：目前沒有 AI 回合，已明確略過對手第一回合；我方後攻，三張傳奇卡保持就緒。');
+ }
  function ready(state){
   if(state.turn!=='player'||state.phase!=='start'||state.step!=='ready')return fail('目前不是重置階段');
   const s=copy(state),p=s.player;
@@ -108,5 +131,5 @@
   const r=actions.resolveTrainingReaction(state,'player',attackerId,attack,reaction);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
- return {fresh,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,pass,next};
+ return {fresh,rollForOrder,chooseOrder,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,pass,next};
 });
