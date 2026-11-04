@@ -3507,6 +3507,45 @@ body.battle-wide #battle #v3OpeningSetup .btn{
  min-height:42px;
  text-align:center;
 }
+
+/* Pre-match controls are grouped in one readable panel, not the live-action tray. */
+body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail{
+ display:flex;
+ flex-direction:column;
+ align-items:stretch;
+ gap:12px;
+}
+body.battle-wide #battle #v3OpeningSetup label{
+ display:flex;
+ flex-direction:column;
+ gap:6px;
+ color:#dcecf0;
+ font-size:13px;
+}
+body.battle-wide #battle #v3OpeningSetup select{
+ box-sizing:border-box;
+ width:100%;
+ min-height:39px;
+ padding:7px 10px;
+ background:#0b1a21;
+ border:1px solid #4c7884;
+ color:#ecf6f7;
+ border-radius:3px;
+ font:inherit;
+}
+body.battle-wide #battle #v3OpeningSetup .v3-opening-hand-list{
+ margin:0;
+ padding:10px 12px;
+ background:#091820;
+ border-left:2px solid #29ffff;
+ color:#e4eeee;
+ font-size:13px;
+ line-height:1.8;
+}
+body.battle-wide #battle #v3OpeningSetup p{
+ margin:0;
+ line-height:1.55;
+}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
