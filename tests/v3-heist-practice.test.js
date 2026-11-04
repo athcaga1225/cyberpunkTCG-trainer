@@ -48,7 +48,7 @@ const path=require('node:path');
 const html=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 const ui=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(html.includes('src="v3/heist-practice.js?v=1"'),'Heist module must load in V3');
-assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=14"'),'Module must load before UI');
+assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=15"'),'Module must load before UI');
 assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
@@ -226,7 +226,7 @@ const quickNext=P.next(quickResult.state);assert(quickNext.ok);
 assert.equal(quickNext.state.ai.units[0].ready,true,'Training rival is reset for repeatable turns');
 const practiceUI=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(practiceUI.includes('renderRivalField()'),'Rival training target must render');
-assert(practiceUI.includes("H.fresh(scenario,{preGame:true})"),'Practice hand scenarios must be wired');
+assert(practiceUI.includes("H.fresh(scenario,{preGame:true,defense:defensePreset})"),'Practice hand scenarios must be wired');
 /* Reboot Optics may be played in the open Main Phase; effect is pending until combat exists. */
 assert.equal(H.byName.get('Reboot Optics').unimplementedEffect,false);
 let protect=H.fresh('quick');protect.turn='player';protect.phase='main';
@@ -292,7 +292,7 @@ assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped 
 assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
 assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
-assert(handStyles.includes('v3/turn-practice-ui.js?v=14'),'Updated hover script must bypass browser cache');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=15'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
 assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
@@ -301,9 +301,9 @@ assert(handStyles.includes('minmax(155px,.78fr)'),'Unused room sidebar width mus
 assert(handStyles.includes('.opponent-legends .cardbacks .preview-art-card'),'Legend cards must fill their larger row');
 assert(handStyles.includes('.player-hand .preview-card-rail{width:100%;height:calc(100% - 2px)'),'Hand rail must use the available row height');
 assert(handStyles.includes('body.battle-wide>header,body.battle-wide>footer{display:none!important}'),'Site chrome must be hidden in fullscreen play');
-assert(handStyles.includes('body.battle-wide #battle #v3TurnPractice.is-open{display:block}'),'Gameplay actions remain accessible in an overlay');
+assert(handStyles.includes('body.battle-wide #battle #v3TableControls'),'Gameplay actions must be integrated with tabletop');
 assert(handStyles.includes('id="toggleV3BattleActions"'),'The phase control must exist');
-assert(animatedUI.includes("phaseZone.append(toggleActions)"),'Actions toggle must relocate to PHASE inside the board');
+assert(animatedUI.includes('board.append(tableControls)'),'Actions must be hosted on the table');
 assert(handStyles.includes('id="leaveBattleScreen"'),'Fullscreen mode must retain exit navigation');
 assert(animatedUI.includes("toggleActions?.addEventListener('click'"),'Overlay toggle must be wired');
 assert(animatedUI.includes("root.classList.toggle('is-open',open)"),'Overlay must open and close without destroying game state');
@@ -317,6 +317,10 @@ assert(animatedUI.includes("renderTableControls()"),'Selecting a card updates ta
 assert(animatedUI.includes("deckSelect.addEventListener('change'"),'Deck selection must remain available in the action tray');
 assert(!animatedUI.includes("tourButton.addEventListener('click'"),'The tour must not occupy live turn controls');
 assert(animatedUI.includes("const handSelect=document.createElement('select')"),'Starting hand must be selected before the match');
+assert(animatedUI.includes("defensePreset='none'"),'Scripted rival reactions must be chosen before the match');
+assert(animatedUI.includes("defenderLabel=add('label','腳本對手反應"),'React practice settings belong in pregame');
+assert(handStyles.includes('body.battle-wide #battle #toggleV3BattleActions,'),
+ 'The long diagnostic tray toggle must be hidden in real tabletop mode');
 assert(!handStyles.includes('translateY(-53px) scale(1.17)'),'Excessive hand lift must not regress');
 
 
@@ -481,6 +485,6 @@ assert(animatedUI.includes("P.reactAttack(state,attackUnitId"),'Table attacks us
 assert(handStyles.includes('body.battle-wide #battle #v3TableControls'),'Table control strip requires a compact stylesheet');
 assert(animatedUI.includes("setActionTray(false)"),'Hand selection must not open the full-height test tray');
 assert(handStyles.includes('body.battle-wide #battle #v3OpeningSetup'),'Standalone opening dialog must have its own layout');
-assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=14'),
+assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=15'),
   'Tour click handlers must initialize before practice controls');
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
