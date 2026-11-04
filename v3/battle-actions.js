@@ -182,5 +182,27 @@
   q.trash.push(card);
   return success(next,[...paid.events,"結算 "+card.name+"（委託骰 "+(delta>=0?"+":"")+delta+"）"+(distinct.size>=2?"，抽 1 張牌":""),"程式移至棄牌區"]);
  }
- return {sell,pay,playUnit,playGear,playProgram,unitStats};
+ function fightSpentUnit(state,who,attackerId,defenderId){
+  const p=player(state,who),rivalSide=who==='player'?'ai':'player',rival=player(state,rivalSide);
+  if(!p||!rival)return fail('對戰資料不完整');
+  if(state.finished||state.turn!==who||state.phase!=='main')return fail('只能在自己的主要階段攻擊');
+  const attacker=p.units.find(u=>u.id===attackerId),defender=rival.units.find(u=>u.id===defenderId);
+  if(!attacker||!defender)return fail('找不到攻擊或防守單位');
+  if(attacker.ready!==true||attacker.lag===true)return fail('攻擊單位必須就緒，且沒有 Lag');
+  if(defender.ready!==false)return fail('只能直接攻擊已使用的對手單位');
+  // This bounded trainer deliberately rejects unresolved attack/defeat abilities.
+  if(attacker.deferredEffect||defender.deferredEffect||attacker.unimplementedEffect||defender.unimplementedEffect)
+   return fail('此單位涉及尚未驗證的攻擊或擊敗能力，暫不結算');
+  if(p.pendingRebootOptics||rival.pendingRebootOptics)return fail('Quick 戰鬥保護尚未實作，不能跳過結算');
+  const s=clone(state),a=s[who].units.find(u=>u.id===attackerId),d=s[rivalSide].units.find(u=>u.id===defenderId);
+  const attackPower=unitStats(a).power,defendPower=unitStats(d).power;
+  a.ready=false;
+  if(!Array.isArray(s[who].trash))s[who].trash=[];
+  if(!Array.isArray(s[rivalSide].trash))s[rivalSide].trash=[];
+  const defeated=[];
+  if(attackPower<=defendPower){s[who].units=s[who].units.filter(u=>u.id!==a.id);s[who].trash.push(a,...(a.gear||[]));defeated.push(a.name)}
+  if(defendPower<=attackPower){s[rivalSide].units=s[rivalSide].units.filter(u=>u.id!==d.id);s[rivalSide].trash.push(d,...(d.gear||[]));defeated.push(d.name)}
+  return success(s,['單位交戰：'+a.name+' '+attackPower+' PWR vs '+d.name+' '+defendPower+' PWR','擊敗：'+defeated.join('、')]);
+ }
+ return {sell,pay,playUnit,playGear,playProgram,unitStats,fightSpentUnit};
 });
