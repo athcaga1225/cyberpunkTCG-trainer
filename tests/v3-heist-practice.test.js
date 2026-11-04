@@ -407,4 +407,30 @@ assert(!handStyles.includes('translateY(-53px) scale(1.17)'),'Excessive hand lif
  assert.equal(noDefeat.state.ai.units.length,2,'Power zero cannot defeat the opposing unit');
  assert.equal(noDefeat.state.player.units.length,1,'Zero-power Blocker cannot defeat attacker');
 }
+
+// The scripted defending player resolves Floor It before blocker / combat.
+// This covers a fixed teaching scenario, not arbitrary Quick cards or AI turns.
+{
+ let r=P.ready(H.fresh());assert(r.ok);r=P.draw(r.state);assert(r.ok);r=P.roll(r.state,4,2);assert(r.ok);
+ const start=r.state;
+ start.player.units.push({id:'quick-attacker',name:'Training attacker',type:'Unit',power:10,ready:true,lag:false,gear:[]});
+ const setup=P.addTrainingQuick(start);assert(setup.ok,'Scripted defender Quick can be configured');
+ const state=setup.state;
+ assert.equal(state.ai.eddies.length,3,'Quick scenario provisions exactly 3 defender resources');
+ assert.equal(P.reactAttack(state,'quick-attacker',{kind:'gig',gigIds:['training-gig-d4']},{kind:'pass'}).ok,false,'Defending Quick choice must be explicit');
+ let acted=P.reactAttack(state,'quick-attacker',{kind:'gig',gigIds:['training-gig-d4']},{kind:'pass',quick:true});
+ assert(acted.ok,'Floor It resolves before normal Gig steal');
+ assert.equal(acted.state.ai.gigs.length,2,'Power 10 reduced to 9 steals one Gig');
+ assert.equal(acted.state.ai.eddies.filter(e=>e.ready).length,0,'Quick payment spends exactly 3 Eddies');
+ assert.equal(acted.state.ai.deck.length,0,'Floor It draws exactly one card');
+ assert.equal(acted.state.ai.trash[0].name,'Floor It','Played Quick moves to trash');
+ assert.equal(acted.state.player.units[0].tempPowerModifier,-1,'Floor It lowers active attacker power');
+ assert.equal(state.ai.hand.length,1,'Original defender state remains untouched');
+ assert.equal(P.reactAttack(state,'quick-attacker',{kind:'gig',gigIds:['training-gig-d4','training-gig-d6']},{kind:'pass',quick:true}).ok,false,'Gig picks revalidate after power reduction');
+ const blocker=P.addTrainingBlocker(state);assert(blocker.ok);
+ acted=P.reactAttack(blocker.state,'quick-attacker',{kind:'gig',gigIds:['training-gig-d4']},{kind:'block',blockerId:'training-blocker-bombus',quick:true});
+ assert(acted.ok,'Quick may resolve before the defender uses Blocker');
+ assert.equal(acted.state.ai.gigs.length,3,'Redirected Quick attack does not steal Gigs');
+ assert.equal(acted.state.ai.trash.some(c=>c.name==='Floor It'),true,'Quick card remains in trash after Blocker');
+}
 console.log('PASS V3 The Heist: 40 actual cards, hand selection data, sell tags, exact multi-source payment, unit deployment and unsupported ability safety.');
