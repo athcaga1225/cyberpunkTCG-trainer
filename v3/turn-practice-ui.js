@@ -96,6 +96,7 @@ const hoverImageCache=new Map();
 function hideHandHover(){
  if(leaveTimer!==null){clearTimeout(leaveTimer);leaveTimer=null;}
  if(hoverPending!==null){clearTimeout(hoverPending);hoverPending=null;hoverPendingId=null;}
+ handPointerInside=false;
  previewId=null;previewLoad++;
  hover.hidden=true;hover.style.display='none';hover.setAttribute('aria-hidden','true');
 }
@@ -118,85 +119,97 @@ function positionHandHover(anchor){
  hover.style.left=Math.round(left)+'px';
  hover.style.top=Math.round(top)+'px';
 }
+// A single document-level pointer tracker controls the live-hand preview.
+// This avoids rail enter/leave events firing while stacked card elements change.
+let lastPointerX=-1,lastPointerY=-1,handPointerInside=false;
+function liveHandAt(x,y){
+ const rail=board.querySelector('.player-hand .hand-placeholder');
+ if(!rail||picker.value!=='theHeist'||board.closest('.hide'))return null;
+ const r=rail.getBoundingClientRect();
+ // A small exit tolerance prevents one-pixel gaps in the overlapping hand.
+ if(x<r.left-3||x>r.right+3||y<r.top-4||y>r.bottom+4)return null;
+ const nodes=[...rail.querySelectorAll('.hand-card')];
+ if(!nodes.length)return null;
+ let index=0;
+ for(let n=1;n<nodes.length;n++){
+  if(x>=nodes[n].getBoundingClientRect().left+4)index=n;
+ }
+ return state.player.hand.find(c=>c.id===nodes[index].dataset.cardId)||null;
+}
 function scheduleHandHover(card){
  if(!card)return;
- if(previewId===card.id&&!hover.hidden)return;
+ if(leaveTimer!==null){clearTimeout(leaveTimer);leaveTimer=null;}
+ if(previewId===card.id&&!hover.hidden){
+  if(hoverPending!==null){clearTimeout(hoverPending);hoverPending=null;hoverPendingId=null;}
+  return;
+ }
  if(hoverPendingId===card.id)return;
  if(hoverPending!==null)clearTimeout(hoverPending);
  hoverPendingId=card.id;
  hoverPending=setTimeout(()=>{
   hoverPending=null;hoverPendingId=null;
-  const rail=board.querySelector('.player-hand .hand-placeholder');
-  if(!rail?.matches(':hover')||picker.value!=='theHeist')return;
+  // Recheck the current pointer rather than :hover on any replaced DOM node.
+  const now=liveHandAt(lastPointerX,lastPointerY);
+  if(now?.id!==card.id)return;
   showHandHover(card);
- },65);
+ },70);
 }
 function showHandHover(card){
  if(!card||!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
- if(leaveTimer!==null){clearTimeout(leaveTimer);leaveTimer=null;}
  if(previewId===card.id&&!hover.hidden)return;
  const token=++previewLoad;
  previewId=card.id;
- const name=card.name;
- const image=art.get(name);
+ const name=card.name,image=art.get(name);
  hoverInfo.replaceChildren();
- const h=document.createElement('strong');h.textContent=name;h.style.cssText='display:block;font-size:17px;color:#29ffff;margin-bottom:12px;';hoverInfo.append(h);
+ const heading=document.createElement('strong');
+ heading.textContent=name;heading.style.cssText='display:block;font-size:17px;color:#29ffff;margin-bottom:12px;';
+ hoverInfo.append(heading);
  const detail=document.createElement('p');
  detail.textContent=card.type+' · COST '+card.cost+(card.sellTag?' · SELL TAG':'');
  detail.style.margin='0 0 14px';hoverInfo.append(detail);
  const note=document.createElement('p');
  note.textContent=card.unimplementedEffect?'此卡能力尚未支援，無法打出。':card.deferredEffect?'可執行基本出牌；攻擊、反應等觸發效果仍待實作。':'已支援目前練習中的基本操作。';
  note.style.cssText='margin:0;color:#b4c9ce';hoverInfo.append(note);
- if(!image){
-  hoverArt.removeAttribute('src');hoverArt.alt='此卡暫無圖片';hoverArt.style.visibility='hidden';
- }else{
-  // Cache the decoded image: moving between neighboring cards never clears the overlay.
-  let loaded=hoverImageCache.get(image);
-  if(!loaded){
-   loaded=new Promise(resolve=>{
-    const pic=new Image();pic.onload=()=>resolve(true);pic.onerror=()=>resolve(false);pic.src=image;
-   });
-   hoverImageCache.set(image,loaded);
+ if(image){
+  let cached=hoverImageCache.get(image);
+  if(!cached){
+   cached=new Promise(resolve=>{const pic=new Image();pic.onload=()=>resolve(true);pic.onerror=()=>resolve(false);pic.src=image;});
+   hoverImageCache.set(image,cached);
   }
-  loaded.then(ok=>{
+  cached.then(ok=>{
    if(token!==previewLoad)return;
    if(ok){if(hoverArt.getAttribute('src')!==image)hoverArt.src=image;hoverArt.alt=name+' 卡面';hoverArt.style.visibility='visible';}
    else{hoverArt.removeAttribute('src');hoverArt.style.visibility='hidden';}
    positionHandHover();
   });
+ }else{
+  hoverArt.removeAttribute('src');hoverArt.alt='此卡暫無圖片';hoverArt.style.visibility='hidden';
  }
  hover.hidden=false;hover.style.display='flex';hover.setAttribute('aria-hidden','false');
  positionHandHover();
 }
 function bindLiveHandHover(){
- const rail=board.querySelector('.player-hand .hand-placeholder');if(!rail)return;
- rail.dataset.v3HoverOwned='true';
- if(rail.dataset.v3HoverBound==='true')return;
- rail.dataset.v3HoverBound='true';
- const update=e=>{
-  if(picker.value!=='theHeist'||board.closest('.hide')){hideHandHover();return;}
-  if(e.pointerType!=='mouse'&&e.pointerType!=='pen')return;
-  const nodes=[...rail.querySelectorAll('.hand-card')];
-  if(!nodes.length)return;
-  const rect=rail.getBoundingClientRect();
-  if(e.clientY<rect.top||e.clientY>rect.bottom)return;
-  // The visible slot starts, not overlapping DOM targets, determine the card.
-  let index=0;
-  for(let i=1;i<nodes.length;i++){
-   const left=nodes[i].getBoundingClientRect().left;
-   if(e.clientX>=left+5)index=i;
-  }
-  const id=nodes[index].dataset.cardId;
-  const card=state.player.hand.find(x=>x.id===id);
-  if(card)scheduleHandHover(card);
- };
- rail.addEventListener('pointerenter',update);
- rail.addEventListener('pointermove',update);
- rail.addEventListener('pointerleave',()=>{
-  if(leaveTimer!==null)clearTimeout(leaveTimer);
-  leaveTimer=setTimeout(()=>{leaveTimer=null;if(!rail.matches(':hover'))hideHandHover()},160);
- });
+ const rail=board.querySelector('.player-hand .hand-placeholder');
+ if(rail)rail.dataset.v3HoverOwned='true';
 }
+// Bind only once on document: rebuilt hand cards never own hover listeners.
+document.addEventListener('pointermove',event=>{
+ if(event.pointerType!=='mouse'&&event.pointerType!=='pen')return;
+ lastPointerX=event.clientX;lastPointerY=event.clientY;
+ const current=liveHandAt(lastPointerX,lastPointerY);
+ if(current){
+  handPointerInside=true;
+  scheduleHandHover(current);
+ }else if(handPointerInside){
+  handPointerInside=false;
+  if(hoverPending!==null){clearTimeout(hoverPending);hoverPending=null;hoverPendingId=null;}
+  if(leaveTimer!==null)clearTimeout(leaveTimer);
+  leaveTimer=setTimeout(()=>{
+   leaveTimer=null;
+   if(!liveHandAt(lastPointerX,lastPointerY))hideHandHover();
+  },170);
+ }
+},{passive:true});
 window.addEventListener('scroll',hideHandHover,{passive:true});
 window.addEventListener('resize',()=>{hideHandHover()});
 const phase=()=>state.finished?'已結束':state.turn==='ai'?'對手回合（暫停）':state.phase==='main'?'主要階段':'準備階段：'+({ready:'重置',draw:'抽牌',roll:'擲骰'}[state.step]||state.step);
