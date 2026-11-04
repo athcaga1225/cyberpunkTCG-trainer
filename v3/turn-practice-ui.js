@@ -433,9 +433,49 @@ function renderTableControls(){
    if(card.unimplementedEffect)add('span','這張卡的效果尚未完成',tableControls,'v3-table-hint');
    else if(card.type==='Unit'){
     const pay=readyPayments(card.cost);
-    if(card.onPlayGigAdjust||card.onPlayDefeatGear||card.onPlaySpendRival)
-     tableButton('指定效果與出牌',()=>({ok:false,reason:'這張卡需要指定效果目標；請使用進階測試操作。'}));
-    else tableButton('打出單位',()=>P.play(state,card.id,pay||[]),!pay);
+    const options={delta:0};
+    if(card.onPlayGigAdjust){
+     const gigSelect=document.createElement('select');gigSelect.setAttribute('aria-label','登場委託骰調整');
+     for(const [value,label] of [['','不調整委託骰'],...['player','ai'].flatMap(side=>
+      (state[side]?.gigs||[]).flatMap(g=>[-1,1].filter(delta=>g.value+delta>=1&&g.value+delta<=g.sides)
+       .map(delta=>[side+':'+g.id+':'+delta,(side==='player'?'我方':'對手')+' d'+g.sides+' '+(delta>0?'+1':'-1')])))]){
+      const opt=document.createElement('option');opt.value=value;opt.textContent=label;gigSelect.append(opt);
+     }
+     tableControls.append(gigSelect);
+     options.gigSelect=gigSelect;
+    }
+    if(card.onPlaySpendRival){
+     const targets=state.ai.units.filter(u=>u.ready===true);
+     if(targets.length){
+      const select=document.createElement('select');select.setAttribute('aria-label','登場橫置目標');
+      for(const unit of targets){const opt=document.createElement('option');opt.value=unit.id;opt.textContent='橫置：'+unit.name;select.append(opt)}
+      tableControls.append(select);options.rivalSelect=select;
+     }
+    }
+    if(card.onPlayDefeatGear){
+     const optionsGear=['player','ai'].flatMap(side=>(state[side]?.units||[]).flatMap(unit=>
+      (unit.gear||[]).map(gear=>({side,unit,gear}))));
+     if(optionsGear.length){
+      const select=document.createElement('select');select.setAttribute('aria-label','可選擇擊敗裝備');
+      for(const [value,label] of [['','不擊敗裝備'],...optionsGear.map(o=>[o.side+':'+o.gear.id,o.gear.name+' / '+o.unit.name])]){
+       const opt=document.createElement('option');opt.value=value;opt.textContent=label;select.append(opt);
+      }
+      tableControls.append(select);options.gearSelect=select;
+     }
+    }
+    tableButton('打出單位',()=>{
+     const opts={delta:0};
+     if(options.gigSelect?.value){
+      const [side,gigId,delta]=options.gigSelect.value.split(':');
+      Object.assign(opts,{side,gigId,delta:Number(delta)});
+     }
+     if(options.rivalSelect)opts.rivalUnitId=options.rivalSelect.value;
+     if(options.gearSelect?.value){
+      const [gearSide,gearTargetId]=options.gearSelect.value.split(':');
+      Object.assign(opts,{gearSide,gearTargetId});
+     }
+     return P.play(state,card.id,pay||[],opts);
+    },!pay);
    }else if(card.type==='Gear'){
     add('span','點選場上的友方單位指定裝備目標',tableControls,'v3-table-hint');
     for(const unit of p.units){const pay=readyPayments(card.cost);
@@ -447,7 +487,18 @@ function renderTableControls(){
      const rival=state.ai.units[0];
      tableButton('使用 Floor It'+(rival?' → '+rival.name:''),()=>P.program(state,card.id,pay||[],{rivalUnitId:rival?.id}),!pay);
     }else if(card.name==='Reboot Optics')tableButton('使用 Reboot Optics',()=>P.program(state,card.id,pay||[],{}),!pay);
-    else add('span','需指定委託骰效果，使用進階測試',tableControls,'v3-table-hint');
+    else if(card.name==="Afterparty at Lizzie's"){
+     const sel=document.createElement('select');sel.setAttribute('aria-label','調整委託骰目標');
+     const options=[['','不調整委託骰'],...['player','ai'].flatMap(side=>(state[side]?.gigs||[]).flatMap(g=>
+      [-1,1].filter(delta=>g.value+delta>=1&&g.value+delta<=g.sides)
+       .map(delta=>[side+':'+g.id+':'+delta,(side==='player'?'我方':'對手')+' d'+g.sides+' '+(delta>0?'+1':'-1')])) )];
+     for(const [value,label] of options){const opt=document.createElement('option');opt.value=value;opt.textContent=label;sel.append(opt)}
+     tableControls.append(sel);
+     tableButton('使用 Afterparty',()=>{
+      const [side,gigId,delta]=sel.value?sel.value.split(':'):['player',null,0];
+      return P.program(state,card.id,pay||[],{side,gigId,delta:Number(delta)});
+     },!pay);
+    }else add('span','尚未支援的卡牌效果',tableControls,'v3-table-hint');
    }
    tableButton('取消選取',()=>{selectedId=null;return {ok:true,state,message:'已取消選取'}});
   }
