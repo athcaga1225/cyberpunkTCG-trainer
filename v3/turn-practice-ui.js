@@ -375,7 +375,7 @@ function render(){
  }
  const header=add('div','',root,'v3-turn-header');
  add('strong','THE HEIST / ROUND '+state.round,header);add('span',phase(),header);
- add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；可練習限定的已使用單位交戰；Quick、攔截及未完成觸發能力仍不會自動結算。',root,'v3-turn-note');
+ add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；可進行限定單位交戰、搶骰與腳本 Floor It／Blocker 反應；其他 Quick、完整反應時機及未完成觸發能力仍未支援。',root,'v3-turn-note');
  const stats=add('div','',root,'v3-turn-stats');
  add('span','手牌 '+p.hand.length+' 張',stats);
  add('span','Eddies '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length,stats);
@@ -454,7 +454,7 @@ function render(){
     const reaction=reactionPicker(exercise);
     command('攻擊已使用的對手單位',()=>P.reactAttack(state,attackSelect.value,{kind:'unit',defenderId:targetSelect.value},reaction()),exercise);
    }else if(exhausted.length)add('p','需有一張已解除 Lag、就緒且沒有待處理攻擊能力的己方單位。',exercise);
-   add('p','此練習可手動選擇 Blocker；未支援 Quick 與其他特殊觸發效果。',exercise);
+   add('p','此練習可依序使用腳本 Floor It 與 Blocker；其他 Quick 與特殊觸發效果仍未完成。',exercise);
   }
 
   const gigTargets=state.ai?.gigs||[];
