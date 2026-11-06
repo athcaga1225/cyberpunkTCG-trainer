@@ -7,7 +7,7 @@ const assert=require('node:assert/strict');
  try{
   const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
-  await page.goto((process.env.V3_TEST_URL||'http://127.0.0.1:8001/v3/')+'#battle');await page.getByRole('button',{name:'開始操作引導',exact:true}).click();
+  await page.goto((process.env.V3_TEST_URL||'http://127.0.0.1:8001/v3/')+'#battle');
   await page.evaluate(()=>{const rolls=[.95,.1];Math.random=()=>rolls.length?rolls.shift():.5});
   const dice=page.locator('#v3DiceAnimation'),controls=page.locator('#v3TableControls');
   await page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true}).click();
@@ -33,7 +33,7 @@ const assert=require('node:assert/strict');
   assert.match(await controls.innerText(),/鏡像對手完成回合/);
   console.log('PASS still dice, immediate committed results and automatic mirror roll');
   // Tie rolls also animate and leave the opening unresolved.
-  await page.reload();await page.getByRole('button',{name:'開始操作引導',exact:true}).click();await page.evaluate(()=>Math.random=()=>.5);
+  await page.reload();await page.evaluate(()=>Math.random=()=>.5);
   await page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true}).click();
   await page.waitForTimeout(900);assert.deepEqual(await dice.locator('.v3-die b').allTextContents(),['11','11']);
   assert.equal(await page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true}).count(),1);
