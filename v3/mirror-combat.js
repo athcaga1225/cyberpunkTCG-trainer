@@ -97,7 +97,7 @@
   if(restriction(s))return null;
   for(const u of s[who].units.slice().sort((a,b)=>power(b)-power(a))){
    if(power(u)<=0)continue;
-   const legal=targets(s,who,u.id),weak=s[other(who)].units.find(d=>legal.units.includes(d.id)&&power(d)<power(u));
+   const legal=targets(s,who,u.id),weak=s[other(who)].units.find(d=>legal.units.includes(d.id)&&(power(d)<power(u)||(s[who].pendingRebootOptics>0&&power(d)===power(u))));
    if(weak)return {attackerId:u.id,target:{kind:'unit',defenderId:weak.id}};
    if(legal.gigs)return {attackerId:u.id,target:{kind:'gig'}};
   }
@@ -107,6 +107,13 @@
   const p=context(s);if(!p||p.defendingSide!=='ai')return fail('目前不是鏡像對手的防守時機');
   let current=s,events=[];
   const sources=cost=>[...current.ai.eddies.filter(c=>c.ready).map(c=>({kind:'eddie',id:c.id})),...current.ai.legends.filter(c=>c.ready&&(!c.faceUp||c.sellTag)).map(c=>({kind:'legend',id:c.id}))].slice(0,cost);
+  if(current.ai.practiceBot?.strategy==='active'&&!current.ai.calledThisTurn){
+   const l=current.ai.legends.find(l=>!l.faceUp),paid=l&&E.knownLegend(l)?A.pay(current,'ai',1,sources(1)):null;
+   if(paid?.ok){
+    E.reveal(paid.state,'ai',l.id,paid.events);current=paid.state;events.push('對手防守時呼叫傳奇',...paid.events);E.pump(current,events);
+    if(current.finished||E.pending(current))return ok(current,events);
+   }
+  }
   for(const c of quicks(current).filter(c=>c.name==='Floor It')){
    if(power(current.player.units.find(u=>u.id===p.attackerId))<=0)break;
    const r=react(current,'ai',{kind:'quick',cardId:c.id,sources:sources(c.cost)});if(r.ok){current=r.state;events.push(...r.events);}if(current.finished||E.pending(current))return ok(current,events);

@@ -48,7 +48,7 @@ const path=require('node:path');
 const html=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 const ui=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(html.includes('src="v3/heist-practice.js?v=6"'),'Heist module must load in V3');
-assert(html.indexOf('src="v3/heist-practice.js?v=6"')<html.indexOf('src="v3/turn-practice-ui.js?v=29"'),'Module must load before UI');
+assert(html.indexOf('src="v3/heist-practice.js?v=6"')<html.indexOf('src="v3/turn-practice-ui.js?v=30"'),'Module must load before UI');
 assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
@@ -269,7 +269,7 @@ assert(animatedUI.includes("hover.style.display='none'"),'Preview can be hidden 
 assert(animatedUI.includes("rail.dataset.v3HoverOwned='true'"),'Legacy hover is disabled for the live hand');
 assert(animatedUI.includes("document.addEventListener('pointermove',event=>"),'One document-level pointer tracker must be used');
 assert(!animatedUI.includes("rail.addEventListener('pointermove',update)"),'Legacy rail pointermove must not be duplicated in live mode');
-assert(animatedUI.includes("x>=r.left+nodes[n].offsetLeft+4"),'Card selection uses untransformed slot positions even when cards grow');
+assert(animatedUI.includes("document.elementFromPoint(x,y)"),'Hand selection follows the actually visible card under the pointer');
 assert(animatedUI.includes("liveHandAt(lastPointerX,lastPointerY)"),'Delayed hover validates the latest pointer coordinates');
 assert(animatedUI.includes("if(hoverPendingId===card.id)return"),'Repeated pointer moves must not restart debounce timer');
 assert(animatedUI.includes("},70)"),'Hover transition uses a bounded debounce');
@@ -292,7 +292,7 @@ assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped 
 assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
 assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
-assert(handStyles.includes('v3/turn-practice-ui.js?v=29'),'Updated hover script must bypass browser cache');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=30'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
 assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
@@ -485,7 +485,7 @@ assert(animatedUI.includes("P.reactAttack(state,attackUnitId"),'Table attacks us
 assert(handStyles.includes('body.battle-wide #battle #v3TableControls'),'Table control strip requires a compact stylesheet');
 assert(animatedUI.includes("setActionTray(false)"),'Hand selection must not open the full-height test tray');
 assert(handStyles.includes('body.battle-wide #battle #v3OpeningSetup'),'Standalone opening dialog must have its own layout');
-assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=29'),
+assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=30'),
   'Tour click handlers must initialize before practice controls');
 
 // Bounded mirror opponent turn: real cards and resource payments, no fake attacks.

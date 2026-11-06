@@ -206,9 +206,28 @@
   if(card.onPlayDefeatGear){const g=s.player.units.concat(s.player.legends.filter(l=>l.faceUp)).flatMap(u=>u.gear||[]).sort((a,b)=>(b.power||0)-(a.power||0))[0];if(g)Object.assign(opts,{gearSide:'player',gearTargetId:g.id});}
   return opts;
  }
+ function botProgramChoices(s){
+  const choices=[];
+  for(const card of s.ai.hand.filter(c=>c.type==='Program'&&!c.unimplementedEffect&&!c.deferredEffect&&botSources(s,c.cost).length===c.cost)){
+   if(card.name==='Floor It'&&s.ai.deck.length){
+    const targets=s.player.units.filter(u=>!u.deferredEffect&&!u.unimplementedEffect);if(!targets.length)continue;
+    const target=targets.sort((a,b)=>combat.power(b)-combat.power(a))[0];
+    choices.push({card,opts:{rivalUnitId:target.id},rank:4});
+   }else if(card.name==="Afterparty at Lizzie's"){
+    const opts={delta:0},own=s.ai.gigs.find(g=>g.value<g.sides),rival=s.player.gigs.find(g=>g.value>1);
+    if(own)Object.assign(opts,{side:'ai',gigId:own.id,delta:1});else if(rival)Object.assign(opts,{side:'player',gigId:rival.id,delta:-1});
+    const values=s.ai.gigs.map(g=>g.value+(opts.side==='ai'&&g.id===opts.gigId?opts.delta:0)),draw=new Set(values).size>=2;
+    if((!draw||s.ai.deck.length)&&(draw||opts.delta!==0))choices.push({card,opts,rank:draw?5:1});
+   }else if(card.name==='Reboot Optics'&&!s.ai.pendingRebootOptics){
+    const tie=s.ai.units.some(u=>{const legal=combat.targets(s,'ai',u.id);return combat.power(u)>0&&s.player.units.some(d=>legal.units.includes(d.id)&&combat.power(d)===combat.power(u));});
+    if(tie)choices.push({card,opts:{},rank:6});
+   }
+  }
+  return choices.sort((a,b)=>b.rank-a.rank);
+ }
  function advanceOpponentMain(state,notes){
   let s=state;
-  const steps=['call','solo','unit','gear','attack'];
+  const steps=['call','solo','unit','gear','program','attack'];
   while(!s.finished&&!effects.pending(s)&&s.opponentMainStep!=='attack'){
    const stage=s.opponentMainStep;s.opponentMainStep=steps[steps.indexOf(stage)+1]||'attack';
    let r=null;
@@ -232,6 +251,8 @@
      const cards=s.ai.hand.filter(c=>c.type==='Gear'&&!c.deferredEffect&&!c.unimplementedEffect&&!c.requiresTarget&&!c.playRestriction&&botSources(s,c.cost).length===c.cost).sort((a,b)=>rank(b)-rank(a));
      for(const c of cards){r=actions.playGear(s,'ai',c.id,botSources(s,c.cost),host.id);if(r.ok){effects.onPlay(r.state,'ai',c);break;}}
     }
+   }else if(stage==='program'){
+    for(const c of botProgramChoices(s)){r=actions.playProgram(s,'ai',c.card.id,botSources(s,c.card.cost),c.opts);if(r.ok){r.events.unshift('對手使用程式：'+c.card.name);break;}}
    }
    if(r?.ok){s=r.state;notes.push(...r.events);}
    if(!s.finished)s.opponentNotes=notes;

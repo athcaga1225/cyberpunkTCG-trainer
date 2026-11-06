@@ -24,7 +24,7 @@ let attackUnitId=null,modeOnTable=null;
 
 // The turn controls live inside the game board, not in a second website toolbar.
 const phaseZone=board.querySelector('.turn-info');
-board.append(tableControls);
+if(phaseZone)phaseZone.append(tableControls);else board.append(tableControls);
 const guideRoot=document.createElement('aside');guideRoot.id='v3TableGuide';guideRoot.className='v3-live-guide';guideRoot.hidden=true;
 guideRoot.setAttribute('aria-label','桌面操作引導');board.append(guideRoot);
 let guideAnchor=null;
@@ -198,15 +198,12 @@ function liveHandAt(x,y){
  const rail=board.querySelector('.player-hand .hand-placeholder');
  if(!rail||picker.value!=='theHeist'||board.closest('.hide'))return null;
  const r=rail.getBoundingClientRect();
- // A small exit tolerance prevents one-pixel gaps in the overlapping hand.
- if(x<r.left-3||x>r.right+3||y<r.top-4||y>r.bottom+4)return null;
- const nodes=[...rail.querySelectorAll('.hand-card')];
- if(!nodes.length)return null;
- let index=0;
- for(let n=1;n<nodes.length;n++){
-  if(x>=r.left+nodes[n].offsetLeft+4)index=n;
- }
- return state.player.hand.find(c=>c.id===nodes[index].dataset.cardId)||null;
+ if(x<r.left||x>r.right||y<r.top||y>r.bottom)return null;
+ // Use the actually painted card, including overlap and any covering UI.
+ // Hover never changes the hand's stacking order, so this hit region is stable.
+ const hit=document.elementFromPoint(x,y),node=hit?.closest('.hand-card[data-card-id]');
+ if(!node||!rail.contains(node))return null;
+ return state.player.hand.find(c=>c.id===node.dataset.cardId)||null;
 }
 function scheduleHandHover(card){
  if(!card)return;
@@ -229,7 +226,7 @@ function scheduleHandHover(card){
 function showHandHover(card){
  if(!card||!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
  if(previewId===card.id&&!hover.hidden)return;
- // Raise the card IN the actual hand, without reflowing or replacing it.
+ // Mark the inspected card without moving it or changing its stacking order.
  raisedHandId=card.id;
  board.querySelectorAll('.player-hand .hand-card').forEach(el=>el.classList.toggle('is-hand-hover',el.dataset.cardId===raisedHandId));
  const token=++previewLoad;
@@ -314,7 +311,7 @@ function renderHand(){
  };
  if(state.phase==='pregame')return;
  state.player.hand.forEach((card,i)=>{
-  const btn=document.createElement('button');btn.type='button';btn.className='preview-art-card hand-card';btn.dataset.cardName=card.name;btn.dataset.cardId=card.id;btn.dataset.handIndex=String(i);
+  const btn=document.createElement('button');btn.type='button';btn.className='preview-art-card hand-card';btn.dataset.cardName=card.name;btn.dataset.cardId=card.id;btn.dataset.handIndex=String(i);btn.style.setProperty('--v3-hand-order',String(i+1));
   const selected=selectedId===card.id;btn.classList.toggle('is-selected',selected);
   btn.setAttribute('aria-pressed',String(selected));
   btn.setAttribute('aria-label','選取 '+card.name+'，費用 '+card.cost+(card.sellTag?'，可變賣':''));
@@ -686,7 +683,7 @@ function renderDefenseControls(){
 }
 function compactFeedback(text){
  if(text.length<=160)return text;
- const parts=text.split('；'),actions=parts.filter(p=>/對手呼叫傳奇|Go Solo：|^裝備 /.test(p));
+ const parts=text.split('；'),actions=parts.filter(p=>/對手.*呼叫傳奇|Go Solo：|^裝備 |^對手使用程式：|^Quick：/.test(p));
  return (actions.length?actions.slice(-3):parts.slice(-2)).join('；');
 }
 function renderTableControls(){
@@ -703,7 +700,7 @@ function renderTableControls(){
   tableButton('確認認輸',()=>P.concede(state));
   const keep=add('button','繼續對戰',tableControls,'v3-table-btn');keep.type='button';keep.addEventListener('click',()=>{confirmConcede=false;render()});return;
  }
- const concede=add('button','認輸',tableControls,'v3-table-btn');concede.type='button';concede.addEventListener('click',()=>{confirmConcede=true;render()});
+ const concede=add('button','認輸',tableControls,'v3-table-btn v3-concede');concede.type='button';concede.addEventListener('click',()=>{confirmConcede=true;render()});
  if(E.pending(state)){renderEffectChoices();return;}
  if(state.phase==='react'&&state.pendingAttack?.defendingSide==='player'){renderDefenseControls();return;}
  if(state.turn==='ai'){
@@ -928,7 +925,7 @@ function render(){
    message='已更新對手模式。';render();
   });
   opponentLabel.append(opponentSelect);
-  add('p',opponentMode==='mirror'?(scenario==='random'?'雙方洗牌並抽六張；對手保留起手，會支付呼叫傳奇、Go Solo、出牌與裝備，攻擊時等待你的防守反應。':'固定練習保留指定起手與牌庫順序；鏡像對手會自動執行回合並等待你的防守反應。'):'固定目標模式保留原本預先配置的單位與委託骰，可測試腳本 Blocker／Quick。',order);
+  add('p',opponentMode==='mirror'?(scenario==='random'?'雙方洗牌並抽六張；對手保留起手，會呼叫傳奇、Go Solo、出牌、裝備與使用程式，攻擊時等待你的防守反應。':'固定練習保留指定起手與牌庫順序；鏡像對手會自動執行回合並等待你的防守反應。'):'固定目標模式保留原本預先配置的單位與委託骰，可測試腳本 Blocker／Quick。',order);
   if(opponentMode==='script'){
   const defenderLabel=add('label','腳本對手反應（測試模式）',order);
   const defenderSelect=document.createElement('select');defenderSelect.setAttribute('aria-label','選擇測試對手反應');
@@ -953,6 +950,7 @@ function render(){
     const src=art.get(c.name);if(src){const img=document.createElement('img');img.src=src;img.alt=c.name;item.append(img);}
     add('span',c.name,item);add('small',c.cost+' €$ · '+(c.sellTag?'可變賣':'不可變賣'),item);
    }
+   let finalActions=null;
    if(!opening.handDecisions.player){
     add('p','可保留目前六張，或將整手洗回牌庫重抽六張；每局只能重抽一次，不能只換部分牌。'+(opening.first==='ai'?'對手已先決定保留。':'我方決定後，對手再決定。'),order);
     command('保留這六張',()=>P.openingHand(state,'keep'),order).classList.add('v3-opening-primary');
@@ -960,9 +958,10 @@ function render(){
    }else{
     add('p',opening.mulliganUsed.player?'已重抽一次；這六張就是本局起手。':'已保留這六張起手。',order);
     add('p','對手已保留六張起手（內容隱藏）。',order);
-    command('開始對戰',()=>P.beginOpening(state),order).classList.add('v3-opening-primary');
+    finalActions=add('div','',order,'v3-opening-actions');
+    command('開始對戰',()=>P.beginOpening(state),finalActions).classList.add('v3-opening-primary');
    }
-   command('重新設定開局',()=>({ok:true,state:H.fresh(scenario,{preGame:true,aiMode:opponentMode,randomizeLegends:true}),message:initial}),order);
+   command('重新設定開局',()=>({ok:true,state:H.fresh(scenario,{preGame:true,aiMode:opponentMode,randomizeLegends:true}),message:initial}),finalActions||order);
   }else{
    if(scenario==='random')add('p','先決定先後攻，之後雙方洗牌、隨機排列傳奇並抽六張起手。',order);
    else{
