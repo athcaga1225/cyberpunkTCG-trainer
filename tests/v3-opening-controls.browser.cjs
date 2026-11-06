@@ -11,7 +11,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   const style=await roll.evaluate(el=>{const s=getComputedStyle(el);return {display:s.display,align:s.alignItems,justify:s.justifyContent,shrink:s.flexShrink,bg:s.backgroundImage,border:s.borderBottomWidth}});
   assert.equal(style.display,'flex');assert.equal(style.align,'center');assert.equal(style.justify,'center');assert.equal(style.shrink,'0');assert.match(style.bg,/linear-gradient/);assert.equal(style.border,'3px');
   await page.screenshot({path:'/tmp/v3-opening-controls.png'});
-  await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});await roll.click();
+  await page.getByRole('combobox',{name:'選擇開局方式',exact:true}).selectOption('basic');await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});await roll.click();
   for(const name of ['我方選擇先攻','我方選擇後攻'])assert.equal(await page.getByRole('button',{name,exact:true}).evaluate(el=>getComputedStyle(el).alignItems),'center');
   await page.screenshot({path:'/tmp/v3-order-buttons.png'});
   await page.getByRole('button',{name:'我方選擇先攻',exact:true}).click();

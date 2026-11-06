@@ -7,7 +7,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   // Identity shuffle is only for repeatable tests; the app randomizes both legend rows.
   await page.addInitScript(()=>Math.random=()=>.999999);
   const url=(process.env.V3_TEST_URL||'http://127.0.0.1:8006/v3/')+'#battle';
-  async function open(){await page.goto('about:blank');await page.goto(url);await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});await page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true}).click();await page.getByRole('button',{name:'我方選擇先攻',exact:true}).click();await page.getByRole('button',{name:'略過說明，直接操作',exact:true}).click()}
+  async function open(){await page.goto('about:blank');await page.goto(url);await page.getByRole('combobox',{name:'選擇開局方式',exact:true}).selectOption('basic');await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});await page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true}).click();await page.getByRole('button',{name:'我方選擇先攻',exact:true}).click();await page.getByRole('button',{name:'略過說明，直接操作',exact:true}).click()}
   const ctl=page.locator('#v3TableControls');
   async function prep(){for(const name of ['重置資源','抽 1 張','擲骰'])await ctl.getByRole('button',{name,exact:true}).click()}
   async function hand(name){await page.locator('.player-hand [data-card-name="'+name+'"]').first().focus();await page.keyboard.press('Enter')}

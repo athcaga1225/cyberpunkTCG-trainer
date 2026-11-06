@@ -7,7 +7,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto((process.env.V3_TEST_URL||'http://127.0.0.1:8003/v3/')+'#battle');
   assert.equal(await page.locator('.v3-start-guide').count(),0,'no pre-match instruction wall');
-  await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});
+  await page.getByRole('combobox',{name:'選擇開局方式',exact:true}).selectOption('basic');await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});
   await page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true}).click();
   await page.getByRole('button',{name:'我方選擇先攻',exact:true}).click();
   const coach=page.locator('#v3TableGuide'),ctl=page.locator('#v3TableControls');

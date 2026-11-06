@@ -1,0 +1,28 @@
+'use strict';
+const assert=require('node:assert/strict'),H=require('../v3/heist-practice.js'),P=require('../v3/turn-practice.js'),G=require('../v3/practice-guide.js');
+const good=r=>{assert(r.ok,r.reason);return r.state};
+const seeded=seed=>()=>{seed=(Math.imul(1664525,seed)+1013904223)>>>0;return seed/4294967296};
+const fresh=()=>H.fresh('random',{preGame:true,aiMode:'mirror',randomizeLegends:true});
+const ids=p=>[...p.hand,...p.deck].map(c=>c.id).sort();
+let s=fresh(),snapshot=JSON.stringify(s);assert.equal(s.phase,'pregame');assert.equal(s.player.hand.length,0);assert.equal(s.player.deck.length,40);assert.equal(s.ai.hand.length,0);assert.equal(s.ai.deck.length,40);
+assert.equal(P.chooseOrder(s,'player').ok,false);assert.equal(P.openingHand(s,'mulligan').ok,false);assert.equal(P.beginOpening(s).ok,false);assert.equal(P.ready(s).ok,false);assert.equal(JSON.stringify(s),snapshot);
+const before={player:ids(s.player),ai:ids(s.ai)};s=good(P.rollForOrder(s,20,1));s=good(P.chooseOrder(s,'player',seeded(3)));
+assert.equal(s.phase,'pregame');assert.equal(s.turn,'none');assert.equal(s.opening.resolved,false);assert.equal(s.step,'mulligan');assert.equal(s.opening.handDecisions.ai,null,'second player does not decide before the first');
+for(const who of ['player','ai']){assert.equal(s[who].hand.length,6);assert.equal(s[who].deck.length,34);assert.deepEqual(ids(s[who]),before[who]);assert.equal(new Set(ids(s[who])).size,40);assert.equal(s[who].legends.length,3);assert(s[who].legends.every(l=>!l.faceUp));}
+assert.deepEqual(s.player.legends.map(l=>l.ready),[false,false,true]);assert(s.ai.legends.every(l=>l.ready));assert.notDeepEqual(s.player.hand.map(c=>c.id),s.ai.hand.map(c=>c.id.replace(/^mirror-/,'heist-')));assert.match(G.next(s).text,/六張/);
+snapshot=JSON.stringify(s);assert.equal(P.chooseOrder(s,'ai').ok,false);assert.equal(P.rollForOrder(s,2,20).ok,false);assert.equal(P.beginOpening(s).ok,false);assert.equal(P.openingHand(s,'partial').ok,false);assert.equal(P.pass(s).ok,false);assert.equal(JSON.stringify(s),snapshot);
+const oldHand=s.player.hand.map(c=>c.id),legends=JSON.stringify(s.player.legends),rival=JSON.stringify(s.ai);s=good(P.openingHand(s,'mulligan',seeded(19)));assert.equal(s.opening.mulliganUsed.player,true);assert.equal(s.opening.handDecisions.player,'mulligan');assert.equal(s.opening.handDecisions.ai,'keep');assert.equal(s.player.hand.length,6);assert.equal(s.player.deck.length,34);assert.deepEqual(ids(s.player),before.player);assert.equal(JSON.stringify(s.player.legends),legends);assert.equal(JSON.stringify(s.ai),rival);assert.notDeepEqual(s.player.hand.map(c=>c.id),oldHand);assert.equal(s.step,'confirm-opening');
+snapshot=JSON.stringify(s);assert.equal(P.openingHand(s,'mulligan').ok,false);assert.equal(P.openingHand(s,'keep').ok,false);assert.equal(JSON.stringify(s),snapshot);
+s=good(P.beginOpening(s));assert.equal(s.phase,'start');assert.equal(s.turn,'player');assert.equal(s.opening.resolved,true);s=good(P.ready(s));assert.deepEqual(s.player.legends.map(l=>l.ready),[false,false,true]);s=good(P.draw(s));assert.equal(s.player.hand.length,7);assert.equal(s.player.deck.length,33);s=good(P.roll(s,4,2));assert.equal(s.phase,'main');assert.equal(P.openingHand(s,'mulligan').ok,false);
+// Keep changes no cards; second player sees the first player's decision before deciding.
+s=fresh();s=good(P.rollForOrder(s,2,20));assert.equal(P.chooseOrder(s,'player').ok,false);s=good(P.chooseOrder(s,'ai',seeded(77)));assert.equal(s.opening.handDecisions.ai,'keep');assert.equal(s.phase,'pregame');assert.deepEqual(s.ai.legends.map(l=>l.ready),[false,false,true]);assert(s.player.legends.every(l=>l.ready));const hand=s.player.hand.map(c=>c.id),deck=s.player.deck.map(c=>c.id);s=good(P.openingHand(s,'keep'));assert.deepEqual(s.player.hand.map(c=>c.id),hand);assert.deepEqual(s.player.deck.map(c=>c.id),deck);assert.equal(s.opening.mulliganUsed.player,false);s=good(P.beginOpening(s));assert.equal(s.phase,'opponent');assert.equal(s.step,'pendingBot');s=good(P.opponentTurn(s,2));assert.equal(s.turn,'player');assert.equal(s.phase,'start');assert.equal(s.round,1);assert(s.player.legends.every(l=>l.ready));
+// Winner can voluntarily choose second; a tie does not deal or consume setup randomness.
+s=fresh();s=good(P.rollForOrder(s,10,10));assert.equal(s.player.hand.length,0);assert.equal(s.opening.winner,null);s=good(P.rollForOrder(s,20,1));s=good(P.chooseOrder(s,'ai',seeded(3)));assert.equal(s.opening.first,'ai');
+// Shuffling and Mulligan conserve all 40 distinct card identities over many seeded deals.
+const hands=new Set();for(let seed=1;seed<=40;seed++){
+ let t=good(P.chooseOrder(good(P.rollForOrder(fresh(),20,1)),'player',seeded(seed)));hands.add(t.player.hand.map(c=>c.id).join());
+ t=good(P.openingHand(t,'mulligan',seeded(seed+100)));for(const who of ['player','ai'])assert.deepEqual(ids(t[who]),before[who]);
+}assert(hands.size>30,'opening actually varies with shuffle randomness');
+// Fixed exercises remain repeatable and do not silently gain a Mulligan.
+s=H.fresh('basic',{preGame:true,aiMode:'mirror'});const fixed=s.player.hand.map(c=>c.name);s=good(P.chooseOrder(good(P.rollForOrder(s,20,1)),'player'));assert.equal(s.phase,'start');assert.deepEqual(s.player.hand.map(c=>c.name),fixed);assert.equal(P.openingHand(s,'mulligan').ok,false);assert.throws(()=>H.fresh('random',{aiMode:'script'}),/mirror/);
+console.log('PASS random opening: official setup order, independent decks, six-card deal, once-only whole-hand Mulligan, first/second decisions, hidden rival hand, card conservation, initial Legend readiness, bot first turn and fixed-mode compatibility.');

@@ -45,36 +45,37 @@ const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
  deferredEffect:false
 }]));
 function fresh(scenario='basic',opts={}){
- if(!['basic','quick'].includes(scenario))throw new Error('Unknown Heist practice scenario');
- const s=P.fresh();
+ if(!['basic','quick','random'].includes(scenario))throw new Error('Unknown Heist practice scenario');
+ if(scenario==='random'&&opts.aiMode!=='mirror')throw new Error('Random opening requires mirror mode');
+ const s=P.fresh();s.setupKind=scenario==='random'?'random':'fixed';
  const cards=specs.flatMap(([name,qty])=>Array.from({length:qty},(_,i)=>({...byName.get(name),id:'heist-'+name.replace(/[^a-z0-9]/gi,'-')+'-'+(i+1)})));
  const opening=scenario==='basic'
  ? ['Secondhand Bombus','Kiroshi Optics','Mandibular Upgrade',"Afterparty at Lizzie's",'Evelyn Parker: Scheming Siren','Dexter DeShawn: One Last Chance']
  : ['Floor It','Offduty Malfini','Heywood Ripperdoc','Psycho Squad',"Dying Night: V's Pistol",'Reboot Optics'];
- const hand=opening.map(name=>cards.splice(cards.findIndex(c=>c.name===name),1)[0]);
- // Deterministic 34-card remainder for repeatable training, not a shuffled official opening.
+ const hand=scenario==='random'?[]:opening.map(name=>cards.splice(cards.findIndex(c=>c.name===name),1)[0]);
+ // Fixed exercises keep their 34-card remainder; random setup shuffles all 40 after order choice.
  s.player.hand=hand;s.player.deck=cards;
  s.player.eddies=[];s.player.legends=[
   {id:'legend-viktor',...P.legendSpecs.viktor,ready:false,faceUp:false},
   {id:'legend-v',...P.legendSpecs.v,ready:false,faceUp:false},
   {id:'legend-jackie',...P.legendSpecs.jackie,ready:true,faceUp:false}
  ];
- if(opts.randomizeLegends)s.player.legends=P.shuffleLegends(s.player.legends);
- // Optional deterministic mirror-deck opponent for economical turn-sequence tests.
+ if(opts.randomizeLegends&&scenario!=='random')s.player.legends=P.shuffleLegends(s.player.legends);
+ // Mirror opponent uses the same manifest, with fixed or random opening according to setup.
  // This is not the Embracing Power deck, and no unverified card effects are simulated.
  if(opts.aiMode==='mirror'){
   const rivalCards=specs.flatMap(([name,qty])=>Array.from({length:qty},(_,i)=>({
    ...byName.get(name),id:'mirror-'+name.replace(/[^a-z0-9]/gi,'-')+'-'+(i+1)
   })));
   const rivalOpening=['Secondhand Bombus','Psycho Squad','Kiroshi Optics','Mandibular Upgrade','Floor It','Offduty Malfini'];
-  s.ai.hand=rivalOpening.map(name=>rivalCards.splice(rivalCards.findIndex(c=>c.name===name),1)[0]);
+  s.ai.hand=scenario==='random'?[]:rivalOpening.map(name=>rivalCards.splice(rivalCards.findIndex(c=>c.name===name),1)[0]);
   s.ai.deck=rivalCards;
   s.ai.legends=s.player.legends.map(l=>({...l,id:'mirror-'+l.id,ready:true}));
-  if(opts.randomizeLegends)s.ai.legends=P.shuffleLegends(s.ai.legends);
+  if(opts.randomizeLegends&&scenario!=='random')s.ai.legends=P.shuffleLegends(s.ai.legends);
   s.ai.eddies=[];s.ai.units=[];s.ai.gigs=[];s.ai.fixer=[4,6,8,10,12,20];
   s.ai.practiceBot={kind:'mirror-the-heist',turnsTaken:0};
   s.practiceKind='the-heist';s.practiceScenario=scenario;
-  if(opts.preGame){
+  if(opts.preGame||scenario==='random'){
    s.turn='none';s.phase='pregame';s.step='choose-order';
    s.opening={resolved:false,winner:null};
    for(const legend of s.player.legends)legend.ready=true;
@@ -100,7 +101,7 @@ function fresh(scenario='basic',opts={}){
   s.ai.deck.push({id:'training-quick-draw',name:'練習抽牌',type:'Unit'});
  }
 
- if(opts.preGame){
+ if(opts.preGame||scenario==='random'){
   s.turn='none';s.phase='pregame';s.step='choose-order';
   s.opening={resolved:false,winner:null};
   // The first player is unknown until Rule 7.5 finishes.

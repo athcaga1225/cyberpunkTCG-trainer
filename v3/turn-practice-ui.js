@@ -66,8 +66,8 @@ board.addEventListener('click',event=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root.classList.contains('is-open'))setActionTray(false)});
 
-const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
-let scenario='basic',defensePreset='none',opponentMode='mirror',state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
+const initial='The Heist：先選擇開局方式，再擲骰決定先後攻。';
+let scenario='random',defensePreset='none',opponentMode='mirror',state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
 let guidanceOn=true,guideIntro=0,opponentTimer=null,selectedDie=4;
 let selectedLegendId=null,effectChoiceId=null,effectChoices=new Set();
@@ -872,10 +872,12 @@ function render(){
  if(deal)requestAnimationFrame(()=>{if(sequence===renderSequence&&picker.value==='theHeist'&&!$('battle')?.classList.contains('hide'))dealHand(deal)});
  const header=add('div','',root,'v3-turn-header');
  add('strong','THE HEIST / '+(state.phase==='pregame'?'開局設定':'ROUND '+state.round),header);add('span',state.phase==='pregame'?'等待先後攻':phase(),header);
- add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；可進行限定單位交戰、搶骰與腳本 Floor It／Blocker 反應；其他 Quick、完整反應時機及未完成觸發能力仍未支援。',root,'v3-turn-note');
+ add('p','The Heist 支援隨機起手與一次整手重抽，也可選固定手牌練習。鏡像模式包含傳奇、裝備能力、攻擊及 Quick／Blocker；仍是有限規則與對手策略。',root,'v3-turn-note');
  if(state.phase==='pregame'){
   const order=add('div','',openingRoot,'v3-selected-detail');
-  add('strong','開局設定 / 選擇牌組與先後攻',order);
+  add('strong',state.opening?.orderChosen?'開局設定 / 確認六張起手':'開局設定 / 選擇牌組與先後攻',order);
+  add('p',message,order,'v3-opening-status').setAttribute('role','status');
+  if(!state.opening?.orderChosen){
   const deckLabel=add('label','牌組',order);
   const deckSelect=document.createElement('select');
   deckSelect.id='v3RoomDeckSelect';deckSelect.setAttribute('aria-label','選擇實戰牌組');
@@ -884,17 +886,17 @@ function render(){
   deckSelect.value='theHeist';
   deckSelect.addEventListener('change',()=>{picker.value=deckSelect.value;picker.dispatchEvent(new Event('change',{bubbles:true}))});
   deckLabel.append(deckSelect);
-  const handLabel=add('label','起始手牌（固定測試牌組）',order);
-  const handSelect=document.createElement('select');handSelect.setAttribute('aria-label','選擇六張起始測試手牌');
-  for(const [value,label] of [['basic','基礎出牌手牌'],['quick','效果與 Quick 手牌']]){
-   const option=document.createElement('option');option.value=value;option.textContent=label;handSelect.append(option);
+  const handLabel=add('label','開局方式',order);
+  const handSelect=document.createElement('select');handSelect.setAttribute('aria-label','選擇開局方式');
+  for(const [value,label] of [['random','隨機起手（可重抽一次）'],['basic','固定練習：基礎出牌手牌'],['quick','固定練習：效果與 Quick 手牌']]){
+   const option=document.createElement('option');option.value=value;option.textContent=label;option.disabled=value==='random'&&opponentMode!=='mirror';handSelect.append(option);
   }
   handSelect.value=scenario;
   handSelect.addEventListener('change',()=>{
    scenario=handSelect.value;D.cancel();state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});
    pendingDeal=null;selectedId=null;selectedPayments.clear();targetId=null;
    gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';
-   message='已更新本局六張起始測試手牌。';render();
+   message=scenario==='random'?'先決定先後攻，再洗牌抽取六張起手。':'已更新本局六張固定練習手牌。';render();
   });
   handLabel.append(handSelect);
   const opponentLabel=add('label','對手類型',order);
@@ -904,13 +906,13 @@ function render(){
   }
   opponentSelect.value=opponentMode;
   opponentSelect.addEventListener('change',()=>{
-   opponentMode=opponentSelect.value;D.cancel();
+   opponentMode=opponentSelect.value;if(opponentMode==='script'&&scenario==='random')scenario='basic';D.cancel();
    state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});
    pendingDeal=null;selectedId=null;attackUnitId=null;selectedPayments.clear();
    message='已更新對手模式。';render();
   });
   opponentLabel.append(opponentSelect);
-  add('p',opponentMode==='mirror'?'鏡像對手使用 The Heist 40 張牌的固定測試起手；可自動重置、抽牌、擲骰、變賣、合法出牌與基本攻擊，會宣告基本攻擊並等待你的 Quick／Blocker；未驗證觸發仍不支援。':'固定目標模式保留原本預先配置的單位與委託骰，可測試腳本 Blocker／Quick。',order);
+  add('p',opponentMode==='mirror'?(scenario==='random'?'雙方使用 The Heist 40 張牌洗牌並抽六張；對手固定選擇保留起手，戰鬥時等待你的防守反應。':'固定練習保留指定起手與牌庫順序；鏡像對手會自動執行回合並等待你的防守反應。'):'固定目標模式保留原本預先配置的單位與委託骰，可測試腳本 Blocker／Quick。',order);
   if(opponentMode==='script'){
   const defenderLabel=add('label','腳本對手反應（測試模式）',order);
   const defenderSelect=document.createElement('select');defenderSelect.setAttribute('aria-label','選擇測試對手反應');
@@ -925,8 +927,32 @@ function render(){
   });
   defenderLabel.append(defenderSelect);
   }
-  add('p','本局起始六張：'+state.player.hand.map(c=>c.name).join('、'),order,'v3-opening-hand-list');
-  add('p','目前僅支援兩組固定手牌的練習，尚未支援自由選卡、主牌庫洗牌與正式重抽。',order);
+  }
+  const opening=state.opening;
+  if(scenario==='random'&&opening?.orderChosen){
+   add('p',(opening.first==='player'?'我方先攻':'對手先攻')+' · 雙方已完成洗牌與六張起手。',order);
+   const cards=add('div','',order,'v3-opening-cards');
+   for(const c of state.player.hand){
+    const item=add('div','',cards,'v3-opening-card');item.dataset.cardId=c.id;
+    const src=art.get(c.name);if(src){const img=document.createElement('img');img.src=src;img.alt=c.name;item.append(img);}
+    add('span',c.name,item);add('small',c.cost+' €$ · '+(c.sellTag?'可變賣':'不可變賣'),item);
+   }
+   if(!opening.handDecisions.player){
+    add('p','可保留目前六張，或將整手洗回牌庫重抽六張；每局只能重抽一次，不能只換部分牌。'+(opening.first==='ai'?'對手已先決定保留。':'我方決定後，對手再決定。'),order);
+    command('保留這六張',()=>P.openingHand(state,'keep'),order).classList.add('v3-opening-primary');
+    command('整手重抽一次',()=>P.openingHand(state,'mulligan'),order);
+   }else{
+    add('p',opening.mulliganUsed.player?'已重抽一次；這六張就是本局起手。':'已保留這六張起手。',order);
+    add('p','對手已保留六張起手（內容隱藏）。',order);
+    command('開始對戰',()=>P.beginOpening(state),order).classList.add('v3-opening-primary');
+   }
+   command('重新設定開局',()=>({ok:true,state:H.fresh(scenario,{preGame:true,aiMode:opponentMode,randomizeLegends:true}),message:initial}),order);
+  }else{
+   if(scenario==='random')add('p','先決定先後攻，之後雙方洗牌、隨機排列傳奇並抽六張起手。',order);
+   else{
+    add('p','本局起始六張：'+state.player.hand.map(c=>c.name).join('、'),order,'v3-opening-hand-list');
+    add('p','固定練習使用指定手牌與牌庫順序，不提供 Mulligan。可切換「隨機起手」練習洗牌與重抽。',order);
+   }
   add('p','雙方各擲一顆 d20，點數較高者決定先攻或後攻；同點重擲。',order);
   const roll=state.opening;
   if(!roll?.winner){
@@ -942,6 +968,7 @@ function render(){
     command('我方選擇先攻',()=>P.chooseOrder(state,'player'),order).classList.add('v3-opening-primary');
     command('我方選擇後攻',()=>P.chooseOrder(state,'ai'),order);
    }else command('對手選擇先攻',()=>P.chooseOrder(state,'ai'),order).classList.add('v3-opening-primary');
+  }
   }
   add('p','先攻者左側兩張傳奇卡會橫置，第一回合不能重置。鏡像對手會自動執行回合；固定腳本模式會略過對手行動。',order);
  }
@@ -1144,7 +1171,7 @@ const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
  D.cancel();
  if(picker.value==='theHeist'){
-  scenario='basic';state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});pendingDeal=$('battle')?.classList.contains('hide')?null:'all';selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
+  scenario=opponentMode==='mirror'?'random':'basic';state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});pendingDeal=$('battle')?.classList.contains('hide')?null:'all';selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
   if(legendButton)legendButton.disabled=true;
  }else{

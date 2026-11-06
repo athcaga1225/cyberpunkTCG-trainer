@@ -16,7 +16,7 @@
   if(s.finished)return hint(6,'finished','練習已結束。可重新開局；目前仍是有限規則練習。');
   if(s.pendingEffects?.length)return hint(4,'effect','右側有待結算能力。先完成選卡、查看或調整，才能繼續攻擊、防守或交接回合。關閉引導不會略過能力。');
   if(selectedLegendId)return hint(4,'legend',s.phase==='react'?'防守時可支付 1 €$ 呼叫傳奇，每回合一次；Go Solo 僅能在自己的主要階段使用。':'在右側逐張選擇支付資源；蓋牌傳奇花 1 €$ 呼叫，已翻開的 V 可支付 5 €$ Go Solo。每回合只能呼叫一次。');
-  if(s.phase==='pregame')return hint(1,'opening','選擇起始手牌與對手，擲 d20 後決定先後攻。');
+  if(s.phase==='pregame')return hint(1,'opening',s.opening?.orderChosen?'查看六張起手，保留或整手重抽一次，再開始對戰。':'選擇開局方式與對手，擲 d20 後決定先後攻；隨機模式會接著洗牌抽六張。');
   if(s.phase==='react'&&s.pendingAttack?.defendingSide==='player'){
    const card=C.quicks(s).find(c=>c.id===selectedId);
    if(card)return hint(5,'defense',payments.length===card.cost?'支付已指定。按「使用 Quick：'+card.name+'」，之後仍可攔截或結束反應。':'已選 '+card.name+'：請逐張指定 '+card.cost+' €$ 支付資源（已選 '+payments.length+'）。');

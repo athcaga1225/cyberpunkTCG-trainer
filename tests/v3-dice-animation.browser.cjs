@@ -8,7 +8,7 @@ const assert=require('node:assert/strict');
   const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto((process.env.V3_TEST_URL||'http://127.0.0.1:8001/v3/')+'#battle');
-  await page.evaluate(()=>{const rolls=[.95,.1];Math.random=()=>rolls.length?rolls.shift():.5});
+  await page.getByRole('combobox',{name:'選擇開局方式',exact:true}).selectOption('basic');await page.evaluate(()=>{const rolls=[.95,.1];Math.random=()=>rolls.length?rolls.shift():.5});
   const dice=page.locator('#v3DiceAnimation'),controls=page.locator('#v3TableControls');
   await page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true}).click();
   assert.equal(await dice.getAttribute('data-phase'),'result');

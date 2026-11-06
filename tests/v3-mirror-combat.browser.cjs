@@ -4,7 +4,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
  const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
  try{
   const page=await browser.newPage({viewport:{width:Number(process.env.V3_TEST_WIDTH)||1440,height:Number(process.env.V3_TEST_HEIGHT)||900},reducedMotion:'reduce'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto((process.env.V3_TEST_URL||'http://127.0.0.1:8004/v3/')+'#battle');await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});
+  await page.goto((process.env.V3_TEST_URL||'http://127.0.0.1:8004/v3/')+'#battle');await page.getByRole('combobox',{name:'選擇開局方式',exact:true}).selectOption('basic');await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});
   await page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true}).click();await page.getByRole('button',{name:'我方選擇先攻',exact:true}).click();await page.getByRole('button',{name:'略過說明，直接操作',exact:true}).click();
   const ctl=page.locator('#v3TableControls');
   const prep=async()=>{for(const name of ['重置資源','抽 1 張','擲骰'])await ctl.getByRole('button',{name,exact:true}).click()};

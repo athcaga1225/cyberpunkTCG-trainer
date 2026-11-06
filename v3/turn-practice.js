@@ -2,7 +2,7 @@
  * Official rules: https://cyberpunktcg.com/comprehensive-rules 7.7-7.9, 8.1-8.11.
  * Supports a bounded mirror opponent and explicit Quick/Blocker reactions.
  * Known The Heist Legend/Attack/Defeated/end-turn effects use explicit choices.
- * Mulligan and Overtime remain unsupported.
+ * Random opening and one whole-hand Mulligan follow rules 7.5–7.9; Overtime remains unsupported.
  */
 (function(root,factory){'use strict';const deps=(typeof module!=='undefined'&&module.exports)?require('./battle-actions.js'):root.NCTV3Actions;const combat=(typeof module!=='undefined'&&module.exports)?require('./mirror-combat.js'):root.NCTV3Combat;const effects=(typeof module!=='undefined'&&module.exports)?require('./heist-effects.js'):root.NCTV3Effects;const api=factory(deps,combat,effects);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3TurnPractice=api;})(typeof globalThis!=='undefined'?globalThis:this,function(actions,combat,effects){'use strict';
  const copy=x=>JSON.parse(JSON.stringify(x));
@@ -18,9 +18,9 @@
    ai:{hand:[],deck:[],eddies:[],legends:[],units:[],gigs:[],fixer:[],soldThisTurn:false}};
  }
  // Rule 7.5: a randomized winner chooses whether to play first or second.
- // The rival is scripted, so its initial turn is explicitly skipped when it goes first.
+ // Mirror games execute the initial opponent turn; fixed script targets skip it.
  function rollForOrder(state,playerRoll,rivalRoll){
-  if(state.phase!=='pregame'||state.opening?.resolved)return fail('先後攻已決定');
+  if(state.phase!=='pregame'||state.opening?.resolved||state.opening?.orderChosen)return fail('先後攻已決定');
   if(!Number.isInteger(playerRoll)||playerRoll<1||playerRoll>20||
      !Number.isInteger(rivalRoll)||rivalRoll<1||rivalRoll>20)return fail('d20 點數必須為 1 到 20');
   const s=copy(state);
@@ -28,12 +28,46 @@
   s.opening={resolved:false,playerRoll,rivalRoll,winner:playerRoll>rivalRoll?'player':'ai'};
   return ok(s,'先後攻擲骰：我方 '+playerRoll+'、對手 '+rivalRoll+'；'+(s.opening.winner==='player'?'由我方選先後攻。':'由腳本對手決定先後攻。'));
  }
- function chooseOrder(state,firstPlayer){
-  if(state.phase!=='pregame'||state.opening?.resolved||!state.opening?.winner)return fail('請先擲骰決定選擇權');
+ function chooseOrder(state,firstPlayer,random=Math.random){
+  if(state.phase!=='pregame'||state.opening?.resolved||state.opening?.orderChosen||!state.opening?.winner)return fail('請先擲骰決定選擇權');
   if(firstPlayer!=='player'&&firstPlayer!=='ai')return fail('先攻選擇無效');
   // No opponent decision engine exists: the scripted defender always picks first.
   if(state.opening.winner==='ai'&&firstPlayer!=='ai')return fail('本練習的腳本對手取得選擇權後固定選擇先攻');
   const s=copy(state);
+  if(s.setupKind==='random'){
+   if(!effects.active(s))return fail('隨機開局需使用鏡像實戰');
+   for(const who of ['player','ai']){
+    const p=s[who];p.deck=effects.shuffled([...p.deck,...p.hand],random);p.hand=[];
+    p.legends=effects.shuffled(p.legends,random);
+    p.legends.forEach((l,i)=>{l.ready=who!==firstPlayer||i>=2;l.faceUp=false;delete l.knownToOwner;});
+    for(let i=0;i<6;i++)p.hand.push(p.deck.pop());
+   }
+   Object.assign(s.opening,{first:firstPlayer,orderChosen:true,handDecisions:{player:null,ai:firstPlayer==='ai'?'keep':null},mulliganUsed:{player:false,ai:false}});
+   s.step='mulligan';
+   return ok(s,'雙方已洗牌並抽取六張起手。'+(firstPlayer==='ai'?'對手先攻並選擇保留；現在輪到我方。':'我方先攻，請先決定保留或重抽。'));
+  }
+  return startMatch(s,firstPlayer);
+ }
+ function openingHand(state,choice,random=Math.random){
+  if(state.setupKind!=='random'||state.phase!=='pregame'||!state.opening?.orderChosen||state.opening.resolved||state.opening.handDecisions.player!==null)return fail('目前不是我方起手決定時機，每局只能決定一次');
+  if(!['keep','mulligan'].includes(choice))return fail('請選擇保留或整手重抽');
+  const s=copy(state),p=s.player;
+  if(choice==='mulligan'){
+   if(p.hand.length!==6||p.deck.length!==34)return fail('起手資料不完整，不能重抽');
+   p.deck=effects.shuffled([...p.deck,...p.hand],random);p.hand=[];
+   for(let i=0;i<6;i++)p.hand.push(p.deck.pop());
+   s.opening.mulliganUsed.player=true;
+  }
+  s.opening.handDecisions.player=choice;
+  // Conservative, explicit bot policy: always keep; never reads the human hand.
+  s.opening.handDecisions.ai='keep';s.step='confirm-opening';
+  return ok(s,(choice==='mulligan'?'已將整手洗回牌庫並重抽六張；本局不能再次重抽。':'我方保留六張起手。')+'對手保留起手；確認後開始對戰。');
+ }
+ function beginOpening(state){
+  if(state.setupKind!=='random'||state.phase!=='pregame'||!state.opening?.orderChosen||state.opening.resolved||!state.opening.handDecisions?.player||!state.opening.handDecisions?.ai)return fail('請先完成雙方起手決定');
+  return startMatch(copy(state),state.opening.first);
+ }
+ function startMatch(s,firstPlayer){
   s.opening.resolved=true;s.opening.first=firstPlayer;
   const mirror=Boolean(s.ai.practiceBot?.kind==='mirror-the-heist');
   s.opening.scriptedOpponentTurnSkipped=!mirror&&firstPlayer==='ai';
@@ -278,5 +312,5 @@
   const entered={...legend,ready:true,lag:true,goSolo:true,faceUp:true,gear:legend.gear||[]};p.units.push(entered);effects.onPlay(paid.state,'player',entered);
   return progress(paid.state,[...paid.events,'Go Solo：'+legend.name+' 以就緒單位登場，本回合可攻擊']);
  }
- return {fresh,rollForOrder,chooseOrder,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,opponentTurn,defend,callLegend,goSolo,resolveEffect,legendSpecs:effects.legendSpecs,shuffleLegends:effects.shuffled,pass,next};
+ return {fresh,rollForOrder,chooseOrder,openingHand,beginOpening,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,opponentTurn,defend,callLegend,goSolo,resolveEffect,legendSpecs:effects.legendSpecs,shuffleLegends:effects.shuffled,pass,next};
 });
