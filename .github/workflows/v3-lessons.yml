@@ -8,6 +8,8 @@ on:
       - 'v3/turn-practice.js'
       - 'v3/turn-practice-ui.js'
       - 'v3/practice-guide.js'
+      - 'v3/dice-animation.js'
+      - 'v3/dice-animation.css'
       - 'v3/heist-practice.js'
       - 'v3/index.html'
       - 'rules-core.js'
@@ -38,6 +40,7 @@ jobs:
       - name: Check V3 browser scripts parse
         run: |
           node --check v3/turn-practice-ui.js
+          node --check v3/dice-animation.js
           node --check v3/heist-practice.js
           node --check v3/turn-practice.js
       - name: Verify The Heist real-card payment practice

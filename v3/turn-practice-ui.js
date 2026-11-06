@@ -1,8 +1,8 @@
 /* V3: real starter-hand basic practice. Safely limited to verified basic unit interactions. */
 (()=>{'use strict';
-const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV3Heist,A=window.NCTV3Actions,G=window.NCTV3Guide;
+const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV3Heist,A=window.NCTV3Actions,G=window.NCTV3Guide,D=window.NCTV3Dice;
 const root=$('v3TurnPractice'),board=$('battleTour'),picker=$('battleDeckChoice');
-if(!root||!board||!P||!H||!G||!picker)return;
+if(!root||!board||!P||!H||!G||!D||!picker)return;
 const openingRoot=document.createElement('section');
 openingRoot.id='v3OpeningSetup';
 openingRoot.className='v3-opening-setup';
@@ -11,6 +11,10 @@ openingRoot.setAttribute('role','dialog');
 openingRoot.setAttribute('aria-modal','true');
 openingRoot.hidden=true;
 root.before(openingRoot);
+// A roll is already committed; ignore repeated input while its dice settle.
+for(const area of [board,openingRoot,root])area.addEventListener('click',event=>{
+ if(D.rolling){event.preventDefault();event.stopImmediatePropagation();}
+},true);
 
 const toggleActions=$('toggleV3BattleActions');
 // Compact tabletop controls live in PHASE. The old diagnostic tray stays
@@ -267,7 +271,7 @@ const phase=()=>state.finished?'已結束':state.turn==='ai'?(state.ai.practiceB
 const add=(tag,txt,parent,cls)=>{const el=document.createElement(tag);el.textContent=txt||'';if(cls)el.className=cls;parent.append(el);return el};
 function command(label,fn,parent,disabled=false){
  const b=add('button',label,parent,'btn');b.type='button';b.disabled=disabled;
- b.addEventListener('click',()=>{const wasPregame=state.phase==='pregame';const before=new Set(state.player.hand.map(c=>c.id));const r=fn();message=r.ok?r.message:r.reason;if(r.ok){state=r.state;if(wasPregame&&state.phase==='start')pendingDeal='all';selectedPayments.clear();if(!state.player.hand.some(c=>c.id===selectedId))selectedId=null;const added=state.player.hand.map(c=>c.id).filter(id=>!before.has(id));if(added.length)pendingDeal=added;if(state.player.hand.length===6&&r.message===initial)pendingDeal='all';}render()});return b;
+ b.addEventListener('click',()=>{const previous=state;const wasPregame=state.phase==='pregame';const before=new Set(state.player.hand.map(c=>c.id));const r=fn();message=r.ok?r.message:r.reason;if(r.ok){state=r.state;D.transition(previous,state);if(wasPregame&&state.phase==='start')pendingDeal='all';selectedPayments.clear();if(!state.player.hand.some(c=>c.id===selectedId))selectedId=null;const added=state.player.hand.map(c=>c.id).filter(id=>!before.has(id));if(added.length)pendingDeal=added;if(state.player.hand.length===6&&r.message===initial)pendingDeal='all';}render()});return b;
 }
 function indicator(selector,summary){
  const zone=board.querySelector(selector);if(!zone)return;
@@ -386,11 +390,12 @@ function gigAdjustmentOptions(){
 
 // Visible board interaction is the default; these controls are not a second page.
 function runTableCommand(fn){
+ const previous=state;
  const before=new Set(state.player.hand.map(c=>c.id));
  const result=fn();
  message=result.ok?result.message:result.reason;
  if(result.ok){
-  const wasPregame=state.phase==='pregame';state=result.state;
+  const wasPregame=state.phase==='pregame';state=result.state;D.transition(previous,state);
   if(wasPregame&&state.phase==='start')pendingDeal='all';
   const added=state.player.hand.filter(c=>!before.has(c.id)).map(c=>c.id);
   if(added.length)pendingDeal=added;
@@ -656,7 +661,7 @@ function render(){
   }
   handSelect.value=scenario;
   handSelect.addEventListener('change',()=>{
-   scenario=handSelect.value;state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode});
+   scenario=handSelect.value;D.cancel();state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode});
    pendingDeal=null;selectedId=null;selectedPayments.clear();targetId=null;
    gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';
    message='已更新本局六張起始測試手牌。';render();
@@ -669,7 +674,7 @@ function render(){
   }
   opponentSelect.value=opponentMode;
   opponentSelect.addEventListener('change',()=>{
-   opponentMode=opponentSelect.value;
+   opponentMode=opponentSelect.value;D.cancel();
    state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode});
    pendingDeal=null;selectedId=null;attackUnitId=null;selectedPayments.clear();
    message='已更新對手模式。';render();
@@ -684,7 +689,7 @@ function render(){
   }
   defenderSelect.value=defensePreset;
   defenderSelect.addEventListener('change',()=>{
-   defensePreset=defenderSelect.value;state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode});
+   defensePreset=defenderSelect.value;D.cancel();state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode});
    pendingDeal=null;selectedId=null;attackUnitId=null;selectedPayments.clear();
    message='已更新腳本對手設定。';render();
   });
@@ -697,7 +702,9 @@ function render(){
   if(!roll?.winner){
    command('雙方擲 d20 決定選擇權',()=>{
     const me=Math.floor(Math.random()*20)+1,rival=Math.floor(Math.random()*20)+1;
-    return P.rollForOrder(state,me,rival);
+    const result=P.rollForOrder(state,me,rival);
+    if(result.ok)D.show([{label:'我方',sides:20,value:me},{label:'對手',sides:20,value:rival}]);
+    return result;
    },order);
   }else{
    add('p','我方 '+roll.playerRoll+' ／ 腳本對手 '+roll.rivalRoll+'。'+(roll.winner==='player'?'我方取得選擇權。':'腳本對手取得選擇權。'),order);
@@ -905,6 +912,7 @@ function render(){
 }
 const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
+ D.cancel();
  if(picker.value==='theHeist'){
   scenario='basic';state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode});pendingDeal=$('battle')?.classList.contains('hide')?null:'all';selectedId=null;selectedPayments.clear();targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
@@ -921,7 +929,7 @@ syncDeck();
 const battlePage=$('battle');
 function dealOnEntry(){
  const visible=battlePage&&!battlePage.classList.contains('hide');
- if(!visible){entryDealt=false;cancelDeals();return}
+ if(!visible){entryDealt=false;cancelDeals();D.cancel();return}
  if(entryDealt||picker.value!=='theHeist')return;
  entryDealt=true;
  if(picker.value==='theHeist'&&state.phase==='pregame'){document.getElementById('closeBoardTour')?.click();setActionTray(false)}

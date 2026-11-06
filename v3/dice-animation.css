@@ -1,0 +1,19 @@
+#v3DiceAnimation[hidden]{display:none}
+#v3DiceAnimation{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:13000;pointer-events:none;max-width:calc(100vw - 24px);padding:18px 26px 12px;border:1px solid #29ffff88;border-radius:10px;background:#07181ef5;box-shadow:0 12px 50px #000b,0 0 30px #29ffff20;color:#edfaff;text-align:center}
+#v3DiceAnimation p{font-size:14px;color:#f4d18c;margin:12px 0 0;line-height:1.4}
+.v3-dice-row{display:flex;justify-content:center;gap:30px;perspective:500px}
+.v3-die-item{display:grid;justify-items:center;gap:9px}
+.v3-die-item>span{font-size:12px;color:#a9d3da}
+.v3-die{position:relative;display:grid;place-items:center;width:76px;height:76px;background:linear-gradient(145deg,#99ffff,#1495ab 46%,#064959);clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);filter:drop-shadow(0 5px 6px #0008)}
+.v3-die::before{content:'';position:absolute;inset:5px;background:linear-gradient(30deg,transparent 48%,#aaffff70 49%,transparent 51%),linear-gradient(150deg,transparent 48%,#aaffff70 49%,transparent 51%),#0c303d;clip-path:inherit}
+.v3-die b{position:relative;font-size:30px;color:#f2ffff;text-shadow:0 0 8px #29ffff66;font-variant-numeric:tabular-nums}
+.v3-die-d4{clip-path:polygon(50% 0,100% 100%,0 100%)}
+.v3-die-d4 b{padding-top:22px}
+.v3-die-d6{clip-path:polygon(8% 0,92% 0,100% 8%,100% 92%,92% 100%,8% 100%,0 92%,0 8%)}
+.v3-die-d8{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.v3-die-d10{clip-path:polygon(50% 0,94% 30%,85% 80%,50% 100%,15% 80%,6% 30%)}
+.v3-die-d12{clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%)}
+#v3DiceAnimation.is-rolling .v3-die{animation:v3-dice-tumble .85s cubic-bezier(.15,.6,.3,1) both}
+#v3DiceAnimation.is-rolling .v3-die-item:nth-child(2) .v3-die{animation-direction:reverse}
+@keyframes v3-dice-tumble{0%{transform:translateY(-28px) rotateX(70deg) rotateZ(-100deg) scale(.6)}30%{transform:translateY(5px) rotateX(-45deg) rotateZ(130deg) scale(1.1)}55%{transform:translateY(-16px) rotateX(35deg) rotateZ(245deg)}78%{transform:translateY(2px) rotateX(-15deg) rotateZ(335deg)}100%{transform:translateY(0) rotateX(0) rotateZ(360deg)}}
+@media(prefers-reduced-motion:reduce){#v3DiceAnimation .v3-die{animation:none!important}}
