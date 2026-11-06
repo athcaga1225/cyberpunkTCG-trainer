@@ -136,7 +136,7 @@
    if(!Array.isArray(q.trash))q.trash=[];
    q.trash.push(card);
    q.pendingRebootOptics=(q.pendingRebootOptics||0)+1;
-   return success(next,[...paid.events,'打出 Reboot Optics：下一次對手單位戰鬥保護待觸發（目前尚無戰鬥系統）']);
+   return success(next,[...paid.events,'打出 Reboot Optics：本回合下次對手單位交戰時，保護對應友方單位']);
   }
   if(card.name==='Floor It'){
    // Quick is also playable in the controller's open Main Phase (rules 11.26.2).
@@ -267,7 +267,7 @@
    if(!q.deck.length)return fail('腳本對手抽牌牌庫已空，無法完成 Quick');
    q.hand.push(q.deck.pop());
    Object.assign(staged,payment.state);
-   events.push('防守方 Quick：支付 3 €$，打出 Floor It；攻擊者戰力 -1，對手抽 1 張');
+   events.push('防守方 Quick：支付 1 €$，打出 Floor It；攻擊者戰力 -1，對手抽 1 張');
   }
   if(reaction?.kind==='block'){
    const blocker=staged[opposite].units.find(u=>u.id===reaction.blockerId&&u.ready===true&&unitStats(u).blocker);

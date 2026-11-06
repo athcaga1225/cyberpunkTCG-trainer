@@ -37,7 +37,7 @@ const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
  onPlaySpendRival:name==='Offduty Malfini',
  blocker:name==='Secondhand Bombus'||name==='Mandibular Upgrade',
  cannotBeBlockedIfLowerCred:name==='MT0D12 Flathead',
- deferredEffect:['Dexter DeShawn: One Last Chance','Kiroshi Optics','Delamain Cab','Mandibular Upgrade','MT0D12 Flathead','Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Zetatech Faceplate',"Dying Night: V's Pistol",'Tetratronic Rippler'].includes(name)
+ deferredEffect:['Dexter DeShawn: One Last Chance','Kiroshi Optics','Delamain Cab','MT0D12 Flathead','Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Zetatech Faceplate',"Dying Night: V's Pistol",'Tetratronic Rippler'].includes(name)
 }]));
 function fresh(scenario='basic',opts={}){
  if(!['basic','quick'].includes(scenario))throw new Error('Unknown Heist practice scenario');
@@ -88,8 +88,8 @@ function fresh(scenario='basic',opts={}){
  }
  if(opts.defense==='quick'||opts.defense==='both'){
   s.ai.quickExercise={enabled:true};
-  s.ai.hand.push({id:'training-quick-floor-it',name:'Floor It',type:'Program',cost:3,sellTag:true});
-  s.ai.eddies.push(...Array.from({length:3},(_,i)=>({id:'training-quick-eddie-'+i,ready:true})));
+  s.ai.hand.push({id:'training-quick-floor-it',name:'Floor It',type:'Program',cost:1,sellTag:true});
+  s.ai.eddies.push(...Array.from({length:1},(_,i)=>({id:'training-quick-eddie-'+i,ready:true})));
   s.ai.deck.push({id:'training-quick-draw',name:'練習抽牌',type:'Unit'});
  }
 

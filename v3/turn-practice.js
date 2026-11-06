@@ -1,8 +1,9 @@
 /* V3 only: bounded two-player turn sequence for a BASIC PRACTICE, not official full-game play.
  * Official rules: https://cyberpunktcg.com/comprehensive-rules 7.7-7.9, 8.1-8.11.
- * Does not execute abilities, React windows, opening-hand mulligan, AI or victory variants.
+ * Supports a bounded mirror opponent and explicit Quick/Blocker reactions.
+ * Unverified triggers, Calling Legends, mulligan and Overtime remain unsupported.
  */
-(function(root,factory){'use strict';const deps=(typeof module!=='undefined'&&module.exports)?require('./battle-actions.js'):root.NCTV3Actions;const api=factory(deps);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3TurnPractice=api;})(typeof globalThis!=='undefined'?globalThis:this,function(actions){'use strict';
+(function(root,factory){'use strict';const deps=(typeof module!=='undefined'&&module.exports)?require('./battle-actions.js'):root.NCTV3Actions;const combat=(typeof module!=='undefined'&&module.exports)?require('./mirror-combat.js'):root.NCTV3Combat;const api=factory(deps,combat);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3TurnPractice=api;})(typeof globalThis!=='undefined'?globalThis:this,function(actions,combat){'use strict';
  const copy=x=>JSON.parse(JSON.stringify(x));
  const fail=reason=>({ok:false,reason});
  const ok=(state,message)=>({ok:true,state,message});
@@ -91,7 +92,7 @@
   const s=copy(state);for(const unit of s.player.units)unit.lag=false;for(const side of ['player','ai']){for(const unit of s[side].units){unit.tempPowerModifier=0;}s[side].pendingRebootOptics=0;}s.turn='ai';s.phase='opponent';s.step=s.ai.practiceBot?.kind==='mirror-the-heist'?'pendingBot':'paused';return ok(s,s.step==='pendingBot'?'我方回合結束；輪到鏡像對手執行回合。':'本回合結束；所有己方單位失去 Lag，對手行動尚未實作。');
  }
  // One bounded automated opponent turn; uses real pay/sell/playUnit validators.
- // No attack is auto-declared until defender React (including Quick) is implemented.
+ // Attacks pause in the defender React Step; never bypass the human response.
  function opponentTurn(state,dieValue){
   if(state.finished||state.turn!=='ai'||state.phase!=='opponent'||state.step!=='pendingBot')
    return fail('目前不是對手回合');
@@ -136,9 +137,21 @@
    const played=actions.playUnit(s,'ai',unit.id,sources);
    if(played.ok){Object.assign(s,played.state);notes.push(...played.events)}
   }
-  // Both players may have reactions to attacks. Do not silently waive them.
-  notes.push('對手攻擊尚未啟用：保留玩家 Quick／Blocker 的反應時機');
-  for(const zone of ['player','ai'])for(const unit of s[zone].units)unit.tempPowerModifier=0;
+  s.opponentNotes=notes;
+  return continueOpponent(s);
+ }
+ function continueOpponent(state){
+  const s=copy(state),notes=s.opponentNotes||[];
+  if(s.finished)return ok(s,notes.join('；'));
+  const planned=combat.plan(s,'ai');
+  if(planned){
+   const attack=combat.begin(s,'ai',planned.attackerId,planned.target);
+   if(attack.ok)return ok(attack.state,[...notes,...attack.events].join('；'));
+  }
+  const limitation=combat.restriction(s);
+  if(limitation)notes.push(limitation);
+  delete s.opponentNotes;
+  for(const zone of ['player','ai']){for(const unit of s[zone].units)unit.tempPowerModifier=0;s[zone].pendingRebootOptics=0;}
   for(const unit of s.ai.units)unit.lag=false;
   s.ai.practiceBot.turnsTaken++;
   s.ai.soldThisTurn=false;
@@ -151,6 +164,7 @@
   return ok(s,'鏡像對手完成回合：'+notes.join('；'));
  }
  function next(state){
+  if(state.pendingAttack)return fail('請先完成防守反應');
   if(state.turn!=='ai'||state.phase!=='opponent')return fail('必須先結束我方回合');
   const s=copy(state);s.turn='player';s.phase='start';s.step='ready';s.round+=1;s.player.soldThisTurn=false;for(const u of s.ai.units)if(u.trainingTarget)u.ready=true;
   if(s.player.gigs.length>=7){s.finished=true;return ok(s,'回合開始持有至少 7 顆委託骰，符合一般勝利條件。')}
@@ -188,15 +202,31 @@
   if(state.ai.quickExercise?.enabled)return fail('已有 Quick 練習');
   const s=copy(state);
   s.ai.quickExercise={enabled:true};
-  s.ai.hand.push({id:'training-quick-floor-it',name:'Floor It',type:'Program',cost:3,sellTag:true});
-  s.ai.eddies.push(...Array.from({length:3},(_,i)=>({id:'training-quick-eddie-'+i,ready:true})));
+  s.ai.hand.push({id:'training-quick-floor-it',name:'Floor It',type:'Program',cost:1,sellTag:true});
+  s.ai.eddies.push(...Array.from({length:1},(_,i)=>({id:'training-quick-eddie-'+i,ready:true})));
   s.ai.deck.push({id:'training-quick-draw',name:'練習抽牌',type:'Unit'});
-  return ok(s,'已配置對手 Floor It 與 3 €$；可在 React Step 選擇使用（非 AI）');
+  return ok(s,'已配置對手 Floor It 與 1 €$；可在 React Step 選擇使用（非 AI）');
  }
  function reactAttack(state,attackerId,attack,reaction){
+  if(state.ai?.practiceBot?.kind==='mirror-the-heist'){
+   const declared=combat.begin(state,'player',attackerId,attack);if(!declared.ok)return declared;
+   const resolved=combat.autoDefense(declared.state,attack?.gigIds);
+   return resolved.ok?ok(resolved.state,[...declared.events,...resolved.events].join('；')):resolved;
+  }
   if(!actions)return fail('對戰模組未載入');
   const r=actions.resolveTrainingReaction(state,'player',attackerId,attack,reaction);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
- return {fresh,rollForOrder,chooseOrder,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,opponentTurn,pass,next};
+ function defend(state,action){
+  const result=action?.kind==='end'?combat.end(state,'player'):combat.react(state,'player',action);
+  if(!result.ok)return result;
+  if(result.state.finished)return ok(result.state,result.events.join('；'));
+  if(!result.state.pendingAttack){
+   result.state.opponentNotes=[...result.events];
+   const continued=continueOpponent(result.state);
+   return continued;
+  }
+  return ok(result.state,result.events.join('；'));
+ }
+ return {fresh,rollForOrder,chooseOrder,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,opponentTurn,defend,pass,next};
 });

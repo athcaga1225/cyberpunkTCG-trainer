@@ -13,7 +13,7 @@ assert.equal(key({selectedId:unit.id}),'payment');const pay=G.sources(s).map(({k
 assert.equal(key({selectedId:unit.id,payments:pay.slice(0,1)}),'payment');assert.equal(key({selectedId:unit.id,payments:pay}),'play');
 const unchanged=JSON.stringify(s);assert.equal(P.play(s,unit.id,pay.slice(0,1)).ok,false);assert.equal(JSON.stringify(s),unchanged);assert.equal(key({selectedId:unit.id}),'payment');
 act(P.play(s,unit.id,pay));assert.equal(key(),'end');assert.equal(key({attackUnitId:s.player.units[0].id}),'unavailable');act(P.pass(s));assert.equal(key(),'opponent');act(P.opponentTurn(s,2));assert.equal(key(),'ready');assert.equal(s.player.soldThisTurn,false,'mirror turn restores player sale allowance');
-act(P.ready(s));act(P.draw(s));act(P.roll(s,6,3));assert.equal(key(),'end','mirror combat remains unsupported');assert.equal(key({attackUnitId:s.player.units[0].id}),'end');
+act(P.ready(s));act(P.draw(s));act(P.roll(s,6,3));assert.equal(key(),'end','zero-power unit has no useful Gig target');assert.equal(key({attackUnitId:s.player.units[0].id}),'end');
 const script=H.fresh();script.phase='main';script.player.units=[{...s.player.units[0],ready:true,lag:false}];script.ai.units[0].ready=false;assert.equal(G.next(script).key,'attack');assert.equal(G.next(script,{attackUnitId:script.player.units[0].id}).key,'target');assert.deepEqual(G.targets(script,script.player.units[0]).units,[script.ai.units[0].id]);
 const scarce=H.fresh('quick');scarce.phase='main';scarce.player.soldThisTurn=true;const expensive=scarce.player.hand.find(c=>c.cost===6);assert.equal(G.next(scarce,{selectedId:expensive.id}).key,'shortage');
 scarce.finished=true;assert.equal(G.next(scarce).key,'finished');

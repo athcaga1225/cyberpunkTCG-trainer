@@ -47,8 +47,8 @@ const fs=require('node:fs');
 const path=require('node:path');
 const html=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 const ui=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
-assert(html.includes('src="v3/heist-practice.js?v=1"'),'Heist module must load in V3');
-assert(html.indexOf('src="v3/heist-practice.js?v=1"')<html.indexOf('src="v3/turn-practice-ui.js?v=21"'),'Module must load before UI');
+assert(html.includes('src="v3/heist-practice.js?v=2"'),'Heist module must load in V3');
+assert(html.indexOf('src="v3/heist-practice.js?v=2"')<html.indexOf('src="v3/turn-practice-ui.js?v=22"'),'Module must load before UI');
 assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
@@ -292,7 +292,7 @@ assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped 
 assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
 assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
-assert(handStyles.includes('v3/turn-practice-ui.js?v=21'),'Updated hover script must bypass browser cache');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=22'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
 assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
@@ -420,12 +420,12 @@ assert(!handStyles.includes('translateY(-53px) scale(1.17)'),'Excessive hand lif
  start.player.units.push({id:'quick-attacker',name:'Training attacker',type:'Unit',power:10,ready:true,lag:false,gear:[]});
  const setup=P.addTrainingQuick(start);assert(setup.ok,'Scripted defender Quick can be configured');
  const state=setup.state;
- assert.equal(state.ai.eddies.length,3,'Quick scenario provisions exactly 3 defender resources');
+ assert.equal(state.ai.eddies.length,1,'Floor It costs exactly 1 defender resource per official card text');
  assert.equal(P.reactAttack(state,'quick-attacker',{kind:'gig',gigIds:['training-gig-d4']},{kind:'pass'}).ok,false,'Defending Quick choice must be explicit');
  let acted=P.reactAttack(state,'quick-attacker',{kind:'gig',gigIds:['training-gig-d4']},{kind:'pass',quick:true});
  assert(acted.ok,'Floor It resolves before normal Gig steal');
  assert.equal(acted.state.ai.gigs.length,2,'Power 10 reduced to 9 steals one Gig');
- assert.equal(acted.state.ai.eddies.filter(e=>e.ready).length,0,'Quick payment spends exactly 3 Eddies');
+ assert.equal(acted.state.ai.eddies.filter(e=>e.ready).length,0,'Quick payment spends exactly 1 Eddie');
  assert.equal(acted.state.ai.deck.length,0,'Floor It draws exactly one card');
  assert.equal(acted.state.ai.trash[0].name,'Floor It','Played Quick moves to trash');
  assert.equal(acted.state.player.units[0].tempPowerModifier,-1,'Floor It lowers active attacker power');
@@ -485,7 +485,7 @@ assert(animatedUI.includes("P.reactAttack(state,attackUnitId"),'Table attacks us
 assert(handStyles.includes('body.battle-wide #battle #v3TableControls'),'Table control strip requires a compact stylesheet');
 assert(animatedUI.includes("setActionTray(false)"),'Hand selection must not open the full-height test tray');
 assert(handStyles.includes('body.battle-wide #battle #v3OpeningSetup'),'Standalone opening dialog must have its own layout');
-assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=21'),
+assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=22'),
   'Tour click handlers must initialize before practice controls');
 
 // Bounded mirror opponent turn: real cards and resource payments, no fake attacks.
