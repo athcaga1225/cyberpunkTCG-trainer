@@ -11,10 +11,7 @@ openingRoot.setAttribute('role','dialog');
 openingRoot.setAttribute('aria-modal','true');
 openingRoot.hidden=true;
 root.before(openingRoot);
-// A roll is already committed; ignore repeated input while its dice settle.
-for(const area of [board,openingRoot,root])area.addEventListener('click',event=>{
- if(D.rolling){event.preventDefault();event.stopImmediatePropagation();}
-},true);
+
 
 const toggleActions=$('toggleV3BattleActions');
 // Compact tabletop controls live in PHASE. The old diagnostic tray stays
@@ -51,7 +48,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root.classList.cont
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
 let scenario='basic',defensePreset='none',opponentMode='mirror',state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
-let guidanceOn=true,opponentTimer=null;
+let guidanceOn=true,introChoice=true,opponentTimer=null;
 let pendingDeal=null;
 let activeDeals=[];
 let renderSequence=0;
@@ -426,11 +423,11 @@ function scheduleOpponent(){
 }
 function renderGuide(){
  board.querySelectorAll('.v3-guide-active').forEach(el=>el.classList.remove('v3-guide-active'));
- if(picker.value!=='theHeist')return;
+ if(picker.value!=='theHeist'||state.phase==='pregame')return;
  const h=G.next(state,{selectedId,payments:[...selectedPayments],attackUnitId});
  const card=add('div','',tableControls,'v3-live-guide');
  card.dataset.step=h.key;tableControls.prepend(card);
- const toggle=add('button',guidanceOn?'收起引導':'開啟實戰引導',card,'v3-guide-toggle');toggle.type='button';toggle.setAttribute('aria-pressed',String(guidanceOn));
+ const toggle=add('button',guidanceOn?'略過引導':'開啟實戰引導',card,'v3-guide-toggle');toggle.type='button';toggle.setAttribute('aria-pressed',String(guidanceOn));
  toggle.addEventListener('click',()=>{guidanceOn=!guidanceOn;render()});
  if(!guidanceOn)return;
  add('strong','實戰引導 '+String(h.stage).padStart(2,'0')+' / 06',card);
@@ -643,9 +640,28 @@ function render(){
  const header=add('div','',root,'v3-turn-header');
  add('strong','THE HEIST / '+(state.phase==='pregame'?'開局設定':'ROUND '+state.round),header);add('span',state.phase==='pregame'?'等待先後攻':phase(),header);
  add('p','已接入 The Heist 40 張牌組與卡圖。提供兩組固定測試手牌，並預置一張練習對手單位（沒有 AI）。可練習基本出牌、裝備、部分登場效果、Afterparty 與 Floor It；可進行限定單位交戰、搶骰與腳本 Floor It／Blocker 反應；其他 Quick、完整反應時機及未完成觸發能力仍未支援。',root,'v3-turn-note');
- if(state.phase==='pregame'){
+ if(state.phase==='pregame'&&introChoice){
+  const intro=add('div','',openingRoot,'v3-selected-detail v3-start-guide');
+  add('strong','第一次玩？從這裡開始',intro);
+  add('p','引導會直接告訴你要按哪裡，完成動作就自動往下走。',intro);
+  const steps=add('ol','',intro);
+  for(const text of ['開局：保留預設牌組與起手牌，按「雙方擲 d20」，再選先後攻。','準備：依序按右側的「重置資源」、「抽 1 張」、「擲骰」。','出牌：點手牌 → 變賣取得 Eddie → 再選單位 → 逐張點支付資源 → 打出單位。','交棒：按「結束回合」，系統會自動執行鏡像對手。'])add('li',text,steps);
+  const actions=add('div','',intro,'v3-intro-actions');
+  for(const [label,on] of [['開始操作引導',true],['略過引導，直接開局',false]]){
+   const button=add('button',label,actions,'btn');button.type='button';
+   button.addEventListener('click',()=>{introChoice=false;guidanceOn=on;render()});
+  }
+  add('p','略過後仍可隨時開啟實戰引導。',intro);
+ }else if(state.phase==='pregame'){
   const order=add('div','',openingRoot,'v3-selected-detail');
   add('strong','開局設定 / 選擇牌組與先後攻',order);
+  const help=add('div','',order,'v3-opening-help');
+  const toggle=add('button',guidanceOn?'略過引導':'開啟實戰引導',help,'v3-guide-toggle');toggle.type='button';
+  toggle.addEventListener('click',()=>{guidanceOn=!guidanceOn;render()});
+  if(guidanceOn){
+   add('strong','01 / 06 · 先完成開局',help);
+   add('p',!state.opening?.winner?'第一次建議保留預設設定。往下按高亮的「雙方擲 d20 決定選擇權」。':state.opening.winner==='player'?'你取得選擇權。第一次建議按高亮的「我方選擇先攻」。':'對手取得選擇權。按高亮的「對手選擇先攻」，系統會自動執行對手回合。',help);
+  }
   const deckLabel=add('label','牌組',order);
   const deckSelect=document.createElement('select');
   deckSelect.id='v3RoomDeckSelect';deckSelect.setAttribute('aria-label','選擇實戰牌組');
@@ -705,13 +721,13 @@ function render(){
     const result=P.rollForOrder(state,me,rival);
     if(result.ok)D.show([{label:'我方',sides:20,value:me},{label:'對手',sides:20,value:rival}]);
     return result;
-   },order);
+   },order).classList.toggle('v3-guide-active',guidanceOn);
   }else{
    add('p','我方 '+roll.playerRoll+' ／ 腳本對手 '+roll.rivalRoll+'。'+(roll.winner==='player'?'我方取得選擇權。':'腳本對手取得選擇權。'),order);
    if(roll.winner==='player'){
-    command('我方選擇先攻',()=>P.chooseOrder(state,'player'),order);
+    command('我方選擇先攻',()=>P.chooseOrder(state,'player'),order).classList.toggle('v3-guide-active',guidanceOn);
     command('我方選擇後攻',()=>P.chooseOrder(state,'ai'),order);
-   }else command('對手選擇先攻',()=>P.chooseOrder(state,'ai'),order);
+   }else command('對手選擇先攻',()=>P.chooseOrder(state,'ai'),order).classList.toggle('v3-guide-active',guidanceOn);
   }
   add('p','先攻者左側兩張傳奇卡會橫置，第一回合不能重置。鏡像對手會自動執行回合；固定腳本模式會略過對手行動。',order);
  }

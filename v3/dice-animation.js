@@ -5,37 +5,25 @@
  const status=document.createElement('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
  const dice=document.createElement('div');dice.className='v3-dice-row';dice.setAttribute('aria-hidden','true');
  tray.append(dice,status);document.body.append(tray);
- let tick=null,settle=null,dismiss=null,rolling=false;
+ let dismiss=null;
  function cancel(){
-  clearInterval(tick);clearTimeout(settle);clearTimeout(dismiss);
-  tick=settle=dismiss=null;rolling=false;tray.hidden=true;tray.classList.remove('is-rolling');
+  clearTimeout(dismiss);dismiss=null;tray.hidden=true;
  }
  function show(rolls){
   cancel();
   if(!rolls.length)return;
-  const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   dice.replaceChildren();
-  const faces=rolls.map(roll=>{
+  rolls.forEach(roll=>{
    const item=document.createElement('div');item.className='v3-die-item';
    const label=document.createElement('span');label.textContent=roll.label+' · d'+roll.sides;
    const die=document.createElement('div');die.className='v3-die v3-die-d'+roll.sides;
    die.dataset.sides=String(roll.sides);die.dataset.result=String(roll.value);
    const face=document.createElement('b');face.textContent=String(roll.value);die.append(face);item.append(die,label);dice.append(item);
-   return face;
   });
-  const finish=()=>{
-   clearInterval(tick);tick=null;rolling=false;tray.classList.remove('is-rolling');
-   faces.forEach((face,i)=>face.textContent=String(rolls[i].value));
-   tray.dataset.phase='result';
-   status.textContent=rolls.map(r=>r.label+' d'+r.sides+'：'+r.value).join(' ／ ');
-   dismiss=setTimeout(cancel,1300);
-  };
-  tray.hidden=false;tray.dataset.phase=reduced?'result':'rolling';
-  if(reduced){finish();return;}
-  rolling=true;tray.classList.add('is-rolling');status.textContent='擲骰中…';
-  let frame=0;
-  tick=setInterval(()=>{frame++;faces.forEach((face,i)=>face.textContent=String((frame*7+i*3)%rolls[i].sides+1));},65);
-  settle=setTimeout(finish,850);
+  // Keep the dice still: show the committed result without spins, hops or flashing numbers.
+  tray.hidden=false;tray.dataset.phase='result';
+  status.textContent=rolls.map(r=>r.label+' d'+r.sides+'：'+r.value).join(' ／ ');
+  dismiss=setTimeout(cancel,1400);
  }
  function transition(before,after){
   const rolls=[];
@@ -45,5 +33,5 @@
   }
   if(rolls.length)show(rolls);
  }
- window.NCTV3Dice={show,transition,cancel,get rolling(){return rolling}};
+ window.NCTV3Dice={show,transition,cancel,get rolling(){return false}};
 })();
