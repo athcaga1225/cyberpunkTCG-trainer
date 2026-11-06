@@ -14,7 +14,7 @@ assert.equal(s.player.legends.filter(x=>x.ready).length,1,'Two legends start spe
 assert(s.player.hand.some(x=>x.name==='Secondhand Bombus'&&x.cost===2&&x.type==='Unit'&&!x.sellTag&&!x.unimplementedEffect));
 assert(s.player.hand.some(x=>x.name==='Kiroshi Optics'&&x.sellTag));
 assert.equal(H.byName.get('Evelyn Parker: Scheming Siren').unimplementedEffect,false,'Attack-only ability does not block basic deployment');
-assert.equal(H.byName.get('Evelyn Parker: Scheming Siren').deferredEffect,true,'Attack ability remains explicitly deferred');
+assert.equal(H.byName.get('Evelyn Parker: Scheming Siren').attackEffect,'evelyn','Mirror engine resolves Evelyn attack ability explicitly');
 assert.equal(H.byName.get('Psycho Squad').unimplementedEffect,false,'Vanilla unit is available');
 assert.equal(H.byName.get('Kiroshi Optics').unimplementedEffect,false,'Verified Gear can be equipped');
 assert.equal(H.byName.get('Mandibular Upgrade').unimplementedEffect,false,'Blocker Gear can be equipped');
@@ -47,8 +47,8 @@ const fs=require('node:fs');
 const path=require('node:path');
 const html=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 const ui=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
-assert(html.includes('src="v3/heist-practice.js?v=2"'),'Heist module must load in V3');
-assert(html.indexOf('src="v3/heist-practice.js?v=2"')<html.indexOf('src="v3/turn-practice-ui.js?v=23"'),'Module must load before UI');
+assert(html.includes('src="v3/heist-practice.js?v=3"'),'Heist module must load in V3');
+assert(html.indexOf('src="v3/heist-practice.js?v=3"')<html.indexOf('src="v3/turn-practice-ui.js?v=24"'),'Module must load before UI');
 assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
@@ -97,7 +97,7 @@ assert.equal(A.pay(g,'player',1,[null]).ok,false);
 /* Stage 2: official passive card facts and exact controller targeting. */
 assert.equal(H.byName.get('MT0D12 Flathead').unimplementedEffect,false,'Flathead is playable before attack timing exists');
 assert.equal(H.byName.get('MT0D12 Flathead').power,7);
-assert.equal(H.byName.get('MT0D12 Flathead').deferredEffect,true,'Flathead unblockable condition awaits combat');
+assert.equal(H.byName.get('MT0D12 Flathead').deferredEffect,false,'Flathead unblockable condition is enabled in mirror combat');
 assert.equal(H.byName.get('Secondhand Bombus').blocker,true);
 assert.equal(H.byName.get('Mandibular Upgrade').blocker,true);
 const stats=A.unitStats(g.player.units[0]);
@@ -132,10 +132,10 @@ assert.equal(P.program(edge,'boundary',[{kind:'eddie',id:'cash'}],{side:'player'
 assert.equal(edge.player.eddies[0].ready,true);
 /* Stage 2: correct Dexter Play trigger and separate deferred Attack/Defeated triggers. */
 assert.equal(H.byName.get('Dexter DeShawn: One Last Chance').onPlayGigAdjust,true);
-assert.equal(H.byName.get('Dexter DeShawn: One Last Chance').deferredEffect,true);
+assert.equal(H.byName.get('Dexter DeShawn: One Last Chance').deferredEffect,false);
 for(const name of ['Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Zetatech Faceplate']){
  assert.equal(H.byName.get(name).unimplementedEffect,false,name+' can enter play before its trigger');
- assert.equal(H.byName.get(name).deferredEffect,true,name+' retains an unimplemented trigger');
+ assert.equal(H.byName.get(name).deferredEffect,name==='Zetatech Faceplate',name+' flags match current mirror trigger support');
 }
 const faceplate=H.byName.get('Zetatech Faceplate');
 assert.equal(faceplate.cost,2);assert.equal(faceplate.power,2);
@@ -160,7 +160,7 @@ assert(faceResult.ok);assert.equal(A.unitStats(faceResult.state.player.units[0])
 for(const [name,cost,power] of [["Dying Night: V's Pistol",2,2],['Tetratronic Rippler',1,1]]){
  const c=H.byName.get(name);
  assert.equal(c.unimplementedEffect,false,name+' should be attachable');
- assert.equal(c.deferredEffect,true,name+' has a pending combat/spend trigger');
+ assert.equal(c.deferredEffect,name==='Tetratronic Rippler',name+' keeps only unimplemented spend triggers deferred');
  assert.equal(c.cost,cost);assert.equal(c.power,power);
  const state=H.fresh();state.turn='player';state.phase='main';
  state.player.units.push({id:'sample-unit',name:'Psycho Squad',power:6,ready:true,gear:[]});
@@ -226,7 +226,7 @@ const quickNext=P.next(quickResult.state);assert(quickNext.ok);
 assert.equal(quickNext.state.ai.units[0].ready,true,'Training rival is reset for repeatable turns');
 const practiceUI=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(practiceUI.includes('renderRivalField()'),'Rival training target must render');
-assert(practiceUI.includes("H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode})"),'Practice hand scenarios must be wired');
+assert(practiceUI.includes("H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true})"),'Practice hand scenarios must be wired');
 /* Reboot Optics may be played in the open Main Phase; effect is pending until combat exists. */
 assert.equal(H.byName.get('Reboot Optics').unimplementedEffect,false);
 let protect=H.fresh('quick');protect.turn='player';protect.phase='main';
@@ -292,7 +292,7 @@ assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped 
 assert(animatedUI.includes("raisedHandId=card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
 assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
-assert(handStyles.includes('v3/turn-practice-ui.js?v=23'),'Updated hover script must bypass browser cache');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=24'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
 assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
@@ -485,7 +485,7 @@ assert(animatedUI.includes("P.reactAttack(state,attackUnitId"),'Table attacks us
 assert(handStyles.includes('body.battle-wide #battle #v3TableControls'),'Table control strip requires a compact stylesheet');
 assert(animatedUI.includes("setActionTray(false)"),'Hand selection must not open the full-height test tray');
 assert(handStyles.includes('body.battle-wide #battle #v3OpeningSetup'),'Standalone opening dialog must have its own layout');
-assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=23'),
+assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=24'),
   'Tour click handlers must initialize before practice controls');
 
 // Bounded mirror opponent turn: real cards and resource payments, no fake attacks.

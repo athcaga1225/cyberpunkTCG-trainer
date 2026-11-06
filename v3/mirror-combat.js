@@ -2,9 +2,9 @@
  * https://cyberpunktcg.com/comprehensive-rules
  * https://cyberpunktcg.com/cards/floor-it (cost 1)
  * https://cyberpunktcg.com/cards/reboot-optics (cost 2)
- * Reject unimplemented field/gear triggers; Calling Legends is not supported.
+ * Reject unimplemented field/gear triggers; known Legend and Attack effects use a pending-choice queue.
  */
-(function(root,factory){const api=factory(typeof module!=='undefined'&&module.exports?require('./battle-actions.js'):root.NCTV3Actions);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3Combat=api;})(typeof globalThis!=='undefined'?globalThis:this,A=>{
+(function(root,factory){const api=factory(typeof module!=='undefined'&&module.exports?require('./battle-actions.js'):root.NCTV3Actions,typeof module!=='undefined'&&module.exports?require('./heist-effects.js'):root.NCTV3Effects);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3Combat=api;})(typeof globalThis!=='undefined'?globalThis:this,(A,E)=>{
  'use strict';
  const clone=x=>JSON.parse(JSON.stringify(x)),other=who=>who==='player'?'ai':'player';
  const fail=reason=>({ok:false,reason}),ok=(state,events)=>({ok:true,state,events});
@@ -13,13 +13,13 @@
  const power=u=>Math.max(0,A.unitStats(u).power);
  function restriction(s){
   if(!mirror(s))return '此戰鬥流程僅適用 The Heist 鏡像對手';
-  if(['player','ai'].some(w=>s[w].units.some(u=>!supported(u))||s[w].legends.some(l=>l.faceUp)))return '場上有尚未支援的觸發能力；鏡像戰鬥暫不結算，請使用基本單位練習';
+  if(['player','ai'].some(w=>s[w].units.some(u=>!supported(u))||s[w].legends.some(l=>l.faceUp&&!E.knownLegend(l))))return '場上含尚未支援的能力（如橫置裝備觸發），暫不結算鏡像戰鬥';
   return null;
  }
  function targets(s,who,id){
-  if(!['player','ai'].includes(who)||s.finished||s.pendingAttack||s.turn!==who||s.phase!=='main'||restriction(s))return {units:[],gigs:false};
+  if(!['player','ai'].includes(who)||s.finished||s.pendingAttack||E.pending(s)||s.turn!==who||s.phase!=='main'||restriction(s))return {units:[],gigs:false};
   const u=s[who].units.find(u=>u.id===id);
-  if(!u||!u.ready||u.lag||!supported(u))return {units:[],gigs:false};
+  if(!u||!u.ready||(u.lag&&!u.goSolo)||!supported(u))return {units:[],gigs:false};
   return {units:s[other(who)].units.filter(d=>!d.ready&&supported(d)).map(d=>d.id),gigs:s[other(who)].gigs.length>0};
  }
  function begin(s,who,id,target){
@@ -27,15 +27,19 @@
   if(!target||!['gig','unit'].includes(target.kind)||(target.kind==='gig'&&!legal.gigs)||(target.kind==='unit'&&!legal.units.includes(target.defenderId)))return fail(restriction(s)||'攻擊者或目標目前不合法（需就緒、沒有 Lag，且對手單位必須已使用）');
   const next=clone(s),rival=other(who),u=next[who].units.find(u=>u.id===id);
   u.ready=false;next.phase='react';next.step='defense';
-  next.pendingAttack={attackingSide:who,defendingSide:rival,attackerId:id,target:target.kind==='gig'?{kind:'gig'}:{kind:'unit',defenderId:target.defenderId}};
-  return ok(next,[u.name+' 宣告攻擊 '+(target.kind==='gig'?'委託區':next[rival].units.find(d=>d.id===target.defenderId).name)+'；等待防守反應']);
+  next.pendingAttack={attackingSide:who,defendingSide:rival,attackerId:id,target:target.kind==='gig'?{kind:'gig'}:{kind:'unit',defenderId:target.defenderId},preferredGigIds:target.gigIds};
+  E.attack(next,who,u);
+  const events=[];E.pump(next,events);
+  return ok(next,[...events,u.name+' 宣告攻擊 '+(target.kind==='gig'?'委託區':next[rival].units.find(d=>d.id===target.defenderId).name)+'；等待防守反應']);
  }
  function context(s){
   const p=s.pendingAttack;
-  return !s.finished&&s.phase==='react'&&p&&s.turn===p.attackingSide&&s[p.attackingSide]?.units.some(u=>u.id===p.attackerId)?p:null;
+  return !s.finished&&!E.pending(s)&&s.phase==='react'&&p&&s.turn===p.attackingSide&&s[p.attackingSide]?.units.some(u=>u.id===p.attackerId)?p:null;
  }
  function blockers(s){
   const p=context(s);if(!p||restriction(s))return [];
+  const attacker=s[p.attackingSide].units.find(u=>u.id===p.attackerId);
+  if(attacker?.cannotBeBlockedIfLowerCred&&E.cred(s,p.attackingSide)<E.cred(s,p.defendingSide))return [];
   return s[p.defendingSide].units.filter(u=>u.ready&&!u.lag&&supported(u)&&A.unitStats(u).blocker);
  }
  function quicks(s){
@@ -73,7 +77,7 @@
    else{
     const ap=power(attacker),dp=power(defender),protectAttacker=owner.pendingRebootOptics>0,protectDefender=rival.pendingRebootOptics>0;
     owner.pendingRebootOptics=0;rival.pendingRebootOptics=0;
-    const defeat=(who,u)=>{const q=next[who];q.units=q.units.filter(c=>c.id!==u.id);q.trash=q.trash||[];q.trash.push({...u,gear:[]},...(u.gear||[]));events.push('擊敗 '+u.name);};
+    const defeat=(who,u)=>{const q=next[who];q.units=q.units.filter(c=>c.id!==u.id);q.trash=q.trash||[];if(u.type==='Legend'){(q.removed??=[]).push({...u,gear:[]});q.trash.push(...(u.gear||[]));}else q.trash.push({...u,gear:[]},...(u.gear||[]));E.defeated(next,who,u);events.push('擊敗 '+u.name);};
     events.push('單位交戰：'+attacker.name+' '+ap+' PWR vs '+defender.name+' '+dp+' PWR');
     if(ap<=dp&&dp>0&&!protectAttacker)defeat(attack.attackingSide,attacker);
     if(dp<=ap&&ap>0&&!protectDefender)defeat(who,defender);
@@ -83,10 +87,10 @@
    const count=power(attacker)<=0?0:Math.min(rival.gigs.length,Math.floor(power(attacker)/10)+1);
    const ids=gigIds===undefined?rival.gigs.slice().sort((a,b)=>b.value-a.value).slice(0,count).map(g=>g.id):gigIds;
    if(!Array.isArray(ids)||ids.length!==count||new Set(ids).size!==count||ids.some(id=>!rival.gigs.some(g=>g.id===id)))return fail('反應結束後，請選擇正確數量且不重複的委託骰：'+count+' 顆');
-   const stolen=rival.gigs.filter(g=>ids.includes(g.id));rival.gigs=rival.gigs.filter(g=>!ids.includes(g.id));owner.gigs.push(...stolen);
+   const stolen=rival.gigs.filter(g=>ids.includes(g.id));rival.gigs=rival.gigs.filter(g=>!ids.includes(g.id));owner.gigs.push(...stolen);if(stolen.length)attacker.stoleGigThisTurn=true;
    events.push(attacker.name+' 搶得 '+stolen.length+' 顆委託骰（點數保持不變）');
   }
-  next.pendingAttack=null;next.phase='main';next.step='actions';
+  next.pendingAttack=null;next.phase='main';next.step='actions';E.pump(next,events);
   return ok(next,events);
  }
  function plan(s,who){

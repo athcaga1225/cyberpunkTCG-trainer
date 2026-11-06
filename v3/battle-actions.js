@@ -24,6 +24,7 @@
    const item=pool.find(x=>x.id===src.id);
    if(!item||item.ready!==true)return fail("支付資源不存在或已使用");
    if(src.kind==="legend"&&item.faceUp===true&&!item.sellTag)return fail("已翻開且沒有變賣標記的傳奇卡不能支付");
+   if(src.kind==="legend"&&(item.gear||[]).some(g=>g.deferredEffect||g.unimplementedEffect))return fail("此傳奇裝有尚未支援的橫置觸發，不能略過結算");
   }
   const s=clone(state),q=s[who];for(const src of sources)(src.kind==="eddie"?q.eddies:q.legends).find(x=>x.id===src.id).ready=false;
   return success(s,["支付 "+cost+" €$（Eddies／傳奇卡）"]);
@@ -65,6 +66,7 @@
    if(candidates.length){
     rivalTarget=candidates.find(x=>x.id===opts?.rivalUnitId);
     if(!rivalTarget)return fail("必須選擇一張可橫置的對手單位");
+    if((rivalTarget.gear||[]).some(g=>g.deferredEffect||g.unimplementedEffect))return fail("對手單位有尚未支援的橫置觸發，不能略過結算");
    }else if(opts?.rivalUnitId)return fail("沒有可橫置的對手單位");
   }
   const payment=pay(state,who,c.cost,sources);if(!payment.ok)return payment;
@@ -192,7 +194,7 @@
   if(defender.ready!==false)return fail('只能直接攻擊已使用的對手單位');
   if(!opts.reactionResolved&&rival.units.some(u=>u.ready===true&&unitStats(u).blocker))return fail('防守方尚未決定 Blocker 反應');
   // This bounded trainer deliberately rejects unresolved attack/defeat abilities.
-  if(attacker.deferredEffect||defender.deferredEffect||attacker.unimplementedEffect||defender.unimplementedEffect)
+  if(attacker.deferredEffect||defender.deferredEffect||attacker.attackEffect||attacker.defeatEffect||attacker.endReadyEddie||attacker.cannotBeBlockedIfLowerCred||defender.defeatEffect||(attacker.gear||[]).some(g=>g.attackEffect)||attacker.goSolo||defender.goSolo||attacker.unimplementedEffect||defender.unimplementedEffect)
    return fail('此單位涉及尚未驗證的攻擊或擊敗能力，暫不結算');
   if(p.pendingRebootOptics||rival.pendingRebootOptics)return fail('Quick 戰鬥保護尚未實作，不能跳過結算');
   const s=clone(state),a=s[who].units.find(u=>u.id===attackerId),d=s[rivalSide].units.find(u=>u.id===defenderId);
@@ -211,7 +213,7 @@
   if(state.finished||state.phase!=='main'||state.turn!==who)return fail('只能在自己的主要階段攻擊');
   const attacker=p.units.find(u=>u.id===attackerId);
   if(!attacker||attacker.ready!==true||attacker.lag===true)return fail('攻擊單位必須就緒，且沒有 Lag');
-  if(attacker.deferredEffect||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
+  if(attacker.deferredEffect||attacker.attackEffect||attacker.defeatEffect||attacker.endReadyEddie||attacker.cannotBeBlockedIfLowerCred||(attacker.gear||[]).some(g=>g.attackEffect)||attacker.goSolo||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
    return fail('攻擊或 Quick 相關效果尚未驗證，不可略過');
   if(!Array.isArray(rival.gigs)||!rival.gigs.length)return fail('對手委託區沒有委託骰');
   if(!opts.reactionResolved&&rival.units.some(u=>u.ready===true&&unitStats(u).blocker))return fail('防守方尚未決定 Blocker 反應');
@@ -237,7 +239,7 @@
   if(state.finished||state.phase!=='main'||state.turn!==who)return fail('只能在主要階段宣告攻擊');
   const attacker=p.units.find(u=>u.id===attackerId);
   if(!attacker||!attacker.ready||attacker.lag)return fail('攻擊者必須就緒且沒有 Lag');
-  if(attacker.deferredEffect||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
+  if(attacker.deferredEffect||attacker.attackEffect||attacker.defeatEffect||attacker.endReadyEddie||attacker.cannotBeBlockedIfLowerCred||(attacker.gear||[]).some(g=>g.attackEffect)||attacker.goSolo||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
    return fail('尚未支援的攻擊、Quick 或觸發效果不可跳過');
   if(!attack||!['gig','unit'].includes(attack.kind))return fail('必須指定攻擊目標');
   if(attack.kind==='gig'&&(!rival.gigs?.length||!rival.gigs.every(g=>g.trainingTarget)))

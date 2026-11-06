@@ -6,6 +6,7 @@ on:
       - 'v3/trainer-modules.js'
       - 'v3/battle-actions.js'
       - 'v3/mirror-combat.js'
+      - 'v3/heist-effects.js'
       - 'v3/turn-practice.js'
       - 'v3/turn-practice-ui.js'
       - 'v3/practice-guide.js'
@@ -23,6 +24,7 @@ on:
       - 'tests/v3-heist-practice.test.js'
       - 'tests/v3-practice-guide.test.js'
       - 'tests/v3-mirror-combat.test.js'
+      - 'tests/v3-heist-effects.test.js'
       - '.github/workflows/v3-lessons.yml'
   workflow_dispatch:
 jobs:
@@ -43,6 +45,7 @@ jobs:
         run: |
           node --check v3/turn-practice-ui.js
           node --check v3/mirror-combat.js
+          node --check v3/heist-effects.js
           node --check v3/dice-animation.js
           node --check v3/heist-practice.js
           node --check v3/turn-practice.js
@@ -53,3 +56,5 @@ jobs:
         run: node tests/v3-practice-guide.test.js
       - name: Verify mirror combat and defensive reactions
         run: node tests/v3-mirror-combat.test.js
+      - name: Verify Legend and The Heist effects
+        run: node tests/v3-heist-effects.test.js

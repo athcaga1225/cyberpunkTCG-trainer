@@ -31,13 +31,17 @@ const supported=new Set(['Floor It','Reboot Optics','Dexter DeShawn: One Last Ch
 const powers={'Heywood Ripperdoc':8,'Offduty Malfini':5,'Dexter DeShawn: One Last Chance':4,'Secondhand Bombus':0,'Psycho Squad':6,'Delamain Cab':4,'MT0D12 Flathead':7,'Evelyn Parker: Scheming Siren':0,'T-Bug: Amateur Philosopher':4,'Mandibular Upgrade':0,'Kiroshi Optics':1,'Zetatech Faceplate':2,"Dying Night: V's Pistol":2,'Tetratronic Rippler':1};
 const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
  name,type,cost,sellTag,power:powers[name]??null,
+ color:['Dexter DeShawn: One Last Chance','Heywood Ripperdoc','Offduty Malfini','Secondhand Bombus','T-Bug: Amateur Philosopher','Kiroshi Optics','Mandibular Upgrade','Zetatech Faceplate'].includes(name)?'Yellow':'Blue',
+ attackEffect:({'Evelyn Parker: Scheming Siren':'evelyn','Dexter DeShawn: One Last Chance':'dexter','Kiroshi Optics':'kiroshi',"Dying Night: V's Pistol":'dying-night'})[name]||null,
+ defeatEffect:({'T-Bug: Amateur Philosopher':'tbug','Dexter DeShawn: One Last Chance':'dexter'})[name]||null,
+ endReadyEddie:name==='Delamain Cab',
  unimplementedEffect:!supported.has(name),
  onPlayGigAdjust:name==='Dexter DeShawn: One Last Chance',
  onPlayDefeatGear:name==='Heywood Ripperdoc',
  onPlaySpendRival:name==='Offduty Malfini',
  blocker:name==='Secondhand Bombus'||name==='Mandibular Upgrade',
  cannotBeBlockedIfLowerCred:name==='MT0D12 Flathead',
- deferredEffect:['Dexter DeShawn: One Last Chance','Kiroshi Optics','Delamain Cab','MT0D12 Flathead','Evelyn Parker: Scheming Siren','T-Bug: Amateur Philosopher','Zetatech Faceplate',"Dying Night: V's Pistol",'Tetratronic Rippler'].includes(name)
+ deferredEffect:['Zetatech Faceplate','Tetratronic Rippler'].includes(name)
 }]));
 function fresh(scenario='basic',opts={}){
  if(!['basic','quick'].includes(scenario))throw new Error('Unknown Heist practice scenario');
@@ -50,10 +54,11 @@ function fresh(scenario='basic',opts={}){
  // Deterministic 34-card remainder for repeatable training, not a shuffled official opening.
  s.player.hand=hand;s.player.deck=cards;
  s.player.eddies=[];s.player.legends=[
-  {id:'legend-viktor',name:'Viktor Vektor: Sit Down and Relax',ready:false,faceUp:false},
-  {id:'legend-v',name:'V: Corporate Exile',ready:false,faceUp:false},
-  {id:'legend-jackie',name:'Jackie Welles: Pour One Out For Me',ready:true,faceUp:false}
+  {id:'legend-viktor',...P.legendSpecs.viktor,ready:false,faceUp:false},
+  {id:'legend-v',...P.legendSpecs.v,ready:false,faceUp:false},
+  {id:'legend-jackie',...P.legendSpecs.jackie,ready:true,faceUp:false}
  ];
+ if(opts.randomizeLegends)s.player.legends=P.shuffleLegends(s.player.legends);
  // Optional deterministic mirror-deck opponent for economical turn-sequence tests.
  // This is not the Embracing Power deck, and no unverified card effects are simulated.
  if(opts.aiMode==='mirror'){
@@ -64,6 +69,7 @@ function fresh(scenario='basic',opts={}){
   s.ai.hand=rivalOpening.map(name=>rivalCards.splice(rivalCards.findIndex(c=>c.name===name),1)[0]);
   s.ai.deck=rivalCards;
   s.ai.legends=s.player.legends.map(l=>({...l,id:'mirror-'+l.id,ready:true}));
+  if(opts.randomizeLegends)s.ai.legends=P.shuffleLegends(s.ai.legends);
   s.ai.eddies=[];s.ai.units=[];s.ai.gigs=[];s.ai.fixer=[4,6,8,10,12,20];
   s.ai.practiceBot={kind:'mirror-the-heist',turnsTaken:0};
   s.practiceKind='the-heist';s.practiceScenario=scenario;

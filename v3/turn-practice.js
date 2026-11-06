@@ -1,9 +1,10 @@
 /* V3 only: bounded two-player turn sequence for a BASIC PRACTICE, not official full-game play.
  * Official rules: https://cyberpunktcg.com/comprehensive-rules 7.7-7.9, 8.1-8.11.
  * Supports a bounded mirror opponent and explicit Quick/Blocker reactions.
- * Unverified triggers, Calling Legends, mulligan and Overtime remain unsupported.
+ * Known The Heist Legend/Attack/Defeated/end-turn effects use explicit choices.
+ * Unverified spend triggers, mulligan and Overtime remain unsupported.
  */
-(function(root,factory){'use strict';const deps=(typeof module!=='undefined'&&module.exports)?require('./battle-actions.js'):root.NCTV3Actions;const combat=(typeof module!=='undefined'&&module.exports)?require('./mirror-combat.js'):root.NCTV3Combat;const api=factory(deps,combat);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3TurnPractice=api;})(typeof globalThis!=='undefined'?globalThis:this,function(actions,combat){'use strict';
+(function(root,factory){'use strict';const deps=(typeof module!=='undefined'&&module.exports)?require('./battle-actions.js'):root.NCTV3Actions;const combat=(typeof module!=='undefined'&&module.exports)?require('./mirror-combat.js'):root.NCTV3Combat;const effects=(typeof module!=='undefined'&&module.exports)?require('./heist-effects.js'):root.NCTV3Effects;const api=factory(deps,combat,effects);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3TurnPractice=api;})(typeof globalThis!=='undefined'?globalThis:this,function(actions,combat,effects){'use strict';
  const copy=x=>JSON.parse(JSON.stringify(x));
  const fail=reason=>({ok:false,reason});
  const ok=(state,message)=>({ok:true,state,message});
@@ -47,18 +48,21 @@
   return ok(s,firstPlayer==='player'?'我方先攻：左側兩張傳奇卡已使用，第一回合不能重置。':'腳本對手先攻：目前沒有 AI 回合，已明確略過對手第一回合；我方後攻，三張傳奇卡保持就緒。');
  }
  function ready(state){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(state.turn!=='player'||state.phase!=='start'||state.step!=='ready')return fail('目前不是重置階段');
   const s=copy(state),p=s.player;
   if(s.round>1){for(const zone of ['eddies','legends','units'])for(const c of p[zone])c.ready=true;for(const u of p.units)u.lag=false;}
   s.step='draw';return ok(s,'準備階段：重置完成。');
  }
  function draw(state){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(state.turn!=='player'||state.phase!=='start'||state.step!=='draw')return fail('必須先完成重置');
   const s=copy(state),p=s.player;
   if(!p.deck.length){s.finished=true;return ok(s,'牌庫已空：依一般規則抽牌失敗，遊戲結束。')}
   p.hand.push(p.deck.pop());s.step='roll';return ok(s,'抽取 1 張練習手牌。');
  }
  function roll(state,side,value){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(state.turn!=='player'||state.phase!=='start'||state.step!=='roll')return fail('必須先完成抽牌');
   const s=copy(state),p=s.player;
   if(!p.fixer.includes(side))return fail('這顆骰子不在合事佬區');
@@ -68,28 +72,39 @@
   return ok(s,'擲出 d'+side+'，點數 '+value+'；進入主要階段。');
  }
  function sell(state,id){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(!actions)return fail('支付模組未載入');
   const r=actions.sell(state,'player',id);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
  function play(state,id,payment,opts={}){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(!actions)return fail('支付模組未載入');
   const r=actions.playUnit(state,'player',id,payment,opts);
+  if(r.ok&&effects.active(state)){effects.onPlay(r.state,'player',state.player.hand.find(c=>c.id===id));return progress(r.state,r.events);}
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
  function gear(state,id,payment,targetId){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(!actions)return fail('支付模組未載入');
   const r=actions.playGear(state,'player',id,payment,targetId);
+  if(r.ok&&effects.active(state)){effects.onPlay(r.state,'player',state.player.hand.find(c=>c.id===id));return progress(r.state,r.events);}
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
  function program(state,id,payment,opts){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(!actions)return fail('支付模組未載入');
   const r=actions.playProgram(state,'player',id,payment,opts);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
  function pass(state){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(state.turn!=='player'||state.phase!=='main'||state.finished)return fail('只能在自己的主要階段結束回合');
-  const s=copy(state);for(const unit of s.player.units)unit.lag=false;for(const side of ['player','ai']){for(const unit of s[side].units){unit.tempPowerModifier=0;}s[side].pendingRebootOptics=0;}s.turn='ai';s.phase='opponent';s.step=s.ai.practiceBot?.kind==='mirror-the-heist'?'pendingBot':'paused';return ok(s,s.step==='pendingBot'?'我方回合結束；輪到鏡像對手執行回合。':'本回合結束；所有己方單位失去 Lag，對手行動尚未實作。');
+  const s=copy(state);if(effects.active(s)){effects.endTurn(s,'player');s.afterEffects='pass';s.phase='end';return progress(s,['進入回合結束效果']);}
+  return finishPass(s);
+ }
+ function finishPass(state){
+  const s=copy(state);effects.resetTurn(s);for(const unit of s.player.units)unit.lag=false;for(const side of ['player','ai']){for(const unit of s[side].units){unit.tempPowerModifier=0;}s[side].pendingRebootOptics=0;}s.turn='ai';s.phase='opponent';s.step=s.ai.practiceBot?.kind==='mirror-the-heist'?'pendingBot':'paused';return ok(s,s.step==='pendingBot'?'我方回合結束；輪到鏡像對手執行回合。':'本回合結束；所有己方單位失去 Lag，對手行動尚未實作。');
  }
  // One bounded automated opponent turn; uses real pay/sell/playUnit validators.
  // Attacks pause in the defender React Step; never bypass the human response.
@@ -135,7 +150,7 @@
   if(unit){
    const sources=available.slice(0,unit.cost);
    const played=actions.playUnit(s,'ai',unit.id,sources);
-   if(played.ok){Object.assign(s,played.state);notes.push(...played.events)}
+   if(played.ok){Object.assign(s,played.state);effects.onPlay(s,'ai',unit);effects.pump(s,notes);notes.push(...played.events)}
   }
   s.opponentNotes=notes;
   return continueOpponent(s);
@@ -146,10 +161,13 @@
   const planned=combat.plan(s,'ai');
   if(planned){
    const attack=combat.begin(s,'ai',planned.attackerId,planned.target);
-   if(attack.ok)return ok(attack.state,[...notes,...attack.events].join('；'));
+   if(attack.ok)return progress(attack.state,[...notes,...attack.events]);
   }
-  const limitation=combat.restriction(s);
-  if(limitation)notes.push(limitation);
+  const limitation=combat.restriction(s);if(limitation)notes.push(limitation);
+  effects.endTurn(s,'ai');s.afterEffects='ai-end';s.phase='end';return progress(s,notes);
+ }
+ function finishOpponent(state,notes=[]){
+  const s=copy(state);effects.resetTurn(s);
   delete s.opponentNotes;
   for(const zone of ['player','ai']){for(const unit of s[zone].units)unit.tempPowerModifier=0;s[zone].pendingRebootOptics=0;}
   for(const unit of s.ai.units)unit.lag=false;
@@ -164,13 +182,14 @@
   return ok(s,'鏡像對手完成回合：'+notes.join('；'));
  }
  function next(state){
-  if(state.pendingAttack)return fail('請先完成防守反應');
+  if(state.pendingAttack||effects.pending(state))return fail('請先完成防守反應與能力選擇');
   if(state.turn!=='ai'||state.phase!=='opponent')return fail('必須先結束我方回合');
   const s=copy(state);s.turn='player';s.phase='start';s.step='ready';s.round+=1;s.player.soldThisTurn=false;for(const u of s.ai.units)if(u.trainingTarget)u.ready=true;
   if(s.player.gigs.length>=7){s.finished=true;return ok(s,'回合開始持有至少 7 顆委託骰，符合一般勝利條件。')}
   return ok(s,'開始下一個我方回合（對手行動在此練習中略過）。');
  }
  function prepareTrainingTarget(state,targetId){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(state.finished||state.turn!=='player'||state.phase!=='main'||state.practiceKind!=='the-heist')
    return fail('只能在 The Heist 主要階段設定練習目標');
   const target=state.ai?.units?.find(u=>u.id===targetId&&u.trainingTarget);
@@ -179,16 +198,19 @@
   return ok(s,'練習設定：對手 '+target.name+' 改為已使用（非 AI 行動）');
  }
  function fight(state,attackerId,defenderId){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(!actions)return fail('對戰模組未載入');
   const r=actions.fightSpentUnit(state,'player',attackerId,defenderId);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
  function steal(state,attackerId,gigIds){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(!actions)return fail('對戰模組未載入');
   const r=actions.stealTrainingGigs(state,'player',attackerId,gigIds);
   return r.ok?ok(r.state,r.events.join('；')):r;
  }
  function addTrainingBlocker(state){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(state.practiceKind!=='the-heist'||state.phase!=='main'||state.turn!=='player'||state.finished)
    return fail('只能在 The Heist 主要階段加入攔截練習');
   if(state.ai.units.some(u=>u.trainingBlocker))return fail('已有攔截練習單位');
@@ -197,6 +219,7 @@
   return ok(s,'已加入腳本 Blocker：防守反應可選擇攔截或不攔截（非 AI 行動）');
  }
  function addTrainingQuick(state){
+  if(effects.pending(state))return fail('請先處理待結算能力');
   if(state.practiceKind!=='the-heist'||state.phase!=='main'||state.turn!=='player'||state.finished)
    return fail('只能在 The Heist 主要階段加入 Quick 練習');
   if(state.ai.quickExercise?.enabled)return fail('已有 Quick 練習');
@@ -210,8 +233,7 @@
  function reactAttack(state,attackerId,attack,reaction){
   if(state.ai?.practiceBot?.kind==='mirror-the-heist'){
    const declared=combat.begin(state,'player',attackerId,attack);if(!declared.ok)return declared;
-   const resolved=combat.autoDefense(declared.state,attack?.gigIds);
-   return resolved.ok?ok(resolved.state,[...declared.events,...resolved.events].join('；')):resolved;
+   return progress(declared.state,declared.events);
   }
   if(!actions)return fail('對戰模組未載入');
   const r=actions.resolveTrainingReaction(state,'player',attackerId,attack,reaction);
@@ -221,12 +243,40 @@
   const result=action?.kind==='end'?combat.end(state,'player'):combat.react(state,'player',action);
   if(!result.ok)return result;
   if(result.state.finished)return ok(result.state,result.events.join('；'));
-  if(!result.state.pendingAttack){
-   result.state.opponentNotes=[...result.events];
-   const continued=continueOpponent(result.state);
-   return continued;
-  }
-  return ok(result.state,result.events.join('；'));
+  return progress(result.state,result.events);
  }
- return {fresh,rollForOrder,chooseOrder,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,opponentTurn,defend,pass,next};
+ function progress(state,events=[]){
+  effects.pump(state,events);
+  if(state.finished||effects.pending(state))return ok(state,events.join('；'));
+  if(state.afterEffects){
+   const next=copy(state),mode=next.afterEffects;delete next.afterEffects;
+   const result=mode==='pass'?finishPass(next):finishOpponent(next,events);
+   if(mode==='pass'&&result.ok)result.message=[...events,result.message].join('；');return result;
+  }
+  if(state.pendingAttack?.defendingSide==='ai'){
+   const defended=combat.autoDefense(state,state.pendingAttack.preferredGigIds);return defended.ok?progress(defended.state,[...events,...defended.events]):defended;
+  }
+  if(!state.pendingAttack&&state.turn==='ai'&&state.phase==='main'&&state.opponentNotes){state.opponentNotes=[...events];return continueOpponent(state);}
+  return ok(state,events.join('；'));
+ }
+ function resolveEffect(state,choice){const r=effects.resolve(state,'player',choice);return r.ok?progress(r.state,r.events):r;}
+ function callLegend(state,id,sources){
+  if(!effects.active(state)||state.finished||effects.pending(state))return fail('請先完成目前能力，並使用鏡像實戰模式');
+  if(!((state.turn==='player'&&state.phase==='main')||(state.phase==='react'&&state.pendingAttack?.defendingSide==='player')))return fail('只能在主要階段或防守反應時呼叫傳奇');
+  const l=state.player.legends.find(l=>l.id===id&&!l.faceUp);
+  if(!l||state.player.calledThisTurn||!effects.knownLegend(l))return fail('每回合只能呼叫一次，且必須選擇蓋牌傳奇');
+  const paid=actions.pay(state,'player',1,sources);if(!paid.ok)return paid;
+  effects.reveal(paid.state,'player',id,paid.events);return progress(paid.state,paid.events);
+ }
+ function goSolo(state,id,sources){
+  if(!effects.active(state)||state.finished||effects.pending(state)||state.turn!=='player'||state.phase!=='main')return fail('Go Solo 必須在自己的主要階段使用，且先處理能力');
+  const l=state.player.legends.find(l=>l.id===id&&l.faceUp&&l.goSolo);
+  if(!l||!effects.knownLegend(l))return fail('請先呼叫具有 Go Solo 的已驗證傳奇');
+  if((l.gear||[]).some(g=>g.deferredEffect||g.unimplementedEffect))return fail('此傳奇裝有尚未支援的能力');
+  const paid=actions.pay(state,'player',l.cost,sources);if(!paid.ok)return paid;
+  const p=paid.state.player,index=p.legends.findIndex(c=>c.id===id),[legend]=p.legends.splice(index,1);
+  const entered={...legend,ready:true,lag:true,goSolo:true,faceUp:true,gear:legend.gear||[]};p.units.push(entered);effects.onPlay(paid.state,'player',entered);
+  return progress(paid.state,[...paid.events,'Go Solo：'+legend.name+' 以就緒單位登場，本回合可攻擊']);
+ }
+ return {fresh,rollForOrder,chooseOrder,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,opponentTurn,defend,callLegend,goSolo,resolveEffect,legendSpecs:effects.legendSpecs,shuffleLegends:effects.shuffled,pass,next};
 });

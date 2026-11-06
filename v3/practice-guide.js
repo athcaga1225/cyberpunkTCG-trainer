@@ -2,18 +2,20 @@
 (function(root,factory){const api=factory(typeof module!=='undefined'&&module.exports?require('./battle-actions.js'):root.NCTV3Actions,typeof module!=='undefined'&&module.exports?require('./mirror-combat.js'):root.NCTV3Combat);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3Guide=api;})(typeof globalThis!=='undefined'?globalThis:this,(A,C)=>{
  'use strict';
  const sources=s=>[...s.player.eddies.filter(c=>c.ready).map(c=>({kind:'eddie',id:c.id,label:'Eddie '+(s.player.eddies.indexOf(c)+1)})),...s.player.legends.filter(c=>c.ready&&(!c.faceUp||c.sellTag)).map(c=>({kind:'legend',id:c.id,label:c.name}))];
- const canAttack=u=>u.ready&&!u.lag&&!u.deferredEffect&&!u.unimplementedEffect;
+ const canAttack=u=>u.ready&&(!u.lag||u.goSolo)&&!u.deferredEffect&&!u.unimplementedEffect;
  function targets(s,u){
-  if(s.ai.practiceBot?.kind==='mirror-the-heist'){const t=C.targets(s,'player',u?.id);return {...t,gigs:t.gigs&&C.power(u)>0};}
+  if(s.ai.practiceBot?.kind==='mirror-the-heist'){const t=C.targets(s,'player',u?.id);return {...t,gigs:t.gigs&&(C.power(u)>0||u?.attackEffect||(u?.gear||[]).some(g=>g.attackEffect))};}
   if(!u||!canAttack(u))return {units:[],gigs:false};
   const units=s.ai.units.filter(d=>A.fightSpentUnit(s,'player',u.id,d.id,{reactionResolved:true}).ok).map(d=>d.id);
   const power=A.unitStats(u).power,count=power<=0?0:Math.min(s.ai.gigs.length,Math.floor(power/10)+1);
   const gigs=power>0&&A.stealTrainingGigs(s,'player',u.id,s.ai.gigs.slice(0,count).map(g=>g.id),{reactionResolved:true}).ok;
   return {units,gigs};
  }
- function next(s,{selectedId=null,payments=[],attackUnitId=null}={}){
+ function next(s,{selectedId=null,payments=[],attackUnitId=null,selectedLegendId=null}={}){
   const hint=(stage,key,text)=>({stage,key,text});
   if(s.finished)return hint(6,'finished','練習已結束。可重新開局；目前仍是有限規則練習。');
+  if(s.pendingEffects?.length)return hint(4,'effect','右側有待結算能力。先完成選卡、查看或調整，才能繼續攻擊、防守或交接回合。關閉引導不會略過能力。');
+  if(selectedLegendId)return hint(4,'legend',s.phase==='react'?'防守時可支付 1 €$ 呼叫傳奇，每回合一次；Go Solo 僅能在自己的主要階段使用。':'在右側逐張選擇支付資源；蓋牌傳奇花 1 €$ 呼叫，已翻開的 V 可支付 5 €$ Go Solo。每回合只能呼叫一次。');
   if(s.phase==='pregame')return hint(1,'opening','選擇起始手牌與對手，擲 d20 後決定先後攻。');
   if(s.phase==='react'&&s.pendingAttack?.defendingSide==='player'){
    const card=C.quicks(s).find(c=>c.id===selectedId);
