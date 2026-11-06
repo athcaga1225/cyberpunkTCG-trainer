@@ -581,7 +581,7 @@ function renderLegends(){
    const label=l.faceUp?l.name:'傳奇位置 '+(index+1)+'（蓋牌'+(l.knownToOwner?'，已查看過':'')+'）';
    button.setAttribute('aria-label',label);button.setAttribute('aria-pressed',String(side==='player'&&selectedLegendId===l.id));
    button.classList.toggle('is-legend-selected',side==='player'&&selectedLegendId===l.id);
-   const img=document.createElement('img');img.src=l.faceUp?(art.get(l.name)||''):'https://chromeandgigs.com/card-backs/legend.png';img.alt=label;if(!l.faceUp)img.className='preview-card-back-image';button.append(img);
+   const img=document.createElement('img');img.src=l.faceUp?(art.get(l.name)||''):'v3/assets/card-backs/legend.png';img.alt=label;if(!l.faceUp)img.className='preview-card-back-image';button.append(img);
    const fallback=add('span',l.faceUp?l.name:'傳奇卡',button,'preview-art-fallback');img.onload=()=>{fallback.hidden=true};img.onerror=()=>{img.remove();fallback.hidden=false};
    add('small',l.ready?'READY':'SPENT',button,'v3-legend-state');
    if(side==='player')button.addEventListener('click',()=>{
