@@ -142,7 +142,7 @@
   for(const unit of s.ai.units)unit.lag=false;
   s.ai.practiceBot.turnsTaken++;
   s.ai.soldThisTurn=false;
-  s.turn='player';s.phase='start';s.step='ready';
+  s.turn='player';s.phase='start';s.step='ready';s.player.soldThisTurn=false;
   if(!(s.opening?.first==='ai'&&s.ai.practiceBot.turnsTaken===1))s.round++;
   if(s.player.gigs.length>=7){
    s.finished=true;s.winner='player';s.loser='ai';
