@@ -30,7 +30,7 @@
   next.pendingAttack={attackingSide:who,defendingSide:rival,attackerId:id,target:target.kind==='gig'?{kind:'gig'}:{kind:'unit',defenderId:target.defenderId},preferredGigIds:target.gigIds};
   E.attack(next,who,u);
   const events=[];E.pump(next,events);
-  return ok(next,[...events,u.name+' 宣告攻擊 '+(target.kind==='gig'?'委託區':next[rival].units.find(d=>d.id===target.defenderId).name)+'；等待防守反應']);
+  return ok(next,[u.name+' 宣告攻擊 '+(target.kind==='gig'?'委託區':next[rival].units.find(d=>d.id===target.defenderId).name),...events,...(!next.finished?['先完成待結算能力，再處理防守反應']:[])]);
  }
  function context(s){
   const p=s.pendingAttack;
@@ -62,10 +62,10 @@
   const next=payment.state,q=next[who];q.hand.splice(q.hand.findIndex(c=>c.id===card.id),1);q.trash=q.trash||[];q.trash.push(card);
   if(card.name==='Floor It'){
    const u=next[p.attackingSide].units.find(u=>u.id===target);u.tempPowerModifier=(u.tempPowerModifier||0)-1;
-   if(!q.deck.length){next.finished=true;next.loser=who;next.winner=other(who);next.pendingAttack=null;next.pendingEffects=[];delete next.effectsOwner;return ok(next,[...payment.events,'Floor It 抽牌時牌庫已空，遊戲結束']);}
+   if(!q.deck.length){E.finish(next,other(who),'empty-deck',payment.events);return ok(next,[...payment.events,'Floor It 抽牌時牌庫已空，遊戲結束']);}
    q.hand.push(q.deck.pop());
   }else q.pendingRebootOptics=(q.pendingRebootOptics||0)+1;
-  E.pump(next,payment.events);return ok(next,[...payment.events,'Quick：'+card.name+(card.name==='Floor It'?'，指定對手單位本回合戰力 -1，抽 1 張':'，本回合下一次對手單位交戰時保護己方單位'),'防守反應尚未結束']);
+  E.pump(next,payment.events);return ok(next,[...payment.events,'Quick：'+card.name+(card.name==='Floor It'?'，指定對手單位本回合戰力 -1，抽 1 張':'，本回合下一次對手單位交戰時保護己方單位'),...(!next.finished?['防守反應尚未結束']:[])]);
  }
  function end(s,who,gigIds){
   const p=context(s);if(!p||p.defendingSide!==who)return fail('目前不是你的防守反應時機');
@@ -88,9 +88,9 @@
    const ids=gigIds===undefined?rival.gigs.slice().sort((a,b)=>b.value-a.value).slice(0,count).map(g=>g.id):gigIds;
    if(!Array.isArray(ids)||ids.length!==count||new Set(ids).size!==count||ids.some(id=>!rival.gigs.some(g=>g.id===id)))return fail('反應結束後，請選擇正確數量且不重複的委託骰：'+count+' 顆');
    const stolen=rival.gigs.filter(g=>ids.includes(g.id));rival.gigs=rival.gigs.filter(g=>!ids.includes(g.id));owner.gigs.push(...stolen);if(stolen.length)attacker.stoleGigThisTurn=true;
-   events.push(attacker.name+' 搶得 '+stolen.length+' 顆委託骰（點數保持不變）');
+   events.push(attacker.name+' 搶得 '+stolen.length+' 顆委託骰（點數保持不變）');E.checkVictory(next,null,events);
   }
-  next.pendingAttack=null;next.phase='main';next.step='actions';E.pump(next,events);
+  if(!next.finished){next.pendingAttack=null;next.phase='main';next.step='actions';E.pump(next,events);}
   return ok(next,events);
  }
  function plan(s,who){

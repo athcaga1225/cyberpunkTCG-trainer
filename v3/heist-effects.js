@@ -15,10 +15,49 @@
  const pending=s=>s.pendingEffects?.[0]||null;
  const cred=(s,w)=>s[w].gigs.length?s[w].gigs.reduce((n,g)=>n+g.value,0):-Infinity;
  const knownLegend=l=>Object.values(legendSpecs).some(spec=>spec.name===l.name&&spec.legendEffect===l.legendEffect);
- function queue(s,who,type,detail={}){s.effectSeq=(s.effectSeq||0)+1;(s.pendingEffects??=[]).push({id:'effect-'+s.effectSeq,who,type,...detail});}
+ const resultReasons={
+  'seven-at-start':'回合開始時持有至少 7 顆委託骰',
+  'overtime-seven':'Overtime 中持有至少 7 顆委託骰',
+  'empty-deck':'必須抽牌時牌庫已空',
+  'concede':'玩家認輸'
+ };
+ function resultSummary(s){
+  const winner=s.winner??(s.loser?other(s.loser):null);
+  return {title:s.outcome?.kind==='draw'?'平手':winner==='player'?'我方獲勝':winner==='ai'?'對手獲勝':'本局已結束',reason:resultReasons[s.outcome?.reason]||'練習已結束'};
+ }
+ function finish(s,winner,reason,events=[]){
+  if(s.finished)return s;
+  s.finished=true;s.winner=winner;s.loser=winner?other(winner):null;
+  s.outcome={kind:winner?'win':'draw',winner:s.winner,loser:s.loser,reason};
+  s.phase='finished';s.step='result';s.pendingEffects=[];s.pendingAttack=null;
+  delete s.effectsOwner;delete s.afterEffects;delete s.opponentNotes;
+  const info=resultSummary(s);events.push(info.title+'：'+info.reason);return s;
+ }
+ function checkVictory(s,startSide=null,events=[]){
+  if(s.finished)return true;
+  if(s.phase==='pregame')return false;
+  const overtime=active(s)&&s.overtime;
+  const winners=(overtime?['player','ai']:startSide?[startSide]:[]).filter(w=>s[w].gigs.length>=7);
+  if(winners.length)finish(s,winners.length===2?null:winners[0],overtime?'overtime-seven':'seven-at-start',events);
+  return s.finished;
+ }
+ function beginTurn(s,who,events=[]){
+  if(s.finished)return;
+  s.turnStart={who,bothFixersEmpty:['player','ai'].every(w=>s[w].fixer.length===0),completed:false};
+  checkVictory(s,who,events);
+ }
+ function completeTurn(s,events=[]){
+  const began=s.turnStart;
+  if(!active(s)||s.finished||!began||began.completed||began.who!==s.turn)return;
+  began.completed=true;
+  s.emptyStartStreak=began.bothFixersEmpty?(s.emptyStartStreak||0)+1:0;
+  if(!s.overtime&&s.emptyStartStreak>=2){s.overtime=true;events.push('連續兩個回合開始時雙方合事佬區皆為空；Overtime 開始，持有 7 顆骰立即獲勝');}
+  checkVictory(s,null,events);
+ }
+ function queue(s,who,type,detail={}){if(s.finished)return;s.effectSeq=(s.effectSeq||0)+1;(s.pendingEffects??=[]).push({id:'effect-'+s.effectSeq,who,type,...detail});}
  function draw(s,who,n,events){
   for(let i=0;i<n&&!s.finished;i++){
-   if(!s[who].deck.length){s.finished=true;s.loser=who;s.winner=other(who);s.pendingEffects=[];s.pendingAttack=null;delete s.effectsOwner;events.push('抽牌時牌庫已空，'+(who==='player'?'我方':'對手')+'落敗');break;}
+   if(!s[who].deck.length){finish(s,other(who),'empty-deck',events);break;}
    s[who].hand.push(s[who].deck.pop());events.push((who==='player'?'我方':'對手')+'抽 1 張');
   }
  }
@@ -119,6 +158,7 @@
   return null;
  }
  function pump(s,events=[]){
+  checkVictory(s,null,events);
   while(!s.finished&&pending(s)){
    if(pending(s).type==='order')break;
    if(!pending(s).resolving){
@@ -159,5 +199,5 @@
   const error=apply(next,pending(next),choice||{},events);if(error)return fail(error);
   if(!next.finished)next.pendingEffects.shift();pump(next,events);return ok(next,events);
  }
- return {legendSpecs,knownLegend,active,pending,queue,draw,reveal,onPlay,spend,attack,defeated,endTurn,resetTurn,options,shuffled,pump,resolve,cred};
+ return {finish,checkVictory,beginTurn,completeTurn,resultSummary,legendSpecs,knownLegend,active,pending,queue,draw,reveal,onPlay,spend,attack,defeated,endTurn,resetTurn,options,shuffled,pump,resolve,cred};
 });

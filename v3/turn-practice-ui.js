@@ -70,6 +70,7 @@ const initial='The Heist：先選擇開局方式，再擲骰決定先後攻。';
 let scenario='random',defensePreset='none',opponentMode='mirror',state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
 let guidanceOn=true,guideIntro=0,opponentTimer=null,selectedDie=4;
+let confirmConcede=false;
 let selectedLegendId=null,effectChoiceId=null,effectChoices=new Set();
 let pendingDeal=null;
 let activeDeals=[];
@@ -437,7 +438,7 @@ function chosenPayments(cost){
 }
 function scheduleOpponent(){
  if(opponentTimer!==null){clearTimeout(opponentTimer);opponentTimer=null;}
- if(E.pending(state)||state.phase!=='opponent'||state.step!=='pendingBot'||picker.value!=='theHeist'||state.finished||state.turn!=='ai'||state.ai.practiceBot?.kind!=='mirror-the-heist')return;
+ if(confirmConcede||E.pending(state)||state.phase!=='opponent'||state.step!=='pendingBot'||picker.value!=='theHeist'||state.finished||state.turn!=='ai'||state.ai.practiceBot?.kind!=='mirror-the-heist')return;
  const snapshot=state;
  opponentTimer=setTimeout(()=>{
   opponentTimer=null;
@@ -465,7 +466,7 @@ function renderGuide(){
  const close=add('button','×',guideRoot,'v3-coach-close');close.type='button';close.setAttribute('aria-label','關閉桌面引導');
  close.addEventListener('click',()=>{guidanceOn=false;render()});
  const mark=el=>el?.classList.add('v3-guide-active');
- if(guideIntro<coachSteps.length&&state.phase!=='react'&&!E.pending(state)){
+ if(!state.finished&&guideIntro<coachSteps.length&&state.phase!=='react'&&!E.pending(state)){
   const step=coachSteps[guideIntro];guideRoot.dataset.mode='tour';
   add('small','桌面操作 '+(guideIntro+1)+' / '+coachSteps.length,guideRoot);
   add('strong',step.title,guideRoot);add('p',step.text,guideRoot);
@@ -525,6 +526,7 @@ function currentDie(){
 }
 function fixerHint(){
  if(state.finished)return '本局已結束';
+ if(!state.player.fixer.length)return '合事佬區已空；每回合抽牌後直接進入主要階段';
  if(state.turn!=='player')return '等待對手完成回合，再進行準備階段';
  if(state.phase==='start'&&state.step==='ready')return '先按右側「重置資源」，再抽牌、選骰';
  if(state.phase==='start'&&state.step==='draw')return '先按右側「抽 1 張」，接著就能選骰';
@@ -558,6 +560,7 @@ function renderPublicCounters(){
   if(count)count.textContent=p.gigs.length+' / 7';
   if(cred)cred.textContent='街頭聲望：'+(p.gigs.length?p.gigs.reduce((n,g)=>n+g.value,0):'Null');
   let dice=zone?.querySelector('.v3-gig-values');if(zone&&!dice){dice=add('div','',zone,'v3-gig-values')}
+  const indicator=zone?.querySelector('[data-practice-indicator]');if(indicator&&dice)dice.after(indicator);
   if(dice)dice.textContent=p.gigs.map(g=>'d'+g.sides+' = '+g.value).join(' · ');
   const deck=board.querySelector('.'+prefix+'-deck .deck-pile');
   if(deck){deck.replaceChildren(document.createTextNode(String(p.deck.length)));add('span','DECK',deck)}
@@ -687,7 +690,14 @@ function renderTableControls(){
  const p=state.player;
  const headline=add('span',state.phase==='main'?'主要階段':phase(),tableControls,'v3-table-phase');
  if(message&&message!==initial)add('span',message,tableControls,'v3-table-feedback');
- if(state.finished){headline.textContent='練習已結束';tableButton('重新開局',()=>({ok:true,state:H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),message:initial}));return}
+ if(state.finished){confirmConcede=false;const result=E.resultSummary(state);headline.textContent=result.title;add('span',result.reason,tableControls,'v3-result-reason');tableButton('重新開局',()=>({ok:true,state:H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),message:initial}));return}
+ if(state.overtime)add('span','OVERTIME · 7 顆骰立即獲勝',tableControls,'v3-overtime');
+ if(confirmConcede){
+  add('strong','確定認輸並結束本局？',tableControls,'v3-table-selection');
+  tableButton('確認認輸',()=>P.concede(state));
+  const keep=add('button','繼續對戰',tableControls,'v3-table-btn');keep.type='button';keep.addEventListener('click',()=>{confirmConcede=false;render()});return;
+ }
+ const concede=add('button','認輸',tableControls,'v3-table-btn');concede.type='button';concede.addEventListener('click',()=>{confirmConcede=true;render()});
  if(E.pending(state)){renderEffectChoices();return;}
  if(state.phase==='react'&&state.pendingAttack?.defendingSide==='player'){renderDefenseControls();return;}
  if(state.turn==='ai'){
@@ -837,7 +847,7 @@ function renderTableControls(){
  tableButton('結束回合',()=>P.pass(state));
 }
 function render(){
- if(state.phase==='pregame'){selectedLegendId=null;selectedId=null;selectedPayments.clear();attackUnitId=null;effectChoiceId=null;effectChoices.clear();}
+ if(state.phase==='pregame'){confirmConcede=false;selectedLegendId=null;selectedId=null;selectedPayments.clear();attackUnitId=null;effectChoiceId=null;effectChoices.clear();}
  hideHandHover();
  const sequence=++renderSequence;
  cancelDeals();
@@ -1162,7 +1172,7 @@ function render(){
  indicator('.turn-info','THE HEIST：'+phase());
  indicator('.player-eddies','Eddies 就緒 '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length);
  indicator('.player-gigs',p.gigs.length+' 顆委託骰');
- indicator('.opponent-gigs',(state.ai.gigs||[]).length+' 顆練習委託骰');
+ indicator('.opponent-gigs',(state.ai.gigs||[]).length+(state.ai.practiceBot?.kind==='mirror-the-heist'?' 顆委託骰':' 顆練習委託骰'));
  indicator('.player-field',p.units.length+' 張實際單位 · 移出遊戲 '+(p.removed?.length||0)+' 張');
  indicator('.player-deck','練習牌庫：'+p.deck.length+' 張');
  if($('battlePreviewStatus'))$('battlePreviewStatus').textContent='The Heist 實際牌組操作練習。選取手牌後在桌面指定支付資源；未支援的特殊能力仍不會自動結算。';

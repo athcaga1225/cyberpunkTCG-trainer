@@ -2,7 +2,7 @@
  * Official rules: https://cyberpunktcg.com/comprehensive-rules 7.7-7.9, 8.1-8.11.
  * Supports a bounded mirror opponent and explicit Quick/Blocker reactions.
  * Known The Heist Legend/Attack/Defeated/end-turn effects use explicit choices.
- * Random opening and one whole-hand Mulligan follow rules 7.5–7.9; Overtime remains unsupported.
+ * Opening follows 7.5–7.9; Overtime and outcomes follow 1.10–1.17 and 8.17.
  */
 (function(root,factory){'use strict';const deps=(typeof module!=='undefined'&&module.exports)?require('./battle-actions.js'):root.NCTV3Actions;const combat=(typeof module!=='undefined'&&module.exports)?require('./mirror-combat.js'):root.NCTV3Combat;const effects=(typeof module!=='undefined'&&module.exports)?require('./heist-effects.js'):root.NCTV3Effects;const api=factory(deps,combat,effects);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3TurnPractice=api;})(typeof globalThis!=='undefined'?globalThis:this,function(actions,combat,effects){'use strict';
  const copy=x=>JSON.parse(JSON.stringify(x));
@@ -77,6 +77,7 @@
   s.round=1;
   for(const [index,legend] of s.player.legends.entries())legend.ready=firstPlayer!=='player'||index>=2;
   if(mirror)for(const [index,legend] of s.ai.legends.entries())legend.ready=firstPlayer!=='ai'||index>=2;
+  effects.beginTurn(s,s.turn);
   if(mirror&&firstPlayer==='ai')return ok(s,'鏡像對手先攻：先執行其首回合，再由我方開始第一回合。');
   if(mirror)return ok(s,firstPlayer==='player'?'我方先攻：兩張傳奇卡已使用；完成後交給鏡像對手。':'我方後攻：鏡像對手須先完成首回合。');
   return ok(s,firstPlayer==='player'?'我方先攻：左側兩張傳奇卡已使用，第一回合不能重置。':'腳本對手先攻：目前沒有 AI 回合，已明確略過對手第一回合；我方後攻，三張傳奇卡保持就緒。');
@@ -84,7 +85,9 @@
  function ready(state){
   if(effects.pending(state))return fail('請先處理待結算能力');
   if(state.turn!=='player'||state.phase!=='start'||state.step!=='ready')return fail('目前不是重置階段');
-  const s=copy(state),p=s.player;
+  const s=copy(state),p=s.player,events=[];
+  if(!s.turnStart||s.turnStart.who!=='player')effects.beginTurn(s,'player',events);
+  if(effects.checkVictory(s,'player',events))return ok(s,events.join('；'));
   if(s.round>1){for(const zone of ['eddies','legends','units'])for(const c of p[zone])c.ready=true;for(const u of p.units)u.lag=false;}
   s.step='draw';return ok(s,'準備階段：重置完成。');
  }
@@ -92,8 +95,9 @@
   if(effects.pending(state))return fail('請先處理待結算能力');
   if(state.turn!=='player'||state.phase!=='start'||state.step!=='draw')return fail('必須先完成重置');
   const s=copy(state),p=s.player;
-  if(!p.deck.length){s.finished=true;return ok(s,'牌庫已空：依一般規則抽牌失敗，遊戲結束。')}
-  p.hand.push(p.deck.pop());s.step='roll';return ok(s,'抽取 1 張練習手牌。');
+  const events=[];effects.draw(s,'player',1,events);if(s.finished)return ok(s,events.join('；'));
+  if(!p.fixer.length){s.phase='main';s.step='actions';return ok(s,'抽取 1 張手牌；合事佬區已空，略過擲骰並進入主要階段。');}
+  s.step='roll';return ok(s,'抽取 1 張練習手牌。');
  }
  function roll(state,side,value){
   if(effects.pending(state))return fail('請先處理待結算能力');
@@ -138,7 +142,13 @@
   return finishPass(s);
  }
  function finishPass(state){
-  const s=copy(state);effects.resetTurn(s);for(const unit of s.player.units)unit.lag=false;for(const side of ['player','ai']){for(const unit of s[side].units){unit.tempPowerModifier=0;}s[side].pendingRebootOptics=0;}s.turn='ai';s.phase='opponent';s.step=s.ai.practiceBot?.kind==='mirror-the-heist'?'pendingBot':'paused';return ok(s,s.step==='pendingBot'?'我方回合結束；輪到鏡像對手執行回合。':'本回合結束；所有己方單位失去 Lag，對手行動尚未實作。');
+  const s=copy(state),events=[];effects.resetTurn(s);for(const unit of s.player.units)unit.lag=false;
+  for(const side of ['player','ai']){for(const unit of s[side].units)unit.tempPowerModifier=0;s[side].pendingRebootOptics=0;}
+  effects.completeTurn(s,events);if(s.finished)return ok(s,events.join('；'));
+  s.turn='ai';s.phase='opponent';s.step=s.ai.practiceBot?.kind==='mirror-the-heist'?'pendingBot':'paused';
+  effects.beginTurn(s,'ai',events);
+  if(!s.finished)events.push(s.step==='pendingBot'?'我方回合結束；輪到鏡像對手執行回合。':'本回合結束；所有己方單位失去 Lag，對手行動尚未實作。');
+  return ok(s,events.join('；'));
  }
  // One bounded automated opponent turn; uses real pay/sell/playUnit validators.
  // Attacks pause in the defender React Step; never bypass the human response.
@@ -147,20 +157,14 @@
    return fail('目前不是對手回合');
   if(state.ai?.practiceBot?.kind!=='mirror-the-heist')return fail('此模式沒有自動測試對手');
   const s=copy(state),p=s.ai,notes=[];
-  if(p.gigs.length>=7){
-   s.finished=true;s.winner='ai';s.loser='player';
-   return ok(s,'對手回合開始時持有至少 7 顆委託骰，對手獲勝。');
-  }
+  if(!s.turnStart||s.turnStart.who!=='ai')effects.beginTurn(s,'ai',notes);
+  if(effects.checkVictory(s,'ai',notes))return ok(s,notes.join('；'));
   if(p.practiceBot.turnsTaken>0){
    for(const zone of ['eddies','legends','units'])for(const card of p[zone])card.ready=true;
   }
   for(const unit of p.units)unit.lag=false;
   notes.push('對手重置可重置的卡牌');
-  if(!p.deck.length){
-   s.finished=true;s.winner='player';s.loser='ai';
-   return ok(s,'對手需要抽牌但牌庫已空，我方獲勝。');
-  }
-  p.hand.push(p.deck.pop());notes.push('抽牌 1 張');
+  effects.draw(s,'ai',1,notes);if(s.finished)return ok(s,notes.join('；'));
   const side=p.fixer.find(d=>d!==20)??p.fixer[0];
   if(side!==undefined){
    if(!Number.isInteger(dieValue)||dieValue<1||dieValue>side)return fail('對手委託骰點數無效');
@@ -207,19 +211,17 @@
   for(const unit of s.ai.units)unit.lag=false;
   s.ai.practiceBot.turnsTaken++;
   s.ai.soldThisTurn=false;
+  effects.completeTurn(s,notes);if(s.finished)return ok(s,notes.join('；'));
   s.turn='player';s.phase='start';s.step='ready';s.player.soldThisTurn=false;
   if(!(s.opening?.first==='ai'&&s.ai.practiceBot.turnsTaken===1))s.round++;
-  if(s.player.gigs.length>=7){
-   s.finished=true;s.winner='player';s.loser='ai';
-   notes.push('我方回合開始已有 7 顆委託骰，我方獲勝');
-  }
+  effects.beginTurn(s,'player',notes);
   return ok(s,'鏡像對手完成回合：'+notes.join('；'));
  }
  function next(state){
   if(state.pendingAttack||effects.pending(state))return fail('請先完成防守反應與能力選擇');
   if(state.turn!=='ai'||state.phase!=='opponent')return fail('必須先結束我方回合');
   const s=copy(state);s.turn='player';s.phase='start';s.step='ready';s.round+=1;s.player.soldThisTurn=false;for(const u of s.ai.units)if(u.trainingTarget)u.ready=true;
-  if(s.player.gigs.length>=7){s.finished=true;return ok(s,'回合開始持有至少 7 顆委託骰，符合一般勝利條件。')}
+  const events=[];effects.beginTurn(s,'player',events);if(s.finished)return ok(s,events.join('；'));
   return ok(s,'開始下一個我方回合（對手行動在此練習中略過）。');
  }
  function prepareTrainingTarget(state,targetId){
@@ -293,6 +295,10 @@
   if(!state.pendingAttack&&state.turn==='ai'&&state.phase==='main'&&state.opponentNotes){state.opponentNotes=[...events];return continueOpponent(state);}
   return ok(state,events.join('；'));
  }
+ function concede(state){
+  if(state.finished||state.phase==='pregame')return fail('本局尚未開始或已結束');
+  const s=copy(state),events=[];effects.finish(s,'ai','concede',events);return ok(s,events.join('；'));
+ }
  function resolveEffect(state,choice){const r=effects.resolve(state,'player',choice);return r.ok?progress(r.state,r.events):r;}
  function callLegend(state,id,sources){
   if(!effects.active(state)||state.finished||effects.pending(state))return fail('請先完成目前能力，並使用鏡像實戰模式');
@@ -312,5 +318,5 @@
   const entered={...legend,ready:true,lag:true,goSolo:true,faceUp:true,gear:legend.gear||[]};p.units.push(entered);effects.onPlay(paid.state,'player',entered);
   return progress(paid.state,[...paid.events,'Go Solo：'+legend.name+' 以就緒單位登場，本回合可攻擊']);
  }
- return {fresh,rollForOrder,chooseOrder,openingHand,beginOpening,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,opponentTurn,defend,callLegend,goSolo,resolveEffect,legendSpecs:effects.legendSpecs,shuffleLegends:effects.shuffled,pass,next};
+ return {concede,fresh,rollForOrder,chooseOrder,openingHand,beginOpening,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,opponentTurn,defend,callLegend,goSolo,resolveEffect,legendSpecs:effects.legendSpecs,shuffleLegends:effects.shuffled,pass,next};
 });

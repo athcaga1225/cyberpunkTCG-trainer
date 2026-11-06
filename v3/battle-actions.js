@@ -15,6 +15,7 @@
   return success(s,["變賣 "+c.name+"，獲得 1 個就緒 Eddie"]);
  }
  function pay(state,who,cost,sources){
+  if(state?.finished)return fail("本局已結束");
   const p=player(state,who);if(!p)return fail("玩家資料不完整");
   if(!Number.isSafeInteger(cost)||cost<0)return fail("費用必須是非負整數");
   if(!Array.isArray(sources)||sources.length!==cost||sources.some(x=>!x||typeof x!=="object"||typeof x.id!=="string")||new Set(sources.map(x=>x.kind+":"+x.id)).size!==cost)return fail("請指定與費用相等且不重複的支付資源");
@@ -90,8 +91,7 @@
    owner.trash.push(defeated);
    events.push("擊敗裝備 "+defeated.name);
    if(q.gigs?.some(g=>g.value===defeated.cost)){
-    if(!q.deck.length){s.finished=true;s.loser=who;events.push("抽牌失敗，遊戲結束");}
-    else{q.hand.push(q.deck.pop());events.push("符合委託骰點數：抽 1 張");}
+    E.draw(s,who,1,events);
    }
   }
   return success(s,events);
@@ -156,9 +156,8 @@
    q.hand.splice(index,1);
    if(!Array.isArray(q.trash))q.trash=[];
    q.trash.push(card);
-   if(!q.deck.length){next.finished=true;next.loser=who;}
-   else q.hand.push(q.deck.pop());
-   return success(next,[...paid.events,'執行 Floor It：'+(target?'對手 '+target.name+' 本回合戰力 -1':'無可選單位')+'；抽 1 張',...(next.finished?['牌庫已空，遊戲結束']:[])]);
+   const drawEvents=[];E.draw(next,who,1,drawEvents);
+   return success(next,[...paid.events,...drawEvents,'執行 Floor It：'+(target?'對手 '+target.name+' 本回合戰力 -1':'無可選單位')+'；抽 1 張',...(next.finished?['牌庫已空，遊戲結束']:[])]);
   }
   if(card.name!=="Afterparty at Lizzie's")return fail("此程式的效果尚未支援");
   if(!opts||typeof opts!=="object")return fail("程式效果選項無效");
@@ -174,15 +173,12 @@
   const next=paid.state,q=next[who];
   if(delta!==0){const target=next[targetSide].gigs.find(g=>g.id===opts.gigId);target.value+=delta;}
   const distinct=new Set(q.gigs.map(g=>g.value));
-  if(distinct.size>=2){
-   if(!q.deck.length){next.finished=true;next.loser=who}
-   else q.hand.push(q.deck.pop());
-  }
   const index=q.hand.findIndex(c=>c.id===cardId);
   q.hand.splice(index,1);
   if(!Array.isArray(q.trash))q.trash=[];
   q.trash.push(card);
-  return success(next,[...paid.events,"結算 "+card.name+"（委託骰 "+(delta>=0?"+":"")+delta+"）"+(distinct.size>=2?"，抽 1 張牌":""),"程式移至棄牌區"]);
+  const drawEvents=[];if(distinct.size>=2)E.draw(next,who,1,drawEvents);
+  return success(next,[...paid.events,...drawEvents,"結算 "+card.name+"（委託骰 "+(delta>=0?"+":"")+delta+"）"+(distinct.size>=2?"，抽 1 張牌":""),"程式移至棄牌區"]);
  }
  function fightSpentUnit(state,who,attackerId,defenderId,opts={}){
   const p=player(state,who),rivalSide=who==='player'?'ai':'player',rival=player(state,rivalSide);

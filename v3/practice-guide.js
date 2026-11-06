@@ -13,7 +13,7 @@
  }
  function next(s,{selectedId=null,payments=[],attackUnitId=null,selectedLegendId=null}={}){
   const hint=(stage,key,text)=>({stage,key,text});
-  if(s.finished)return hint(6,'finished','練習已結束。可重新開局；目前仍是有限規則練習。');
+  if(s.finished)return hint(6,'finished','本局已結束，右側顯示勝負與原因；可按「重新開局」再來一局。');
   if(s.pendingEffects?.length)return hint(4,'effect','右側有待結算能力。先完成選卡、查看或調整，才能繼續攻擊、防守或交接回合。關閉引導不會略過能力。');
   if(selectedLegendId)return hint(4,'legend',s.phase==='react'?'防守時可支付 1 €$ 呼叫傳奇，每回合一次；Go Solo 僅能在自己的主要階段使用。':'在右側逐張選擇支付資源；蓋牌傳奇花 1 €$ 呼叫，已翻開的 V 可支付 5 €$ Go Solo。每回合只能呼叫一次。');
   if(s.phase==='pregame')return hint(1,'opening',s.opening?.orderChosen?'查看六張起手，保留或整手重抽一次，再開始對戰。':'選擇開局方式與對手，擲 d20 後決定先後攻；隨機模式會接著洗牌抽六張。');

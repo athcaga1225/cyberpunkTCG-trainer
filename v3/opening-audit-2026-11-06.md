@@ -21,4 +21,4 @@
 
 ## 限制
 
-僅 The Heist 鏡像模式提供隨機開局，未加入自訂牌組或 Embracing Power。對手沒有 Mulligan 策略，也尚未主動付費呼叫傳奇／Go Solo 或裝備決策。Overtime 及完整正式對局驗證仍待後續完成。
+僅 The Heist 鏡像模式提供隨機開局，未加入自訂牌組或 Embracing Power。對手沒有 Mulligan 策略，也尚未主動付費呼叫傳奇／Go Solo 或裝備決策。Overtime 與基本勝負後續已接入，見 [勝負驗證](outcomes-audit-2026-11-06.md)；完整正式對局驗證仍待後續完成。

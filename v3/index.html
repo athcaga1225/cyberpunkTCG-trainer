@@ -1056,8 +1056,7 @@ body.battle-wide #battle .tour-coach .tour-coach-tools .tour-close-x{
  #battleCardHover.hand-preview img{height:min(62vh,510px)}
 }
 
-/* V3 live hand: no zoom animation. The raised card can overlay the
-   player's Fixer zone; original hand slot geometry stays unchanged. */
+/* V3 hand stays in its slot; the separate preview provides card inspection. */
 @media(hover:hover) and (pointer:fine){
  #battle .table-preview{overflow:visible}
  #battle .player-hand:has(.is-hand-hover){z-index:100;overflow:visible}
@@ -1067,7 +1066,7 @@ body.battle-wide #battle .tour-coach .tour-coach-tools .tour-close-x{
  }
  #battle .player-hand .preview-card-rail .hand-card.is-hand-hover,
  #battle .player-hand .preview-card-rail .hand-card.is-hand-hover:hover:not(:disabled){
-  transform:translateY(-7px) scale(1.12)!important;
+  transform:none!important;
   transform-origin:bottom center;
   z-index:101!important;
   outline:2px solid #29ffff;
@@ -3384,7 +3383,7 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
  }
  body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-hand-hover,
  body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-hand-hover:hover:not(:disabled){
-  transform:translateY(-7px) scale(1.12)!important;
+  transform:none!important;
   transform-origin:bottom center;transition:none!important;z-index:501!important
  }
  body.battle-wide #battle .battle-instructions,
@@ -3678,6 +3677,16 @@ body.battle-wide #battle #v3OpeningSetup .btn:focus-visible{outline:2px solid #f
 #battle #v3OpeningSetup .v3-opening-card span{display:block;font-size:12px;line-height:1.35;margin-top:6px}
 #battle #v3OpeningSetup .v3-opening-card small{display:block;color:#9fced3;font-size:11px}
 #battle #v3OpeningSetup .v3-opening-status{color:#96ebed}
+/* Table cards remain still on pointer hover and keyboard focus. */
+#battle .preview-zone .preview-art-card:hover:not(:disabled),
+#battle .preview-zone .preview-art-card:focus-visible:not(:disabled),
+#battle .preview-zone .preview-card-rail .preview-art-card:hover:not(:disabled){transform:none!important}
+#battle .player-gigs,#battle .opponent-gigs{position:relative}
+#battle .player-gigs [data-practice-indicator],#battle .opponent-gigs [data-practice-indicator]{position:absolute;top:5px;right:7px;margin:0!important;font-size:11px!important;line-height:1.2}
+body.battle-wide #battle .player-gigs,body.battle-wide #battle .opponent-gigs{gap:2px}
+body.battle-wide #battle .player-gigs .v3-gig-values,body.battle-wide #battle .opponent-gigs .v3-gig-values{margin-top:2px;line-height:1.25}
+#battle .v3-result-reason{color:#d8f1f3;font-size:12px;line-height:1.5}
+#battle .v3-overtime{color:#ffe34a;font-weight:700;font-size:12px}
 #battle .v3-fixer-hint{font-size:10px;line-height:1.35;color:#b5d4d9;margin-top:2px}
 
 #battle .v3-legend-card{position:relative;appearance:none;padding:0;border:1px solid #48727e;background:#0b1a21;border-radius:3px;cursor:pointer;min-width:0;overflow:hidden}
@@ -3801,7 +3810,7 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
   if(dlg)dlg.addEventListener('close',close);
  }
 })();
-</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1-gig"></script><script src="v3/heist-effects.js?v=2"></script><script src="v3/battle-actions.js?v=4"></script><script src="v3/trainer-modules.js?v=20"></script><script src="v3/mirror-combat.js?v=3"></script><script src="v3/turn-practice.js?v=6"></script>
+</script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1-gig"></script><script src="v3/heist-effects.js?v=3"></script><script src="v3/battle-actions.js?v=5"></script><script src="v3/trainer-modules.js?v=20"></script><script src="v3/mirror-combat.js?v=4"></script><script src="v3/turn-practice.js?v=7"></script>
 <script src="v3/heist-practice.js?v=5"></script>
 <script src="battle-preview.js?v=15"></script>
-<script src="v3/board-tour.js?v=1"></script><script src="v3/practice-guide.js?v=5"></script><script src="v3/dice-animation.js?v=2"></script><script src="v3/turn-practice-ui.js?v=26"></script><script src="v3/beta-gallery.js?v=49"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;const details=root.querySelector('#fieldMapKey');details.classList.remove('field-map-flash');void details.offsetWidth;details.classList.add('field-map-flash');details.scrollIntoView({block:'nearest',behavior:'instant'})}));})();</script></body></html>
+<script src="v3/board-tour.js?v=1"></script><script src="v3/practice-guide.js?v=6"></script><script src="v3/dice-animation.js?v=2"></script><script src="v3/turn-practice-ui.js?v=27"></script><script src="v3/beta-gallery.js?v=49"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;const details=root.querySelector('#fieldMapKey');details.classList.remove('field-map-flash');void details.offsetWidth;details.classList.add('field-map-flash');details.scrollIntoView({block:'nearest',behavior:'instant'})}));})();</script></body></html>
