@@ -69,7 +69,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root.classList.cont
 const initial='The Heist 實際 40 張初始牌組：請完成準備階段，再選擇上方的手牌。';
 let scenario='basic',defensePreset='none',opponentMode='mirror',state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
-let guidanceOn=true,guideIntro=0,opponentTimer=null;
+let guidanceOn=true,guideIntro=0,opponentTimer=null,selectedDie=4;
 let pendingDeal=null;
 let activeDeals=[];
 let renderSequence=0;
@@ -444,7 +444,7 @@ function scheduleOpponent(){
  },900);
 }
 const coachSteps=[
- {zone:'.player-fixer',title:'每回合從這裡選骰子',text:'黃色框是你的合事佬區。準備階段會在右側選擇一顆骰子，再按「擲骰」；d20 必須留到最後。'},
+ {zone:'.player-fixer',title:'先重置、抽牌，再選骰子',text:'先按右側「重置資源」和「抽 1 張」。輪到擲骰時，可直接點黃色框內的一顆骰子，再按右側「擲骰」；d20 必須留到最後。關閉引導不會跳過準備階段。'},
  {zone:'.player-hand',title:'直接點選手牌',text:'點一下手牌即可選取，右側會出現這張牌的操作。有變賣標記的牌可按「變賣」，取得一張 Eddie。'},
  {zone:'.player-eddies',title:'逐張選擇支付資源',text:'選取要打出的牌後，在右側逐張點選 Eddie 或可支付的傳奇資源。湊齊費用後，再按「打出單位」；確認前不會消耗資源。'},
  {zone:'#v3TableControls',title:'現在跟著提示完成回合',text:'右側是目前可用的操作。先依序重置、抽牌、擲骰，再選手牌出牌。按「結束回合」後，鏡像對手會自動行動。'}
@@ -516,6 +516,38 @@ function runTableAttack(attack){
  if(quick)reaction.quick=quick.checked;
  runTableCommand(()=>P.reactAttack(state,attackUnitId,attack,reaction));
 }
+function currentDie(){
+ const available=state.player.fixer.filter(side=>side!==20||state.player.fixer.length===1);
+ return available.includes(selectedDie)?selectedDie:available[0];
+}
+function fixerHint(){
+ if(state.finished)return '本局已結束';
+ if(state.turn!=='player')return '等待對手完成回合，再進行準備階段';
+ if(state.phase==='start'&&state.step==='ready')return '先按右側「重置資源」，再抽牌、選骰';
+ if(state.phase==='start'&&state.step==='draw')return '先按右側「抽 1 張」，接著就能選骰';
+ if(state.phase==='start'&&state.step==='roll')return '點選一顆骰子，再按右側「擲骰」';
+ return '本回合已擲骰，下一回合再選';
+}
+function renderFixerChoices(){
+ const zone=board.querySelector('.player-fixer');if(!zone)return;
+ const choosing=state.turn==='player'&&state.phase==='start'&&state.step==='roll'&&!state.finished;
+ for(let die of [...zone.querySelectorAll('.die-icon')]){
+  const side=Number(die.querySelector('b')?.textContent.replace('D',''));
+  if(die.tagName!=='BUTTON'){
+   const button=document.createElement('button');button.type='button';button.className=die.className;button.innerHTML=die.innerHTML;die.replaceWith(button);die=button;
+   button.addEventListener('click',()=>{
+    if(state.turn!=='player'||state.phase!=='start'||state.step!=='roll'||state.finished){message=fixerHint();render();return;}
+    selectedDie=side;message='已選 d'+side+'；按右側「擲骰」確認。';render();
+   });
+  }
+  die.dataset.sides=String(side);
+  die.disabled=!state.player.fixer.includes(side)||(side===20&&state.player.fixer.length>1);
+  die.setAttribute('aria-label','選擇 d'+side+' 委託骰');die.setAttribute('aria-pressed',String(choosing&&currentDie()===side));
+  die.classList.toggle('is-die-selected',choosing&&currentDie()===side);
+  die.title=die.disabled?(state.player.fixer.includes(side)?'d20 必須最後使用':'這顆骰子已擲出'):choosing?'點選 d'+side:fixerHint();
+ }
+ let hint=zone.querySelector('.v3-fixer-hint');if(!hint)hint=add('div','',zone,'v3-fixer-hint');hint.textContent=fixerHint();
+}
 function renderPublicCounters(){
  for(const [side,prefix] of [['player','player'],['ai','opponent']]){
   const p=state[side],zone=board.querySelector('.'+prefix+'-gigs');
@@ -586,8 +618,10 @@ function renderTableControls(){
   if(state.step==='roll'){
    const select=document.createElement('select');select.setAttribute('aria-label','選擇合事佬骰子');
    for(const side of p.fixer){const option=document.createElement('option');option.value=side;option.textContent='d'+side;option.disabled=side===20&&p.fixer.length>1;select.append(option)}
+   select.value=String(currentDie());
+   select.addEventListener('change',()=>{selectedDie=Number(select.value);render()});
    tableControls.append(select);
-   tableButton('擲骰',()=>{const side=Number(select.value);return P.roll(state,side,Math.floor(Math.random()*side)+1)});
+   tableButton('擲骰',()=>{const side=currentDie();return P.roll(state,side,Math.floor(Math.random()*side)+1)});
   }
   return;
  }
@@ -744,6 +778,7 @@ function render(){
  renderGuide();
  renderCombatMarkers();
  renderPublicCounters();
+ renderFixerChoices();
  scheduleOpponent();
  if(deal)requestAnimationFrame(()=>{if(sequence===renderSequence&&picker.value==='theHeist'&&!$('battle')?.classList.contains('hide'))dealHand(deal)});
  const header=add('div','',root,'v3-turn-header');
@@ -811,13 +846,13 @@ function render(){
     const result=P.rollForOrder(state,me,rival);
     if(result.ok)D.show([{label:'我方',sides:20,value:me},{label:'對手',sides:20,value:rival}]);
     return result;
-   },order).classList.toggle('v3-guide-active',guidanceOn);
+   },order).classList.add('v3-opening-primary');
   }else{
    add('p','我方 '+roll.playerRoll+' ／ 腳本對手 '+roll.rivalRoll+'。'+(roll.winner==='player'?'我方取得選擇權。':'腳本對手取得選擇權。'),order);
    if(roll.winner==='player'){
-    command('我方選擇先攻',()=>P.chooseOrder(state,'player'),order).classList.toggle('v3-guide-active',guidanceOn);
+    command('我方選擇先攻',()=>P.chooseOrder(state,'player'),order).classList.add('v3-opening-primary');
     command('我方選擇後攻',()=>P.chooseOrder(state,'ai'),order);
-   }else command('對手選擇先攻',()=>P.chooseOrder(state,'ai'),order).classList.toggle('v3-guide-active',guidanceOn);
+   }else command('對手選擇先攻',()=>P.chooseOrder(state,'ai'),order).classList.add('v3-opening-primary');
   }
   add('p','先攻者左側兩張傳奇卡會橫置，第一回合不能重置。鏡像對手會自動執行回合；固定腳本模式會略過對手行動。',order);
  }
