@@ -173,11 +173,12 @@
    notes.push('擲出 d'+side+'（'+dieValue+'）');
   }
   s.phase='main';s.step='actions';
-  const sale=p.hand.find(c=>c.sellTag&&c.id!=='training-quick-floor-it');
+  const sale=p.hand.filter(c=>c.sellTag&&c.id!=='training-quick-floor-it').sort((a,b)=>p.practiceBot.strategy==='active'?Number(a.type!=='Program')-Number(b.type!=='Program'):0)[0];
   if(sale){
    const sold=actions.sell(s,'ai',sale.id);
    if(sold.ok){Object.assign(s,sold.state);notes.push(...sold.events)}
   }
+  if(p.practiceBot.strategy==='active'){s.opponentMainStep='call';s.opponentNotes=notes;return continueOpponent(s);}
   const q=s.ai;
   const available=[...q.eddies.filter(x=>x.ready).map(x=>({kind:'eddie',id:x.id})),
     ...q.legends.filter(x=>x.ready&&(!x.faceUp||x.sellTag)).map(x=>({kind:'legend',id:x.id}))];
@@ -193,9 +194,58 @@
   s.opponentNotes=notes;
   return continueOpponent(s);
  }
+ // Only own hand and public battlefield data inform these bounded decisions.
+ function botSources(s,cost){
+  const p=s.ai;
+  return [...p.eddies.filter(c=>c.ready).map(c=>({kind:'eddie',id:c.id})),...p.legends.filter(c=>c.ready&&(!c.faceUp||c.sellTag)).map(c=>({kind:'legend',id:c.id}))].slice(0,cost);
+ }
+ function botUnitOptions(s,card){
+  const opts={delta:0};
+  if(card.onPlayGigAdjust){const g=s.ai.gigs.find(g=>g.value<g.sides);if(g)Object.assign(opts,{side:'ai',gigId:g.id,delta:1});}
+  if(card.onPlaySpendRival){const u=s.player.units.filter(u=>u.ready&&!(u.gear||[]).some(g=>g.deferredEffect||g.unimplementedEffect)).sort((a,b)=>combat.power(b)-combat.power(a))[0];if(u)opts.rivalUnitId=u.id;}
+  if(card.onPlayDefeatGear){const g=s.player.units.concat(s.player.legends.filter(l=>l.faceUp)).flatMap(u=>u.gear||[]).sort((a,b)=>(b.power||0)-(a.power||0))[0];if(g)Object.assign(opts,{gearSide:'player',gearTargetId:g.id});}
+  return opts;
+ }
+ function advanceOpponentMain(state,notes){
+  let s=state;
+  const steps=['call','solo','unit','gear','attack'];
+  while(!s.finished&&!effects.pending(s)&&s.opponentMainStep!=='attack'){
+   const stage=s.opponentMainStep;s.opponentMainStep=steps[steps.indexOf(stage)+1]||'attack';
+   let r=null;
+   if(stage==='call'&&!s.ai.calledThisTurn){
+    // The first face-down position is chosen blindly, never by its hidden name.
+    const l=s.ai.legends.find(l=>!l.faceUp),sources=botSources(s,1);
+    if(l&&sources.length===1&&effects.knownLegend(l)){
+     r=actions.pay(s,'ai',1,sources);
+     if(r.ok){effects.reveal(r.state,'ai',l.id,r.events);r.events.unshift('對手呼叫傳奇');}
+    }
+   }else if(stage==='solo'){
+    const l=s.ai.legends.find(l=>l.faceUp&&l.goSolo&&effects.knownLegend(l)&&!(l.gear||[]).some(g=>g.deferredEffect||g.unimplementedEffect));
+    if(l&&botSources(s,l.cost).length===l.cost)r=soloAction(s,'ai',l.id,botSources(s,l.cost));
+   }else if(stage==='unit'){
+    const candidates=s.ai.hand.filter(c=>c.type==='Unit'&&!c.deferredEffect&&!c.unimplementedEffect&&!c.requiresTarget&&!c.playRestriction&&botSources(s,c.cost).length===c.cost).sort((a,b)=>b.cost-a.cost);
+    for(const c of candidates){r=actions.playUnit(s,'ai',c.id,botSources(s,c.cost),botUnitOptions(s,c));if(r.ok){effects.onPlay(r.state,'ai',c);break;}}
+   }else if(stage==='gear'){
+    const host=s.ai.units.filter(u=>!u.unimplementedEffect).sort((a,b)=>combat.power(b)-combat.power(a))[0]||s.ai.legends.find(l=>l.faceUp&&effects.knownLegend(l));
+    if(host){
+     const rank=c=>(c.power||0)+(c.blocker?2:0)+(c.spendEffect||c.attackEffect?1:0)-c.cost*.2;
+     const cards=s.ai.hand.filter(c=>c.type==='Gear'&&!c.deferredEffect&&!c.unimplementedEffect&&!c.requiresTarget&&!c.playRestriction&&botSources(s,c.cost).length===c.cost).sort((a,b)=>rank(b)-rank(a));
+     for(const c of cards){r=actions.playGear(s,'ai',c.id,botSources(s,c.cost),host.id);if(r.ok){effects.onPlay(r.state,'ai',c);break;}}
+    }
+   }
+   if(r?.ok){s=r.state;notes.push(...r.events);}
+   if(!s.finished)s.opponentNotes=notes;
+   effects.pump(s,notes);
+  }
+  return s;
+ }
  function continueOpponent(state){
-  const s=copy(state),notes=s.opponentNotes||[];
+  let s=copy(state);const notes=s.opponentNotes||[];
   if(s.finished)return ok(s,notes.join('；'));
+  if(s.ai.practiceBot.strategy==='active'&&s.opponentMainStep&&s.opponentMainStep!=='attack'){
+   s=advanceOpponentMain(s,notes);
+   if(s.finished||effects.pending(s))return ok(s,notes.join('；'));
+  }
   const planned=combat.plan(s,'ai');
   if(planned){
    const attack=combat.begin(s,'ai',planned.attackerId,planned.target);
@@ -206,7 +256,7 @@
  }
  function finishOpponent(state,notes=[]){
   const s=copy(state);effects.resetTurn(s);
-  delete s.opponentNotes;
+  delete s.opponentNotes;delete s.opponentMainStep;
   for(const zone of ['player','ai']){for(const unit of s[zone].units)unit.tempPowerModifier=0;s[zone].pendingRebootOptics=0;}
   for(const unit of s.ai.units)unit.lag=false;
   s.ai.practiceBot.turnsTaken++;
@@ -308,15 +358,17 @@
   const paid=actions.pay(state,'player',1,sources);if(!paid.ok)return paid;
   effects.reveal(paid.state,'player',id,paid.events);return progress(paid.state,paid.events);
  }
- function goSolo(state,id,sources){
-  if(!effects.active(state)||state.finished||effects.pending(state)||state.turn!=='player'||state.phase!=='main')return fail('Go Solo 必須在自己的主要階段使用，且先處理能力');
-  const l=state.player.legends.find(l=>l.id===id&&l.faceUp&&l.goSolo);
+ function soloAction(state,who,id,sources){
+  if(!effects.active(state)||state.finished||effects.pending(state)||state.turn!==who||state.phase!=='main')return fail('Go Solo 必須在自己的主要階段使用，且先處理能力');
+  const l=state[who].legends.find(l=>l.id===id&&l.faceUp&&l.goSolo);
   if(!l||!effects.knownLegend(l))return fail('請先呼叫具有 Go Solo 的已驗證傳奇');
   if((l.gear||[]).some(g=>g.deferredEffect||g.unimplementedEffect))return fail('此傳奇裝有尚未支援的能力');
-  const paid=actions.pay(state,'player',l.cost,sources);if(!paid.ok)return paid;
-  const p=paid.state.player,index=p.legends.findIndex(c=>c.id===id),[legend]=p.legends.splice(index,1);
-  const entered={...legend,ready:true,lag:true,goSolo:true,faceUp:true,gear:legend.gear||[]};p.units.push(entered);effects.onPlay(paid.state,'player',entered);
-  return progress(paid.state,[...paid.events,'Go Solo：'+legend.name+' 以就緒單位登場，本回合可攻擊']);
+  const paid=actions.pay(state,who,l.cost,sources);if(!paid.ok)return paid;
+  const p=paid.state[who],index=p.legends.findIndex(c=>c.id===id),[legend]=p.legends.splice(index,1);
+  const entered={...legend,ready:true,lag:true,goSolo:true,faceUp:true,gear:legend.gear||[]};p.units.push(entered);effects.onPlay(paid.state,who,entered);
+  return {ok:true,state:paid.state,events:[...paid.events,(who==='ai'?'對手 ':'')+'Go Solo：'+legend.name+' 以就緒單位登場，本回合可攻擊']};
  }
+ function goSolo(state,id,sources){const r=soloAction(state,'player',id,sources);return r.ok?progress(r.state,r.events):r;}
+
  return {concede,fresh,rollForOrder,chooseOrder,openingHand,beginOpening,ready,draw,roll,sell,play,gear,program,prepareTrainingTarget,fight,steal,addTrainingBlocker,addTrainingQuick,reactAttack,opponentTurn,defend,callLegend,goSolo,resolveEffect,legendSpecs:effects.legendSpecs,shuffleLegends:effects.shuffled,pass,next};
 });

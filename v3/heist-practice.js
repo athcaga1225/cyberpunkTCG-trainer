@@ -73,7 +73,7 @@ function fresh(scenario='basic',opts={}){
   s.ai.legends=s.player.legends.map(l=>({...l,id:'mirror-'+l.id,ready:true}));
   if(opts.randomizeLegends&&scenario!=='random')s.ai.legends=P.shuffleLegends(s.ai.legends);
   s.ai.eddies=[];s.ai.units=[];s.ai.gigs=[];s.ai.fixer=[4,6,8,10,12,20];
-  s.ai.practiceBot={kind:'mirror-the-heist',turnsTaken:0};
+  s.ai.practiceBot={kind:'mirror-the-heist',turnsTaken:0,strategy:opts.aiStrategy||(scenario==='random'?'active':'basic')};
   s.practiceKind='the-heist';s.practiceScenario=scenario;
   if(opts.preGame||scenario==='random'){
    s.turn='none';s.phase='pregame';s.step='choose-order';

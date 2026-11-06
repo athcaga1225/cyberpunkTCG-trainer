@@ -9,7 +9,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   assert.equal(selectCSS.appearance,'none');assert.match(selectCSS.position,/16px/);assert(parseFloat(selectCSS.padding)>=40);
   const roll=page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true});
   const style=await roll.evaluate(el=>{const s=getComputedStyle(el);return {display:s.display,align:s.alignItems,justify:s.justifyContent,shrink:s.flexShrink,bg:s.backgroundImage,border:s.borderBottomWidth}});
-  assert.equal(style.display,'flex');assert.equal(style.align,'center');assert.equal(style.justify,'center');assert.equal(style.shrink,'0');assert.match(style.bg,/linear-gradient/);assert.equal(style.border,'3px');
+  assert.equal(style.display,'flex');assert.equal(style.align,'center');assert.equal(style.justify,'center');assert.equal(style.shrink,'0');assert.equal(style.bg,'none');assert.equal(style.border,'1px');
   await page.screenshot({path:'/tmp/v3-opening-controls.png'});
   await page.getByRole('combobox',{name:'選擇開局方式',exact:true}).selectOption('basic');await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});await roll.click();
   for(const name of ['我方選擇先攻','我方選擇後攻'])assert.equal(await page.getByRole('button',{name,exact:true}).evaluate(el=>getComputedStyle(el).alignItems),'center');
@@ -26,6 +26,6 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   await ctl.getByRole('combobox',{name:'選擇合事佬骰子'}).selectOption('8');assert.equal(await page.getByRole('button',{name:'選擇 d8 委託骰',exact:true}).getAttribute('aria-pressed'),'true');
   await d6.click();await page.screenshot({path:'/tmp/v3-dice-choice.png'});await ctl.getByRole('button',{name:'擲骰',exact:true}).click();
   assert.match(await page.locator('.player-gigs .v3-gig-values').innerText(),/d6 = 4/);assert.equal(await d6.isDisabled(),true);assert.deepEqual(errors,[]);
-  console.log('PASS inset select arrows, raised/centered opening buttons, preparation order feedback, direct die selection, select synchronization, d20 restriction and committed d6 roll');
+  console.log('PASS inset select arrows, flat/centered opening buttons, preparation order feedback, direct die selection, select synchronization, d20 restriction and committed d6 roll');
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

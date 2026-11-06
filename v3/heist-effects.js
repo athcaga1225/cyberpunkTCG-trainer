@@ -30,7 +30,7 @@
   s.finished=true;s.winner=winner;s.loser=winner?other(winner):null;
   s.outcome={kind:winner?'win':'draw',winner:s.winner,loser:s.loser,reason};
   s.phase='finished';s.step='result';s.pendingEffects=[];s.pendingAttack=null;
-  delete s.effectsOwner;delete s.afterEffects;delete s.opponentNotes;
+  delete s.effectsOwner;delete s.afterEffects;delete s.opponentNotes;delete s.opponentMainStep;
   const info=resultSummary(s);events.push(info.title+'：'+info.reason);return s;
  }
  function checkVictory(s,startSide=null,events=[]){

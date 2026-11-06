@@ -28,6 +28,7 @@ on:
       - 'tests/v3-spend-effects.test.js'
       - 'tests/v3-opening.test.js'
       - 'tests/v3-outcomes.test.js'
+      - 'tests/v3-ai-strategy.test.js'
       - '.github/workflows/v3-lessons.yml'
   workflow_dispatch:
 jobs:
@@ -67,3 +68,5 @@ jobs:
         run: node tests/v3-opening.test.js
       - name: Verify Overtime and match outcomes
         run: node tests/v3-outcomes.test.js
+      - name: Verify active mirror Call, Go Solo and Gear decisions
+        run: node tests/v3-ai-strategy.test.js

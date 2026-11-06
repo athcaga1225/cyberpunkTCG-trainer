@@ -368,6 +368,7 @@ function renderRivalField(){
  for(const unit of state.ai.units){
   const el=add('button','',slots,'v3-played-card');el.type='button';el.title=unit.name+(state.ai.practiceBot?.kind==='mirror-the-heist'?'（鏡像對手）':'（練習對手，非 AI 行動）');
   el.addEventListener('click',()=>{if(attackUnitId&&state.phase==='main'&&!unit.ready)runTableAttack({kind:'unit',defenderId:unit.id});else{message=unit.ready?'對手單位仍就緒；先選擇合法目標或使用攔截練習。':'請先點選我方就緒單位，再點選對手。';render()}});
+  if(unit.gear?.length){el.title+=' · 裝備：'+unit.gear.map(g=>g.name).join('、');el.setAttribute('aria-label',el.title);const tag=add('span','裝備 ×'+unit.gear.length,el,'v3-gear-count');tag.title=unit.gear.map(g=>g.name).join('、');}
   const src=art.get(unit.name);
   if(src){const img=document.createElement('img');img.src=src;img.alt=unit.name;img.loading='lazy';el.append(img)}
   else add('span',unit.name,el);
@@ -683,13 +684,18 @@ function renderDefenseControls(){
  if(!C.quicks(state).length)add('span','目前手上沒有已支援的 Quick。',tableControls,'v3-table-hint');
  tableButton('結束反應並結算',()=>P.defend(state,{kind:'end'}));
 }
+function compactFeedback(text){
+ if(text.length<=160)return text;
+ const parts=text.split('；'),actions=parts.filter(p=>/對手呼叫傳奇|Go Solo：|^裝備 /.test(p));
+ return (actions.length?actions.slice(-3):parts.slice(-2)).join('；');
+}
 function renderTableControls(){
  tableControls.replaceChildren();
  if(!E.pending(state)){effectChoiceId=null;effectChoices.clear();}
  if(picker.value!=='theHeist'||state.phase==='pregame')return;
  const p=state.player;
  const headline=add('span',state.phase==='main'?'主要階段':phase(),tableControls,'v3-table-phase');
- if(message&&message!==initial)add('span',message,tableControls,'v3-table-feedback');
+ if(message&&message!==initial)add('span',compactFeedback(message),tableControls,'v3-table-feedback');
  if(state.finished){confirmConcede=false;const result=E.resultSummary(state);headline.textContent=result.title;add('span',result.reason,tableControls,'v3-result-reason');tableButton('重新開局',()=>({ok:true,state:H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),message:initial}));return}
  if(state.overtime)add('span','OVERTIME · 7 顆骰立即獲勝',tableControls,'v3-overtime');
  if(confirmConcede){
@@ -922,7 +928,7 @@ function render(){
    message='已更新對手模式。';render();
   });
   opponentLabel.append(opponentSelect);
-  add('p',opponentMode==='mirror'?(scenario==='random'?'雙方使用 The Heist 40 張牌洗牌並抽六張；對手固定選擇保留起手，戰鬥時等待你的防守反應。':'固定練習保留指定起手與牌庫順序；鏡像對手會自動執行回合並等待你的防守反應。'):'固定目標模式保留原本預先配置的單位與委託骰，可測試腳本 Blocker／Quick。',order);
+  add('p',opponentMode==='mirror'?(scenario==='random'?'雙方洗牌並抽六張；對手保留起手，會支付呼叫傳奇、Go Solo、出牌與裝備，攻擊時等待你的防守反應。':'固定練習保留指定起手與牌庫順序；鏡像對手會自動執行回合並等待你的防守反應。'):'固定目標模式保留原本預先配置的單位與委託骰，可測試腳本 Blocker／Quick。',order);
   if(opponentMode==='script'){
   const defenderLabel=add('label','腳本對手反應（測試模式）',order);
   const defenderSelect=document.createElement('select');defenderSelect.setAttribute('aria-label','選擇測試對手反應');
