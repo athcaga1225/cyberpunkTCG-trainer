@@ -1,7 +1,7 @@
 /* V3-only The Heist starter-card bridge.
  * Starter list: official cyberpunktcg.com/blog/wnc-starter-decks
  * Cost, types and Sell Tag: https://cyberpunktcg.wiki/decks/the-heist/
- * Basic cards can be deployed; attack/defeat/turn-triggered abilities remain pending until their timing engine exists.
+ * Known The Heist effects use the mirror engine; the old fixed script stays bounded.
  * Official card text determines when a passive effect becomes applicable.
  */
 (function(root,factory){'use strict';const base=(typeof module!=='undefined'&&module.exports)?require('./turn-practice.js'):root.NCTV3TurnPractice;const api=factory(base);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3Heist=api;})(typeof globalThis!=='undefined'?globalThis:this,function(P){'use strict';
@@ -41,7 +41,8 @@ const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
  onPlaySpendRival:name==='Offduty Malfini',
  blocker:name==='Secondhand Bombus'||name==='Mandibular Upgrade',
  cannotBeBlockedIfLowerCred:name==='MT0D12 Flathead',
- deferredEffect:['Zetatech Faceplate','Tetratronic Rippler'].includes(name)
+ spendEffect:({'Zetatech Faceplate':'faceplate','Tetratronic Rippler':'rippler'})[name]||null,
+ deferredEffect:false
 }]));
 function fresh(scenario='basic',opts={}){
  if(!['basic','quick'].includes(scenario))throw new Error('Unknown Heist practice scenario');

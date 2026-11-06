@@ -1,5 +1,5 @@
 /* V3 only: verified basic actions. Not full gameplay. Sources: https://cyberpunktcg.com/comprehensive-rules (3.12, 4.6-4.7, 5.7-5.8, 8.11, 11.8-11.9). */
-(function(root,factory){'use strict';const api=factory();if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3Actions=api;})(typeof globalThis!=='undefined'?globalThis:this,function engine(){
+(function(root,factory){'use strict';const api=factory(typeof module!=='undefined'&&module.exports?require('./heist-effects.js'):root.NCTV3Effects);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3Actions=api;})(typeof globalThis!=='undefined'?globalThis:this,function engine(E){
  "use strict";
  const clone=x=>JSON.parse(JSON.stringify(x));
  const fail=reason=>({ok:false,reason});
@@ -24,9 +24,9 @@
    const item=pool.find(x=>x.id===src.id);
    if(!item||item.ready!==true)return fail("支付資源不存在或已使用");
    if(src.kind==="legend"&&item.faceUp===true&&!item.sellTag)return fail("已翻開且沒有變賣標記的傳奇卡不能支付");
-   if(src.kind==="legend"&&(item.gear||[]).some(g=>g.deferredEffect||g.unimplementedEffect))return fail("此傳奇裝有尚未支援的橫置觸發，不能略過結算");
+   if(src.kind==="legend"&&(item.gear||[]).some(g=>g.deferredEffect||g.unimplementedEffect||(!E.active(state)&&g.spendEffect)))return fail("此傳奇裝有尚未支援的橫置觸發，不能略過結算");
   }
-  const s=clone(state),q=s[who];for(const src of sources)(src.kind==="eddie"?q.eddies:q.legends).find(x=>x.id===src.id).ready=false;
+  const s=clone(state),q=s[who];for(const src of sources){const item=(src.kind==="eddie"?q.eddies:q.legends).find(x=>x.id===src.id);if(src.kind==="legend")E.spend(s,who,item);else item.ready=false;}
   return success(s,["支付 "+cost+" €$（Eddies／傳奇卡）"]);
  }
  function playUnit(state,who,cardId,sources,opts={}){
@@ -66,7 +66,7 @@
    if(candidates.length){
     rivalTarget=candidates.find(x=>x.id===opts?.rivalUnitId);
     if(!rivalTarget)return fail("必須選擇一張可橫置的對手單位");
-    if((rivalTarget.gear||[]).some(g=>g.deferredEffect||g.unimplementedEffect))return fail("對手單位有尚未支援的橫置觸發，不能略過結算");
+    if((rivalTarget.gear||[]).some(g=>g.deferredEffect||g.unimplementedEffect||(!E.active(state)&&g.spendEffect)))return fail("對手單位有尚未支援的橫置觸發，不能略過結算");
    }else if(opts?.rivalUnitId)return fail("沒有可橫置的對手單位");
   }
   const payment=pay(state,who,c.cost,sources);if(!payment.ok)return payment;
@@ -78,7 +78,7 @@
   const events=[...payment.events,"打出 "+c.name+"（"+(entered.ready?"Ready":"Spent")+"，帶有 Lag）"];
   if(gigTarget){s[side].gigs.find(g=>g.id===opts.gigId).value+=delta;events.push("登場調整委託骰 "+(delta>0?"+":"")+delta);}
   if(c.onPlaySpendRival){
-   if(rivalTarget){const rivalSide=who==="player"?"ai":"player";s[rivalSide].units.find(u=>u.id===rivalTarget.id).ready=false;events.push("橫置對手單位 "+rivalTarget.name);}
+   if(rivalTarget){const rivalSide=who==="player"?"ai":"player";E.spend(s,rivalSide,s[rivalSide].units.find(u=>u.id===rivalTarget.id));events.push("橫置對手單位 "+rivalTarget.name);}
    else events.push("場上沒有可橫置的對手單位");
   }
   if(gearTarget){
@@ -194,7 +194,7 @@
   if(defender.ready!==false)return fail('只能直接攻擊已使用的對手單位');
   if(!opts.reactionResolved&&rival.units.some(u=>u.ready===true&&unitStats(u).blocker))return fail('防守方尚未決定 Blocker 反應');
   // This bounded trainer deliberately rejects unresolved attack/defeat abilities.
-  if(attacker.deferredEffect||defender.deferredEffect||attacker.attackEffect||attacker.defeatEffect||attacker.endReadyEddie||attacker.cannotBeBlockedIfLowerCred||defender.defeatEffect||(attacker.gear||[]).some(g=>g.attackEffect)||attacker.goSolo||defender.goSolo||attacker.unimplementedEffect||defender.unimplementedEffect)
+  if(attacker.deferredEffect||defender.deferredEffect||attacker.attackEffect||attacker.defeatEffect||attacker.endReadyEddie||attacker.cannotBeBlockedIfLowerCred||defender.defeatEffect||(attacker.gear||[]).some(g=>g.attackEffect||g.spendEffect)||attacker.goSolo||defender.goSolo||attacker.unimplementedEffect||defender.unimplementedEffect)
    return fail('此單位涉及尚未驗證的攻擊或擊敗能力，暫不結算');
   if(p.pendingRebootOptics||rival.pendingRebootOptics)return fail('Quick 戰鬥保護尚未實作，不能跳過結算');
   const s=clone(state),a=s[who].units.find(u=>u.id===attackerId),d=s[rivalSide].units.find(u=>u.id===defenderId);
@@ -213,7 +213,7 @@
   if(state.finished||state.phase!=='main'||state.turn!==who)return fail('只能在自己的主要階段攻擊');
   const attacker=p.units.find(u=>u.id===attackerId);
   if(!attacker||attacker.ready!==true||attacker.lag===true)return fail('攻擊單位必須就緒，且沒有 Lag');
-  if(attacker.deferredEffect||attacker.attackEffect||attacker.defeatEffect||attacker.endReadyEddie||attacker.cannotBeBlockedIfLowerCred||(attacker.gear||[]).some(g=>g.attackEffect)||attacker.goSolo||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
+  if(attacker.deferredEffect||attacker.attackEffect||attacker.defeatEffect||attacker.endReadyEddie||attacker.cannotBeBlockedIfLowerCred||(attacker.gear||[]).some(g=>g.attackEffect||g.spendEffect)||attacker.goSolo||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
    return fail('攻擊或 Quick 相關效果尚未驗證，不可略過');
   if(!Array.isArray(rival.gigs)||!rival.gigs.length)return fail('對手委託區沒有委託骰');
   if(!opts.reactionResolved&&rival.units.some(u=>u.ready===true&&unitStats(u).blocker))return fail('防守方尚未決定 Blocker 反應');
@@ -239,7 +239,7 @@
   if(state.finished||state.phase!=='main'||state.turn!==who)return fail('只能在主要階段宣告攻擊');
   const attacker=p.units.find(u=>u.id===attackerId);
   if(!attacker||!attacker.ready||attacker.lag)return fail('攻擊者必須就緒且沒有 Lag');
-  if(attacker.deferredEffect||attacker.attackEffect||attacker.defeatEffect||attacker.endReadyEddie||attacker.cannotBeBlockedIfLowerCred||(attacker.gear||[]).some(g=>g.attackEffect)||attacker.goSolo||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
+  if(attacker.deferredEffect||attacker.attackEffect||attacker.defeatEffect||attacker.endReadyEddie||attacker.cannotBeBlockedIfLowerCred||(attacker.gear||[]).some(g=>g.attackEffect||g.spendEffect)||attacker.goSolo||attacker.unimplementedEffect||p.pendingRebootOptics||rival.pendingRebootOptics)
    return fail('尚未支援的攻擊、Quick 或觸發效果不可跳過');
   if(!attack||!['gig','unit'].includes(attack.kind))return fail('必須指定攻擊目標');
   if(attack.kind==='gig'&&(!rival.gigs?.length||!rival.gigs.every(g=>g.trainingTarget)))
@@ -247,6 +247,7 @@
   if(attack.kind==='unit'&&!rival.units.some(u=>u.id===attack.defenderId&&u.ready===false))
    return fail('只能宣告攻擊已使用的對手單位');
   const blockers=rival.units.filter(u=>u.ready===true&&unitStats(u).blocker);
+  if(blockers.some(u=>(u.gear||[]).some(g=>g.spendEffect)))return fail('橫置裝備能力請使用鏡像實戰模式');
   if(blockers.length&&(!reaction||!['pass','block'].includes(reaction.kind)))
    return fail('防守方必須先決定是否使用 Blocker');
   if(reaction&&reaction.kind!=='pass'&&reaction.kind!=='block')return fail('反應選擇無效');

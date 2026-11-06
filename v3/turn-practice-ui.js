@@ -617,6 +617,11 @@ function renderEffectChoices(){
   add('span','搜尋牌庫頂 '+options.length+' 張：選最多兩張費用 2 以下的裝備；其餘隨機放回牌庫底。',tableControls,'v3-table-hint');
   for(const c of options){if(c.type==='Gear'&&c.cost<=2)choiceButton(c.name+' · '+c.cost+' €$',c.id);else add('span',c.name+'（不能選取）',tableControls,'v3-table-hint');}
   tableButton('確認搜尋（選取 '+effectChoices.size+' / 2）',()=>confirm({cardIds:[...effectChoices]}),effectChoices.size>2);
+ }else if(e.type==='rippler'){
+  add('span','只有我方查看牌庫頂；選擇保留或棄置。這不是抽牌。',tableControls,'v3-table-hint');
+  add('strong','牌庫頂：'+options[0].name,tableControls,'v3-table-selection');
+  tableButton('保留在牌庫頂',()=>confirm({trash:false}));
+  tableButton('棄置牌庫頂',()=>confirm({trash:true}));
  }else if(e.type==='peekOne'||e.type==='freeCall'){
   add('span',e.type==='peekOne'?'選一張友方蓋牌傳奇查看；不向對手公開。':'可免費呼叫一張傳奇，仍受每回合一次限制。',tableControls,'v3-table-hint');
   for(const l of options)tableButton((e.type==='peekOne'?'查看':'免費呼叫')+'傳奇位置 '+(state.player.legends.indexOf(l)+1),()=>confirm({legendId:l.id}));
@@ -633,7 +638,7 @@ function renderEffectChoices(){
   for(const c of options)choiceButton('Eddie '+(state.player.eddies.indexOf(c)+1),c.id);
   tableButton('確認重置',()=>confirm({eddieIds:[...effectChoices]}),effectChoices.size!==count);
  }else if(e.type==='adjust'){
-  add('span','選擇委託骰與調整點數；也可以不調整。',tableControls,'v3-table-hint');
+  add('span','選擇委託骰與調整點數；也可以不調整。'+(e.drawOnDistinct?'之後若我方有至少三種不同點數，抽 1 張。':''),tableControls,'v3-table-hint');
   const pick=document.createElement('select');pick.setAttribute('aria-label','能力指定委託骰');
   for(const g of options){const o=document.createElement('option');o.value=g.side+':'+g.id;o.textContent=(g.side==='player'?'我方':'對手')+' d'+g.sides+' = '+g.value;pick.append(o)}
   const delta=document.createElement('select');delta.setAttribute('aria-label','能力調整點數');

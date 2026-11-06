@@ -1,6 +1,6 @@
 /* The Heist verified effects, based on official card text and rules 4.4, 4.12,
  * 9.5-9.6, 10, 11.11, 11.25. Deck TOP is the array's last element.
- * Unknown spend triggers (Zetatech Faceplate / Tetratronic Rippler) stay deferred.
+ * Verified spend transitions enqueue effects; searches never count as draws.
  */
 (function(root,factory){const api=factory();if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3Effects=api;})(typeof globalThis!=='undefined'?globalThis:this,()=>{
  'use strict';
@@ -34,6 +34,15 @@
   const first=!s[who].bluePlayedThisTurn;s[who].bluePlayedThisTurn=true;
   if(first&&s[who].legends.some(l=>l.faceUp&&l.legendEffect==='jackie'))queue(s,who,'adjust',{source:'Jackie Welles',min:-2,max:0,friendlyOnly:true,drawOnMin:true});
  }
+ function spend(s,who,u){
+  if(!u.ready)return false;
+  u.ready=false;
+  if(active(s))for(const g of u.gear||[]){
+   if(g.spendEffect==='faceplate')queue(s,who,'adjust',{source:g.name,min:-1,max:1,drawOnDistinct:3});
+   if(g.spendEffect==='rippler')queue(s,who,'rippler',{source:g.name});
+  }
+  return true;
+ }
  function attack(s,who,u){
   if(!active(s))return;
   if(u.attackEffect==='evelyn')queue(s,who,'evelyn',{source:u.name});
@@ -59,6 +68,7 @@
   const p=s[e.who];
   if(e.type==='order')return s.pendingEffects.filter(c=>c.who===e.who&&c.type!=='order');
   if(e.type==='search')return p.deck.slice(-5).reverse();
+  if(e.type==='rippler')return p.deck.slice(-1);
   if(['peekOne','tbug','freeCall'].includes(e.type))return p.legends.filter(l=>!l.faceUp);
   if(e.type==='discard')return p.hand;
   if(e.type==='readyEddies')return p.eddies.filter(c=>!c.ready);
@@ -74,6 +84,10 @@
    const selected=cards.filter(c=>ids.includes(c.id)),rest=cards.filter(c=>!ids.includes(c.id));
    p.deck.splice(Math.max(0,p.deck.length-5));p.hand.push(...selected);p.deck=shuffled(rest,choice.random).concat(p.deck);
    events.push('Viktor 揭示並加入 '+selected.length+' 張裝備'+(selected.length?'：'+selected.map(c=>c.name).join('、'):'')+'；其餘隨機放回牌庫底');
+  }else if(e.type==='rippler'){
+   if(typeof choice.trash!=='boolean')return '請選擇保留牌庫頂或棄置';
+   if(choice.trash){(p.trash??=[]).push(p.deck.pop());events.push('Tetratronic Rippler：棄置牌庫頂 '+cards[0].name);}
+   else events.push('Tetratronic Rippler：保留牌庫頂（不公開卡名）');
   }else if(e.type==='peekOne'){
    const l=cards.find(l=>l.id===choice.legendId);if(!l)return '請選擇一張友方蓋牌傳奇';
    l.knownToOwner=true;
@@ -100,6 +114,7 @@
     events.push(e.source+' 調整 '+(g.side===e.who?'友方':'對手')+' d'+g.sides+'：'+before+' → '+actual.value);
     if(e.drawOnMin&&before>1&&actual.value===1)draw(s,e.who,1,events);
    }else events.push(e.source+'：不調整委託骰');
+   if(e.drawOnDistinct&&new Set(p.gigs.map(g=>g.value)).size>=e.drawOnDistinct)draw(s,e.who,1,events);
   }else return '此效果選項尚未支援';
   return null;
  }
@@ -122,9 +137,9 @@
     s.pendingEffects[0]=e.who==='player'&&cards.length?{...e,type:'peekResult',thenFreeCall:true,cards:cards.map(l=>({id:l.id,name:l.name,position:p.legends.indexOf(l)+1}))}:{...e,type:'freeCall'};
     events.push('T-Bug 查看全部友方蓋牌傳奇（不公開卡名）');continue;
    }
-   if((['search','peekOne','discard','readyEddies','adjust'].includes(e.type)&&!cards.length)||(e.type==='freeCall'&&(p.calledThisTurn||!cards.length))){s.pendingEffects.shift();continue;}
+   if((['search','rippler','peekOne','discard','readyEddies','adjust'].includes(e.type)&&!cards.length)||(e.type==='freeCall'&&(p.calledThisTurn||!cards.length))){s.pendingEffects.shift();continue;}
    if(e.who==='player')break;
-   const choice=e.type==='search'?{cardIds:cards.filter(c=>c.type==='Gear'&&c.cost<=2).slice(0,2).map(c=>c.id)}:e.type==='peekOne'||e.type==='freeCall'?{legendId:cards[0]?.id}:e.type==='discard'?{cardId:cards[0]?.id}:e.type==='readyEddies'?{eddieIds:cards.slice(0,e.count).map(c=>c.id)}:{delta:0};
+   const choice=e.type==='rippler'?{trash:false}:e.type==='search'?{cardIds:cards.filter(c=>c.type==='Gear'&&c.cost<=2).slice(0,2).map(c=>c.id)}:e.type==='peekOne'||e.type==='freeCall'?{legendId:cards[0]?.id}:e.type==='discard'?{cardId:cards[0]?.id}:e.type==='readyEddies'?{eddieIds:cards.slice(0,e.count).map(c=>c.id)}:{delta:0};
    const error=apply(s,e,choice,events);if(error)throw Error(error);s.pendingEffects.shift();
   }
   if(!pending(s))delete s.effectsOwner;
@@ -144,5 +159,5 @@
   const error=apply(next,pending(next),choice||{},events);if(error)return fail(error);
   if(!next.finished)next.pendingEffects.shift();pump(next,events);return ok(next,events);
  }
- return {legendSpecs,knownLegend,active,pending,queue,draw,reveal,onPlay,attack,defeated,endTurn,resetTurn,options,shuffled,pump,resolve,cred};
+ return {legendSpecs,knownLegend,active,pending,queue,draw,reveal,onPlay,spend,attack,defeated,endTurn,resetTurn,options,shuffled,pump,resolve,cred};
 });

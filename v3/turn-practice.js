@@ -2,7 +2,7 @@
  * Official rules: https://cyberpunktcg.com/comprehensive-rules 7.7-7.9, 8.1-8.11.
  * Supports a bounded mirror opponent and explicit Quick/Blocker reactions.
  * Known The Heist Legend/Attack/Defeated/end-turn effects use explicit choices.
- * Unverified spend triggers, mulligan and Overtime remain unsupported.
+ * Mulligan and Overtime remain unsupported.
  */
 (function(root,factory){'use strict';const deps=(typeof module!=='undefined'&&module.exports)?require('./battle-actions.js'):root.NCTV3Actions;const combat=(typeof module!=='undefined'&&module.exports)?require('./mirror-combat.js'):root.NCTV3Combat;const effects=(typeof module!=='undefined'&&module.exports)?require('./heist-effects.js'):root.NCTV3Effects;const api=factory(deps,combat,effects);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3TurnPractice=api;})(typeof globalThis!=='undefined'?globalThis:this,function(actions,combat,effects){'use strict';
  const copy=x=>JSON.parse(JSON.stringify(x));
@@ -95,7 +95,7 @@
   if(effects.pending(state))return fail('請先處理待結算能力');
   if(!actions)return fail('支付模組未載入');
   const r=actions.playProgram(state,'player',id,payment,opts);
-  return r.ok?ok(r.state,r.events.join('；')):r;
+  return r.ok&&effects.active(state)?progress(r.state,r.events):r.ok?ok(r.state,r.events.join('；')):r;
  }
  function pass(state){
   if(effects.pending(state))return fail('請先處理待結算能力');

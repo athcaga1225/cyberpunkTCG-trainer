@@ -25,6 +25,7 @@ on:
       - 'tests/v3-practice-guide.test.js'
       - 'tests/v3-mirror-combat.test.js'
       - 'tests/v3-heist-effects.test.js'
+      - 'tests/v3-spend-effects.test.js'
       - '.github/workflows/v3-lessons.yml'
   workflow_dispatch:
 jobs:
@@ -58,3 +59,5 @@ jobs:
         run: node tests/v3-mirror-combat.test.js
       - name: Verify Legend and The Heist effects
         run: node tests/v3-heist-effects.test.js
+      - name: Verify spend-triggered Gear choices
+        run: node tests/v3-spend-effects.test.js

@@ -27,9 +27,18 @@
 - Go Solo 的 Lag 仍存在，但保留本回合可攻擊的權限。
 - 規則參考：https://cyberpunktcg.com/comprehensive-rules （2.10、4.4、4.12、9.5–9.6、10、11.11、11.25）。
 
+## 橫置裝備能力追加
+
+- Zetatech Faceplate：https://cyberpunktcg.com/cards/zetatech-faceplate 。裝備者從就緒變為橫置時，可調整任一方委託骰 ±1 或不調整；完成後檢查我方至少三種不同點數，符合才抽一張。
+- Tetratronic Rippler：https://cyberpunktcg.com/cards/tetratronic-rippler 。裝備者橫置時私下查看牌庫頂，選擇保留或棄置；保留時日誌不洩漏名稱。空牌庫搜尋不視為抽牌失敗。
+- 攻擊、Blocker、以傳奇支付、Offduty Malfini 橫置對手，均經同一個狀態轉換；已橫置的卡不再重複觸發。新裝上的裝備不會補觸發先前的支付。
+- 支付時產生的能力在目前卡牌／行動結算後處理；多個待結算能力沿用選序，裝備控制者負責選擇。Go Solo 支付時的觸發保留，附加裝備隨傳奇進場。
+- 鏡像對手自動選擇不調骰、保留牌庫頂，仍執行 Faceplate 的條件抽牌。尚未建立最佳化策略。
+- `tests/v3-spend-effects.test.js` 驗證支付、攻擊、防守、對手橫置、選序、私密資訊、空牌庫及抽牌落敗；`tests/v3-spend-effects.browser.cjs` 用實際開局、Viktor 搜尋與裝備走通 Rippler 兩種選擇，另以指定場面驗證 Faceplate 調骰抽牌與戰鬥接續。
+
 ## 仍未支援
 
-Zetatech Faceplate 與 Tetratronic Rippler 的橫置觸發尚未接入，保留 deferred 標記。其場上單位會限制鏡像戰鬥；若裝在傳奇上，支付該傳奇或使對手單位橫置的動作會拒絕，不會跳過觸發。舊固定腳本不支援本輪新增的攻擊／擊敗能力，會拒絕相應結算。鏡像對手仍為有限策略，尚未建立主動呼叫／Go Solo 的決策策略；其既有觸發選擇由系統處理。正式洗牌、Mulligan 與 Overtime 不在本輪範圍。
+舊固定腳本仍不支援橫置裝備及本輪新增的攻擊／擊敗能力，會拒絕相應結算；請使用鏡像實戰。鏡像對手仍為有限策略，尚未建立主動呼叫／Go Solo 與裝備出牌的決策策略。正式洗牌、Mulligan 與 Overtime 不在本輪範圍。這次補齊兩張裝備，不代表所有正式對戰規則均已驗證。
 
 ## 測試
 

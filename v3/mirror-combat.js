@@ -26,7 +26,7 @@
   const legal=targets(s,who,id);
   if(!target||!['gig','unit'].includes(target.kind)||(target.kind==='gig'&&!legal.gigs)||(target.kind==='unit'&&!legal.units.includes(target.defenderId)))return fail(restriction(s)||'攻擊者或目標目前不合法（需就緒、沒有 Lag，且對手單位必須已使用）');
   const next=clone(s),rival=other(who),u=next[who].units.find(u=>u.id===id);
-  u.ready=false;next.phase='react';next.step='defense';
+  E.spend(next,who,u);next.phase='react';next.step='defense';
   next.pendingAttack={attackingSide:who,defendingSide:rival,attackerId:id,target:target.kind==='gig'?{kind:'gig'}:{kind:'unit',defenderId:target.defenderId},preferredGigIds:target.gigIds};
   E.attack(next,who,u);
   const events=[];E.pump(next,events);
@@ -51,8 +51,8 @@
   if(restriction(s))return fail(restriction(s));
   if(action?.kind==='block'){
    const b=blockers(s).find(u=>u.id===action.blockerId);if(!b)return fail('只能使用就緒、沒有 Lag 且效果已支援的 Blocker');
-   const next=clone(s);next[who].units.find(u=>u.id===b.id).ready=false;next.pendingAttack.target={kind:'unit',defenderId:b.id};
-   return ok(next,['Blocker：'+b.name+' 已橫置，攻擊轉向它；你仍可繼續使用 Quick 或其他攔截']);
+   const next=clone(s);E.spend(next,who,next[who].units.find(u=>u.id===b.id));next.pendingAttack.target={kind:'unit',defenderId:b.id};
+   const events=['Blocker：'+b.name+' 已橫置，攻擊轉向它；你仍可繼續使用 Quick 或其他攔截'];E.pump(next,events);return ok(next,events);
   }
   if(action?.kind!=='quick')return fail('請選擇 Quick、Blocker，或結束反應');
   const card=quicks(s).find(c=>c.id===action.cardId);if(!card)return fail('此卡不是目前支援的 Quick');
@@ -62,10 +62,10 @@
   const next=payment.state,q=next[who];q.hand.splice(q.hand.findIndex(c=>c.id===card.id),1);q.trash=q.trash||[];q.trash.push(card);
   if(card.name==='Floor It'){
    const u=next[p.attackingSide].units.find(u=>u.id===target);u.tempPowerModifier=(u.tempPowerModifier||0)-1;
-   if(!q.deck.length){next.finished=true;next.loser=who;next.winner=other(who);next.pendingAttack=null;return ok(next,[...payment.events,'Floor It 抽牌時牌庫已空，遊戲結束']);}
+   if(!q.deck.length){next.finished=true;next.loser=who;next.winner=other(who);next.pendingAttack=null;next.pendingEffects=[];delete next.effectsOwner;return ok(next,[...payment.events,'Floor It 抽牌時牌庫已空，遊戲結束']);}
    q.hand.push(q.deck.pop());
   }else q.pendingRebootOptics=(q.pendingRebootOptics||0)+1;
-  return ok(next,[...payment.events,'Quick：'+card.name+(card.name==='Floor It'?'，指定對手單位本回合戰力 -1，抽 1 張':'，本回合下一次對手單位交戰時保護己方單位'),'防守反應尚未結束']);
+  E.pump(next,payment.events);return ok(next,[...payment.events,'Quick：'+card.name+(card.name==='Floor It'?'，指定對手單位本回合戰力 -1，抽 1 張':'，本回合下一次對手單位交戰時保護己方單位'),'防守反應尚未結束']);
  }
  function end(s,who,gigIds){
   const p=context(s);if(!p||p.defendingSide!==who)return fail('目前不是你的防守反應時機');
@@ -109,13 +109,13 @@
   const sources=cost=>[...current.ai.eddies.filter(c=>c.ready).map(c=>({kind:'eddie',id:c.id})),...current.ai.legends.filter(c=>c.ready&&(!c.faceUp||c.sellTag)).map(c=>({kind:'legend',id:c.id}))].slice(0,cost);
   for(const c of quicks(current).filter(c=>c.name==='Floor It')){
    if(power(current.player.units.find(u=>u.id===p.attackerId))<=0)break;
-   const r=react(current,'ai',{kind:'quick',cardId:c.id,sources:sources(c.cost)});if(r.ok){current=r.state;events.push(...r.events);}if(current.finished)return ok(current,events);
+   const r=react(current,'ai',{kind:'quick',cardId:c.id,sources:sources(c.cost)});if(r.ok){current=r.state;events.push(...r.events);}if(current.finished||E.pending(current))return ok(current,events);
   }
   const b=blockers(current).sort((a,b)=>power(b)-power(a))[0];
-  if(b){const r=react(current,'ai',{kind:'block',blockerId:b.id});current=r.state;events.push(...r.events);}
+  if(b){const r=react(current,'ai',{kind:'block',blockerId:b.id});current=r.state;events.push(...r.events);if(current.finished||E.pending(current))return ok(current,events);}
   if(current.pendingAttack.target.kind==='unit'){
    const c=quicks(current).find(c=>c.name==='Reboot Optics');
-   if(c){const r=react(current,'ai',{kind:'quick',cardId:c.id,sources:sources(c.cost)});if(r.ok){current=r.state;events.push(...r.events);}}
+   if(c){const r=react(current,'ai',{kind:'quick',cardId:c.id,sources:sources(c.cost)});if(r.ok){current=r.state;events.push(...r.events);if(current.finished||E.pending(current))return ok(current,events);}}
   }
   let ids;
   if(current.pendingAttack.target.kind==='gig'){
