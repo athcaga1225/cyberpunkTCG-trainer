@@ -3763,6 +3763,56 @@ body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-hand-hove
 #v3TrashViewer figure{margin:0;min-width:0;max-width:180px}
 #v3TrashViewer img{width:100%;height:170px;object-fit:contain}
 #v3TrashViewer figcaption{font-size:12px;line-height:1.5}
+
+/* Three Legends and their Eddie resources share the same tabletop zone. */
+#battle .v3-legend-layout{display:flex;flex:1;gap:12px;min-height:0;min-width:0;align-items:stretch}
+body.battle-wide #battle .v3-legend-layout>.cardbacks{flex:0 1 auto;width:auto;max-width:66%;padding:3px 3px 8px}
+body.battle-wide #battle .v3-legend-layout>.preview-zone{grid-area:auto;flex:1;min-width:100px;border:0;border-left:1px solid #37525d;border-radius:0;padding:4px 8px;overflow:auto}
+#battle .player-trash,#battle .opponent-trash{justify-content:flex-end}
+#battle .player-trash>small,#battle .opponent-trash>small{margin-bottom:auto}
+#battle .opponent-legends .face-down{cursor:default!important;filter:none!important;outline:none!important;box-shadow:none!important;background:#0b1a21!important}
+#battle .opponent-legends .face-down:hover{border-color:#48727e!important;filter:none!important}
+#battle .v3-public-card{cursor:zoom-in}
+#battle .opponent-field .v3-attackable{cursor:crosshair}
+#battle #v3TableGuide .v3-coach-close{display:flex;align-items:center;justify-content:center;padding:0;line-height:1;box-sizing:border-box;min-height:0}
+#battle #v3TableGuide{border-color:#fcee0a;color:#e8e1b5}
+#battle #v3TableGuide p{color:#e8e1b5}
+#battle #v3TableControls{border-color:#4a8698;background:#102630}
+#battle .v3-action-primary:not(:disabled){background:#fcee0a!important;border:1px solid #fcee0a!important;color:#11151a!important;font-weight:700}
+#battle .v3-zone-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap;min-height:0;flex:none}
+#battle .v3-zone-actions .v3-table-btn{padding:5px 9px;min-height:28px;font-size:12px;cursor:pointer;border-radius:2px}
+#battle .player-fixer .v3-zone-actions{position:absolute;top:4px;right:6px}
+#battle .player-fixer .v3-zone-actions select{display:none}
+#battle .v3-card-actions{position:fixed;z-index:8000;width:min(335px,calc(100vw - 24px));box-sizing:border-box;padding:10px;background:#0d2732;border:1px solid #59c2d4;border-radius:3px;max-height:42vh;overflow:auto;display:flex;flex-wrap:wrap;gap:7px;color:#dff5fa}
+#battle .v3-card-actions[hidden]{display:none}
+#battle .v3-card-actions>.v3-table-selection,#battle .v3-card-actions>.v3-table-hint{width:100%;font-size:12px;line-height:1.5}
+#battle .v3-card-actions button,#battle .v3-card-actions select{min-height:30px;padding:5px 8px;font-size:12px;border:1px solid #537e89;background:#132e39;color:#dff5fa;border-radius:2px}
+#battle .v3-board-payments{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;flex:none}
+#battle .v3-board-payments p{margin:0;width:100%;font-size:10px}
+#battle .v3-board-payments button{padding:4px;font-size:10px;background:#122b32;color:#def5fa;border:1px solid #5f8c96;cursor:pointer}
+#battle .v3-board-payments [aria-pressed="true"]{background:#21515b;border-color:#29ffff}
+#v3HandPreview{background:#0b1d27!important;border-color:#69a7b7!important}
+#v3HandPreview>div{width:min(220px,22vw)!important;font-size:12px!important;line-height:1.6!important;max-height:min(66vh,450px)!important}
+#battle .v3-guide-substep{display:block;color:#fcee0a;font-size:12px;margin-top:7px}
+@media(min-width:901px){
+ body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail{width:min(760px,100%);height:min(570px,calc(100dvh - 40px));min-height:0;max-height:calc(100dvh - 40px);box-sizing:border-box;justify-content:flex-start;gap:6px}
+ body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail p{margin:3px 0}
+ body.battle-wide #battle .player-eddies .v3-eddie-tokens{flex:0 1 auto;max-height:65px}
+}
+
+#battle .table-preview[data-v3-stage="opening"] .preview-art-card{visibility:hidden!important}
+#battle .player-fixer:has(.v3-zone-actions) .mini-dice{width:calc(100% - 52px);box-sizing:border-box}
+#battle .player-fixer .v3-zone-actions{top:26px}
+
+#battle .v3-setup-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:650px){#battle .v3-setup-fields{grid-template-columns:1fr}}
+
+#battle #v3TableGuide[data-mode="live"]{border-color:#39d6ef;color:#c6e5ec}
+#battle #v3TableGuide[data-mode="live"] strong,#battle #v3TableGuide[data-mode="live"] small,#battle #v3TableGuide[data-mode="live"] .v3-guide-substep,#battle #v3TableGuide[data-mode="live"] .v3-coach-close{color:#8fe8fa}
+#battle #v3TableGuide[data-mode="live"] p{color:#c6e5ec}
+#battle #v3TableGuide[data-mode="live"] .v3-coach-close:hover{background:#39d6ef22}
+#battle .board-tour:has(#v3TableGuide[data-mode="live"]:not([hidden])) .v3-guide-active{outline-color:#39d6ef!important}
+#battle .player-field .v3-public-card,#battle .player-legends .v3-legend-card{cursor:pointer}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -3784,7 +3834,7 @@ body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-hand-hove
 <p class="muted">詳細術語與完整規則參考：<a href="https://cyberpunktcg.com/gameplay-guide" target="_blank" rel="noopener noreferrer">官方 Gameplay Guide <span class="external-arrow" aria-hidden="true">↗</span></a></p>
 </section>
 <section id="battle" class="hide"><div class="v3-rotate-overlay" role="region" aria-label="手機對戰方向限制"><div class="v3-rotate-message"><span class="v3-rotate-eyebrow">PHONE MODE</span><div class="v3-rotate-icon" aria-hidden="true"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path stroke="#0b141b" stroke-width="0.55" stroke-linejoin="round" d="M9,1H3A2,2 0 0,0 1,3V16A2,2 0 0,0 3,18H9A2,2 0 0,0 11,16V3A2,2 0 0,0 9,1M9,15H3V3H9V15M21,13H13V15H21V21H9V20H6V21A2,2 0 0,0 8,23H21A2,2 0 0,0 23,21V15A2,2 0 0,0 21,13M23,10L19,8L20.91,7.09C19.74,4.31 17,2.5 14,2.5V1A9,9 0 0,1 23,10Z" /></svg></div><h2>請將手機橫向</h2><p>對戰桌面需要橫向操作。請先旋轉手機，畫面會自動切換至對戰桌面。</p><p class="v3-rotate-note">若畫面沒有切換，請確認手機已關閉「直向鎖定」。</p><div class="v3-rotate-actions"><button type="button" class="btn" data-go="home">返回首頁</button></div></div></div><div class="battle-toolbar"><div class="battle-deck-picker"><label class="preview-deck-label" for="battleDeckChoice">我的牌組</label><select class="btn" id="battleDeckChoice" aria-label="選擇對戰初始牌組"><option value="theHeist">The Heist</option><option value="embracingPower">Embracing Power</option></select></div><div class="board-tour-controls"><button class="btn" type="button" data-go="home" id="leaveBattleScreen">返回首頁</button><button class="btn" id="toggleV3BattleActions" type="button" aria-expanded="false" aria-controls="v3TurnPractice">回合操作</button><button class="btn" id="redrawBattleHand" type="button">重抽預覽手牌</button><button class="btn" id="toggleBattleLegends" type="button">預覽我的傳奇角色</button><button class="btn primary" type="button" id="startBoardTour">重新開始桌面導覽</button></div></div><div class="battle-preview-deckline"><span id="battleSelectedDeck">玩家：The Heist</span><span id="battleOpponentDeck">對手：Embracing Power</span></div><div class="board-tour" id="battleTour" aria-label="Cyberpunk TCG 對戰桌面導覽">
- <div class="table-preview" id="tablePreview">
+ <div class="table-preview" id="tablePreview" data-v3-stage="opening">
   <div class="preview-zone opponent-hand" data-tour-zone="opponent-hand"><small>OPPONENT / 手牌</small><div class="placeholder-label preview-card-rail">對手手牌 · 隱藏資訊</div></div>
   <div class="preview-zone opponent-legends" data-tour-zone="opponent-legends"><small>OPPONENT / 傳奇角色</small><div class="cardbacks"><div class="backcard">NCT</div><div class="backcard">NCT</div><div class="backcard">NCT</div></div></div>
   <div class="preview-zone opponent-eddies" data-tour-zone="opponent-eddies"><small>OPPONENT / EDDIES</small><div class="placeholder-label">對手資源區</div></div>
@@ -3881,4 +3931,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
 </script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1-gig"></script><script src="v3/heist-effects.js?v=4"></script><script src="v3/battle-actions.js?v=5"></script><script src="v3/trainer-modules.js?v=20"></script><script src="v3/mirror-combat.js?v=5"></script><script src="v3/turn-practice.js?v=9"></script>
 <script src="v3/heist-practice.js?v=6"></script>
 <script src="v3/battle-preview.js?v=1"></script>
-<script src="v3/board-tour.js?v=1"></script><script src="v3/practice-guide.js?v=6"></script><script src="v3/dice-animation.js?v=2"></script><script src="v3/turn-practice-ui.js?v=31"></script><script src="v3/beta-gallery.js?v=49"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;const details=root.querySelector('#fieldMapKey');details.classList.remove('field-map-flash');void details.offsetWidth;details.classList.add('field-map-flash');details.scrollIntoView({block:'nearest',behavior:'instant'})}));})();</script></body></html>
+<script src="v3/board-tour.js?v=1"></script><script src="v3/practice-guide.js?v=7"></script><script src="v3/dice-animation.js?v=2"></script><script src="v3/card-reference.js?v=1"></script><script src="v3/turn-practice-ui.js?v=32"></script><script src="v3/beta-gallery.js?v=49"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;const details=root.querySelector('#fieldMapKey');details.classList.remove('field-map-flash');void details.offsetWidth;details.classList.add('field-map-flash');details.scrollIntoView({block:'nearest',behavior:'instant'})}));})();</script></body></html>

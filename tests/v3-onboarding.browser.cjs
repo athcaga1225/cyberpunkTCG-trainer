@@ -10,7 +10,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   await page.getByRole('combobox',{name:'選擇開局方式',exact:true}).selectOption('basic');await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});
   await page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true}).click();
   await page.getByRole('button',{name:'我方選擇先攻',exact:true}).click();
-  const coach=page.locator('#v3TableGuide'),ctl=page.locator('#v3TableControls');
+  const coach=page.locator('#v3TableGuide'),ctl=page.locator('#battleTour');
   assert.equal(await coach.isVisible(),true);assert.equal(await coach.getAttribute('data-mode'),'tour');
   assert.equal(await page.locator('.player-fixer.v3-guide-active').count(),1);
   await page.screenshot({path:'/tmp/v3-table-coach.png'});

@@ -10,6 +10,7 @@ on:
       - 'v3/turn-practice.js'
       - 'v3/turn-practice-ui.js'
       - 'v3/practice-guide.js'
+      - 'v3/card-reference.js'
       - 'v3/dice-animation.js'
       - 'v3/dice-animation.css'
       - 'v3/heist-practice.js'
@@ -23,6 +24,7 @@ on:
       - 'tests/v3-turn-practice.test.js'
       - 'tests/v3-heist-practice.test.js'
       - 'tests/v3-practice-guide.test.js'
+      - 'tests/v3-card-reference.test.js'
       - 'tests/v3-mirror-combat.test.js'
       - 'tests/v3-heist-effects.test.js'
       - 'tests/v3-spend-effects.test.js'
@@ -73,3 +75,6 @@ jobs:
         run: node tests/v3-ai-strategy.test.js
       - name: Verify AI main Programs and defensive Call
         run: node tests/v3-ai-programs.test.js
+
+      - name: Verify The Heist display reference coverage and card versions
+        run: node tests/v3-card-reference.test.js

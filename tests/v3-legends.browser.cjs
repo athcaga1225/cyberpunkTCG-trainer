@@ -8,10 +8,10 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   await page.addInitScript(()=>Math.random=()=>.999999);
   const url=(process.env.V3_TEST_URL||'http://127.0.0.1:8006/v3/')+'#battle';
   async function open(){await page.goto('about:blank');await page.goto(url);await page.getByRole('combobox',{name:'選擇開局方式',exact:true}).selectOption('basic');await page.evaluate(()=>{let r=[.95,.1];Math.random=()=>r.length?r.shift():.5});await page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true}).click();await page.getByRole('button',{name:'我方選擇先攻',exact:true}).click();await page.getByRole('button',{name:'略過說明，直接操作',exact:true}).click()}
-  const ctl=page.locator('#v3TableControls');
+  const ctl=page.locator('#battleTour');
   async function prep(){for(const name of ['重置資源','抽 1 張','擲骰'])await ctl.getByRole('button',{name,exact:true}).click()}
   async function hand(name){await page.locator('.player-hand [data-card-name="'+name+'"]').first().focus();await page.keyboard.press('Enter')}
-  async function pay(n){for(let i=0;i<n;i++)await ctl.locator('.v3-payment-pool .v3-resource-choice').nth(i).click()}
+  async function pay(n){for(let i=0;i<n;i++)await ctl.locator('.v3-eddie-token:not(:disabled),.v3-board-payments .v3-resource-choice').nth(i).click()}
   await open();await prep();
   assert.equal(await page.locator('.player-legends button[aria-label*="Viktor"]').count(),0,'face-down legend names stay hidden');
   await page.locator('.player-legends [data-legend-id="legend-viktor"]').click();await pay(1);await ctl.getByRole('button',{name:'呼叫傳奇（1 €$）',exact:true}).click();
