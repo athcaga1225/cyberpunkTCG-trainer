@@ -199,10 +199,13 @@ function liveHandAt(x,y){
  if(!rail||picker.value!=='theHeist'||board.closest('.hide'))return null;
  const r=rail.getBoundingClientRect();
  if(x<r.left||x>r.right||y<r.top||y>r.bottom)return null;
- // Use the actually painted card, including overlap and any covering UI.
- // Hover never changes the hand's stacking order, so this hit region is stable.
- const hit=document.elementFromPoint(x,y),node=hit?.closest('.hand-card[data-card-id]');
- if(!node||!rail.contains(node))return null;
+ // Hit regions follow the original fan slots, independent of the raised card.
+ // A painted card may overlap the next slot; only pointer movement changes selection.
+ const hit=document.elementFromPoint(x,y);
+ if(!hit||!rail.contains(hit))return null;
+ const nodes=[...rail.querySelectorAll('.hand-card[data-card-id]')];
+ const node=nodes.findLast(el=>{const box=el.getBoundingClientRect();return x>=box.left&&x<=box.right&&y>=box.top&&y<=box.bottom});
+ if(!node)return null;
  return state.player.hand.find(c=>c.id===node.dataset.cardId)||null;
 }
 function scheduleHandHover(card){
@@ -226,7 +229,7 @@ function scheduleHandHover(card){
 function showHandHover(card){
  if(!card||!window.matchMedia?.('(hover:hover) and (pointer:fine)').matches)return;
  if(previewId===card.id&&!hover.hidden)return;
- // Mark the inspected card without moving it or changing its stacking order.
+ // Raise the inspected card without moving its stable pointer slots.
  raisedHandId=card.id;
  board.querySelectorAll('.player-hand .hand-card').forEach(el=>el.classList.toggle('is-hand-hover',el.dataset.cardId===raisedHandId));
  const token=++previewLoad;
@@ -448,7 +451,7 @@ function scheduleOpponent(){
 const coachSteps=[
  {zone:'.player-fixer',title:'先重置、抽牌，再選骰子',text:'先按右側「重置資源」和「抽 1 張」。輪到擲骰時，可直接點黃色框內的一顆骰子，再按右側「擲骰」；d20 必須留到最後。關閉引導不會跳過準備階段。'},
  {zone:'.player-hand',title:'直接點選手牌',text:'點一下手牌即可選取，右側會出現這張牌的操作。有變賣標記的牌可按「變賣」，取得一張 Eddie。'},
- {zone:'.player-eddies',title:'逐張選擇支付資源',text:'選取要打出的牌後，在右側逐張點選 Eddie 或可支付的傳奇資源。湊齊費用後，再按「打出單位」；確認前不會消耗資源。'},
+ {zone:'.player-eddies',title:'逐張選擇支付資源',text:'選取要打出的牌後，可在傳奇旁的 Eddies 區直接點選資源，或使用右側的支付選項。湊齊費用後，再按「打出單位」；確認前不會消耗資源。'},
  {zone:'#v3TableControls',title:'現在跟著提示完成回合',text:'右側是目前可用的操作。先依序重置、抽牌、擲骰，再選手牌出牌。按「結束回合」後，鏡像對手會自動行動。'}
 ];
 function renderGuide(){
@@ -551,6 +554,40 @@ function renderFixerChoices(){
  }
  let hint=zone.querySelector('.v3-fixer-hint');if(!hint)hint=add('div','',zone,'v3-fixer-hint');hint.textContent=fixerHint();
 }
+// Public trash viewer reads the live state; Eddie cards remain face down.
+const trashDialog=document.createElement('dialog');trashDialog.id='v3TrashViewer';
+trashDialog.setAttribute('aria-label','公開棄牌區');document.body.append(trashDialog);
+let trashSide=null,trashOpener=null;
+trashDialog.addEventListener('close',()=>{trashSide=null;trashOpener?.focus()});
+trashDialog.addEventListener('click',event=>{if(event.target===trashDialog)trashDialog.close()});
+function renderTrashViewer(){
+ if(!trashSide||!trashDialog.open)return;
+ trashDialog.replaceChildren();
+ const head=add('div','',trashDialog,'v3-trash-header');
+ add('h2',(trashSide==='player'?'我的':'對手')+'棄牌區 · '+(state[trashSide].trash||[]).length+' 張',head);
+ const close=add('button','×',head,'btn');close.type='button';close.setAttribute('aria-label','關閉棄牌區');close.onclick=()=>trashDialog.close();
+ const cards=add('div','',trashDialog,'v3-trash-cards');
+ if(!(state[trashSide].trash||[]).length)add('p','目前沒有棄牌。',cards);
+ for(const c of (state[trashSide].trash||[])){
+  const item=add('figure','',cards),src=art.get(c.name);
+  if(src){const img=document.createElement('img');img.src=src;img.alt=c.name;item.append(img)}
+  add('figcaption',c.name+' · '+c.type,item);
+ }
+}
+function renderTableResources(side,prefix){
+ const zone=board.querySelector('.'+prefix+'-eddies');if(!zone)return;
+ let pool=zone.querySelector('.v3-eddie-tokens');if(!pool)pool=add('div','',zone,'v3-eddie-tokens');pool.replaceChildren();
+ const canPay=side==='player'&&!state.finished&&!E.pending(state)&&(state.phase==='main'||state.phase==='react')&&Boolean(selectedId||selectedLegendId);
+ state[side].eddies.forEach((c,index)=>{
+  const b=add('button','€$ '+(index+1),pool,'v3-eddie-token');b.type='button';
+  b.setAttribute('aria-label',(side==='player'?'我方':'對手')+' Eddie '+(index+1)+(c.ready?' 就緒':'已使用'));
+  b.setAttribute('aria-pressed',String(side==='player'&&selectedPayments.has('eddie:'+c.id)));
+  b.disabled=!canPay||!c.ready;b.classList.toggle('is-spent',!c.ready);
+  b.onclick=()=>{const key='eddie:'+c.id;if(selectedPayments.has(key))selectedPayments.delete(key);else selectedPayments.add(key);render()};
+ });
+ let trash=zone.querySelector('.v3-trash-summary');if(!trash){trash=add('button','',zone,'v3-trash-summary');trash.type='button';trash.onclick=()=>{trashSide=side;trashOpener=trash;trashDialog.showModal();renderTrashViewer()};}
+ trash.textContent='TRASH · '+(state[side].trash||[]).length+' 張';trash.setAttribute('aria-label','查看'+(side==='player'?'我方':'對手')+'棄牌區');
+}
 function renderPublicCounters(){
  for(const [side,prefix] of [['player','player'],['ai','opponent']]){
   const p=state[side],zone=board.querySelector('.'+prefix+'-gigs');
@@ -565,8 +602,10 @@ function renderPublicCounters(){
   for(const die of board.querySelectorAll('.'+prefix+'-fixer .die-icon')){
    const sides=Number(die.querySelector('b')?.textContent.replace('D',''));die.style.opacity=p.fixer.includes(sides)?'1':'.25';
   }
+  renderTableResources(side,prefix);
   const resources=board.querySelector('.'+prefix+'-eddies .placeholder-label');if(resources)resources.textContent='就緒 Eddies '+p.eddies.filter(c=>c.ready).length+' / '+p.eddies.length;
  }
+ renderTrashViewer();
  indicator('.opponent-hand','對手手牌 '+state.ai.hand.length+' 張（隱藏）');
 }
 function renderLegends(){
@@ -950,18 +989,18 @@ function render(){
     const src=art.get(c.name);if(src){const img=document.createElement('img');img.src=src;img.alt=c.name;item.append(img);}
     add('span',c.name,item);add('small',c.cost+' €$ · '+(c.sellTag?'可變賣':'不可變賣'),item);
    }
-   let finalActions=null;
    if(!opening.handDecisions.player){
     add('p','可保留目前六張，或將整手洗回牌庫重抽六張；每局只能重抽一次，不能只換部分牌。'+(opening.first==='ai'?'對手已先決定保留。':'我方決定後，對手再決定。'),order);
-    command('保留這六張',()=>P.openingHand(state,'keep'),order).classList.add('v3-opening-primary');
-    command('整手重抽一次',()=>P.openingHand(state,'mulligan'),order);
+    const decisions=add('div','',order,'v3-opening-actions');
+    command('保留這六張',()=>P.openingHand(state,'keep'),decisions).classList.add('v3-opening-primary');
+    command('整手重抽一次',()=>P.openingHand(state,'mulligan'),decisions);
    }else{
     add('p',opening.mulliganUsed.player?'已重抽一次；這六張就是本局起手。':'已保留這六張起手。',order);
     add('p','對手已保留六張起手（內容隱藏）。',order);
-    finalActions=add('div','',order,'v3-opening-actions');
+    const finalActions=add('div','',order,'v3-opening-actions');
     command('開始對戰',()=>P.beginOpening(state),finalActions).classList.add('v3-opening-primary');
    }
-   command('重新設定開局',()=>({ok:true,state:H.fresh(scenario,{preGame:true,aiMode:opponentMode,randomizeLegends:true}),message:initial}),finalActions||order);
+
   }else{
    if(scenario==='random')add('p','先決定先後攻，之後雙方洗牌、隨機排列傳奇並抽六張起手。',order);
    else{
@@ -980,8 +1019,9 @@ function render(){
   }else{
    add('p','我方 '+roll.playerRoll+' ／ 腳本對手 '+roll.rivalRoll+'。'+(roll.winner==='player'?'我方取得選擇權。':'腳本對手取得選擇權。'),order);
    if(roll.winner==='player'){
-    command('我方選擇先攻',()=>P.chooseOrder(state,'player'),order).classList.add('v3-opening-primary');
-    command('我方選擇後攻',()=>P.chooseOrder(state,'ai'),order);
+    const orderActions=add('div','',order,'v3-opening-actions');
+    command('我方選擇先攻',()=>P.chooseOrder(state,'player'),orderActions).classList.add('v3-opening-primary');
+    command('我方選擇後攻',()=>P.chooseOrder(state,'ai'),orderActions);
    }else command('對手選擇先攻',()=>P.chooseOrder(state,'ai'),order).classList.add('v3-opening-primary');
   }
   }
