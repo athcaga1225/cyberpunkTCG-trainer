@@ -553,15 +553,17 @@ function renderGuide(){
  const h=G.next(state,{selectedId,payments:[...selectedPayments],attackUnitId,selectedLegendId});
  guideRoot.hidden=false;guideRoot.dataset.step=h.key;
  guideRoot.classList.toggle('is-minimized',guideMinimized);
- const tools=add('div','',guideRoot,'v3-coach-tools');
- const minimize=add('button',guideMinimized?'展開提示':'收合提示',tools,'v3-coach-minimize');minimize.type='button';minimize.setAttribute('aria-expanded',String(!guideMinimized));
- minimize.onclick=()=>{guideMinimized=!guideMinimized;guideRoot.classList.toggle('is-minimized',guideMinimized);minimize.textContent=guideMinimized?'展開提示':'收合提示';minimize.setAttribute('aria-expanded',String(!guideMinimized));positionGuide()};
+ const header=add('div','',guideRoot,'v3-coach-header');
+ const stepLabel=add('small','',header,'v3-coach-step');
+ const tools=add('div','',header,'v3-coach-tools');
+ const minimize=add('button',guideMinimized?'+':'−',tools,'v3-coach-minimize');minimize.setAttribute('aria-label',guideMinimized?'展開提示':'收合提示');minimize.title=guideMinimized?'展開提示':'收合提示';minimize.type='button';minimize.setAttribute('aria-expanded',String(!guideMinimized));
+ minimize.onclick=()=>{guideMinimized=!guideMinimized;guideRoot.classList.toggle('is-minimized',guideMinimized);minimize.textContent=guideMinimized?'+':'−';minimize.setAttribute('aria-label',guideMinimized?'展開提示':'收合提示');minimize.title=guideMinimized?'展開提示':'收合提示';minimize.setAttribute('aria-expanded',String(!guideMinimized));positionGuide()};
  const close=add('button','×',tools,'v3-coach-close');close.type='button';close.setAttribute('aria-label','關閉桌面引導');
  close.addEventListener('click',()=>{guidanceOn=false;render()});
  const mark=el=>el?.classList.add('v3-guide-active');
  if(!state.finished&&guideIntro<coachSteps.length&&state.phase!=='react'&&!E.pending(state)){
   const step=coachSteps[guideIntro];guideRoot.dataset.mode='tour';
-  add('small','桌面操作 '+(guideIntro+1)+' / '+coachSteps.length,guideRoot);
+  stepLabel.textContent='桌面操作 '+(guideIntro+1)+' / '+coachSteps.length;
   add('strong',step.title,guideRoot);add('p',step.text,guideRoot);
   add('p','查看標示的桌面區域，再選擇「下一步」。',guideRoot,'v3-guide-action');
   guideAnchor=board.querySelector(step.zone);mark(guideAnchor);
@@ -571,7 +573,7 @@ function renderGuide(){
   const skip=add('button','略過說明，直接操作',guideRoot,'v3-coach-skip');skip.type='button';skip.addEventListener('click',()=>{guideIntro=coachSteps.length;render()});
  }else{
   guideRoot.dataset.mode='live';
-  add('small','實戰引導 '+String(h.stage).padStart(2,'0')+' / 06',guideRoot);
+  stepLabel.textContent='實戰引導 '+String(h.stage).padStart(2,'0')+' / 06';
   const stageNames=['','開局設定','準備回合','變賣與支付','出牌與能力','攻擊與反應','回合交接'];
   add('strong',stageNames[h.stage],guideRoot);
   if(state.phase==='start'){const preparation={ready:'1 / 3 · 重置資源',draw:'2 / 3 · 抽牌',roll:'3 / 3 · 選骰與擲骰'};add('span',preparation[state.step],guideRoot,'v3-guide-substep');}
@@ -719,7 +721,7 @@ function renderLegends(){
    const button=add('button','',rail,'preview-art-card v3-legend-card');button.type='button';button.dataset.legendId=l.id;button.classList.toggle('face-down',!l.faceUp);button.classList.toggle('is-legend-spent',!l.ready);
    const label=l.faceUp?l.name:'傳奇位置 '+(index+1)+'（蓋牌'+(l.knownToOwner?'，已查看過':'')+'）';
    button.setAttribute('aria-label',label);button.setAttribute('aria-pressed',String(side==='player'&&selectedLegendId===l.id));
-   button.classList.toggle('is-legend-selected',side==='player'&&selectedLegendId===l.id);
+   button.classList.toggle('is-legend-selected',side==='player'&&selectedLegendId===l.id);button.classList.toggle('is-payment-selected',side==='player'&&selectedPayments.has('legend:'+l.id));
    if(l.faceUp){bindPublicPreview(button,{...l,type:'Legend'});if(side==='ai')button.onclick=()=>openPublicCard({...l,type:'Legend'});}
    else if(side==='ai'){button.tabIndex=-1;button.setAttribute('aria-disabled','true');}
    const img=document.createElement('img');img.src=l.faceUp?(art.get(l.name)||''):'v3/assets/card-backs/legend.png';img.alt=label;if(!l.faceUp)img.className='preview-card-back-image';button.append(img);
@@ -997,6 +999,10 @@ function layoutTableActions(){
  contextActions.replaceChildren();contextActions.hidden=true;
  roomButtons.replaceChildren();if(leaveButton)roomButtons.append(leaveButton);
  for(const b of [...tableControls.children])if(b.classList.contains('v3-concede')||['開啟桌面引導','重新看桌面說明'].includes(b.textContent))roomButtons.append(b);
+ // Unwrap the previous compact payment card without discarding live Eddie nodes.
+ for(const card of board.querySelectorAll('.v3-payment-card')){
+  const zone=card.parentElement;for(const child of [...card.children])if(!child.classList.contains('v3-payment-heading'))zone.insertBefore(child,card);card.remove();
+ }
  board.querySelectorAll('.v3-zone-actions,.v3-board-payments').forEach(e=>e.remove());
  const put=(selector)=>{const row=add('div','',board.querySelector(selector),'v3-zone-actions');return row;};
  // Keep one real roll control in place, including disabled phases.
@@ -1020,7 +1026,18 @@ function layoutTableActions(){
   payments.classList.add('v3-board-payments');
   for(const b of payments.querySelectorAll('button'))if(b.textContent.startsWith('Eddie '))b.remove();
   payments.querySelector('p').textContent='傳奇支付（每張 1 €$）：';
-  board.querySelector('.player-eddies').append(payments);
+  const zone=board.querySelector('.player-eddies'),panel=add('div','',zone,'v3-payment-card');
+  const heading=add('div','',panel,'v3-payment-heading');add('strong','付款資源',heading);
+  const chosen=state.player.hand.find(c=>c.id===selectedId),legend=state.player.legends.find(l=>l.id===selectedLegendId),cost=chosen?.cost??(legend?.faceUp?legend.cost:1);
+  add('span',selectedPayments.size+' / '+cost+' €$',heading,'v3-payment-total');
+  panel.append(zone.querySelector('.v3-eddie-tokens'),payments);
+  for(const button of panel.querySelectorAll('button')){
+   const label=button.textContent,visible=label.replace('蓋牌傳奇 ','傳奇 ');if(!button.hasAttribute('aria-label'))button.setAttribute('aria-label',label);
+   button.replaceChildren();const check=add('span',button.getAttribute('aria-pressed')==='true'?'✓':'',button,'v3-source-check');check.setAttribute('aria-hidden','true');add('span',visible,button,'v3-source-name');
+  }
+  if(!guideRoot.hidden&&guideAnchor===zone){
+   zone.classList.remove('v3-guide-active');panel.classList.add('v3-guide-active');guideAnchor=panel;requestAnimationFrame(positionGuide);
+  }
  }
  for(const child of [...tableControls.children]){
   if(child.matches('.v3-table-phase,.v3-table-feedback,.v3-concede'))continue;
