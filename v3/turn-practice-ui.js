@@ -28,6 +28,7 @@ if(phaseZone)phaseZone.append(tableControls);else board.append(tableControls);
 for(const prefix of ['player','opponent']){
  const legends=board.querySelector('.'+prefix+'-legends'),resources=board.querySelector('.'+prefix+'-eddies');
  const row=document.createElement('div');row.className='v3-legend-layout';
+ resources.setAttribute('role','group');resources.setAttribute('aria-label',prefix==='player'?'我方付款資源':'對手 Eddies');
  row.append(legends.querySelector('.cardbacks'),resources);legends.append(row);
  const trash=document.createElement('div');trash.className='preview-zone '+prefix+'-trash';
  trash.style.gridArea=prefix==='player'?'p-trash':'opp-trash';
@@ -59,6 +60,7 @@ function renderBoardInformation(){
  ownerLabel.textContent=state.finished?'對局結束':state.phase==='pregame'?'設定開局':state.phase==='react'?'防守反應':state.turn==='ai'?'等待對手':'你的回合';
  phasePanel.dataset.owner=state.finished?'finished':state.phase==='pregame'?'setup':state.turn;
  phaseLabel.textContent=state.phase==='pregame'?'SETUP':'ROUND '+state.round+' · '+phase();
+ roomPanel.querySelector(':scope > small').textContent='ROOM / '+(opponentMode==='mirror'?'The Heist':'固定腳本');
  roomDescription.textContent='The Heist · '+(opponentMode==='mirror'?'鏡像對手':'固定腳本練習');
  if(shownHistoryVersion!==historyVersion){
   const bottom=historyList.scrollHeight-historyList.scrollTop-historyList.clientHeight<40,oldScroll=historyList.scrollTop;historyList.replaceChildren();
@@ -401,14 +403,21 @@ function renderHand(){
 
   rail.append(btn);
  });
- // Preserve tabletop rail sizing on both mobile and desktop.
+ sizeHandRail(rail);
+}
+function sizeHandRail(rail){
+ if(!rail)return;
  const nodes=[...rail.querySelectorAll('.preview-art-card')],width=rail.clientWidth,height=rail.clientHeight;
- if(nodes.length&&width){const h=Math.max(40,Math.min(Math.max(56,height),(width-Math.max(0,nodes.length-1)*12)*7/5)),w=h*5/7;
-  const overlap=Math.min(w-12,Math.max(0,(w*nodes.length-width)/Math.max(1,nodes.length-1),w*.55));
+ if(nodes.length&&width){
+  const h=Math.max(40,Math.min(Math.max(56,height),(width-Math.max(0,nodes.length-1)*12)*7/5)),w=h*5/7;
+  const overlap=Math.min(w-12,Math.max(0,(w*nodes.length-width)/Math.max(1,nodes.length-1)));
   rail.style.setProperty('--preview-stack-overlap',Math.max(0,overlap).toFixed(2)+'px');
-  nodes.forEach((el,i)=>{el.style.height=h+'px';el.style.width=w+'px';el.style.zIndex=String(i+1)});
+  nodes.forEach((el,i)=>{el.style.setProperty('--v3-hand-order',String(i+1));el.style.height=h+'px';el.style.width=w+'px';el.style.zIndex=String(i+1)});
  }
 }
+function fitHandRails(){for(const rail of board.querySelectorAll('.player-hand .hand-placeholder,.opponent-hand .preview-card-rail'))sizeHandRail(rail);}
+window.addEventListener('resize',()=>requestAnimationFrame(()=>{fitHandRails();positionContextActions()}));
+
 function renderField(){
  const slots=board.querySelector('.player-field .field-slots');if(!slots)return;
  slots.replaceChildren();
@@ -617,6 +626,7 @@ function currentDie(){
 }
 function fixerHint(){
  if(state.finished)return '本局已結束';
+ if(state.phase==='pregame')return '請先完成開局設定';
  if(!state.player.fixer.length)return '合事佬區已空；每回合抽牌後直接進入主要階段';
  if(state.turn!=='player')return '等待對手完成回合，再進行準備階段';
  if(state.phase==='start'&&state.step==='ready')return '先在傳奇旁按「重置資源」，再抽牌、選骰';
@@ -637,10 +647,10 @@ function renderFixerChoices(){
    });
   }
   die.dataset.sides=String(side);
-  die.disabled=!state.player.fixer.includes(side)||(side===20&&state.player.fixer.length>1);
+  die.disabled=!choosing||!state.player.fixer.includes(side)||(side===20&&state.player.fixer.length>1);
   die.setAttribute('aria-label','選擇 d'+side+' 委託骰');die.setAttribute('aria-pressed',String(choosing&&currentDie()===side));
   die.classList.toggle('is-die-selected',choosing&&currentDie()===side);
-  die.title=die.disabled?(state.player.fixer.includes(side)?'d20 必須最後使用':'這顆骰子已擲出'):choosing?'點選 d'+side:fixerHint();
+  die.title=!choosing?fixerHint():!state.player.fixer.includes(side)?'這顆骰子已擲出':side===20&&state.player.fixer.length>1?'d20 必須最後使用':'點選 d'+side;
  }
  let hint=zone.querySelector('.v3-fixer-hint');if(!hint)hint=add('div','',zone,'v3-fixer-hint');hint.textContent=fixerHint();
 }
@@ -687,13 +697,14 @@ function renderPublicCounters(){
   if(cred)cred.textContent='街頭聲望：'+(p.gigs.length?p.gigs.reduce((n,g)=>n+g.value,0):'Null');
   let dice=zone?.querySelector('.v3-gig-values');if(zone&&!dice){dice=add('div','',zone,'v3-gig-values')}
   const indicator=zone?.querySelector('[data-practice-indicator]');if(indicator&&dice)dice.after(indicator);
-  if(dice)dice.textContent=p.gigs.map(g=>'d'+g.sides+' = '+g.value).join(' · ');
+  if(dice){dice.replaceChildren();for(const g of p.gigs)add('span','d'+g.sides+' = '+g.value,dice,'v3-gig-chip');}
   const deck=board.querySelector('.'+prefix+'-deck .deck-pile');
   if(deck){deck.replaceChildren(document.createTextNode(String(p.deck.length)));add('span','DECK',deck)}
   for(const die of board.querySelectorAll('.'+prefix+'-fixer .die-icon')){
    const sides=Number(die.querySelector('b')?.textContent.replace('D',''));die.style.opacity=p.fixer.includes(sides)?'1':'.25';
   }
   renderTableResources(side,prefix);
+  const resourceZone=board.querySelector('.'+prefix+'-eddies');resourceZone?.classList.toggle('is-paying',side==='player'&&Boolean(selectedId||selectedLegendId)&&!E.pending(state)&&(state.phase==='main'||state.phase==='react'));
   const resources=board.querySelector('.'+prefix+'-eddies .placeholder-label');if(resources)resources.textContent='就緒 Eddies '+p.eddies.filter(c=>c.ready).length+' / '+p.eddies.length;
  }
  renderTrashViewer();
@@ -801,7 +812,7 @@ function renderDefenseControls(){
   if(!C.quicks(state).some(c=>c.id===chosen.id))add('span','防守時只能選擇已支援的 Quick 手牌。',tableControls,'v3-table-hint');
   else{
    add('span','Quick：'+chosen.name+' · '+chosen.cost+' €$',tableControls,'v3-table-selection');paymentOptions(tableControls);
-   add('span','支付 '+selectedPayments.size+' / '+chosen.cost+' €$',tableControls,'v3-table-hint');
+   add('span','付款進度 '+selectedPayments.size+' / '+chosen.cost+' €$',tableControls,'v3-table-hint v3-payment-count');
    const sources=chosenPayments(chosen.cost);
    let select=null;
    if(chosen.name==='Floor It'){
@@ -867,7 +878,7 @@ function renderTableControls(){
    if(card.sellTag)tableButton('變賣',()=>P.sell(state,card.id),p.soldThisTurn);
    if(!card.unimplementedEffect){
     paymentOptions(tableControls);
-    add('span','支付 '+selectedPayments.size+' / '+card.cost+' €$',tableControls,'v3-table-hint');
+    add('span','付款進度 '+selectedPayments.size+' / '+card.cost+' €$',tableControls,'v3-table-hint v3-payment-count');
    }
    if(card.unimplementedEffect)add('span','這張卡的效果尚未完成',tableControls,'v3-table-hint');
    else if(card.type==='Unit'){
@@ -987,11 +998,17 @@ function layoutTableActions(){
  roomButtons.replaceChildren();if(leaveButton)roomButtons.append(leaveButton);
  for(const b of [...tableControls.children])if(b.classList.contains('v3-concede')||['開啟桌面引導','重新看桌面說明'].includes(b.textContent))roomButtons.append(b);
  board.querySelectorAll('.v3-zone-actions,.v3-board-payments').forEach(e=>e.remove());
- if(state.phase==='pregame'||state.finished)return;
  const put=(selector)=>{const row=add('div','',board.querySelector(selector),'v3-zone-actions');return row;};
+ // Keep one real roll control in place, including disabled phases.
+ const canRoll=state.turn==='player'&&state.phase==='start'&&state.step==='roll'&&!state.finished&&!E.pending(state)&&!confirmConcede&&currentDie()!==undefined;
+ let roll=[...tableControls.querySelectorAll('button')].find(b=>b.textContent==='擲骰');
+ if(!roll)roll=tableButton('擲骰',()=>{const side=currentDie();return P.roll(state,side,Math.floor(Math.random()*side)+1)},!canRoll);
+ roll.id='v3RollControl';roll.disabled=!canRoll;roll.setAttribute('aria-disabled',String(!canRoll));roll.title=canRoll?'擲出目前選取的 d'+currentDie():fixerHint();
+ const rollArea=put('.player-fixer');rollArea.classList.add('v3-fixer-roll');rollArea.append(roll);
+ if(state.phase==='pregame'||state.finished)return;
  if(state.phase==='start'){
   const names={ready:'重置資源',draw:'抽 1 張',roll:'擲骰'},selector={ready:'.player-eddies',draw:'.player-deck',roll:'.player-fixer'};
-  const row=put(selector[state.step]);
+  const row=state.step==='roll'?rollArea:put(selector[state.step]);
   for(const b of [...tableControls.children])if(b.textContent===names[state.step]||b.tagName==='SELECT')row.append(b);
   return;
  }
@@ -1019,7 +1036,8 @@ function positionContextActions(){
  if(!anchor)return;
  const r=anchor.getBoundingClientRect(),h=contextActions.offsetHeight,w=contextActions.offsetWidth;
  const top=selectedId?board.querySelector('.player-hand').getBoundingClientRect().top:r.top;
- contextActions.style.left=Math.max(12,Math.min(innerWidth-w-12,attackUnitId?r.right+10:r.left))+'px';
+ const field=board.querySelector('.player-field').getBoundingClientRect();
+ contextActions.style.left=Math.max(12,Math.min(innerWidth-w-12,attackUnitId?r.right+10:selectedId?field.right-w-12:r.left))+'px';
  contextActions.style.top=Math.max(12,Math.min(innerHeight-h-12,attackUnitId?r.top:top-h-10))+'px';
 }
 window.addEventListener('resize',()=>{positionContextActions();requestAnimationFrame(positionGuide)});
@@ -1062,6 +1080,7 @@ function render(){
  renderCombatMarkers();
  renderPublicCounters();
  renderFixerChoices();
+ fitHandRails();
  layoutTableActions();
  renderBoardInformation();
  if(!deal)scheduleOpponent();
@@ -1131,10 +1150,10 @@ function render(){
   }
   const opening=state.opening;
   if(scenario==='random'&&opening?.orderChosen){
-   add('p',(opening.first==='player'?'我方先攻':'對手先攻')+' · 雙方已完成洗牌與六張起手。',order);
+
    const cards=add('div','',order,'v3-opening-cards');
    for(const c of state.player.hand){
-    const item=add('div','',cards,'v3-opening-card');item.dataset.cardId=c.id;
+    const item=add('button','',cards,'v3-opening-card');item.type='button';item.dataset.cardId=c.id;item.setAttribute('aria-label','查看起手牌 '+c.name);item.onclick=()=>openPublicCard(c);
     const src=art.get(c.name);if(src){const img=document.createElement('img');img.src=src;img.alt=c.name;item.append(img);}
     add('span',c.name,item);add('small',c.cost+' €$ · '+(c.sellTag?'可變賣':'不可變賣'),item);
    }
@@ -1145,7 +1164,7 @@ function render(){
     command('整手重抽一次',()=>P.openingHand(state,'mulligan'),decisions);
    }else{
     add('p',opening.mulliganUsed.player?'已重抽一次；這六張就是本局起手。':'已保留這六張起手。',order);
-    add('p','對手已保留六張起手（內容隱藏）。',order);
+
     const finalActions=add('div','',order,'v3-opening-actions');
     command('開始對戰',()=>P.beginOpening(state),finalActions).classList.add('v3-opening-primary');
    }

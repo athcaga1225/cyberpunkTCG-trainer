@@ -3872,6 +3872,85 @@ body.battle-wide #battle .v3-legend-layout>.preview-zone{grid-area:auto;flex:1;m
 body.battle-wide #battle #v3OpeningSetup p.v3-opening-footnote{font-size:11px;color:#97b3bc;line-height:1.6;border-top:1px solid #294651;padding-top:9px;margin-top:6px}
 
 @media(min-width:901px){body.battle-wide #battle .player-fixer .v3-fixer-hint{display:none}}
+
+/* Readable tabletop controls: preserve space for content instead of shrinking text. */
+@media(min-width:901px){
+ body.battle-wide #battle .table-preview{grid-template-columns:minmax(400px,1.8fr) minmax(0,3.45fr) minmax(86px,.42fr) minmax(200px,1fr);grid-template-rows:minmax(0,1.45fr) minmax(0,.75fr) minmax(0,.85fr) minmax(0,.45fr) minmax(0,.45fr) minmax(0,.85fr) minmax(0,.75fr) minmax(0,1.45fr)}
+ body.battle-wide #battle .v3-phase-panel>small{display:none}
+ body.battle-wide #battle .v3-phase-panel{gap:6px!important}
+ body.battle-wide #battle .v3-phase-panel strong{padding:5px 4px;font-size:20px!important}
+ body.battle-wide #battle .player-gigs,body.battle-wide #battle .opponent-gigs{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto minmax(0,1fr);gap:3px 8px!important;padding:6px 8px;align-content:start;overflow:hidden}
+ body.battle-wide #battle .player-gigs>small,body.battle-wide #battle .opponent-gigs>small{grid-column:1;grid-row:1;align-self:center}
+ body.battle-wide #battle .player-gigs>strong,body.battle-wide #battle .opponent-gigs>strong{grid-column:2;grid-row:1;font-size:22px!important;line-height:1.1}
+ body.battle-wide #battle .player-gigs>span:not([data-practice-indicator]),body.battle-wide #battle .opponent-gigs>span:not([data-practice-indicator]){grid-column:1/-1;grid-row:2;font-size:14px!important;line-height:1.3}
+ body.battle-wide #battle .player-gigs>[data-practice-indicator],body.battle-wide #battle .opponent-gigs>[data-practice-indicator]{display:none!important}
+ body.battle-wide #battle .v3-gig-values{grid-column:1/-1;grid-row:3;display:flex;gap:3px;flex-wrap:wrap;align-content:flex-start;min-height:0;margin:0!important;overflow:auto}
+ body.battle-wide #battle .v3-gig-values .v3-gig-chip{font-size:12px!important;line-height:1.35;padding:1px 4px;white-space:nowrap;background:#12313e;border-radius:3px;color:#d9f3f6;flex:none}
+ body.battle-wide #battle .player-fixer{display:grid;grid-template-columns:minmax(0,1fr) 100px;grid-template-rows:auto minmax(0,1fr);gap:3px 7px!important}
+ body.battle-wide #battle .player-fixer>small{grid-column:1/-1;grid-row:1}
+ body.battle-wide #battle .player-fixer .mini-dice{grid-column:1;grid-row:2;width:100%!important;height:100%;margin:0;align-items:center}
+ body.battle-wide #battle .player-fixer .v3-fixer-roll{grid-column:2;grid-row:2;position:static!important;align-self:center;justify-content:flex-end;margin:0}
+ body.battle-wide #battle .player-fixer #v3RollControl{width:96px;min-height:44px;font-size:16px!important;padding:8px 10px}
+ body.battle-wide #battle .player-fixer .die-icon:disabled{opacity:.4!important;cursor:not-allowed}
+ body.battle-wide #battle .player-trash>small,body.battle-wide #battle .opponent-trash>small{display:none}
+ body.battle-wide #battle .v3-room-panel{gap:5px;overflow:auto}
+ body.battle-wide #battle .v3-room-panel p{margin:0;line-height:1.4}
+ body.battle-wide #battle .v3-room-buttons{gap:6px}
+ body.battle-wide #battle .v3-room-buttons button{flex:1 1 auto}
+ body.battle-wide #battle .v3-room-buttons button:last-child{flex-basis:100%}
+ body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail,body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail:has(.v3-opening-cards){width:min(510px,100%);height:auto;gap:8px;padding:20px;max-height:calc(100dvh - 36px)}
+ body.battle-wide #battle #v3OpeningSetup .v3-opening-actions{grid-template-columns:1fr;gap:8px}
+ body.battle-wide #battle #v3OpeningSetup .v3-opening-cards{display:flex;flex-direction:column;gap:4px;min-height:0;max-height:min(42vh,390px);overflow:auto;flex:0 1 auto;margin:3px 0;padding:2px}
+ body.battle-wide #battle #v3OpeningSetup .v3-opening-card{display:grid;grid-template-columns:42px minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;row-gap:2px;align-items:center;flex:0 0 auto;text-align:left;padding:5px 8px;min-height:66px;width:100%;cursor:zoom-in}
+ body.battle-wide #battle #v3OpeningSetup .v3-opening-card img{grid-column:1;grid-row:1/3;height:56px;width:40px}
+ body.battle-wide #battle #v3OpeningSetup .v3-opening-card span{grid-column:2;grid-row:1;margin:0;font-size:14px!important;color:#e5f0f3}
+ body.battle-wide #battle #v3OpeningSetup .v3-opening-card small{grid-column:2;grid-row:2;font-size:12px!important}
+ body.battle-wide #battle #v3OpeningSetup .v3-selected-detail>strong{font-size:20px!important;line-height:1.4}
+ body.battle-wide #battle #v3OpeningSetup p,body.battle-wide #battle #v3OpeningSetup label{font-size:14px!important}
+ body.battle-wide #battle #v3OpeningSetup summary,body.battle-wide #battle #v3OpeningSetup p.v3-opening-footnote{font-size:12px!important}
+ body.battle-wide #battle #v3OpeningSetup select{min-height:44px;font-size:14px!important}
+ body.battle-wide #battle .preview-zone>small,body.battle-wide #battle [data-practice-indicator],body.battle-wide #battle .deck-pile span,body.battle-wide #battle .v3-legend-state,body.battle-wide #battle .v3-played-card small,body.battle-wide #battle .v3-gear-count,body.battle-wide #battle .v3-history-list article small{font-size:12px!important;line-height:1.35}
+ body.battle-wide #battle .preview-zone .placeholder-label,body.battle-wide #battle .v3-room-panel p,body.battle-wide #battle .v3-history-list p,body.battle-wide #battle .v3-phase-panel>span{font-size:14px!important}
+ body.battle-wide #battle .mini-dice .die-icon b{font-size:12px!important}
+ body.battle-wide #battle .v3-played-card img{height:auto!important;flex:1 1 0;min-height:0;object-fit:contain}
+ body.battle-wide #battle .v3-played-card small{flex:none;overflow-wrap:anywhere}
+ body.battle-wide #battle .field-slots{overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap}
+ body.battle-wide #battle .v3-played-card{flex:0 0 clamp(100px,8.2vw,132px);min-width:100px}
+ body.battle-wide #battle #v3TableControls .v3-table-phase{font-size:16px!important;line-height:1.4}
+ body.battle-wide #battle .v3-table-hint,body.battle-wide #battle .v3-table-feedback,body.battle-wide #battle .v3-table-selection{font-size:14px!important;line-height:1.5}
+}
+#battle .v3-table-btn,#battle .v3-card-actions button,#battle .v3-card-actions select,#battle .v3-eddie-token,#battle .v3-resource-choice,#battle .v3-room-buttons button,#battle #v3OpeningSetup .btn{font-size:14px!important;min-height:44px;padding:8px 10px;box-sizing:border-box;line-height:1.4}
+#battle .v3-trash-summary{font-size:14px!important;min-height:44px;padding:5px 3px;box-sizing:border-box}
+#battle .v3-board-payments p{font-size:14px!important;line-height:1.5}
+#battle .v3-payment-count{font-size:16px!important;font-weight:700;color:#8cecf5!important;padding:6px 0}
+body.battle-wide #battle .player-eddies.is-paying{box-shadow:inset 0 0 0 2px #61d9e7!important;background:#102d38}
+#battle .v3-resource-choice[aria-pressed="true"],#battle .v3-eddie-token[aria-pressed="true"]{border:3px solid #49e4f1!important;background:#155667!important;color:#fff!important;font-weight:700}
+body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-selected:not(.is-hand-hover){z-index:500!important}
+#battle .player-hand .hand-card.is-selected:after{content:'';inset:0;top:0;height:auto;box-sizing:border-box;border:3px solid #39f0ff;background:transparent;border-radius:4px;pointer-events:none;z-index:3}
+#battle .player-hand .hand-card.is-selected:before{content:'✓ 已選';position:absolute;right:4px;top:4px;z-index:4;pointer-events:none;padding:3px 6px;font-size:12px;line-height:1.3;font-weight:700;border-radius:3px;background:#075669;color:#fff}
+#battle #v3TableGuide p,#battle #v3TableGuide .v3-guide-action{font-size:14px!important;line-height:1.65}
+#battle #v3TableGuide small,#battle #v3TableGuide .v3-guide-substep,#battle #v3TableGuide .v3-coach-skip,#battle #v3TableGuide .v3-guide-glossary,#battle #v3TableGuide .v3-guide-glossary p,#battle #v3TableGuide .v3-guide-glossary a,#battle #v3TableGuide summary{font-size:12px!important}
+#battle #v3TableGuide button{font-size:14px!important;min-height:44px;padding:8px 10px}
+#battle #v3TableGuide .v3-coach-tools .v3-coach-close{width:44px;height:44px;font-size:24px!important;padding:0}
+#battle #v3TableGuide.is-minimized>strong{font-size:16px!important}
+#battle .player-fixer #v3RollControl:disabled{background:#273942!important;color:#8a9ba3!important;border:1px solid #52636d!important;opacity:1!important;cursor:not-allowed!important}
+#v3HandPreview p,#v3HandPreview>div{font-size:14px!important;line-height:1.6!important}
+#v3HandPreview strong{font-size:18px!important}
+@media(min-width:901px) and (max-width:1149px){body.battle-wide #battle .table-preview{grid-template-columns:minmax(300px,1.6fr) minmax(0,3fr) 80px 190px}}
+
+@media(min-width:901px){body.battle-wide #battle .opponent-hand>[data-practice-indicator]{position:absolute;top:5px;right:8px;font-size:12px!important;line-height:1.3;margin:0}}
+body.battle-wide #battle .opponent-hand .preview-card-rail .preview-art-card:hover{z-index:var(--v3-hand-order,auto)!important;cursor:default;filter:none}
+
+@media(min-width:901px){body.battle-wide #battle .v3-room-panel>p{display:none}}
+
+body.battle-wide #battle :is(.v3-table-btn,.v3-resource-choice,.v3-eddie-token,.v3-trash-summary,.v3-room-buttons button,#v3TableGuide button,#v3OpeningSetup .btn,.deck-dialog-close){min-height:44px!important}
+#battle .deck-dialog-close{min-width:44px}
+
+#battle #v3OpeningSetup .v3-opening-cards{scrollbar-width:thin;scrollbar-color:#6c9caa #0b1b23}
+
+body.battle-wide #battle .v3-legend-layout>.player-eddies.is-paying{display:flex;flex-direction:row;flex-wrap:wrap;align-content:flex-start;align-items:flex-start;gap:6px;scroll-padding:6px}
+body.battle-wide #battle .player-eddies.is-paying>small,body.battle-wide #battle .player-eddies.is-paying>.placeholder-label,body.battle-wide #battle .player-eddies.is-paying .v3-board-payments p{display:none}
+body.battle-wide #battle .player-eddies.is-paying .v3-eddie-tokens,body.battle-wide #battle .player-eddies.is-paying .v3-board-payments{display:contents}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -3990,4 +4069,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
 </script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1-gig"></script><script src="v3/heist-effects.js?v=4"></script><script src="v3/battle-actions.js?v=5"></script><script src="v3/trainer-modules.js?v=20"></script><script src="v3/mirror-combat.js?v=5"></script><script src="v3/turn-practice.js?v=9"></script>
 <script src="v3/heist-practice.js?v=6"></script>
 <script src="v3/battle-preview.js?v=1"></script>
-<script src="v3/board-tour.js?v=1"></script><script src="v3/practice-guide.js?v=7"></script><script src="v3/dice-animation.js?v=2"></script><script src="v3/card-reference.js?v=1"></script><script src="v3/turn-practice-ui.js?v=33"></script><script src="v3/beta-gallery.js?v=49"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;const details=root.querySelector('#fieldMapKey');details.classList.remove('field-map-flash');void details.offsetWidth;details.classList.add('field-map-flash');details.scrollIntoView({block:'nearest',behavior:'instant'})}));})();</script></body></html>
+<script src="v3/board-tour.js?v=1"></script><script src="v3/practice-guide.js?v=7"></script><script src="v3/dice-animation.js?v=2"></script><script src="v3/card-reference.js?v=1"></script><script src="v3/turn-practice-ui.js?v=34"></script><script src="v3/beta-gallery.js?v=49"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;const details=root.querySelector('#fieldMapKey');details.classList.remove('field-map-flash');void details.offsetWidth;details.classList.add('field-map-flash');details.scrollIntoView({block:'nearest',behavior:'instant'})}));})();</script></body></html>
