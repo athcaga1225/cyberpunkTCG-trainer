@@ -3813,6 +3813,65 @@ body.battle-wide #battle .v3-legend-layout>.preview-zone{grid-area:auto;flex:1;m
 #battle #v3TableGuide[data-mode="live"] .v3-coach-close:hover{background:#39d6ef22}
 #battle .board-tour:has(#v3TableGuide[data-mode="live"]:not([hidden])) .v3-guide-active{outline-color:#39d6ef!important}
 #battle .player-field .v3-public-card,#battle .player-legends .v3-legend-card{cursor:pointer}
+
+/* Reference tabletop: left player zones, center field, narrow piles, right room/history/actions. */
+@media(min-width:901px){
+ body.battle-wide #battle .table-preview{grid-template-columns:minmax(0,1.45fr) minmax(0,2.55fr) minmax(56px,.28fr) minmax(220px,1.3fr);grid-template-rows:minmax(0,1.45fr) minmax(0,.6fr) minmax(0,.65fr) minmax(0,.65fr) minmax(0,.65fr) minmax(0,.65fr) minmax(0,.6fr) minmax(0,1.45fr);grid-template-areas:"opp-hand opp-legends opp-legends room" "opp-fixer opp-field opp-trash history" "opp-gigs opp-field opp-deck history" "phase opp-field opp-deck history" "phase p-field p-deck history" "p-gigs p-field p-deck history" "p-fixer p-field p-trash actions" "p-hand p-legends p-legends actions"}
+ body.battle-wide #battle .turn-info{grid-area:actions}
+ body.battle-wide #battle .board-tour{border-color:#244d58;background:#07131b;border-radius:12px}
+ body.battle-wide #battle .preview-zone{border-color:#295261;border-radius:10px;background:#0a1923}
+ body.battle-wide #battle .opponent-deck,body.battle-wide #battle .player-deck,body.battle-wide #battle .opponent-trash,body.battle-wide #battle .player-trash{padding:5px 3px;align-items:stretch}
+ body.battle-wide #battle .deck-pile{min-width:0;width:100%;padding:7px 1px;box-sizing:border-box;font-size:23px;letter-spacing:0;display:flex;flex-direction:column;gap:2px;border:0;color:#a7e84f}
+ body.battle-wide #battle .deck-pile span{font-size:9px}
+ body.battle-wide #battle .player-deck>[data-practice-indicator]{display:none}
+ body.battle-wide #battle .player-deck .v3-zone-actions .v3-table-btn{font-size:10px;padding:3px;width:100%;box-sizing:border-box}
+ body.battle-wide #battle .player-trash>small,body.battle-wide #battle .opponent-trash>small,body.battle-wide #battle .player-deck>small,body.battle-wide #battle .opponent-deck>small{font-size:9px;letter-spacing:0;text-align:center}
+ body.battle-wide #battle .v3-trash-summary{font-size:10px;line-height:1.4;padding:4px 1px;overflow-wrap:anywhere}
+ body.battle-wide #battle #v3TableControls{border-radius:9px;padding:10px;gap:8px;background:#0a1923;border-color:#295261}
+ body.battle-wide #battle #v3TableControls .v3-table-phase{padding-right:0}
+ body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail{width:min(510px,100%);height:auto;min-height:0;max-height:calc(100dvh - 48px);padding:24px;gap:10px}
+ body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail:has(.v3-opening-cards){width:min(760px,100%)}
+ body.battle-wide #battle #v3OpeningSetup .v3-setup-fields{grid-template-columns:1fr;gap:12px}
+}
+#battle .v3-phase-panel{justify-content:center;text-align:center;gap:10px!important}
+#battle .v3-phase-panel strong{display:block;border:1px solid #a2da53;border-radius:30px;padding:8px 4px;color:#b1ee62!important;font-size:clamp(15px,1.5vw,23px)!important;line-height:1.2}
+#battle .v3-phase-panel[data-owner="ai"] strong{border-color:#a94f61;color:#ff8392!important}
+#battle .v3-phase-panel[data-owner="setup"] strong{border-color:#97853c;color:#f6db67!important}
+#battle .v3-phase-panel>span{color:#e8bf70;font-size:12px;line-height:1.5}
+#battle .v3-room-panel p{font-size:12px;color:#b6cbd2;margin:5px 0;line-height:1.6}
+#battle .v3-room-buttons{display:flex;gap:6px;flex-wrap:wrap}
+#battle .v3-room-buttons button{position:static!important;appearance:none;display:block!important;padding:6px 9px;min-height:30px;font-size:11px;border:1px solid #507581;border-radius:5px;background:#10232d;color:#d9ecf1;cursor:pointer}
+#battle .v3-history-panel{min-height:0;overflow:hidden}
+#battle .v3-history-list{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;padding-right:4px}
+#battle .v3-history-list article{padding:8px 0;border-bottom:1px solid #24424e}
+#battle .v3-history-list article small{color:#65cedb!important;font-size:10px!important}
+#battle .v3-history-list p{margin:4px 0;font-size:12px;line-height:1.65;color:#c1d0d5;overflow-wrap:anywhere}
+#battle .v3-history-empty{color:#8ba6b0!important}
+#battle #v3TableGuide{width:clamp(260px,calc(23vw - 12px),340px);padding:16px;border-radius:10px;max-height:calc(100dvh - 24px);background:#070f16}
+#battle #v3TableGuide .v3-coach-tools{display:flex;justify-content:flex-end;align-items:center;gap:7px;margin:-4px -4px 8px 0}
+#battle #v3TableGuide .v3-coach-tools button{min-height:28px;padding:4px 7px;font-size:11px;border:1px solid #324e5c;border-radius:4px;background:#0c1a23;color:#bad3dc;cursor:pointer}
+#battle #v3TableGuide .v3-coach-tools .v3-coach-close{position:static;display:flex;width:28px;height:28px;padding:0;line-height:1;align-items:center;justify-content:center;font-size:22px}
+#battle #v3TableGuide>strong{padding-right:0;font-size:19px;line-height:1.35;color:#f4f8f9}
+#battle #v3TableGuide .v3-guide-action{background:#f5df40;color:#151b20;border-left:4px solid #f8f7d8;padding:10px;font-weight:650;font-size:12px;line-height:1.65;margin:12px 0}
+#battle #v3TableGuide[data-mode="live"] .v3-guide-action{background:#123d49;border-left-color:#5edbea;color:#ddf6f8}
+#battle #v3TableGuide .v3-coach-actions{justify-content:flex-start}
+#battle #v3TableGuide .v3-coach-actions button{border:1px solid #f5df40;border-radius:5px;padding:7px 11px}
+#battle #v3TableGuide .v3-coach-actions button:last-child{background:#f5df40;color:#151b20;font-weight:700}
+#battle #v3TableGuide .v3-guide-glossary{font-size:11px;line-height:1.6;border-top:1px solid #2b4651;padding-top:9px;margin-top:11px;color:#a6c1ca}
+#battle #v3TableGuide .v3-guide-glossary summary{cursor:pointer;color:#62cfe2;font-weight:650}
+#battle #v3TableGuide .v3-guide-glossary p{font-size:11px;line-height:1.65}
+#battle #v3TableGuide .v3-guide-glossary a{font-size:10px;color:#69d4e5}
+#battle #v3TableGuide.is-minimized{width:260px;padding:10px 13px}
+#battle #v3TableGuide.is-minimized>:not(.v3-coach-tools):not(strong):not(small){display:none}
+#battle #v3TableGuide.is-minimized>small:last-of-type{display:none}
+#battle #v3TableGuide.is-minimized>strong{font-size:14px;margin:4px 0 0}
+@media(max-width:900px){#battle .player-trash{grid-area:p-eddies!important}#battle .opponent-trash{grid-area:opp-eddies!important}#battle .v3-room-panel,#battle .v3-history-panel,#battle .v3-phase-panel{grid-area:auto!important}}
+
+#battle #v3OpeningSetup .v3-opening-help{font-size:12px;color:#adcbd2;line-height:1.6}
+#battle #v3OpeningSetup .v3-opening-help summary{cursor:pointer}
+body.battle-wide #battle #v3OpeningSetup p.v3-opening-footnote{font-size:11px;color:#97b3bc;line-height:1.6;border-top:1px solid #294651;padding-top:9px;margin-top:6px}
+
+@media(min-width:901px){body.battle-wide #battle .player-fixer .v3-fixer-hint{display:none}}
 </style></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
@@ -3931,4 +3990,4 @@ const requestedPage=location.hash.slice(1)==='practice'?'learn':location.hash.sl
 </script><script src="localization.js?v=zhcards4"></script><script src="starter-decks.js?v=deckvisual-1"></script><script src="official-cards.js?v=deckvisual-1"></script><script src="rules-core.js?v=deckvisual-1-gig"></script><script src="v3/heist-effects.js?v=4"></script><script src="v3/battle-actions.js?v=5"></script><script src="v3/trainer-modules.js?v=20"></script><script src="v3/mirror-combat.js?v=5"></script><script src="v3/turn-practice.js?v=9"></script>
 <script src="v3/heist-practice.js?v=6"></script>
 <script src="v3/battle-preview.js?v=1"></script>
-<script src="v3/board-tour.js?v=1"></script><script src="v3/practice-guide.js?v=7"></script><script src="v3/dice-animation.js?v=2"></script><script src="v3/card-reference.js?v=1"></script><script src="v3/turn-practice-ui.js?v=32"></script><script src="v3/beta-gallery.js?v=49"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;const details=root.querySelector('#fieldMapKey');details.classList.remove('field-map-flash');void details.offsetWidth;details.classList.add('field-map-flash');details.scrollIntoView({block:'nearest',behavior:'instant'})}));})();</script></body></html>
+<script src="v3/board-tour.js?v=1"></script><script src="v3/practice-guide.js?v=7"></script><script src="v3/dice-animation.js?v=2"></script><script src="v3/card-reference.js?v=1"></script><script src="v3/turn-practice-ui.js?v=33"></script><script src="v3/beta-gallery.js?v=49"></script><script>(function(){'use strict';const root=document.getElementById('tableOrientation');if(!root)return;const info=[{"key":"rival","name":"對手委託區","description":"對手控制的委託骰。單位攻擊此區域時，可能搶走對手的骰子。","number":1},{"key":"gigs","name":"我的委託區","description":"從合事佬區取得、或從對手搶來的委託骰。回合開始時有至少 7 顆就獲勝；點數總和則是街頭聲望。","number":2},{"key":"fixer","name":"合事佬區","description":"六顆尚未擲出的骰子放在這裡。每回合選一顆擲出，d20 必須留到最後。","number":3},{"key":"field","name":"戰場","description":"打出的單位卡與其裝備主要放在這裡。單位可攻擊對手已使用的單位，或攻擊對手委託區。","number":4},{"key":"legends","name":"傳奇區","description":"開局把 3 張傳奇卡隨機面朝下放在這裡。支付費用可呼叫傳奇並翻開卡牌。","number":5},{"key":"eddies","name":"歐元區","description":"變賣符合條件的手牌後，面朝下放在這裡，作為支付卡牌費用的 €$ 資源。","number":6},{"key":"deck","name":"牌庫","description":"由 40～50 張主牌組組成，面朝下放置；開局從這裡抽 6 張手牌。","number":7},{"key":"trash","name":"棄牌區","description":"放被棄置、被擊敗或效果要求移入棄牌區的卡牌。","number":8}];const heading=root.querySelector('#fieldMapName');const description=root.querySelector('#fieldMapDescription');root.querySelectorAll('[data-field-zone]').forEach(button=>button.addEventListener('click',()=>{const item=info.find(x=>x.key===button.dataset.fieldZone);if(!item)return;root.querySelectorAll('[data-field-zone]').forEach(el=>el.setAttribute('aria-pressed',String(el===button)));heading.textContent=item.name;description.textContent=item.description;const details=root.querySelector('#fieldMapKey');details.classList.remove('field-map-flash');void details.offsetWidth;details.classList.add('field-map-flash');details.scrollIntoView({block:'nearest',behavior:'instant'})}));})();</script></body></html>
