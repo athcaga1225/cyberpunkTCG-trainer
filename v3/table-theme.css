@@ -1,9 +1,9 @@
-/* NIGHT CITY TRAINING: neutral graphite surfaces, restrained structure and distinct semantic accents.
+/* NIGHT CITY TRAINING: original blue-black surfaces, teal structure and distinct semantic accents.
    Table-only skin; card artwork and the existing game controls remain unchanged. */
 body.battle-wide{
- --nct-bg:#0e0e0e;--nct-surface:#151515;--nct-raised:#202020;
- --nct-line:#414141;--nct-muted:#b0b0b0;--nct-text:#ededed;
- --nct-action:#fcee0a;--nct-guide:#dedede;--nct-rival:#65cedb;
+ --nct-bg:#07131b;--nct-surface:#0a1923;--nct-raised:#102630;
+ --nct-line:#295261;--nct-muted:#9bb9c4;--nct-text:#e8f3f6;
+ --nct-action:#fcee0a;--nct-guide:#39d6ef;--nct-rival:#65cedb;
  background:var(--nct-bg);color:var(--nct-text)
 }
 body.battle-wide #battle .board-tour{background:var(--nct-bg);border-color:var(--nct-line);border-radius:8px}
@@ -14,89 +14,90 @@ body.battle-wide #battle .preview-zone .placeholder-label,
 body.battle-wide #battle .preview-zone>[data-practice-indicator]{color:var(--nct-muted)}
 body.battle-wide #battle :is(.opponent-hand,.opponent-legends,.opponent-field,.opponent-fixer,.opponent-gigs)>small{color:var(--nct-rival)}
 body.battle-wide #battle .v3-legend-layout>.preview-zone{background:transparent;border-color:var(--nct-line);border-radius:0}
-body.battle-wide #battle :is(.deck-pile,.player-gigs>strong){color:#e8dc9f}
+body.battle-wide #battle .deck-pile{color:#b1ee62}
+body.battle-wide #battle .player-gigs>strong{color:#29ffff}
 body.battle-wide #battle .opponent-gigs>strong{color:var(--nct-rival)}
 body.battle-wide #battle .deck-pile span{color:var(--nct-muted)}
-body.battle-wide #battle :is(.v3-room-buttons button,.v3-table-btn,.v3-card-actions button,.v3-card-actions select,.v3-trash-summary,.v3-resource-choice){background:var(--nct-raised);color:var(--nct-text);border-color:#646464;box-shadow:none}
+body.battle-wide #battle :is(.v3-room-buttons button,.v3-table-btn,.v3-card-actions button,.v3-card-actions select,.v3-trash-summary,.v3-resource-choice){background:var(--nct-raised);color:var(--nct-text);border-color:#507581;box-shadow:none}
 body.battle-wide #battle .v3-trash-summary{border-color:var(--nct-line);color:var(--nct-muted)}
 body.battle-wide #battle .v3-trash-summary>span{color:inherit}
-body.battle-wide #battle .v3-action-primary:not(:disabled){background:var(--nct-action);border-color:var(--nct-action);color:#151515}
-body.battle-wide #battle .player-fixer #v3RollControl:disabled{background:#333333;border-color:#575757;color:#aaaaaa}
-body.battle-wide #battle .mini-dice .die-icon svg{stroke:#b7b7b7;filter:none}
-body.battle-wide #battle .mini-dice .die-icon b{color:#e4e4e4;text-shadow:none}
-body.battle-wide #battle .mini-dice .die-icon.is-die-selected svg{fill:var(--nct-action);stroke:var(--nct-action)}
-body.battle-wide #battle .mini-dice .die-icon.is-die-selected b{color:#151515}
+body.battle-wide #battle .v3-action-primary:not(:disabled){background:var(--nct-action);border-color:var(--nct-action);color:#11151a}
+body.battle-wide #battle .player-fixer #v3RollControl:disabled{background:#273942;border-color:#52636d;color:#8a9ba3}
+body.battle-wide #battle .mini-dice .die-icon svg{stroke:#9ebdce;filter:none}
+body.battle-wide #battle .mini-dice .die-icon b{color:#d7edf4;text-shadow:none}
+body.battle-wide #battle .mini-dice .die-icon.is-die-selected svg{fill:#29ffff;stroke:#127a83}
+body.battle-wide #battle .mini-dice .die-icon.is-die-selected b{color:#06232a}
 body.battle-wide #battle :is(#v3CardActions,#v3TableControls){background:var(--nct-raised);border-color:var(--nct-line);color:var(--nct-text)}
 body.battle-wide #battle #v3CardActions :is(.v3-table-hint,.v3-table-selection){color:var(--nct-text)}
-body.battle-wide #battle :is(.v3-payment-summary strong,.v3-payment-count){color:#e8dc9f}
+body.battle-wide #battle :is(.v3-payment-summary strong,.v3-payment-count){color:#e8bf70}
 body.battle-wide #battle .v3-payment-summary{border-color:var(--nct-line)}
 body.battle-wide #battle .v3-payment-summary>span{color:var(--nct-muted)}
-body.battle-wide #battle .v3-phase-panel strong{border:0;border-left:3px solid #e8dc9f;border-radius:0;color:#e8dc9f;background:transparent;padding:5px 10px}
+body.battle-wide #battle .v3-phase-panel strong{border:0;border-left:3px solid #b1ee62;border-radius:0;color:#b1ee62;background:transparent;padding:5px 10px}
 body.battle-wide #battle .v3-phase-panel[data-owner="ai"] strong{border-color:var(--nct-rival);color:var(--nct-rival)}
 body.battle-wide #battle .v3-phase-panel>span{color:var(--nct-muted)}
-body.battle-wide #battle .v3-history-list article{border-color:#383838;padding:10px 0}
-body.battle-wide #battle .v3-history-list article small{color:#e8dc9f}
+body.battle-wide #battle .v3-history-list article{border-color:#24424e;padding:10px 0}
+body.battle-wide #battle .v3-history-list article small{color:#65cedb}
 body.battle-wide #battle .v3-history-list article[data-actor="對手"] small{color:var(--nct-rival)}
-body.battle-wide #battle .v3-history-list p{color:#cccccc;margin:5px 0;line-height:1.55}
+body.battle-wide #battle .v3-history-list p{color:#c1d0d5;margin:5px 0;line-height:1.55}
 body.battle-wide #battle .v3-room-panel p{color:var(--nct-muted)}
-/* White and gray guidance, distinct from yellow game actions. */
-body.battle-wide #battle #v3TableGuide{background:#191919;border-color:var(--nct-guide);color:var(--nct-text);border-radius:6px}
-body.battle-wide #battle #v3TableGuide :is(strong,small,.v3-guide-substep,.v3-coach-close,.v3-coach-minimize){color:#efefef}
-body.battle-wide #battle #v3TableGuide p{color:#dddddd}
-body.battle-wide #battle #v3TableGuide .v3-guide-action{background:#303030;border-left-color:var(--nct-guide);color:#f5f5f5}
-body.battle-wide #battle #v3TableGuide[data-mode="tour"] .v3-guide-action{background:#eeeeee;color:#191919;border-left-color:#fff}
-body.battle-wide #battle #v3TableGuide .v3-coach-tools button{background:#222222;border-color:#686868}
-body.battle-wide #battle #v3TableGuide .v3-coach-actions button{background:var(--nct-action);color:#151515;border-color:var(--nct-action)}
-body.battle-wide #battle #v3TableGuide :is(summary,.v3-coach-skip){color:#dddddd}
-body.battle-wide #battle #v3TableGuide .v3-guide-glossary{border-color:#505050}
+/* Teal guidance, distinct from yellow game actions. */
+body.battle-wide #battle #v3TableGuide{background:#071820;border-color:var(--nct-guide);color:var(--nct-text);border-radius:6px}
+body.battle-wide #battle #v3TableGuide :is(strong,small,.v3-guide-substep,.v3-coach-close,.v3-coach-minimize){color:#8fe8fa}
+body.battle-wide #battle #v3TableGuide p{color:#d6e6e9}
+body.battle-wide #battle #v3TableGuide .v3-guide-action{background:#123d49;border-left-color:var(--nct-guide);color:#d8f4f9}
+body.battle-wide #battle #v3TableGuide[data-mode="tour"] .v3-guide-action{background:#e6ecee;color:#101c24;border-left-color:#fff}
+body.battle-wide #battle #v3TableGuide .v3-coach-tools button{background:#0c1a23;border-color:#324e5c}
+body.battle-wide #battle #v3TableGuide .v3-coach-actions button{background:var(--nct-action);color:#0a1923;border-color:var(--nct-action)}
+body.battle-wide #battle #v3TableGuide :is(summary,.v3-coach-skip){color:#d6e6e9}
+body.battle-wide #battle #v3TableGuide .v3-guide-glossary{border-color:#37525d}
 body.battle-wide #battle .board-tour .v3-guide-active{outline-color:var(--nct-guide);box-shadow:none}
 body.battle-wide #battle .v3-combat-attacker{outline-color:var(--nct-rival)}
 body.battle-wide #battle .v3-combat-target{box-shadow:inset 0 0 0 3px #e7ba72}
-body.battle-wide #battle .v3-legend-card.is-payment-available{outline-color:#c3c3c3}
+body.battle-wide #battle .v3-legend-card.is-payment-available{outline-color:#7dcbd4}
 body.battle-wide #battle .v3-legend-card.is-payment-selected{outline-color:var(--nct-action)}
-body.battle-wide #battle .v3-eddie-token{background:#202020;border-color:#646464}
-body.battle-wide #battle .v3-eddie-token>span{background:#111111ea;color:#ededed}
+body.battle-wide #battle .v3-eddie-token{background:#102630;border-color:#507581}
+body.battle-wide #battle .v3-eddie-token>span{background:#061820ea;color:#e8f3f6}
 body.battle-wide #battle .v3-eddies-empty{color:var(--nct-muted)}
 /* Direct card presentation with one compact live status line. */
 body.battle-wide #battle .field-slots{align-items:flex-start;gap:10px}
 body.battle-wide #battle .v3-played-card{position:relative;flex:none;max-width:none;min-width:0;max-height:100%;padding:0;gap:0;background:transparent;border:0;box-shadow:none;border-radius:5px;overflow:hidden}
 body.battle-wide #battle .v3-played-card img{position:absolute;left:0;top:0;width:100%;height:calc(100% - 20px);object-fit:contain;flex:none;border-radius:5px}
-body.battle-wide #battle .v3-played-card .v3-unit-status{position:absolute;left:0;right:0;bottom:0;margin:0;height:20px;text-align:left;white-space:nowrap;font-size:12px;line-height:20px;color:#dddddd}
-body.battle-wide #battle .v3-played-card .v3-gear-count{position:absolute;z-index:2;top:4px;padding:2px 4px;border:1px solid #7a7a7a;border-radius:3px;background:#202020eb;color:#eeeeee;font-size:12px;line-height:1.3}
+body.battle-wide #battle .v3-played-card .v3-unit-status{position:absolute;left:0;right:0;bottom:0;margin:0;height:20px;text-align:left;white-space:nowrap;font-size:12px;line-height:20px;color:#d6e6e9}
+body.battle-wide #battle .v3-played-card .v3-gear-count{position:absolute;z-index:2;top:4px;padding:2px 4px;border:1px solid #70b4bf;border-radius:3px;background:#102630eb;color:#e6ecee;font-size:12px;line-height:1.3}
 body.battle-wide #battle .v3-gear-count{right:4px}
 body.battle-wide #battle .field-slots>div:not(.v3-played-card){background:transparent;border:0;color:var(--nct-muted)}
 /* Committed Gig values read as dice, retaining side/value text for accessibility. */
 body.battle-wide #battle .v3-gig-values{display:flex;align-items:center;gap:8px;min-height:0}
-body.battle-wide #battle .v3-gig-chip{position:relative;flex:none;width:40px;height:42px;box-sizing:border-box;padding:0;background:transparent;display:block;border:0;color:#e8dc9f}
-body.battle-wide #battle .v3-gig-chip svg{position:absolute;inset:0 0 10px;width:100%;height:32px;fill:#262414;stroke:#e8dc9f;stroke-width:2}
-body.battle-wide #battle .v3-gig-chip b{position:absolute;left:0;right:0;top:7px;text-align:center;font-size:14px;line-height:16px;color:#fff1bc}
+body.battle-wide #battle .v3-gig-chip{position:relative;flex:none;width:40px;height:42px;box-sizing:border-box;padding:0;background:transparent;display:block;border:0;color:#e8bf70}
+body.battle-wide #battle .v3-gig-chip svg{position:absolute;inset:0 0 10px;width:100%;height:32px;fill:#162420;stroke:#b1ee62;stroke-width:2}
+body.battle-wide #battle .v3-gig-chip b{position:absolute;left:0;right:0;top:7px;text-align:center;font-size:14px;line-height:16px;color:#dbf5bc}
 body.battle-wide #battle .v3-gig-chip small{position:absolute;left:0;right:0;bottom:0;text-align:center;font-size:12px;line-height:12px;color:var(--nct-muted)}
 body.battle-wide #battle .opponent-gigs .v3-gig-chip svg{stroke:var(--nct-rival);fill:#11272a}
 body.battle-wide #battle .opponent-gigs .v3-gig-chip b{color:#c7f0f4}
 /* Opening and public previews share the table palette. */
-body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail{background:#1c1c1c;border-color:#666666;border-left-color:var(--nct-action);color:var(--nct-text)}
-body.battle-wide #battle #v3OpeningSetup :is(p,label,small){color:#cccccc}
-body.battle-wide #battle #v3OpeningSetup :is(select,.v3-opening-card){background:#151515;border-color:#5a5a5a;color:var(--nct-text)}
-body.battle-wide #battle #v3OpeningSetup .v3-opening-actions .btn{background:#303030;color:#eeeeee;border-color:#686868}
-body.battle-wide #battle #v3OpeningSetup .v3-opening-primary{background:var(--nct-action);color:#151515;border-color:var(--nct-action)}
-body.battle-wide :is(#v3HandPreview,#battleCardDialog,#v3TrashViewer,#v3DiceAnimation){background:#1c1c1c;border-color:#737373;color:#eeeeee}
-body.battle-wide #v3HandPreview :is(strong,p,small,.v3-card-ability){color:#eeeeee}
-body.battle-wide #v3DiceAnimation .v3-die{border-color:#bdbdbd;color:#eeeeee;box-shadow:none}
-body.battle-wide #battle #v3TableControls .v3-table-phase{color:#e8dc9f}
-body.battle-wide #battle #v3TableControls .v3-table-feedback{color:#cccccc}
+body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail{background:#071820;border-color:#42656d;border-left-color:var(--nct-action);color:var(--nct-text)}
+body.battle-wide #battle #v3OpeningSetup :is(p,label,small){color:#c1d0d5}
+body.battle-wide #battle #v3OpeningSetup :is(select,.v3-opening-card){background:#0a1923;border-color:#42656d;color:var(--nct-text)}
+body.battle-wide #battle #v3OpeningSetup .v3-opening-actions .btn{background:#123d49;color:#e6ecee;border-color:#324e5c}
+body.battle-wide #battle #v3OpeningSetup .v3-opening-primary{background:var(--nct-action);color:#0a1923;border-color:var(--nct-action)}
+body.battle-wide :is(#v3HandPreview,#battleCardDialog,#v3TrashViewer,#v3DiceAnimation){background:#071820;border-color:#537e89;color:#e6ecee}
+body.battle-wide #v3HandPreview :is(strong,p,small,.v3-card-ability){color:#e6ecee}
+body.battle-wide #v3DiceAnimation .v3-die{border-color:#7ccbd8;color:#e6ecee;box-shadow:none}
+body.battle-wide #battle #v3TableControls .v3-table-phase{color:#e8bf70}
+body.battle-wide #battle #v3TableControls .v3-table-feedback{color:#c1d0d5}
 body.battle-wide #battle :is(.player-gigs,.opponent-gigs){grid-template-columns:minmax(0,1fr) auto;grid-template-rows:24px minmax(0,1fr)}
 body.battle-wide #battle :is(.player-gigs,.opponent-gigs)>.v3-gig-values{grid-column:1;grid-row:2;height:100%;align-items:flex-start}
 body.battle-wide #battle :is(.player-gigs,.opponent-gigs)>span:not([data-practice-indicator]){grid-column:2;grid-row:2;align-self:center;text-align:right;font-size:12px;color:var(--nct-muted)}
 body.battle-wide #battle .v3-gig-values .v3-gig-chip{height:min(42px,100%);min-height:28px;padding:0}
 body.battle-wide #battle .v3-gig-chip svg{height:calc(100% - 12px)}
-body.battle-wide #v3DiceAnimation .v3-die{background:#bdbdbd;filter:none}
-body.battle-wide #v3DiceAnimation .v3-die:before{background:#242424}
-body.battle-wide #v3DiceAnimation .v3-die b{color:#fafafa;text-shadow:none}
-body.battle-wide #v3DiceAnimation .v3-die-item>span{color:#cccccc}
+body.battle-wide #v3DiceAnimation .v3-die{background:#7ccbd8;filter:none}
+body.battle-wide #v3DiceAnimation .v3-die:before{background:#0c303d}
+body.battle-wide #v3DiceAnimation .v3-die b{color:#f2ffff;text-shadow:none}
+body.battle-wide #v3DiceAnimation .v3-die-item>span{color:#c1d0d5}
 body.battle-wide #battle .v3-played-card.is-table-selected{outline:2px solid #fcee0a;outline-offset:-2px}
 
 body.battle-wide #battle .turn-info{border:0;background:transparent}
-body.battle-wide #battle .player-fixer button.die-icon.is-die-selected svg>:first-child{fill:var(--nct-action)}
+body.battle-wide #battle .player-fixer button.die-icon.is-die-selected svg>:first-child{fill:#29ffff}
 /* Explicit text roles keep the minimum readable size without priority flags. */
 body.battle-wide #battle .v3-legend-card small.v3-legend-state,
 body.battle-wide #battle .preview-zone .v3-practice-indicator,
