@@ -417,9 +417,15 @@ function sizeHandRail(rail){
 }
 function fitHandRails(){
  for(const rail of board.querySelectorAll('.player-field .field-slots,.opponent-field .field-slots')){
-  const h=Math.max(44,Math.min(300,rail.clientHeight-4));for(const card of rail.querySelectorAll('.v3-played-card')){card.style.height=h+'px';card.style.width=((h-20)*5/7)+'px';}
+  const side=Math.max(24,Math.min(280,rail.clientHeight-24));for(const card of rail.querySelectorAll('.v3-played-card')){const spent=card.classList.contains('is-unit-spent');card.style.height=((spent?side*5/7:side)+20)+'px';card.style.width=(spent?side:side*5/7)+'px';}
  }
  for(const rail of board.querySelectorAll('.player-hand .hand-placeholder,.opponent-hand .preview-card-rail'))sizeHandRail(rail);
+ for(const pool of board.querySelectorAll('.v3-eddie-tokens')){
+  const count=pool.querySelectorAll('.v3-eddie-slot').length,columns=Math.min(count||1,Math.max(1,Math.floor((pool.clientWidth+2)/72)));
+  const h=Math.max(44,Math.min(100,pool.clientHeight-6,(pool.clientWidth-6-(columns-1)*8)/columns)),short=Math.max(44,h*878/1331);
+  for(const slot of pool.querySelectorAll('.v3-eddie-slot')){slot.style.width=h+'px';slot.style.height=h+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-spent');card.style.width=(spent?h:short)+'px';card.style.height=(spent?short:h)+'px';}
+  pool.scrollTop=Number(pool.dataset.scrollTop)||0;
+ }
  for(const rail of board.querySelectorAll('.v3-legend-layout>.cardbacks')){
   const slots=[...rail.querySelectorAll('.v3-legend-slot')];if(!slots.length)continue;
   const h=Math.max(36,Math.min(160,rail.clientHeight-6,(rail.clientWidth-6)/(1+(slots.length-1)*.66)));
@@ -456,7 +462,7 @@ function renderField(){
  const slots=board.querySelector('.player-field .field-slots');if(!slots)return;
  slots.replaceChildren();
  for(const card of state.player.units){
-  const el=add('button','',slots,'v3-played-card');el.type='button';el.title=card.name+' / '+(card.lag?'Lag':'Ready');
+  const el=add('button','',slots,'v3-played-card');el.type='button';el.title=card.name+' / '+(card.lag&&!card.goSolo?'Lag':card.ready?'Ready':'Spent');el.classList.toggle('is-unit-spent',!card.ready);el.dataset.ready=String(card.ready);
   el.classList.toggle('is-table-selected',attackUnitId===card.id);el.classList.toggle('is-gear-target',paymentAction==='gear-target');
   el.addEventListener('click',()=>{
    if(E.pending(state)){message='請先在能力選擇框完成待結算能力。';render();return;}
@@ -489,7 +495,7 @@ function renderRivalField(){
  slots.replaceChildren();
  for(const unit of state.ai.units){
   const legalTarget=attackUnitId&&state.phase==='main'&&G.targets(state,state.player.units.find(u=>u.id===attackUnitId)).units.includes(unit.id);
-  const el=add('button','',slots,'v3-played-card');el.type='button';el.title=unit.name+(state.ai.practiceBot?.kind==='mirror-the-heist'?'（鏡像對手）':'（練習對手，非 AI 行動）');
+  const el=add('button','',slots,'v3-played-card');el.type='button';el.classList.toggle('is-unit-spent',!unit.ready);el.dataset.ready=String(unit.ready);el.title=unit.name+(state.ai.practiceBot?.kind==='mirror-the-heist'?'（鏡像對手）':'（練習對手，非 AI 行動）');
   el.addEventListener('click',()=>{if(legalTarget)runTableAttack({kind:'unit',defenderId:unit.id});else openPublicCard(unit)});
   if(unit.gear?.length){el.title+=' · 裝備：'+unit.gear.map(g=>g.name).join('、');el.setAttribute('aria-label',el.title);const tag=add('span','裝備 ×'+unit.gear.length,el,'v3-gear-count');tag.title=unit.gear.map(g=>g.name).join('、');}
   bindPublicPreview(el,unit);el.classList.toggle('v3-attackable',Boolean(legalTarget));
@@ -742,14 +748,14 @@ function renderTrashViewer(){
 }
 function renderTableResources(side,prefix){
  const zone=board.querySelector('.'+prefix+'-eddies');if(!zone)return;
- let pool=zone.querySelector('.v3-eddie-tokens');if(!pool)pool=add('div','',zone,'v3-eddie-tokens');pool.replaceChildren();
+ let pool=zone.querySelector('.v3-eddie-tokens');if(!pool)pool=add('div','',zone,'v3-eddie-tokens');pool.dataset.scrollTop=String(pool.scrollTop);pool.replaceChildren();
  const canPay=side==='player'&&paymentContext()?.selecting;
  state[side].eddies.forEach((c,index)=>{
-  const b=add('button','',pool,'v3-eddie-token');b.type='button';b.dataset.paymentKind='eddie';b.dataset.paymentId=c.id;
+  const slot=add('div','',pool,'v3-eddie-slot');const b=add('button','',slot,'v3-eddie-token');b.type='button';b.dataset.paymentKind='eddie';b.dataset.paymentId=c.id;
   const back=document.createElement('img');back.src='v3/assets/card-backs/normal.png';back.alt='';b.append(back);add('span','€$ '+(index+1),b);
   b.setAttribute('aria-label',(side==='player'?'我方':'對手')+' Eddie '+(index+1)+(c.ready?' 就緒':'已使用'));
   b.setAttribute('aria-pressed',String(side==='player'&&selectedPayments.has('eddie:'+c.id)));
-  b.disabled=!canPay||!c.ready;b.classList.toggle('is-spent',!c.ready);
+  b.disabled=!canPay||!c.ready;b.classList.toggle('is-spent',!c.ready);b.dataset.ready=String(c.ready);b.title=c.ready?'就緒 Eddie · 可支付 1 €$':'已使用 Eddie · 下次重置後可再使用';
   b.classList.toggle('is-payment-available',Boolean(canPay&&c.ready));b.onclick=()=>togglePayment('eddie',c.id);
  });
  if(!state[side].eddies.length)add('span',side==='player'?'變賣手牌後，Eddie 會放在這裡。':'尚無 Eddies',pool,'v3-eddies-empty');
@@ -777,7 +783,7 @@ function renderPublicCounters(){
   }
   renderTableResources(side,prefix);
   const resourceZone=board.querySelector('.'+prefix+'-eddies');resourceZone?.classList.toggle('is-paying',side==='player'&&Boolean(paymentContext()?.selecting));
-  const resources=board.querySelector('.'+prefix+'-eddies .placeholder-label');if(resources)resources.textContent='就緒 Eddies '+p.eddies.filter(c=>c.ready).length+' / '+p.eddies.length;
+  const resources=board.querySelector('.'+prefix+'-eddies .placeholder-label');if(resources){const ready=p.eddies.filter(c=>c.ready).length,total=p.eddies.length;resources.textContent=ready+' / '+total;resources.setAttribute('aria-label','Eddies 就緒 '+ready+' / '+total);resources.title='就緒 '+ready+'，總計 '+total+' 個 Eddies';}
  }
  renderTrashViewer();
  indicator('.opponent-hand','對手手牌 '+state.ai.hand.length+' 張（隱藏）');

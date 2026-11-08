@@ -103,3 +103,15 @@ body.battle-wide #battle .v3-legend-card small.v3-legend-state,
 body.battle-wide #battle .preview-zone .v3-practice-indicator,
 body.battle-wide #battle .v3-history-list article small{font-size:12px;line-height:1.35}
 body.battle-wide #battle .v3-played-card{display:block;box-sizing:border-box;min-height:0;color:var(--nct-text)}
+/* A fixed footprint keeps every Eddie in place as its real ready state changes. */
+body.battle-wide #battle .v3-legend-layout>.preview-zone,
+body.battle-wide #battle .v3-legend-layout>.player-eddies.is-paying{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:20px minmax(0,1fr);column-gap:6px}
+body.battle-wide #battle .v3-legend-layout>.preview-zone>small{grid-column:1;grid-row:1}
+body.battle-wide #battle .v3-legend-layout>.preview-zone>.placeholder-label{grid-column:2;grid-row:1;text-align:right}
+body.battle-wide #battle .v3-legend-layout>.preview-zone>.v3-eddie-tokens{grid-column:1/-1;grid-row:2}
+body.battle-wide #battle .v3-eddie-slot{position:relative;display:grid;place-items:center;flex:none;min-width:0}
+body.battle-wide #battle .v3-eddie-slot>.v3-eddie-token{position:relative;display:block;flex:none;aspect-ratio:auto;overflow:hidden;min-height:44px;min-width:44px;box-sizing:border-box}
+body.battle-wide #battle .v3-eddie-slot>.v3-eddie-token>img{position:absolute;inset:auto;left:50%;top:50%;width:calc(100% * 1331 / 878);height:calc(100% * 878 / 1331);max-width:none;max-height:none;object-fit:contain;transform:translate(-50%,-50%) rotate(-90deg);pointer-events:none}
+body.battle-wide #battle .v3-eddie-slot>.v3-eddie-token.is-spent>img{width:100%;height:100%;transform:translate(-50%,-50%)}
+/* Unit art follows its ready state; the live status line remains horizontal. */
+body.battle-wide #battle .v3-played-card.is-unit-spent>img{inset:auto;left:50%;top:calc((100% - 20px) / 2);width:71.4286%;height:calc((100% - 20px) * 7 / 5);transform:translate(-50%,-50%) rotate(90deg)}
