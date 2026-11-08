@@ -65,7 +65,7 @@ function renderBoardInformation(){
  if(shownHistoryVersion!==historyVersion){
   const bottom=historyList.scrollHeight-historyList.scrollTop-historyList.clientHeight<40,oldScroll=historyList.scrollTop;historyList.replaceChildren();
   if(!actionHistory.length)add('p','完成開局後，這裡會依序記錄雙方行動。',historyList,'v3-history-empty');
-  for(const event of actionHistory){const item=add('article','',historyList);add('small','ROUND '+event.round+' · '+event.actor,item);add('p',event.text,item);}
+  let group=null,groupKey=null;for(const event of actionHistory){const key=event.round+':'+event.actor;if(key!==groupKey){group=add('article','',historyList);group.dataset.actor=event.actor;add('small','ROUND '+event.round+' · '+event.actor,group);groupKey=key;}add('p',event.text,group);}
   historyList.scrollTop=bottom?historyList.scrollHeight:oldScroll;shownHistoryVersion=historyVersion;
  }
 }
@@ -416,6 +416,9 @@ function sizeHandRail(rail){
  }
 }
 function fitHandRails(){
+ for(const rail of board.querySelectorAll('.player-field .field-slots,.opponent-field .field-slots')){
+  const h=Math.max(44,Math.min(300,rail.clientHeight-4));for(const card of rail.querySelectorAll('.v3-played-card')){card.style.height=h+'px';card.style.width=((h-20)*5/7)+'px';}
+ }
  for(const rail of board.querySelectorAll('.player-hand .hand-placeholder,.opponent-hand .preview-card-rail'))sizeHandRail(rail);
  for(const rail of board.querySelectorAll('.v3-legend-layout>.cardbacks')){
   const slots=[...rail.querySelectorAll('.v3-legend-slot')];if(!slots.length)continue;
@@ -474,9 +477,9 @@ function renderField(){
   if(image){const img=document.createElement('img');img.src=image;img.alt=card.name;img.loading='lazy';el.append(img)}
   else add('span',card.name,el);
   const stats=A?.unitStats?.(card);
-  add('small',(card.lag&&!card.goSolo?'LAG':card.ready?'READY':'SPENT')+(stats?' · PWR '+stats.power:''),el);
-  if(stats?.blocker)add('small','BLOCKER',el);
-  if(card.gear?.length)add('small','裝備：'+card.gear.map(g=>g.name).join('、'),el);
+  add('small',(card.lag&&!card.goSolo?'LAG':card.ready?'READY':'SPENT')+(stats?' · PWR '+stats.power:''),el,'v3-unit-status');
+  if(stats?.blocker){el.dataset.blocker='true';el.title+=' · BLOCKER（可攔截）';}
+  if(card.gear?.length){const tag=add('span','裝備 ×'+card.gear.length,el,'v3-gear-count');tag.title=card.gear.map(g=>g.name).join('、');}
   if(card.deferredEffect)add('small','特殊效果：待對戰系統',el);
  }
  if(!state.player.units.length)add('div','尚無已打出的單位',slots);
@@ -494,8 +497,8 @@ function renderRivalField(){
   if(src){const img=document.createElement('img');img.src=src;img.alt=unit.name;img.loading='lazy';el.append(img)}
   else add('span',unit.name,el);
   const stats=A?.unitStats?.(unit);
-  add('small',(unit.ready?'READY':'SPENT')+' · PWR '+(stats?.power??unit.power),el);
-  if(unit.trainingTarget)add('small','練習目標 / 無 AI',el);else if(state.ai.practiceBot?.kind==='mirror-the-heist')add('small','鏡像對手',el);
+  add('small',(unit.ready?'READY':'SPENT')+' · PWR '+(stats?.power??unit.power),el,'v3-unit-status');
+  if(unit.trainingTarget)el.title+=' · 固定練習目標';
  }
 }
 function paymentContext(){
@@ -692,7 +695,7 @@ function fixerHint(){
  if(state.phase==='pregame')return '請先完成開局設定';
  if(!state.player.fixer.length)return '合事佬區已空；每回合抽牌後直接進入主要階段';
  if(state.turn!=='player')return '等待對手完成回合，再進行準備階段';
- if(state.phase==='start'&&state.step==='ready')return '先在傳奇旁按「重置資源」，再抽牌、選骰';
+ if(state.phase==='start'&&state.step==='ready')return '先在回合狀態區按「重置資源」，再抽牌、選骰';
  if(state.phase==='start'&&state.step==='draw')return '先在牌庫按「抽 1 張」，接著就能選骰';
  if(state.phase==='start'&&state.step==='roll')return '點選一顆骰子，再按同區的「擲骰」';
  return '本回合已擲骰，下一回合再選';
@@ -762,7 +765,11 @@ function renderPublicCounters(){
   if(cred)cred.textContent='街頭聲望：'+(p.gigs.length?p.gigs.reduce((n,g)=>n+g.value,0):'Null');
   let dice=zone?.querySelector('.v3-gig-values');if(zone&&!dice){dice=add('div','',zone,'v3-gig-values')}
   const indicator=zone?.querySelector('[data-practice-indicator]');if(indicator&&dice)dice.after(indicator);
-  if(dice){dice.replaceChildren();for(const g of p.gigs)add('span','d'+g.sides+' = '+g.value,dice,'v3-gig-chip');}
+  if(dice){dice.replaceChildren();for(const g of p.gigs){
+   const chip=add('span','',dice,'v3-gig-chip');chip.setAttribute('aria-label','d'+g.sides+'，點數 '+g.value);chip.title='d'+g.sides+' = '+g.value;
+   const template=[...board.querySelectorAll('.player-fixer .die-icon')].find(el=>el.querySelector('b')?.textContent==='D'+g.sides),svg=template?.querySelector('svg')?.cloneNode(true);if(svg){svg.setAttribute('aria-hidden','true');chip.append(svg);}
+   add('b',String(g.value),chip);add('small','d'+g.sides,chip);
+  }}
   const deck=board.querySelector('.'+prefix+'-deck .deck-pile');
   if(deck){deck.replaceChildren(document.createTextNode(String(p.deck.length)));add('span','DECK',deck)}
   for(const die of board.querySelectorAll('.'+prefix+'-fixer .die-icon')){
@@ -905,6 +912,7 @@ function renderDefenseControls(){
  tableButton('結束反應並結算',()=>P.defend(state,{kind:'end'}));
 }
 function compactFeedback(text){
+ if(text.startsWith('鏡像對手完成回合'))return '鏡像對手已完成行動，輪到你準備回合。';
  if(text.length<=160)return text;
  const parts=text.split('；'),actions=parts.filter(p=>/對手.*呼叫傳奇|Go Solo：|^裝備 |^對手使用程式：|^Quick：/.test(p));
  return (actions.length?actions.slice(-3):parts.slice(-2)).join('；');
