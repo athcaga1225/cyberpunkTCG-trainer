@@ -2643,9 +2643,6 @@ header nav button.active{font-weight:400}
 #battle .v3-resource-choice{margin:0 8px 8px 0;padding:9px 12px;background:#16262b;color:#e9f4f4;border:1px solid #53707a;border-radius:4px;cursor:pointer}
 #battle .v3-resource-choice[aria-pressed=true]{background:#21434a;border-color:#29ffff;color:#9cf8ff}
 #battle .v3-payment-count{font-size:14px;color:#9ed4d7;margin:0 0 10px}
-#battle .v3-played-card{position:relative;display:flex;flex-direction:column;width:92px;flex:0 0 92px;gap:4px;padding:4px;background:#15242a;border:1px solid #577079;border-radius:4px;color:#ddebef;overflow:hidden}
-#battle .v3-played-card img{display:block;width:100%;aspect-ratio:5/7;object-fit:cover}
-#battle .v3-played-card small{font-size:10px;color:#8ee4e7}
 #battle .player-field .field-slots{flex-wrap:wrap}
 /* V3 basic-turn practice: restrained tabletop operations, independent of site panel decoration. */
 #battle .v3-turn-practice{margin:18px 0 22px;padding:18px 20px;background:#0d1519;border:1px solid #34464d;border-radius:5px;color:#d8e5e7}
@@ -3351,11 +3348,6 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
   align-items:stretch;overflow:hidden
  }
  body.battle-wide #battle .field-slots>div{height:100%;min-height:0;max-height:100%;font-size:12px}
- body.battle-wide #battle .v3-played-card{
-  height:100%;max-height:100%;width:auto;max-width:84px;min-width:0;flex:0 1 84px;gap:2px;padding:2px
- }
- body.battle-wide #battle .v3-played-card img{height:calc(100% - 16px);min-height:0;object-fit:contain}
- body.battle-wide #battle .v3-played-card small{font-size:9px}
  body.battle-wide #battle .mini-dice{
   min-height:0;gap:2px;flex-wrap:nowrap;justify-content:flex-start;overflow:hidden
  }
@@ -3427,11 +3419,6 @@ a[target="_blank"]:focus-visible .external-arrow{transform:translate(3px,-3px)}
 @media screen and (min-width:901px){
  body.battle-wide #battle .opponent-field{margin-top:-14px;z-index:2}
  body.battle-wide #battle .player-field{margin-bottom:-14px;z-index:2}
- body.battle-wide #battle .opponent-field .v3-played-card,
- body.battle-wide #battle .player-field .v3-played-card{
-  max-width:clamp(96px,8.2vw,132px);
-  flex:0 1 clamp(96px,8.2vw,132px);
- }
  body.battle-wide #battle .tour-coach{
   top:56px;
   max-height:calc(100% - 70px);
@@ -3595,9 +3582,6 @@ body.battle-wide #battle #v3TableControls select{
  padding:5px;background:#0d2026;color:#e7f6f6;
  border:1px solid #456b76;border-radius:3px;font-size:11px;
 }
-body.battle-wide #battle .player-field .v3-played-card.is-table-selected{
- outline:2px solid #29ffff;outline-offset:2px;
-}
 body.battle-wide #battle #toggleV3BattleActions{
  font-size:10px!important;min-height:23px!important;
  padding:3px 6px!important;border-color:#36515a!important;
@@ -3620,7 +3604,7 @@ body.battle-wide #battle #v3TurnPractice{
 body.battle-wide #battle #v3TableControls{width:clamp(145px,15.2vw,240px)}
 /* Live guidance shares the compact tabletop controls; no separate overlay. */
 #battle .v3-guide-toggle{float:right;background:transparent;border:0;color:#b2cbcf;font-size:11px;padding:0 0 4px 7px}
-#battle .v3-guide-active{outline:2px solid #f4d18c!important;outline-offset:2px;box-shadow:0 0 10px #f4d18c55}
+#battle .v3-guide-active{outline:2px solid #f4d18c;outline-offset:2px;box-shadow:0 0 10px #f4d18c55}
 #battle #v3TableControls .v3-payment-pool{display:flex;flex-wrap:wrap;gap:4px;width:100%;margin:0}
 #battle #v3TableControls .v3-payment-pool p{margin:3px 0;flex-basis:100%;font-size:11px}
 #battle #v3TableControls .v3-resource-choice{font-size:11px;padding:5px;min-width:0;max-width:100%;overflow-wrap:anywhere}
@@ -3637,10 +3621,10 @@ body.battle-wide #battle #v3TableControls{width:clamp(145px,15.2vw,240px)}
 #v3TableGuide .v3-coach-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
 #v3TableGuide .v3-coach-actions button{font-size:12px;padding:7px 11px;border-color:#ffe34a;background:#17282b;color:#fff3a3}
 #v3TableGuide .v3-coach-skip{border:0;background:transparent;color:#a6c5ca;text-decoration:underline;font-size:11px;padding:10px 0 0;cursor:pointer}
-#battle .v3-guide-active{outline:3px solid #ffe34a!important;outline-offset:-3px;box-shadow:0 0 0 1px #ffe34a55}
+#battle .v3-guide-active{outline:3px solid #ffe34a;outline-offset:-3px;box-shadow:0 0 0 1px #ffe34a55}
 
-#battle .v3-combat-attacker{outline:3px solid #ff645e!important;outline-offset:2px}
-#battle .v3-combat-target{box-shadow:inset 0 0 0 3px #ff9f43!important}
+#battle .v3-combat-attacker{outline:3px solid #ff645e;outline-offset:2px}
+#battle .v3-combat-target{box-shadow:inset 0 0 0 3px #ff9f43}
 #battle .v3-gig-values{font-size:11px;color:#c5e3e7;line-height:1.4;margin-top:5px;overflow-wrap:anywhere}
 
 /* V3 opening controls: inset chevrons and clearly raised, centered buttons. */
@@ -3717,13 +3701,13 @@ body button,body .btn,body button:hover,body button:active{box-shadow:none!impor
 #battle #v3TableGuide .v3-coach-skip{color:#b1c0c7}
 #battle #v3TableGuide .v3-coach-actions button{background:#090e12;color:#fcee0a;border-color:#fcee0a}
 body.battle-wide #battle #v3TableControls{background:#163c49;border-color:#72b7c4}
-#v3HandPreview{background:#12384b!important;border-color:#72bac9!important}
+#v3HandPreview{background:#12384b;border-color:#72bac9}
 @media(min-width:901px){
  body.battle-wide #battle .player-legends .cardbacks,
  body.battle-wide #battle .opponent-legends .cardbacks{flex:1 1 0;height:auto;max-height:none;min-height:0;padding:3px 3px 8px;box-sizing:border-box;overflow:hidden}
 }
 body.battle-wide #battle #v3TableControls .v3-table-feedback{max-height:100px;overflow:auto;line-height:1.5}
-#battle .v3-gear-count{position:absolute;top:3px;right:3px;z-index:2;background:#145063;color:#fff!important;border:1px solid #70b4bf;padding:1px 3px;font-size:9px!important}
+#battle .v3-gear-count{position:absolute;top:3px;right:3px;z-index:2;background:#145063;color:#fff;border:1px solid #70b4bf;padding:1px 3px;font-size:9px}
 #battle .v3-legend-card{position:relative;appearance:none;padding:0;border:1px solid #48727e;background:#0b1a21;border-radius:3px;cursor:pointer;min-width:0;overflow:hidden}
 #battle .v3-legend-card img{display:block;width:100%;height:100%;object-fit:contain}
 #battle .v3-legend-card.is-legend-selected{outline:2px solid #29ffff;outline-offset:-2px}
@@ -3778,7 +3762,7 @@ body.battle-wide #battle .v3-legend-layout>.preview-zone{grid-area:auto;flex:1;m
 #battle #v3TableGuide{border-color:#fcee0a;color:#e8e1b5}
 #battle #v3TableGuide p{color:#e8e1b5}
 #battle #v3TableControls{border-color:#4a8698;background:#102630}
-#battle .v3-action-primary:not(:disabled){background:#fcee0a!important;border:1px solid #fcee0a!important;color:#11151a!important;font-weight:700}
+#battle .v3-action-primary:not(:disabled){background:#fcee0a;border:1px solid #fcee0a;color:#11151a;font-weight:700}
 #battle .v3-zone-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap;min-height:0;flex:none}
 #battle .v3-zone-actions .v3-table-btn{padding:5px 9px;min-height:28px;font-size:12px;cursor:pointer;border-radius:2px}
 #battle .player-fixer .v3-zone-actions{position:absolute;top:4px;right:6px}
@@ -3791,7 +3775,7 @@ body.battle-wide #battle .v3-legend-layout>.preview-zone{grid-area:auto;flex:1;m
 #battle .v3-board-payments p{margin:0;width:100%;font-size:10px}
 #battle .v3-board-payments button{padding:4px;font-size:10px;background:#122b32;color:#def5fa;border:1px solid #5f8c96;cursor:pointer}
 #battle .v3-board-payments [aria-pressed="true"]{background:#21515b;border-color:#29ffff}
-#v3HandPreview{background:#0b1d27!important;border-color:#69a7b7!important}
+#v3HandPreview{background:#0b1d27;border-color:#69a7b7}
 #v3HandPreview>div{width:min(220px,22vw)!important;font-size:12px!important;line-height:1.6!important;max-height:min(66vh,450px)!important}
 #battle .v3-guide-substep{display:block;color:#fcee0a;font-size:12px;margin-top:7px}
 @media(min-width:901px){
@@ -3811,7 +3795,7 @@ body.battle-wide #battle .v3-legend-layout>.preview-zone{grid-area:auto;flex:1;m
 #battle #v3TableGuide[data-mode="live"] strong,#battle #v3TableGuide[data-mode="live"] small,#battle #v3TableGuide[data-mode="live"] .v3-guide-substep,#battle #v3TableGuide[data-mode="live"] .v3-coach-close{color:#8fe8fa}
 #battle #v3TableGuide[data-mode="live"] p{color:#c6e5ec}
 #battle #v3TableGuide[data-mode="live"] .v3-coach-close:hover{background:#39d6ef22}
-#battle .board-tour:has(#v3TableGuide[data-mode="live"]:not([hidden])) .v3-guide-active{outline-color:var(--nct-guide,#39d6ef)!important}
+#battle .board-tour:has(#v3TableGuide[data-mode="live"]:not([hidden])) .v3-guide-active{outline-color:var(--nct-guide,#39d6ef)}
 #battle .player-field .v3-public-card,#battle .player-legends .v3-legend-card{cursor:pointer}
 
 /* Reference tabletop: left player zones, center field, narrow piles, right room/history/actions. */
@@ -3834,9 +3818,9 @@ body.battle-wide #battle .v3-legend-layout>.preview-zone{grid-area:auto;flex:1;m
  body.battle-wide #battle #v3OpeningSetup .v3-setup-fields{grid-template-columns:1fr;gap:12px}
 }
 #battle .v3-phase-panel{justify-content:center;text-align:center;gap:10px!important}
-#battle .v3-phase-panel strong{display:block;border:1px solid #a2da53;border-radius:30px;padding:8px 4px;color:#b1ee62!important;font-size:clamp(15px,1.5vw,23px)!important;line-height:1.2}
-#battle .v3-phase-panel[data-owner="ai"] strong{border-color:#a94f61;color:#ff8392!important}
-#battle .v3-phase-panel[data-owner="setup"] strong{border-color:#97853c;color:#f6db67!important}
+#battle .v3-phase-panel strong{display:block;border:1px solid #a2da53;border-radius:30px;padding:8px 4px;color:#b1ee62;font-size:clamp(15px,1.5vw,23px)!important;line-height:1.2}
+#battle .v3-phase-panel[data-owner="ai"] strong{border-color:#a94f61;color:#ff8392}
+#battle .v3-phase-panel[data-owner="setup"] strong{border-color:#97853c;color:#f6db67}
 #battle .v3-phase-panel>span{color:#e8bf70;font-size:12px;line-height:1.5}
 #battle .v3-room-panel p{font-size:12px;color:#b6cbd2;margin:5px 0;line-height:1.6}
 #battle .v3-room-buttons{display:flex;gap:6px;flex-wrap:wrap}
@@ -3844,9 +3828,9 @@ body.battle-wide #battle .v3-legend-layout>.preview-zone{grid-area:auto;flex:1;m
 #battle .v3-history-panel{min-height:0;overflow:hidden}
 #battle .v3-history-list{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;padding-right:4px}
 #battle .v3-history-list article{padding:8px 0;border-bottom:1px solid #24424e}
-#battle .v3-history-list article small{color:#65cedb!important;font-size:10px!important}
+#battle .v3-history-list article small{color:#65cedb}
 #battle .v3-history-list p{margin:4px 0;font-size:12px;line-height:1.65;color:#c1d0d5;overflow-wrap:anywhere}
-#battle .v3-history-empty{color:#8ba6b0!important}
+#battle .v3-history-empty{color:#8ba6b0}
 #battle #v3TableGuide{width:clamp(260px,calc(23vw - 12px),340px);padding:16px;border-radius:10px;max-height:calc(100dvh - 24px);background:#070f16}
 #battle #v3TableGuide .v3-coach-tools{display:flex;justify-content:flex-end;align-items:center;gap:7px;margin:-4px -4px 8px 0}
 #battle #v3TableGuide .v3-coach-tools button{min-height:28px;padding:4px 7px;font-size:11px;border:1px solid #324e5c;border-radius:4px;background:#0c1a23;color:#bad3dc;cursor:pointer}
@@ -3882,10 +3866,9 @@ body.battle-wide #battle #v3OpeningSetup p.v3-opening-footnote{font-size:11px;co
  body.battle-wide #battle .player-gigs,body.battle-wide #battle .opponent-gigs{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto minmax(0,1fr);gap:3px 8px!important;padding:6px 8px;align-content:start;overflow:hidden}
  body.battle-wide #battle .player-gigs>small,body.battle-wide #battle .opponent-gigs>small{grid-column:1;grid-row:1;align-self:center}
  body.battle-wide #battle .player-gigs>strong,body.battle-wide #battle .opponent-gigs>strong{grid-column:2;grid-row:1;font-size:22px!important;line-height:1.1}
- body.battle-wide #battle .player-gigs>span:not([data-practice-indicator]),body.battle-wide #battle .opponent-gigs>span:not([data-practice-indicator]){grid-column:1/-1;grid-row:2;font-size:14px!important;line-height:1.3}
+ body.battle-wide #battle .player-gigs>span:not([data-practice-indicator]),body.battle-wide #battle .opponent-gigs>span:not([data-practice-indicator]){grid-column:1/-1;grid-row:2;font-size:14px;line-height:1.3}
  body.battle-wide #battle .player-gigs>[data-practice-indicator],body.battle-wide #battle .opponent-gigs>[data-practice-indicator]{display:none!important}
  body.battle-wide #battle .v3-gig-values{grid-column:1/-1;grid-row:3;display:flex;gap:3px;flex-wrap:wrap;align-content:flex-start;min-height:0;margin:0!important;overflow:auto}
- body.battle-wide #battle .v3-gig-values .v3-gig-chip{font-size:12px!important;line-height:1.35;padding:1px 4px;white-space:nowrap;background:#12313e;border-radius:3px;color:#d9f3f6;flex:none}
  body.battle-wide #battle .player-fixer{display:grid;grid-template-columns:minmax(0,1fr) 100px;grid-template-rows:auto minmax(0,1fr);gap:3px 7px!important}
  body.battle-wide #battle .player-fixer>small{grid-column:1/-1;grid-row:1}
  body.battle-wide #battle .player-fixer .mini-dice{grid-column:1;grid-row:2;width:100%!important;height:100%;margin:0;align-items:center}
@@ -3909,20 +3892,17 @@ body.battle-wide #battle #v3OpeningSetup p.v3-opening-footnote{font-size:11px;co
  body.battle-wide #battle #v3OpeningSetup p,body.battle-wide #battle #v3OpeningSetup label{font-size:14px!important}
  body.battle-wide #battle #v3OpeningSetup summary,body.battle-wide #battle #v3OpeningSetup p.v3-opening-footnote{font-size:12px!important}
  body.battle-wide #battle #v3OpeningSetup select{min-height:44px;font-size:14px!important}
- body.battle-wide #battle .preview-zone>small,body.battle-wide #battle [data-practice-indicator],body.battle-wide #battle .deck-pile span,body.battle-wide #battle .v3-legend-state,body.battle-wide #battle .v3-played-card small,body.battle-wide #battle .v3-gear-count,body.battle-wide #battle .v3-history-list article small{font-size:12px!important;line-height:1.35}
+ body.battle-wide #battle .preview-zone>small,body.battle-wide #battle [data-practice-indicator],body.battle-wide #battle .deck-pile span,body.battle-wide #battle .v3-legend-state,body.battle-wide #battle .v3-played-card small,body.battle-wide #battle .v3-gear-count,body.battle-wide #battle .v3-history-list article small{font-size:12px;line-height:1.35}
  body.battle-wide #battle .preview-zone .placeholder-label,body.battle-wide #battle .v3-room-panel p,body.battle-wide #battle .v3-history-list p,body.battle-wide #battle .v3-phase-panel>span{font-size:14px!important}
  body.battle-wide #battle .mini-dice .die-icon b{font-size:12px!important}
- body.battle-wide #battle .v3-played-card img{height:auto!important;flex:1 1 0;min-height:0;object-fit:contain}
- body.battle-wide #battle .v3-played-card small{flex:none;overflow-wrap:anywhere}
  body.battle-wide #battle .field-slots{overflow-x:auto;overflow-y:hidden;flex-wrap:nowrap}
- body.battle-wide #battle .v3-played-card{flex:0 0 clamp(100px,8.2vw,132px);min-width:100px}
  body.battle-wide #battle #v3TableControls .v3-table-phase{font-size:16px!important;line-height:1.4}
  body.battle-wide #battle .v3-table-hint,body.battle-wide #battle .v3-table-feedback,body.battle-wide #battle .v3-table-selection{font-size:14px!important;line-height:1.5}
 }
 #battle .v3-table-btn,#battle .v3-card-actions button,#battle .v3-card-actions select,#battle .v3-eddie-token,#battle .v3-resource-choice,#battle .v3-room-buttons button,#battle #v3OpeningSetup .btn{font-size:14px!important;min-height:44px;padding:8px 10px;box-sizing:border-box;line-height:1.4}
 #battle .v3-trash-summary{font-size:14px!important;min-height:44px;padding:5px 3px;box-sizing:border-box}
 #battle .v3-board-payments p{font-size:14px!important;line-height:1.5}
-#battle .v3-payment-count{font-size:16px!important;font-weight:700;color:#8cecf5!important;padding:6px 0}
+#battle .v3-payment-count{font-size:16px!important;font-weight:700;color:#8cecf5;padding:6px 0}
 body.battle-wide #battle .player-eddies.is-paying{box-shadow:inset 0 0 0 2px #61d9e7!important;background:#102d38}
 #battle .v3-resource-choice[aria-pressed="true"],#battle .v3-eddie-token[aria-pressed="true"]{border:3px solid #49e4f1!important;background:#155667!important;color:#fff!important;font-weight:700}
 body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-selected:not(.is-hand-hover){z-index:500!important}
@@ -3933,7 +3913,7 @@ body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-selected:
 #battle #v3TableGuide button{font-size:14px!important;min-height:44px;padding:8px 10px}
 #battle #v3TableGuide .v3-coach-tools .v3-coach-close{width:44px;height:44px;font-size:24px!important;padding:0}
 #battle #v3TableGuide.is-minimized>strong{font-size:16px!important}
-#battle .player-fixer #v3RollControl:disabled{background:#273942!important;color:#8a9ba3!important;border:1px solid #52636d!important;opacity:1!important;cursor:not-allowed!important}
+#battle .player-fixer #v3RollControl:disabled{background:#273942;color:#8a9ba3;border:1px solid #52636d;opacity:1!important;cursor:not-allowed!important}
 #v3HandPreview p,#v3HandPreview>div{font-size:14px!important;line-height:1.6!important}
 #v3HandPreview strong{font-size:18px!important}
 @media(min-width:901px) and (max-width:1149px){body.battle-wide #battle .table-preview{grid-template-columns:minmax(300px,1.6fr) minmax(0,3fr) 80px 190px}}
@@ -3988,19 +3968,19 @@ body.battle-wide #battle .player-legends .v3-legend-card.is-payment-selected{out
 body.battle-wide #battle .v3-legend-layout>.player-eddies.is-paying{display:flex;flex-direction:column;gap:5px;outline:none!important;box-shadow:none!important;background:transparent}
 body.battle-wide #battle .player-eddies.is-paying>small,body.battle-wide #battle .player-eddies.is-paying>.placeholder-label{display:block}
 body.battle-wide #battle .player-eddies .v3-eddie-tokens,body.battle-wide #battle .player-eddies.is-paying .v3-eddie-tokens{display:flex;flex-wrap:wrap;align-content:flex-start;align-items:flex-start;gap:8px;flex:1;max-height:none;overflow:auto;padding:3px}
-body.battle-wide #battle .v3-eddie-token{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:0 0 50px;width:50px;height:72px;min-height:44px;padding:0;overflow:hidden;border:1px solid #57737c!important;border-radius:5px;background:#091a22!important;color:#dceaf0!important;box-shadow:none!important;transform:none!important;opacity:1}
+body.battle-wide #battle .v3-eddie-token{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:0 0 50px;width:50px;height:72px;min-height:44px;padding:0;overflow:hidden;border:1px solid #57737c;border-radius:5px;background:#091a22;color:#dceaf0!important;box-shadow:none!important;transform:none!important;opacity:1}
 #battle .v3-eddie-token img{width:100%;height:100%;object-fit:cover;pointer-events:none}
 #battle .v3-eddie-token>span{position:absolute;bottom:0;left:0;right:0;padding:3px 0;text-align:center;background:#07141feb;font-size:12px!important;line-height:1.3;pointer-events:none}
 body.battle-wide #battle .v3-eddie-token.is-spent{opacity:.45}
 body.battle-wide #battle .v3-eddie-token:disabled{cursor:default}
-body.battle-wide #battle .v3-eddie-token.is-payment-available{cursor:pointer;border-color:#82c6d0!important}
+body.battle-wide #battle .v3-eddie-token.is-payment-available{cursor:pointer;border-color:#82c6d0}
 body.battle-wide #battle .v3-eddie-token[aria-pressed="true"]{outline:3px solid #61d9e7!important;outline-offset:-3px}
 #battle .v3-eddie-token[aria-pressed="true"]>span:before{content:'✓ ';color:#79e6ef}
 #battle .v3-eddies-empty{color:#8eaab6;font-size:12px!important;line-height:1.5}
 #battle .v3-payment-summary{display:flex;flex-direction:column;gap:5px;width:100%;padding:8px 0;border-top:1px solid #37525d}
 #battle .v3-payment-summary strong{font-size:16px!important;color:#7fe4ed}
 #battle .v3-payment-summary>span{font-size:14px!important;line-height:1.5;color:#c6dbe1}
-body.battle-wide #battle .player-legends .v3-legend-card.is-payment-available{outline:2px dashed #7dcbd4!important;outline-offset:-2px;cursor:pointer}
+body.battle-wide #battle .player-legends .v3-legend-card.is-payment-available{outline:2px dashed #7dcbd4;outline-offset:-2px;cursor:pointer}
 body.battle-wide #battle .player-legends .v3-legend-card.is-payment-unavailable{cursor:not-allowed}
 body.battle-wide #battle .player-legends .v3-legend-card.is-payment-selected{outline:3px solid #61d9e7!important;outline-offset:-3px}
 #battle .player-legends .v3-legend-card:is(.is-call-target,.is-solo-target):before{content:'呼叫對象';position:absolute;bottom:25px;left:3px;right:3px;padding:3px;background:#fcee0a;color:#101c23;font-size:12px;line-height:1.4;text-align:center;z-index:2;pointer-events:none}
@@ -4027,7 +4007,7 @@ body.battle-wide #battle .v3-eddie-token[aria-pressed="true"]{outline-color:#fce
 /* All selects use the same right inset, including dynamically created controls. */
 body select:not([multiple]){appearance:none!important;-webkit-appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23d7e9ed' stroke-width='1.5'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-size:12px 8px!important;background-position:right 14px center!important;padding-right:38px!important}
 #decks .beta-page-select-wrap:after{display:none!important}
-#battle #v3TableGuide[data-mode="tour"] .v3-guide-action{background:#e6ecee!important;color:#101c24!important;border-left:4px solid #fff!important}
+#battle #v3TableGuide[data-mode="tour"] .v3-guide-action{background:#e6ecee;color:#101c24;border-left:4px solid #fff}
 /* Ready belongs to turn preparation, independently of the resource cards. */
 #battle .v3-phase-panel:has(>.v3-ready-actions)>strong{display:none}
 #battle .v3-phase-panel>.v3-ready-actions{justify-content:center;flex:none;max-width:100%}
@@ -4077,7 +4057,7 @@ body.battle-wide #battle .v3-legend-layout>.cardbacks{justify-content:flex-start
 #battle .v3-legend-slot{grid-template-rows:minmax(0,1fr)}
 body.battle-wide #battle .v3-legend-slot>.v3-legend-card{grid-row:1}
 #battle .player-legends>.v3-legend-action-label{position:absolute;right:10px;top:5px;max-width:55%;box-sizing:border-box;padding:1px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#07151e;color:#fff;border:1px solid #edf8fb;border-radius:3px;font-size:12px!important;font-weight:700;line-height:16px}
-</style><link rel="stylesheet" href="v3/table-theme.css?v=2"></head><body>
+</style><link rel="stylesheet" href="v3/table-theme.css?v=3"></head><body>
 <header><div><div class="tag">CYBERPUNK TCG / TRAINING SYSTEM</div><div class="brand">NIGHT CITY TRAINING</div></div><nav aria-label="主要導覽"><button data-page="home" class="active">首頁</button><button data-page="learn">新手教學</button><button data-page="battle">對戰桌面</button><button data-page="decks">卡牌介紹</button><button data-page="rules">規則資料</button></nav></header>
 <main class="wrap">
 <section id="home"><div class="tag">WELCOME TO NIGHT CITY // 01</div><h1>LEARN THE GAME.<br><span style="color:#f8504a">OWN THE TABLE.</span></h1><p class="lead">從零開始認識 Cyberpunk 2077 Trading Card Game。以繁體中文、分階段說明與互動練習，逐步建立實戰基礎。</p><div class="actions"><button class="btn primary" data-go="learn">開始學習 ↗</button></div><div class="grid"><div class="panel"><div class="number">01 / LEARN</div><h2>邊學邊操作</h2><p>11 堂課自由選擇，每學一個觀念就能直接練習。</p></div><div class="panel"><div class="number">02 / DECKS</div><h2>初始牌組</h2><p>先熟悉兩套牌組的卡面、中文卡名與數量。</p></div><div class="panel"><div class="number">03 / BATTLE</div><h2>AI 對戰</h2><p>規則引擎與單機 AI 對戰開發中，完成驗證後開放。</p></div></div></section>
