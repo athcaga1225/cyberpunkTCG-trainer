@@ -330,7 +330,6 @@ function openPublicCard(card){
  $('battleCardEnglish').textContent=card.name;
  const img=$('battleCardFullImage');img.hidden=!src;if(src){img.src=src;img.alt=card.name;}
  $('battleCardNoImage').hidden=Boolean(src);
- const link=$('battleCardSource');link.hidden=!src;if(src)link.href=src;
  let ability=$('v3PublicCardAbility');if(!ability){ability=document.createElement('p');ability.id='v3PublicCardAbility';img.after(ability);dialog.addEventListener('close',()=>{ability.hidden=true});}
  ability.hidden=false;ability.textContent=ref?.abilityZh||ref?.abilityEnglish||'尚未載入此卡能力文字，請查看卡面。';
  dialog.showModal();
@@ -420,8 +419,8 @@ function fitHandRails(){
  for(const rail of board.querySelectorAll('.player-hand .hand-placeholder,.opponent-hand .preview-card-rail'))sizeHandRail(rail);
  for(const rail of board.querySelectorAll('.v3-legend-layout>.cardbacks')){
   const slots=[...rail.querySelectorAll('.v3-legend-slot')];if(!slots.length)continue;
-  const h=Math.max(36,Math.min(160,rail.clientHeight-11,(rail.parentElement.clientWidth*.66-(slots.length-1)*5)/slots.length));
-  for(const slot of slots){slot.style.width=h+'px';slot.style.height=h+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-legend-spent');card.style.width=(spent?h:h*5/7)+'px';card.style.setProperty('height',(spent?h*5/7:h)+'px','important');}
+  const h=Math.max(36,Math.min(160,rail.clientHeight-31,(rail.clientWidth-6-(slots.length-1)*5)/slots.length));
+  for(const slot of slots){slot.style.width=h+'px';slot.style.height=(h+20)+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-legend-spent');card.style.width=(spent?h:h*5/7)+'px';card.style.setProperty('height',(spent?h*5/7:h)+'px','important');}
  }
 }
 function sellDropReason(card){
@@ -618,7 +617,7 @@ function renderGuide(){
  const tools=add('div','',header,'v3-coach-tools');
  const minimize=add('button',guideMinimized?'+':'−',tools,'v3-coach-minimize');minimize.setAttribute('aria-label',guideMinimized?'展開提示':'收合提示');minimize.title=guideMinimized?'展開提示':'收合提示';minimize.type='button';minimize.setAttribute('aria-expanded',String(!guideMinimized));
  minimize.onclick=()=>{guideMinimized=!guideMinimized;guideRoot.classList.toggle('is-minimized',guideMinimized);minimize.textContent=guideMinimized?'+':'−';minimize.setAttribute('aria-label',guideMinimized?'展開提示':'收合提示');minimize.title=guideMinimized?'展開提示':'收合提示';minimize.setAttribute('aria-expanded',String(!guideMinimized));positionGuide()};
- const close=add('button','×',tools,'v3-coach-close');close.type='button';close.setAttribute('aria-label','關閉桌面引導');
+ const close=add('button','',tools,'v3-coach-close');close.type='button';close.setAttribute('aria-label','關閉桌面引導');
  close.addEventListener('click',()=>{guidanceOn=false;render()});
  const mark=el=>el?.classList.add('v3-guide-active');
  if(!state.finished&&guideIntro<coachSteps.length&&state.phase!=='react'&&!E.pending(state)){
@@ -787,6 +786,7 @@ function renderLegends(){
    button.setAttribute('aria-label',(paying?'付款：':'')+label);button.setAttribute('aria-pressed',String(paying?paid:side==='player'&&selectedLegendId===l.id));
    button.dataset.paymentKind='legend';button.dataset.paymentId=l.id;button.classList.toggle('is-payment-available',Boolean(available));button.classList.toggle('is-payment-unavailable',Boolean(paying&&!available));
    button.classList.toggle('is-call-target',side==='player'&&selectedLegendId===l.id&&paymentAction==='call');button.classList.toggle('is-solo-target',side==='player'&&selectedLegendId===l.id&&paymentAction==='solo');
+   if(side==='player'&&selectedLegendId===l.id&&['call','solo'].includes(paymentAction))add('span',paymentAction==='call'?'呼叫對象':'Go Solo 對象',slot,'v3-legend-action-label');
    if(paying){button.setAttribute('aria-disabled',String(!available));button.title=available?'點擊選擇或取消付款':!l.ready?'此傳奇已使用，不能付款':'正面傳奇沒有變賣標記，不能付款';}
    button.classList.toggle('is-legend-selected',side==='player'&&selectedLegendId===l.id);button.classList.toggle('is-payment-selected',side==='player'&&selectedPayments.has('legend:'+l.id));
    button.classList.toggle('is-gear-target',side==='player'&&paymentAction==='gear-target'&&l.faceUp);
@@ -1105,7 +1105,7 @@ function layoutTableActions(){
 }
 function positionContextActions(){
  if(contextActions.hidden)return;
- const anchor=selectedId?board.querySelector('.hand-card[data-card-id="'+selectedId+'"]'):selectedLegendId?board.querySelector('[data-legend-id="'+selectedLegendId+'"]'):board.querySelector('.player-field .is-table-selected')||board.querySelector('.player-field');
+ const anchor=selectedId?board.querySelector('.hand-card[data-card-id="'+selectedId+'"]'):selectedLegendId?board.querySelector('[data-legend-id="'+selectedLegendId+'"]')?.closest('.v3-legend-slot'):board.querySelector('.player-field .is-table-selected')||board.querySelector('.player-field');
  if(!anchor)return;
  const r=anchor.getBoundingClientRect(),h=contextActions.offsetHeight,w=contextActions.offsetWidth;
  const top=selectedId?board.querySelector('.player-hand').getBoundingClientRect().top:r.top;
