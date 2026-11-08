@@ -11,11 +11,12 @@
   const gigs=power>0&&A.stealTrainingGigs(s,'player',u.id,s.ai.gigs.slice(0,count).map(g=>g.id),{reactionResolved:true}).ok;
   return {units,gigs};
  }
- function next(s,{selectedId=null,payments=[],attackUnitId=null,selectedLegendId=null}={}){
+ function next(s,{selectedId=null,payments=[],attackUnitId=null,selectedLegendId=null,paymentAction=null}={}){
   const hint=(stage,key,text)=>({stage,key,text});
   if(s.finished)return hint(6,'finished','本局已結束，右側顯示勝負與原因；可按「重新開局」再來一局。');
   if(s.pendingEffects?.length)return hint(4,'effect','卡牌旁有待結算能力。先完成選卡、查看或調整，才能繼續攻擊、防守或交接回合。關閉引導不會略過能力。');
-  if(selectedLegendId)return hint(4,'legend',s.phase==='react'?'防守時可支付 1 €$ 呼叫傳奇，每回合一次；Go Solo 僅能在自己的主要階段使用。':'在傳奇旁逐張選擇支付資源；蓋牌傳奇花 1 €$ 呼叫，已翻開的 V 可支付 5 €$ Go Solo。每回合只能呼叫一次。');
+  if(selectedLegendId&&paymentAction)return hint(3,'legend-payment','直接點選桌上就緒的傳奇或 Eddies 付款；呼叫對象保持不變。選好後在卡牌旁確認，取消付款不會消耗資源。');
+  if(selectedLegendId)return hint(4,'legend',s.phase==='react'?'防守時可支付 1 €$ 呼叫傳奇，每回合一次；Go Solo 僅能在自己的主要階段使用。':'先按卡牌旁的「呼叫傳奇」或「Go Solo」，再直接點桌上資源付款。每回合只能呼叫一次。');
   if(s.phase==='pregame')return hint(1,'opening',s.opening?.orderChosen?'查看六張起手，保留或整手重抽一次，再開始對戰。':'選擇開局方式與對手，擲 d20 後決定先後攻；隨機模式會接著洗牌抽六張。');
   if(s.phase==='react'&&s.pendingAttack?.defendingSide==='player'){
    const card=C.quicks(s).find(c=>c.id===selectedId);
@@ -30,8 +31,8 @@
    if(card.unimplementedEffect)return hint(4,'unsupported','此卡能力尚未支援。請取消選取並改選其他手牌。');
    if(!s.player.soldThisTurn&&card.sellTag)return hint(3,'sell','點「變賣」將此卡變成 Eddie；也可以逐一選擇資源支付出牌。');
    if(available.length<card.cost)return hint(3,'shortage','可用資源不足（'+available.length+'/'+card.cost+'）。'+(!s.player.soldThisTurn?'請改選有變賣標記的手牌變賣。':'本回合已變賣，可改選較低費用的牌或結束回合。'));
-   if(payments.length!==card.cost)return hint(3,'payment','點選傳奇旁的資源支付 '+card.cost+' €$（已選 '+payments.length+'）。每張資源支付 1 €$，確認出牌前不會消耗。');
-   return hint(4,'play',card.type==='Gear'?'支付已選好，點選友方單位或卡牌旁的裝備目標。':'支付已選好，確認卡牌旁的目標後，點「'+(card.type==='Unit'?'打出單位':'使用')+'」。');
+   if(payments.length!==card.cost)return hint(3,'payment','直接點選桌上就緒的傳奇或 Eddies，支付 '+card.cost+' €$（已選 '+payments.length+'）。每張資源支付 1 €$，確認出牌前不會消耗。');
+   return hint(4,'play',card.type==='Gear'?(paymentAction==='gear-target'?'直接點選高亮的友方單位或正面傳奇，確認裝備。':'支付已選好，按「選擇裝備目標」，再點選友方單位或正面傳奇。'):'支付已選好，確認卡牌旁的目標後，點「'+(card.type==='Unit'?'打出單位':'使用')+'」。');
   }
   const attacker=s.player.units.find(u=>u.id===attackUnitId);
   if(attacker&&!canAttack(attacker))return hint(4,'unavailable','此單位目前無法攻擊：'+(attacker.lag?'仍有 Lag。':!attacker.ready?'本回合已使用。':'攻擊能力尚未支援。')+'可改選其他單位或結束回合。');
