@@ -78,8 +78,8 @@ body.battle-wide #battle .opponent-gigs .v3-gig-chip b{color:#c7f0f4}
 body.battle-wide #battle #v3OpeningSetup>.v3-selected-detail{background:#071820;border-color:#42656d;border-left-color:var(--nct-action);color:var(--nct-text)}
 body.battle-wide #battle #v3OpeningSetup :is(p,label,small){color:#c1d0d5}
 body.battle-wide #battle #v3OpeningSetup :is(select,.v3-opening-card){background:#0a1923;border-color:#42656d;color:var(--nct-text)}
-body.battle-wide #battle #v3OpeningSetup .v3-opening-actions .btn{background:#123d49;color:#e6ecee;border-color:#324e5c}
-body.battle-wide #battle #v3OpeningSetup .v3-opening-primary{background:var(--nct-action);color:#0a1923;border-color:var(--nct-action)}
+body.battle-wide #battle #v3OpeningSetup .btn{background:var(--nct-raised);color:var(--nct-text);border-color:#507581}
+body.battle-wide #battle #v3OpeningSetup .btn.v3-opening-primary:not(:disabled){background:var(--nct-action);color:#11151a;border-color:var(--nct-action)}
 body.battle-wide :is(#v3HandPreview,#battleCardDialog,#v3TrashViewer,#v3DiceAnimation){background:#071820;border-color:#537e89;color:#e6ecee}
 body.battle-wide #v3HandPreview :is(strong,p,small,.v3-card-ability){color:#e6ecee}
 body.battle-wide #v3DiceAnimation .v3-die{border-color:#7ccbd8;color:#e6ecee;box-shadow:none}

@@ -1279,7 +1279,7 @@ function render(){
    add('p','我方 '+roll.playerRoll+' ／ 腳本對手 '+roll.rivalRoll+'。'+(roll.winner==='player'?'我方取得選擇權。':'腳本對手取得選擇權。'),order);
    if(roll.winner==='player'){
     const orderActions=add('div','',order,'v3-opening-actions');
-    command('我方選擇先攻',()=>P.chooseOrder(state,'player'),orderActions).classList.add('v3-opening-primary');
+    command('我方選擇先攻',()=>P.chooseOrder(state,'player'),orderActions);
     command('我方選擇後攻',()=>P.chooseOrder(state,'ai'),orderActions);
    }else command('對手選擇先攻',()=>P.chooseOrder(state,'ai'),order).classList.add('v3-opening-primary');
   }
