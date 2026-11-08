@@ -117,7 +117,7 @@ let scenario='random',defensePreset='none',opponentMode='mirror',state=H.fresh(s
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
 let guidanceOn=true,guideIntro=0,guideMinimized=false,opponentTimer=null,selectedDie=4;
 let confirmConcede=false;
-let paymentAction=null;
+let paymentAction=null,draggedCardId=null;
 let selectedLegendId=null,effectChoiceId=null,effectChoices=new Set();
 let pendingDeal=null;
 let activeDeals=[];
@@ -393,13 +393,13 @@ function renderHand(){
  };
  if(state.phase==='pregame')return;
  state.player.hand.forEach((card,i)=>{
-  const btn=document.createElement('button');btn.type='button';btn.className='preview-art-card hand-card';btn.dataset.cardName=card.name;btn.dataset.cardId=card.id;btn.dataset.handIndex=String(i);btn.style.setProperty('--v3-hand-order',String(i+1));
+  const btn=document.createElement('button');btn.type='button';btn.draggable=true;btn.className='preview-art-card hand-card';btn.dataset.cardName=card.name;btn.dataset.cardId=card.id;btn.dataset.handIndex=String(i);btn.style.setProperty('--v3-hand-order',String(i+1));
   const selected=selectedId===card.id;btn.classList.toggle('is-selected',selected);
   btn.setAttribute('aria-pressed',String(selected));
   btn.setAttribute('aria-label','選取 '+card.name+'，費用 '+card.cost+(card.sellTag?'，可變賣':''));
   btn.title=card.name;
   const src=art.get(card.name);
-  if(src){const image=document.createElement('img');image.src=src;image.alt=card.name+' 卡面';image.loading='lazy';image.decoding='async';btn.append(image)}
+  if(src){const image=document.createElement('img');image.src=src;image.alt=card.name+' 卡面';image.loading='lazy';image.decoding='async';image.draggable=false;btn.append(image)}
   else{btn.classList.add('missing-art');add('span',card.name,btn,'preview-art-fallback')}
 
   rail.append(btn);
@@ -416,7 +416,38 @@ function sizeHandRail(rail){
   nodes.forEach((el,i)=>{el.style.setProperty('--v3-hand-order',String(i+1));el.style.height=h+'px';el.style.width=w+'px';el.style.zIndex=String(i+1)});
  }
 }
-function fitHandRails(){for(const rail of board.querySelectorAll('.player-hand .hand-placeholder,.opponent-hand .preview-card-rail'))sizeHandRail(rail);}
+function fitHandRails(){
+ for(const rail of board.querySelectorAll('.player-hand .hand-placeholder,.opponent-hand .preview-card-rail'))sizeHandRail(rail);
+ for(const rail of board.querySelectorAll('.v3-legend-layout>.cardbacks')){
+  const slots=[...rail.querySelectorAll('.v3-legend-slot')];if(!slots.length)continue;
+  const h=Math.max(36,Math.min(160,rail.clientHeight-11,(rail.parentElement.clientWidth*.66-(slots.length-1)*5)/slots.length));
+  for(const slot of slots){slot.style.width=h+'px';slot.style.height=h+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-legend-spent');card.style.width=(spent?h:h*5/7)+'px';card.style.setProperty('height',(spent?h*5/7:h)+'px','important');}
+ }
+}
+function sellDropReason(card){
+ if(state.finished)return '本局已結束';
+ if(E.pending(state))return '請先完成待結算能力';
+ if(state.turn!=='player'||state.phase!=='main')return '只能在自己的主要階段變賣';
+ if(state.player.soldThisTurn)return '本回合已變賣一次';
+ if(!card?.sellTag)return '這張手牌沒有變賣標記';
+ return '';
+}
+function clearSellDrag(){
+ draggedCardId=null;board.querySelectorAll('.is-sell-target,.is-sell-unavailable').forEach(e=>{e.classList.remove('is-sell-target','is-sell-unavailable');delete e.dataset.dropHint});
+}
+board.addEventListener('dragstart',event=>{
+ const source=event.target.closest('.player-hand .hand-card');if(!source||!event.dataTransfer)return;
+ const card=liveHandAt(event.clientX,event.clientY)||state.player.hand.find(c=>c.id===source.dataset.cardId);if(!card)return;
+ draggedCardId=card.id;hideHandHover();event.dataTransfer.setData('application/x-nct-hand-card',card.id);event.dataTransfer.effectAllowed='move';
+ const zone=board.querySelector('.player-eddies'),reason=sellDropReason(card);zone.classList.add(reason?'is-sell-unavailable':'is-sell-target');zone.dataset.dropHint=reason||'放開以變賣 · 獲得 1 €$';
+});
+board.addEventListener('dragover',event=>{if(draggedCardId&&event.target.closest('.player-eddies')){event.preventDefault();event.dataTransfer.dropEffect='move';}});
+board.addEventListener('drop',event=>{
+ if(!draggedCardId||!event.target.closest('.player-eddies'))return;
+ event.preventDefault();const id=event.dataTransfer?.getData('application/x-nct-hand-card');if(id!==draggedCardId){clearSellDrag();return;}
+ const reason=sellDropReason(state.player.hand.find(c=>c.id===id));clearSellDrag();runTableCommand(()=>reason?{ok:false,reason}:P.sell(state,id));
+});
+board.addEventListener('dragend',clearSellDrag);
 window.addEventListener('resize',()=>requestAnimationFrame(()=>{fitHandRails();positionContextActions()}));
 
 function renderField(){
@@ -566,9 +597,9 @@ function scheduleOpponent(){
  },900);
 }
 const coachSteps=[
- {zone:'.player-fixer',title:'先重置、抽牌，再選骰子',text:'先在傳奇旁重置資源，再到牌庫按「抽 1 張」。輪到擲骰時，可直接點黃色框內的一顆骰子，再按同區的「擲骰」；d20 必須留到最後。關閉引導不會跳過準備階段。'},
+ {zone:'.player-fixer',title:'先重置、抽牌，再選骰子',text:'先在回合狀態區按「重置資源」，再到牌庫按「抽 1 張」。輪到擲骰時，可直接點黃色框內的一顆骰子，再按同區的「擲骰」；d20 必須留到最後。關閉引導不會跳過準備階段。'},
  {zone:'.player-hand',title:'直接點選手牌',text:'點一下手牌即可選取，卡牌旁會出現出牌／變賣操作。有變賣標記的牌可按「變賣」，取得一張 Eddie。'},
- {zone:'.player-eddies',title:'逐張選擇支付資源',text:'選取要打出的牌後，可在傳奇旁的 Eddies 區直接點選資源，並在同區點選可支付的傳奇資源。湊齊費用後，再按「打出單位」；確認前不會消耗資源。'},
+ {zone:'.player-eddies',title:'直接點桌上的資源付款',text:'Eddies 區只放變賣得到的卡牌。選取要打出的手牌後，直接點桌上就緒的傳奇或 Eddie 付款，再確認出牌；確認前不會消耗。手牌也能拖到 Eddies 區變賣。'},
  {zone:'#v3TableControls',title:'現在跟著提示完成回合',text:'操作直接放在卡牌與場地旁，右側保留回合及結果。先依序重置、抽牌、擲骰，再選手牌出牌。按「結束回合」後，鏡像對手會自動行動。'}
 ];
 function renderGuide(){
@@ -626,7 +657,7 @@ function renderGuide(){
   }
   const label={ready:'重置資源',draw:'抽 1 張',roll:'擲骰',sell:'變賣',play:'打出單位',end:'結束回合'}[h.key];
   if(label)for(const button of tableControls.querySelectorAll('button'))if(button.textContent===label&&!button.disabled)mark(button);
-  const zones={effect:'#v3CardActions',legend:'.player-legends','legend-payment':'.player-legends',defense:'#v3CardActions',ready:'.player-eddies',draw:'.player-deck',roll:'.player-fixer','select-sale':'.player-hand',sell:'.player-hand','select-unit':'.player-hand',payment:'.player-eddies',play:'#v3CardActions',attack:'.player-field',target:'.opponent-field',opponent:'.opponent-field'};
+  const zones={effect:'#v3CardActions',legend:'.player-legends','legend-payment':'.player-legends',defense:'#v3CardActions',ready:'.v3-phase-panel',draw:'.player-deck',roll:'.player-fixer','select-sale':'.player-hand',sell:'.player-hand','select-unit':'.player-hand',payment:'.player-eddies',play:'#v3CardActions',attack:'.player-field',target:'.opponent-field',opponent:'.opponent-field'};
   guideAnchor=board.querySelector(zones[h.key]||'#v3TableControls');mark(guideAnchor);
  }
  const glossary=add('details','',guideRoot,'v3-guide-glossary');add('summary','規則與名詞',glossary);
@@ -749,7 +780,8 @@ function renderLegends(){
   rail.replaceChildren();
   if(state.phase==='pregame')continue;
   state[side].legends.forEach((l,index)=>{
-   const button=add('button','',rail,'preview-art-card v3-legend-card');button.type='button';button.dataset.legendId=l.id;button.classList.toggle('face-down',!l.faceUp);button.classList.toggle('is-legend-spent',!l.ready);
+   const slot=add('div','',rail,'v3-legend-slot');
+   const button=add('button','',slot,'preview-art-card v3-legend-card');button.type='button';button.dataset.legendId=l.id;button.classList.toggle('face-down',!l.faceUp);button.classList.toggle('is-legend-spent',!l.ready);
    const label=l.faceUp?l.name:'傳奇位置 '+(index+1)+'（蓋牌'+(l.knownToOwner?'，已查看過':'')+'）';
    const paying=side==='player'&&paymentContext()?.selecting,available=paying&&G.sources(state).some(s=>s.kind==='legend'&&s.id===l.id),paid=side==='player'&&selectedPayments.has('legend:'+l.id);
    button.setAttribute('aria-label',(paying?'付款：':'')+label);button.setAttribute('aria-pressed',String(paying?paid:side==='player'&&selectedLegendId===l.id));
@@ -1055,8 +1087,8 @@ function layoutTableActions(){
  const rollArea=put('.player-fixer');rollArea.classList.add('v3-fixer-roll');rollArea.append(roll);
  if(state.phase==='pregame'||state.finished)return;
  if(state.phase==='start'){
-  const names={ready:'重置資源',draw:'抽 1 張',roll:'擲骰'},selector={ready:'.player-eddies',draw:'.player-deck',roll:'.player-fixer'};
-  const row=state.step==='roll'?rollArea:put(selector[state.step]);
+  const names={ready:'重置資源',draw:'抽 1 張',roll:'擲骰'},selector={ready:'.v3-phase-panel',draw:'.player-deck',roll:'.player-fixer'};
+  const row=state.step==='roll'?rollArea:put(selector[state.step]);if(state.step==='ready')row.classList.add('v3-ready-actions');
   for(const b of [...tableControls.children])if(b.textContent===names[state.step]||b.tagName==='SELECT')row.append(b);
   return;
  }
@@ -1083,6 +1115,7 @@ function positionContextActions(){
 }
 window.addEventListener('resize',()=>{positionContextActions();requestAnimationFrame(positionGuide)});
 function render(){
+ clearSellDrag();
  if(state.phase==='pregame'){confirmConcede=false;selectedLegendId=null;selectedId=null;selectedPayments.clear();paymentAction=null;attackUnitId=null;effectChoiceId=null;effectChoices.clear();}
  hideHandHover();
  const sequence=++renderSequence;
@@ -1196,7 +1229,7 @@ function render(){
    for(const c of state.player.hand){
     const item=add('button','',cards,'v3-opening-card');item.type='button';item.dataset.cardId=c.id;item.setAttribute('aria-label','查看起手牌 '+c.name);item.onclick=()=>openPublicCard(c);
     const src=art.get(c.name);if(src){const img=document.createElement('img');img.src=src;img.alt=c.name;item.append(img);}
-    add('span',c.name,item);add('small',c.cost+' €$ · '+(c.sellTag?'可變賣':'不可變賣'),item);
+    add('small',c.cost+' €$',item);
    }
    if(!opening.handDecisions.player){
     add('p','可保留目前六張，或將整手洗回牌庫重抽六張；每局只能重抽一次，不能只換部分牌。'+(opening.first==='ai'?'對手已先決定保留。':'我方決定後，對手再決定。'),order);
