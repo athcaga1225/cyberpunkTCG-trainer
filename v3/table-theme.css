@@ -96,3 +96,4 @@ body.battle-wide #v3DiceAnimation .v3-die-item>span{color:#d8c7e7}
 body.battle-wide #battle .v3-played-card.is-table-selected{outline:2px solid #fcee0a!important;outline-offset:-2px}
 
 body.battle-wide #battle .turn-info{border:0!important;background:transparent!important}
+body.battle-wide #battle .player-fixer button.die-icon.is-die-selected svg>:first-child{fill:var(--nct-action)!important}
