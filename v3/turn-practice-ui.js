@@ -419,8 +419,8 @@ function fitHandRails(){
  for(const rail of board.querySelectorAll('.player-hand .hand-placeholder,.opponent-hand .preview-card-rail'))sizeHandRail(rail);
  for(const rail of board.querySelectorAll('.v3-legend-layout>.cardbacks')){
   const slots=[...rail.querySelectorAll('.v3-legend-slot')];if(!slots.length)continue;
-  const h=Math.max(36,Math.min(160,rail.clientHeight-31,(rail.clientWidth-6)/(1+(slots.length-1)*.66)));
-  for(const [index,slot] of slots.entries()){slot.style.marginLeft=index?(-h*.34)+'px':'0px';slot.style.zIndex=String(index+1);slot.style.width=h+'px';slot.style.height=(h+20)+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-legend-spent');card.style.width=(spent?h:h*5/7)+'px';card.style.setProperty('height',(spent?h*5/7:h)+'px','important');}
+  const h=Math.max(36,Math.min(160,rail.clientHeight-6,(rail.clientWidth-6)/(1+(slots.length-1)*.66)));
+  for(const [index,slot] of slots.entries()){slot.style.marginLeft=index?(-h*.34)+'px':'0px';slot.style.zIndex=String(index+1);slot.style.width=h+'px';slot.style.height=h+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-legend-spent');card.style.width=(spent?h:h*5/7)+'px';card.style.setProperty('height',(spent?h*5/7:h)+'px','important');}
  }
 }
 function sellDropReason(card){
@@ -485,10 +485,11 @@ function renderRivalField(){
  const slots=board.querySelector('.opponent-field .field-slots');if(!slots)return;
  slots.replaceChildren();
  for(const unit of state.ai.units){
+  const legalTarget=attackUnitId&&state.phase==='main'&&G.targets(state,state.player.units.find(u=>u.id===attackUnitId)).units.includes(unit.id);
   const el=add('button','',slots,'v3-played-card');el.type='button';el.title=unit.name+(state.ai.practiceBot?.kind==='mirror-the-heist'?'（鏡像對手）':'（練習對手，非 AI 行動）');
-  el.addEventListener('click',()=>{if(attackUnitId&&state.phase==='main'&&!unit.ready)runTableAttack({kind:'unit',defenderId:unit.id});else openPublicCard(unit)});
+  el.addEventListener('click',()=>{if(legalTarget)runTableAttack({kind:'unit',defenderId:unit.id});else openPublicCard(unit)});
   if(unit.gear?.length){el.title+=' · 裝備：'+unit.gear.map(g=>g.name).join('、');el.setAttribute('aria-label',el.title);const tag=add('span','裝備 ×'+unit.gear.length,el,'v3-gear-count');tag.title=unit.gear.map(g=>g.name).join('、');}
-  bindPublicPreview(el,unit);el.classList.toggle('v3-attackable',Boolean(attackUnitId&&state.phase==='main'&&!unit.ready));
+  bindPublicPreview(el,unit);el.classList.toggle('v3-attackable',Boolean(legalTarget));
   const src=art.get(unit.name);
   if(src){const img=document.createElement('img');img.src=src;img.alt=unit.name;img.loading='lazy';el.append(img)}
   else add('span',unit.name,el);
@@ -615,8 +616,8 @@ function renderGuide(){
  const header=add('div','',guideRoot,'v3-coach-header');
  const stepLabel=add('small','',header,'v3-coach-step');
  const tools=add('div','',header,'v3-coach-tools');
- const minimize=add('button',guideMinimized?'+':'−',tools,'v3-coach-minimize');minimize.setAttribute('aria-label',guideMinimized?'展開提示':'收合提示');minimize.title=guideMinimized?'展開提示':'收合提示';minimize.type='button';minimize.setAttribute('aria-expanded',String(!guideMinimized));
- minimize.onclick=()=>{guideMinimized=!guideMinimized;guideRoot.classList.toggle('is-minimized',guideMinimized);minimize.textContent=guideMinimized?'+':'−';minimize.setAttribute('aria-label',guideMinimized?'展開提示':'收合提示');minimize.title=guideMinimized?'展開提示':'收合提示';minimize.setAttribute('aria-expanded',String(!guideMinimized));positionGuide()};
+ const minimize=add('button','',tools,'v3-coach-minimize');minimize.dataset.icon=guideMinimized?'plus':'minus';minimize.setAttribute('aria-label',guideMinimized?'展開提示':'收合提示');minimize.title=guideMinimized?'展開提示':'收合提示';minimize.type='button';minimize.setAttribute('aria-expanded',String(!guideMinimized));
+ minimize.onclick=()=>{guideMinimized=!guideMinimized;guideRoot.classList.toggle('is-minimized',guideMinimized);minimize.dataset.icon=guideMinimized?'plus':'minus';minimize.setAttribute('aria-label',guideMinimized?'展開提示':'收合提示');minimize.title=guideMinimized?'展開提示':'收合提示';minimize.setAttribute('aria-expanded',String(!guideMinimized));positionGuide()};
  const close=add('button','',tools,'v3-coach-close');close.type='button';close.setAttribute('aria-label','關閉桌面引導');
  close.addEventListener('click',()=>{guidanceOn=false;render()});
  const mark=el=>el?.classList.add('v3-guide-active');
@@ -659,6 +660,7 @@ function renderGuide(){
   const zones={effect:'#v3CardActions',legend:'.player-legends','legend-payment':'.player-legends',defense:'#v3CardActions',ready:'.v3-phase-panel',draw:'.player-deck',roll:'.player-fixer','select-sale':'.player-hand',sell:'.player-hand','select-unit':'.player-hand',payment:'.player-eddies',play:'#v3CardActions',attack:'.player-field',target:'.opponent-field',opponent:'.opponent-field'};
   guideAnchor=board.querySelector(zones[h.key]||'#v3TableControls');mark(guideAnchor);
  }
+ if(guideAnchor)guideAnchor.querySelectorAll('button.v3-table-btn.v3-guide-active').forEach(b=>b.classList.remove('v3-guide-active'));
  const glossary=add('details','',guideRoot,'v3-guide-glossary');add('summary','規則與名詞',glossary);
  const glossaryText={2:'每回合依序重置、抽牌、選擇一顆合事佬骰；d20 必須留到最後。',3:'每回合最多變賣一張有變賣標記的手牌。每張就緒 Eddie 或合法傳奇資源可支付 1 €$。',4:'單位通常有 Lag；裝備可附在友方單位或正面傳奇。選取卡牌後，在卡牌旁確認操作。',5:'先選己方就緒且可攻擊的單位，再指定合法目標。防守方可依時機使用已支援的 Quick、Blocker 或呼叫傳奇。',6:'結束回合後，鏡像對手會自動行動；需要你防守或選擇能力時會暫停。'};
  add('p',glossaryText[h.stage]||'看完桌面說明後，可依實戰引導直接操作。關閉提示不會改變遊戲狀態。',glossary);glossary.addEventListener('toggle',positionGuide);
@@ -776,7 +778,7 @@ function renderPublicCounters(){
 function renderLegends(){
  for(const [side,prefix] of [['player','player'],['ai','opponent']]){
   const rail=board.querySelector('.'+prefix+'-legends .cardbacks');if(!rail)continue;
-  rail.replaceChildren();
+  rail.replaceChildren();const legendZone=board.querySelector('.'+prefix+'-legends');legendZone.querySelector('.v3-legend-action-label')?.remove();
   if(state.phase==='pregame')continue;
   state[side].legends.forEach((l,index)=>{
    const slot=add('div','',rail,'v3-legend-slot');
@@ -786,7 +788,7 @@ function renderLegends(){
    button.setAttribute('aria-label',(paying?'付款：':'')+label);button.setAttribute('aria-pressed',String(paying?paid:side==='player'&&selectedLegendId===l.id));
    button.dataset.paymentKind='legend';button.dataset.paymentId=l.id;button.classList.toggle('is-payment-available',Boolean(available));button.classList.toggle('is-payment-unavailable',Boolean(paying&&!available));
    button.classList.toggle('is-call-target',side==='player'&&selectedLegendId===l.id&&paymentAction==='call');button.classList.toggle('is-solo-target',side==='player'&&selectedLegendId===l.id&&paymentAction==='solo');
-   if(side==='player'&&selectedLegendId===l.id&&['call','solo'].includes(paymentAction))add('span',paymentAction==='call'?'呼叫對象':'Go Solo 對象',slot,'v3-legend-action-label');
+   if(side==='player'&&selectedLegendId===l.id&&['call','solo'].includes(paymentAction))add('span',(paymentAction==='call'?'呼叫對象':'Go Solo 對象')+' · 位置 '+(index+1),legendZone,'v3-legend-action-label');
    if(paying){button.setAttribute('aria-disabled',String(!available));button.title=available?'點擊選擇或取消付款':!l.ready?'此傳奇已使用，不能付款':'正面傳奇沒有變賣標記，不能付款';}
    button.classList.toggle('is-legend-selected',side==='player'&&selectedLegendId===l.id);button.classList.toggle('is-payment-selected',side==='player'&&selectedPayments.has('legend:'+l.id));
    button.classList.toggle('is-gear-target',side==='player'&&paymentAction==='gear-target'&&l.faceUp);
@@ -1036,7 +1038,7 @@ function renderTableControls(){
   const attacker=p.units.find(u=>u.id===attackUnitId);
   if(attacker){
    add('span','攻擊：'+attacker.name+' · '+A.unitStats(attacker).power+' PWR',tableControls,'v3-table-selection');
-   if((attacker.lag&&!attacker.goSolo)||!attacker.ready)add('span','此單位尚不可攻擊',tableControls,'v3-table-hint');
+   if(!G.canAttack(attacker))add('span',(attacker.lag&&!attacker.goSolo)?'此單位仍有 Lag，要等下一次重置後才能攻擊。':!attacker.ready?'此單位已使用，本回合不能再次攻擊。':'此單位的攻擊能力尚未支援。',tableControls,'v3-table-hint');
    else{
     const quick=state.ai.practiceBot?.kind!=='mirror-the-heist'&&state.ai.quickExercise?.enabled&&state.ai.hand.some(c=>c.id==='training-quick-floor-it');
     if(quick){const label=add('label','防守方 Floor It',tableControls,'v3-table-hint');const cb=document.createElement('input');cb.type='checkbox';cb.dataset.tableQuick='';label.prepend(cb);}
@@ -1065,9 +1067,9 @@ function renderTableControls(){
       const reaction={kind:choice&&choice!=='pass'?'block':'pass',...(choice&&choice!=='pass'?{blockerId:choice}:{}),
        ...(state.ai.quickExercise?.enabled&&state.ai.hand.some(c=>c.id==='training-quick-floor-it')?{quick:!!board.querySelector('[data-table-quick]')?.checked}:{})};
       return P.reactAttack(state,attackUnitId,{kind:'gig',gigIds:ids},reaction);
-     });
+     },!G.targets(state,attacker).gigs);
     }
-    add('span','也可以直接點擊對手已使用的單位',tableControls,'v3-table-hint');
+    const legal=G.targets(state,attacker);add('span',legal.units.length?'可直接點擊高亮的對手單位。':legal.gigs?'可攻擊對手委託區；目前沒有合法單位目標。':'目前沒有合法攻擊目標，可繼續出牌或結束回合。',tableControls,'v3-table-hint');
    }
   }
  }else add('span','點擊手牌出牌，或點擊己方單位攻擊',tableControls,'v3-table-hint');
@@ -1105,7 +1107,7 @@ function layoutTableActions(){
 }
 function positionContextActions(){
  if(contextActions.hidden)return;
- const anchor=selectedId?board.querySelector('.hand-card[data-card-id="'+selectedId+'"]'):selectedLegendId?board.querySelector('[data-legend-id="'+selectedLegendId+'"]')?.closest('.v3-legend-slot'):board.querySelector('.player-field .is-table-selected')||board.querySelector('.player-field');
+ const anchor=selectedId?board.querySelector('.hand-card[data-card-id="'+selectedId+'"]'):selectedLegendId?board.querySelector('[data-legend-id="'+selectedLegendId+'"]')?.closest('.player-legends'):board.querySelector('.player-field .is-table-selected')||board.querySelector('.player-field');
  if(!anchor)return;
  const r=anchor.getBoundingClientRect(),h=contextActions.offsetHeight,w=contextActions.offsetWidth;
  const top=selectedId?board.querySelector('.player-hand').getBoundingClientRect().top:r.top;
@@ -1156,6 +1158,7 @@ function render(){
  renderFixerChoices();
  fitHandRails();
  layoutTableActions();
+ for(const zone of board.querySelectorAll('.v3-guide-active'))zone.querySelectorAll('button.v3-table-btn.v3-guide-active').forEach(b=>b.classList.remove('v3-guide-active'));
  renderBoardInformation();
  if(!deal)scheduleOpponent();
  if(deal&&state.phase!=='pregame')requestAnimationFrame(()=>{
