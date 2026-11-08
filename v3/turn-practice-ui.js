@@ -419,8 +419,8 @@ function fitHandRails(){
  for(const rail of board.querySelectorAll('.player-hand .hand-placeholder,.opponent-hand .preview-card-rail'))sizeHandRail(rail);
  for(const rail of board.querySelectorAll('.v3-legend-layout>.cardbacks')){
   const slots=[...rail.querySelectorAll('.v3-legend-slot')];if(!slots.length)continue;
-  const h=Math.max(36,Math.min(160,rail.clientHeight-31,(rail.clientWidth-6-(slots.length-1)*5)/slots.length));
-  for(const slot of slots){slot.style.width=h+'px';slot.style.height=(h+20)+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-legend-spent');card.style.width=(spent?h:h*5/7)+'px';card.style.setProperty('height',(spent?h*5/7:h)+'px','important');}
+  const h=Math.max(36,Math.min(160,rail.clientHeight-31,(rail.clientWidth-6)/(1+(slots.length-1)*.66)));
+  for(const [index,slot] of slots.entries()){slot.style.marginLeft=index?(-h*.34)+'px':'0px';slot.style.zIndex=String(index+1);slot.style.width=h+'px';slot.style.height=(h+20)+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-legend-spent');card.style.width=(spent?h:h*5/7)+'px';card.style.setProperty('height',(spent?h*5/7:h)+'px','important');}
  }
 }
 function sellDropReason(card){
@@ -750,7 +750,7 @@ function renderTableResources(side,prefix){
  if(!state[side].eddies.length)add('span',side==='player'?'變賣手牌後，Eddie 會放在這裡。':'尚無 Eddies',pool,'v3-eddies-empty');
  const trashZone=board.querySelector('.'+prefix+'-trash');
  let trash=trashZone.querySelector('.v3-trash-summary');if(!trash){trash=add('button','',trashZone,'v3-trash-summary');trash.type='button';trash.onclick=()=>{trashSide=side;trashOpener=trash;trashDialog.showModal();renderTrashViewer()};}
- trash.textContent='TRASH · '+(state[side].trash||[]).length+' 張';trash.setAttribute('aria-label','查看'+(side==='player'?'我方':'對手')+'棄牌區');
+ trash.replaceChildren();add('span','TRASH',trash,'v3-trash-label');add('span',(state[side].trash||[]).length+' 張',trash,'v3-trash-count');trash.setAttribute('aria-label','查看'+(side==='player'?'我方':'對手')+'棄牌區');
 }
 function renderPublicCounters(){
  for(const [side,prefix] of [['player','player'],['ai','opponent']]){
