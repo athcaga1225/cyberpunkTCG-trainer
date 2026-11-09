@@ -45,6 +45,10 @@ const roomButtons=document.createElement('div');roomButtons.className='v3-room-b
 const leaveButton=$('leaveBattleScreen');if(leaveButton)roomButtons.append(leaveButton);
 const historyPanel=newZone('v3-history-panel','行動紀錄','history');
 const historyList=document.createElement('div');historyList.className='v3-history-list';historyList.setAttribute('role','log');historyList.setAttribute('aria-label','本局行動紀錄');historyList.setAttribute('aria-live','off');historyPanel.append(historyList);
+const sidebar=document.createElement('aside');sidebar.className='v3-sidebar';sidebar.setAttribute('aria-label','對局控制與紀錄');
+const guideDock=document.createElement('div');guideDock.className='v3-guide-dock';
+sidebar.append(roomPanel,historyPanel);if(phaseZone)sidebar.append(phaseZone);sidebar.append(guideDock);table.append(sidebar);
+
 for(const prefix of ['player','opponent']){board.querySelector('.'+prefix+'-deck>small').textContent=prefix==='player'?'我的牌庫':'對手牌庫';board.querySelector('.'+prefix+'-trash>small').textContent=prefix==='player'?'我的棄牌':'對手棄牌';}
 let actionHistory=[],historyVersion=0,shownHistoryVersion=-1;
 function publicActionText(text,previous){return previous.turn==='ai'?(text||'').replace(/變賣 [^，；]+，獲得/g,'變賣一張蓋牌，獲得'):(text||'');}
@@ -253,13 +257,14 @@ function liveHandAt(x,y){
  const rail=board.querySelector('.player-hand .hand-placeholder');
  if(!rail||picker.value!=='theHeist'||board.closest('.hide'))return null;
  const r=rail.getBoundingClientRect();
- if(x<r.left||x>r.right||y<r.top||y>r.bottom)return null;
+ if(x<r.left||x>r.right||y>r.bottom)return null;
+ if(y<r.top){const raised=document.elementFromPoint(x,y)?.closest('.hand-card.is-hand-hover');return raised&&rail.contains(raised)?state.player.hand.find(c=>c.id===raised.dataset.cardId)||null:null;}
  // Hit regions follow the original fan slots, independent of the raised card.
  // A painted card may overlap the next slot; only pointer movement changes selection.
  const hit=document.elementFromPoint(x,y);
  if(!hit||!rail.contains(hit))return null;
  const nodes=[...rail.querySelectorAll('.hand-card[data-card-id]')];
- const node=nodes.findLast(el=>{const box=el.getBoundingClientRect();return x>=box.left&&x<=box.right&&y>=box.top&&y<=box.bottom});
+ const node=nodes.findLast(el=>{const box=el.getBoundingClientRect(),lift=el.classList.contains('is-hand-hover')?parseFloat(getComputedStyle(el).getPropertyValue('--v3-hand-hover-lift'))||0:0;return x>=box.left&&x<=box.right&&y>=box.top+lift&&y<=box.bottom+lift});
  if(!node)return null;
  return state.player.hand.find(c=>c.id===node.dataset.cardId)||null;
 }
@@ -1093,8 +1098,8 @@ function renderTableControls(){
 }
 function layoutTableActions(){
  contextActions.replaceChildren();contextActions.hidden=true;
- roomButtons.replaceChildren();if(leaveButton)roomButtons.append(leaveButton);
- for(const b of [...tableControls.children])if(b.classList.contains('v3-concede')||['開啟桌面引導','重新看桌面說明'].includes(b.textContent))roomButtons.append(b);
+ roomButtons.replaceChildren();guideDock.replaceChildren();if(leaveButton)roomButtons.append(leaveButton);
+ for(const b of [...tableControls.children]){if(b.classList.contains('v3-concede'))roomButtons.append(b);else if(['開啟桌面引導','重新看桌面說明'].includes(b.textContent))guideDock.append(b);}
  board.querySelectorAll('.v3-zone-actions').forEach(e=>e.remove());
  const put=(selector)=>{const row=add('div','',board.querySelector(selector),'v3-zone-actions');return row;};
  // Keep one real roll control in place, including disabled phases.
