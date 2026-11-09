@@ -1,150 +1,272 @@
-/* Shared visual roles. Layout → theme → components; visibility utilities stay unlayered. */
-@layer layout, theme, components;
+/* Battle components and tokens are conditional on battle-wide. Site styles stay independent. */
+@layer site, site-overrides, layout, theme, components;
 
-:root {
-  --nct-type-caption:12px;
-  --nct-type-body:14px;
-  --nct-type-control:16px;
-  --nct-type-heading:20px;
-  --nct-type-title:28px;
-  --nct-type-display:40px;
-  --nct-bg:#07131b;
-  --nct-surface:#0a1923;
-  --nct-raised:#102630;
-  --nct-line:#295261;
-  --nct-control-line:#507581;
-  --nct-muted:#9bb9c4;
-  --nct-text:#e8f3f6;
-  --nct-action:#fcee0a;
-  --nct-guide:#39d6ef;
-  --nct-warning:#e8bf70;
-  --nct-success:#b1ee62;
-  --nct-radius:6px;
+:root:has(> body.battle-wide) {
+  --nct-type-caption: 12px; --nct-type-body: 14px; --nct-type-control: 16px; --nct-type-heading: 20px; --nct-type-title: 28px; --nct-type-display: 40px; --nct-bg: #07131b; --nct-surface: #0a1923; --nct-raised: #102630; --nct-line: #295261; --nct-control-line: #507581; --nct-muted: #9bb9c4; --nct-text: #e8f3f6; --nct-action: #fcee0a; --nct-guide: #39d6ef; --nct-warning: #e8bf70; --nct-success: #b1ee62; --nct-radius: 6px;
 }
 
 @layer components {
-  body {font-size:var(--nct-type-control);color:var(--nct-text)}
-  button, .btn, select, input {font-family:inherit;font-size:var(--nct-type-control);line-height:1.4;letter-spacing:0}
-  button, .btn {min-height:44px;border-radius:var(--nct-radius)}
-  button:focus-visible, .btn:focus-visible, select:focus-visible, input:focus-visible {
-    outline:2px solid var(--nct-guide);outline-offset:3px;
-  }
-  button:disabled {cursor:not-allowed;opacity:.5}
-  button:disabled:not(.hand-card,.v3-legend-card,.v3-played-card,.die-icon) {
-    background:#273942;border-color:#52636d;color:#9bb9c4;opacity:1;
-  }
-  .btn, nav button, .chapter-nav button, .v3-table-btn,
-  .v3-resource-choice, .v3-room-buttons button, .v3-coach-actions button,
-  #v3FiltersReset, .v3-card-actions button {
-    border:1px solid var(--nct-control-line);background:var(--nct-raised);
-    color:var(--nct-text);padding:10px 14px;box-shadow:none;
-  }
-  .btn:hover:not(:disabled), .v3-table-btn:hover:not(:disabled), .v3-coach-actions button:hover {
-    border-color:var(--nct-guide);background:#173641;
-  }
-  .btn.primary, nav button.active, .chapter-nav button[aria-current="step"],
-  .v3-action-primary:not(:disabled), #v3OpeningSetup .v3-opening-primary:not(:disabled),
-  #v3TableGuide .v3-coach-next, #v3ConcedeConfirm {
-    background:var(--nct-action);border-color:var(--nct-action);color:#11151a;font-weight:700;
-  }
-  .v3-action-primary:hover:not(:disabled), #v3TableGuide .v3-coach-next:hover,
-  #v3OpeningSetup .v3-opening-primary:hover:not(:disabled), #v3ConcedeConfirm:hover {background:#fff76b;border-color:#fff76b}
-  #v3TableGuide .v3-coach-back {background:var(--nct-raised);border-color:var(--nct-control-line);color:var(--nct-text)}
-  #v3TableGuide .v3-coach-back:hover {background:#173641;border-color:var(--nct-guide)}
-  .v3-room-buttons button {padding:8px;white-space:nowrap}
-  .v3-coach-actions {gap:10px}
-  #v3TableGuide .v3-coach-skip {font-size:var(--nct-type-control);color:var(--nct-muted);min-height:44px}
-
-  /* One readable scale for table text. Numbers are a distinct data role. */
-  .preview-zone>small, .v3-history-list article small, .v3-guide-substep,
-  .v3-coach-step, .v3-legend-state, .v3-unit-status, .v3-gear-count,
-  .v3-practice-indicator, .v3-opening-footnote {font-size:var(--nct-type-caption)}
-  .v3-history-list p, .v3-table-feedback, .v3-table-hint,
-  .placeholder-label, .v3-result-reason, #v3OpeningSetup p,
-  #v3OpeningSetup label, #v3HandPreview p, #v3HandPreview>div {font-size:var(--nct-type-body);line-height:1.6}
-  .v3-table-phase, #v3TableGuide p, #v3TableGuide summary,
-  .v3-payment-summary, #v3PublicCardAbility {font-size:var(--nct-type-control);line-height:1.6}
-  #v3TableGuide>strong, .v3-phase-panel strong, #v3HandPreview strong {font-size:var(--nct-type-heading);line-height:1.35}
-  #v3OpeningSetup>.v3-selected-detail>strong, .battle-card-dialog-head strong,
-  .deck-popup-titles>strong {font-size:var(--nct-type-title);line-height:1.35}
-  .deck-pile, .player-gigs>strong, .opponent-gigs>strong {font-size:var(--nct-type-title);line-height:1.1;font-variant-numeric:tabular-nums}
-  .v3-trash-summary>span {font-size:inherit}
-  .v3-table-phase {color:var(--nct-warning)}
-  .v3-table-feedback, #v3TableGuide p {color:var(--nct-text)}
-  .v3-history-list article small, #v3TableGuide>strong {color:var(--nct-guide)}
-  .v3-history-list p {margin:6px 0;color:var(--nct-text)}
-  .v3-history-list article {padding:12px 0;border-color:var(--nct-line)}
-  #v3TableGuide .v3-guide-action {padding:12px 14px;line-height:1.6}
-  #v3OpeningSetup>.v3-selected-detail {width:min(560px,calc(100vw - 32px))}
-
-  select {
-    appearance:none;padding-right:44px;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23e8f3f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;background-position:right 14px center;background-size:20px 20px;
-  }
-
-  /* Close controls use the same centered 20px drawing and 44px target. */
-  #closeBattleCard, #closeDeckDialog, #betaDetailClose, #closeBoardTour,
-  .v3-coach-close, .nct-icon-button, #v3SearchClear {
-    appearance:none;position:relative;inset:auto;display:inline-flex;align-items:center;justify-content:center;
-    flex:0 0 44px;width:44px;height:44px;min-width:44px;min-height:44px;
-    margin:0;padding:0;border:1px solid var(--nct-control-line);border-radius:var(--nct-radius);
-    background:var(--nct-raised);color:var(--nct-text);font-size:0;line-height:0;box-shadow:none;transform:none;
-  }
-  #closeBattleCard:hover, #closeDeckDialog:hover, #betaDetailClose:hover, #closeBoardTour:hover,
-  .v3-coach-close:hover, .nct-icon-button:hover, #v3SearchClear:hover {
-    color:var(--nct-text);border-color:var(--nct-guide);background:#173641;
-  }
-  #closeBattleCard::before, #closeDeckDialog::before, #betaDetailClose::before, #closeBoardTour::before,
-  .v3-coach-close::before, .nct-icon-button::before, #v3SearchClear::before {
-    content:"";position:absolute;left:50%;top:50%;width:20px;height:20px;display:block;margin:0;
-    transform:translate(-50%,-50%);pointer-events:none;
-    background:linear-gradient(45deg,transparent calc(50% - 1px),currentColor calc(50% - 1px),currentColor calc(50% + 1px),transparent calc(50% + 1px)),linear-gradient(-45deg,transparent calc(50% - 1px),currentColor calc(50% - 1px),currentColor calc(50% + 1px),transparent calc(50% + 1px));
-  }
-  #v3TableGuide .v3-coach-header {display:flex;align-items:center;justify-content:space-between;gap:12px}
-  #v3TableGuide .v3-coach-tools {display:flex;align-items:center;gap:8px;flex:none}
-  .battle-card-dialog-head, .deck-dialog-head {align-items:flex-start;gap:20px}
-
-  /* Static preview and flight styles live here; JavaScript only supplies measured geometry. */
-  .nct-deal-layer {position:fixed;inset:0;z-index:20000;pointer-events:none;overflow:visible}
-  .nct-deal-card {position:absolute;display:block;box-sizing:border-box;overflow:hidden;border:1px solid var(--nct-control-line);border-radius:var(--nct-radius);background:var(--nct-surface);box-shadow:0 8px 20px #0009;pointer-events:none;transform-origin:center}
-  .nct-deal-art {position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;background:var(--nct-bg)}
-  .nct-deal-fallback {display:grid;place-items:center;width:100%;height:100%;font-size:var(--nct-type-caption);color:var(--nct-text)}
-  #v3HandPreview {position:fixed;z-index:9999;pointer-events:none;display:none;box-sizing:border-box;align-items:flex-start;gap:14px;max-width:calc(100vw - 32px);padding:10px;background:var(--nct-surface);border:1px solid var(--nct-control-line);border-radius:8px;box-shadow:0 16px 44px #000d;color:var(--nct-text)}
-  #v3HandPreview .nct-hover-art {display:block;width:min(185px,19vw);height:auto;max-height:min(52vh,300px);aspect-ratio:5/7;object-fit:contain;background:var(--nct-bg);flex:none}
-  #v3HandPreview .nct-hover-copy {width:min(155px,16vw);max-height:min(52vh,300px);overflow:hidden;font-size:var(--nct-type-body);line-height:1.6}
-  #v3HandPreview strong {display:block;font-size:var(--nct-type-heading);color:var(--nct-guide);margin-bottom:12px}
-  #v3HandPreview p {font-size:var(--nct-type-body);line-height:1.6;margin:0 0 14px;color:var(--nct-text)}
-  #v3HandPreview .v3-card-ability {margin:0}
-
-  /* Board labels should not become a text selection during card operations. */
-  #battleTour {user-select:none;-webkit-user-select:none}
-  #battleTour :is(input,textarea,.v3-history-list,.v3-card-ability,dialog) {user-select:text;-webkit-user-select:text}
-  .v3-sidebar>.turn-info {background:var(--nct-raised);border:1px solid var(--nct-line);border-radius:var(--nct-radius)}
-  .turn-info #v3TableControls {position:static;transform:none;max-height:none;height:auto;overflow:visible;width:100%;padding:12px}
-  .turn-info.has-live-guide #v3TableControls {display:none}
-  .turn-info.has-live-guide {padding:12px}
-  #v3TableGuide[data-mode="tour"] {border-width:1px;border-left-width:3px;box-shadow:0 12px 32px #0008}
-  #v3TableGuide[data-mode="live"] {position:static;inset:auto;transform:none;display:block;width:100%;max-width:none;min-width:0;max-height:none;overflow:visible;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
-  #v3TableGuide[data-mode="live"] .v3-coach-step {color:var(--nct-muted);font-size:var(--nct-type-caption);line-height:1.5;white-space:normal;min-width:0}
-  #v3TableGuide[data-mode="live"] .v3-guide-action {margin:8px 0 0;padding:0 0 0 10px;border:0;border-left:2px solid var(--nct-line);background:transparent;font-size:var(--nct-type-body);font-weight:400;text-align:left;color:var(--nct-text);line-height:1.6}
-  #v3TableGuide[data-mode="live"] .v3-coach-header {gap:8px}
-
-  /* Native dialog top layer: centered confirmation never consumes sidebar space. */
-  #v3ConcedeDialog {
-    width:min(420px,calc(100vw - 32px));max-height:calc(100dvh - 48px);
-    padding:24px;margin:auto;inset:0;border:1px solid var(--nct-control-line);
-    border-radius:8px;background:var(--nct-surface);color:var(--nct-text);
-    box-shadow:0 18px 64px #0009;
-  }
-  #v3ConcedeDialog::backdrop {background:#000a;backdrop-filter:blur(3px)}
-  .nct-dialog-header {display:flex;justify-content:space-between;align-items:center;gap:16px}
-  #v3ConcedeTitle {margin:0;font-size:var(--nct-type-heading);line-height:1.35;color:var(--nct-text)}
-  #v3ConcedeDialog p {font-size:var(--nct-type-control);line-height:1.6;margin:16px 0 24px;color:var(--nct-muted)}
-  .nct-dialog-actions {display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  #v3ConcedeDialog button {height:44px}
-  #v3ConcedeDialog .nct-dialog-actions button {font-size:var(--nct-type-control)}
+body.battle-wide {
+  font-size: var(--nct-type-control); color: var(--nct-text);
 }
 
-/* Semantic visibility wins over component display rules without priority flags. */
-[hidden], .hide {display:none}
+:where(body.battle-wide) button, :where(body.battle-wide) .btn, :where(body.battle-wide) select, :where(body.battle-wide) input {
+  font-family: inherit; font-size: var(--nct-type-control); line-height: 1.4; letter-spacing: 0px;
+}
+
+:where(body.battle-wide) button, :where(body.battle-wide) .btn {
+  min-height: 44px; border-radius: var(--nct-radius);
+}
+
+:where(body.battle-wide) button:focus-visible, :where(body.battle-wide) .btn:focus-visible, :where(body.battle-wide) select:focus-visible, :where(body.battle-wide) input:focus-visible {
+  outline: 2px solid var(--nct-guide); outline-offset: 3px;
+}
+
+:where(body.battle-wide) button:disabled {
+  cursor: not-allowed; opacity: 0.5;
+}
+
+:where(body.battle-wide) button:disabled:not(.hand-card, .v3-legend-card, .v3-played-card, .die-icon) {
+  background: rgb(39, 57, 66); border-color: rgb(82, 99, 109); color: rgb(155, 185, 196); opacity: 1;
+}
+
+:where(body.battle-wide) .btn, :where(body.battle-wide) .v3-table-btn, :where(body.battle-wide) .v3-resource-choice, :where(body.battle-wide) .v3-room-buttons button, :where(body.battle-wide) .v3-coach-actions button, :where(body.battle-wide) .v3-card-actions button {
+  border: 1px solid var(--nct-control-line); background: var(--nct-raised); color: var(--nct-text); padding: 10px 14px; box-shadow: none;
+}
+
+:where(body.battle-wide) .btn:hover:not(:disabled), :where(body.battle-wide) .v3-table-btn:hover:not(:disabled), :where(body.battle-wide) .v3-coach-actions button:hover {
+  border-color: var(--nct-guide); background: rgb(23, 54, 65);
+}
+
+:where(body.battle-wide) .btn.primary, :where(body.battle-wide) .v3-action-primary:not(:disabled), :where(body.battle-wide) #v3OpeningSetup .v3-opening-primary:not(:disabled), :where(body.battle-wide) #v3TableGuide .v3-coach-next, :where(body.battle-wide) #v3ConcedeConfirm {
+  background: var(--nct-action); border-color: var(--nct-action); color: rgb(17, 21, 26); font-weight: 700;
+}
+
+:where(body.battle-wide) .v3-action-primary:hover:not(:disabled), :where(body.battle-wide) #v3TableGuide .v3-coach-next:hover, :where(body.battle-wide) #v3OpeningSetup .v3-opening-primary:hover:not(:disabled), :where(body.battle-wide) #v3ConcedeConfirm:hover {
+  background: rgb(255, 247, 107); border-color: rgb(255, 247, 107);
+}
+
+:where(body.battle-wide) #v3TableGuide .v3-coach-back {
+  background: var(--nct-raised); border-color: var(--nct-control-line); color: var(--nct-text);
+}
+
+:where(body.battle-wide) #v3TableGuide .v3-coach-back:hover {
+  background: rgb(23, 54, 65); border-color: var(--nct-guide);
+}
+
+:where(body.battle-wide) .v3-room-buttons button {
+  padding: 8px; white-space: nowrap;
+}
+
+:where(body.battle-wide) .v3-coach-actions {
+  gap: 10px;
+}
+
+:where(body.battle-wide) #v3TableGuide .v3-coach-skip {
+  font-size: var(--nct-type-control); color: var(--nct-muted); min-height: 44px;
+}
+
+:where(body.battle-wide) .preview-zone > small, :where(body.battle-wide) .v3-history-list article small, :where(body.battle-wide) .v3-guide-substep, :where(body.battle-wide) .v3-coach-step, :where(body.battle-wide) .v3-legend-state, :where(body.battle-wide) .v3-unit-status, :where(body.battle-wide) .v3-gear-count, :where(body.battle-wide) .v3-practice-indicator, :where(body.battle-wide) .v3-opening-footnote {
+  font-size: var(--nct-type-caption);
+}
+
+:where(body.battle-wide) .v3-history-list p, :where(body.battle-wide) .v3-table-feedback, :where(body.battle-wide) .v3-table-hint, :where(body.battle-wide) .placeholder-label, :where(body.battle-wide) .v3-result-reason, :where(body.battle-wide) #v3OpeningSetup p, :where(body.battle-wide) #v3OpeningSetup label, :where(body.battle-wide) #v3HandPreview p, :where(body.battle-wide) #v3HandPreview > div {
+  font-size: var(--nct-type-body); line-height: 1.6;
+}
+
+:where(body.battle-wide) .v3-table-phase, :where(body.battle-wide) #v3TableGuide p, :where(body.battle-wide) #v3TableGuide summary, :where(body.battle-wide) .v3-payment-summary, :where(body.battle-wide) #v3PublicCardAbility {
+  font-size: var(--nct-type-control); line-height: 1.6;
+}
+
+:where(body.battle-wide) #v3TableGuide > strong, :where(body.battle-wide) .v3-phase-panel strong, :where(body.battle-wide) #v3HandPreview strong {
+  font-size: var(--nct-type-heading); line-height: 1.35;
+}
+
+:where(body.battle-wide) #v3OpeningSetup > .v3-selected-detail > strong, :where(body.battle-wide) .battle-card-dialog-head strong, :where(body.battle-wide) .deck-popup-titles > strong {
+  font-size: var(--nct-type-title); line-height: 1.35;
+}
+
+:where(body.battle-wide) .deck-pile, :where(body.battle-wide) .player-gigs > strong, :where(body.battle-wide) .opponent-gigs > strong {
+  font-size: var(--nct-type-title); line-height: 1.1; font-variant-numeric: tabular-nums;
+}
+
+:where(body.battle-wide) .v3-trash-summary > span {
+  font-size: inherit;
+}
+
+:where(body.battle-wide) .v3-table-phase {
+  color: var(--nct-warning);
+}
+
+:where(body.battle-wide) .v3-table-feedback, :where(body.battle-wide) #v3TableGuide p {
+  color: var(--nct-text);
+}
+
+:where(body.battle-wide) .v3-history-list article small, :where(body.battle-wide) #v3TableGuide > strong {
+  color: var(--nct-guide);
+}
+
+:where(body.battle-wide) .v3-history-list p {
+  margin: 6px 0px; color: var(--nct-text);
+}
+
+:where(body.battle-wide) .v3-history-list article {
+  padding: 12px 0px; border-color: var(--nct-line);
+}
+
+:where(body.battle-wide) #v3TableGuide .v3-guide-action {
+  padding: 12px 14px; line-height: 1.6;
+}
+
+:where(body.battle-wide) #v3OpeningSetup > .v3-selected-detail {
+  width: min(560px, -32px + 100vw);
+}
+
+:where(body.battle-wide) select {
+  appearance: none; padding-right: 44px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23e8f3f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 20px 20px;
+}
+
+:where(body.battle-wide) #closeBattleCard, :where(body.battle-wide) #closeBoardTour, :where(body.battle-wide) .v3-coach-close, :where(body.battle-wide) .nct-icon-button {
+  appearance: none; position: relative; inset: auto; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 44px; width: 44px; height: 44px; min-width: 44px; min-height: 44px; margin: 0px; padding: 0px; border: 1px solid var(--nct-control-line); border-radius: var(--nct-radius); background: var(--nct-raised); color: var(--nct-text); font-size: 0px; line-height: 0; box-shadow: none; transform: none;
+}
+
+:where(body.battle-wide) #closeBattleCard:hover, :where(body.battle-wide) #closeBoardTour:hover, :where(body.battle-wide) .v3-coach-close:hover, :where(body.battle-wide) .nct-icon-button:hover {
+  color: var(--nct-text); border-color: var(--nct-guide); background: rgb(23, 54, 65);
+}
+
+:where(body.battle-wide) #closeBattleCard::before, :where(body.battle-wide) #closeBoardTour::before, :where(body.battle-wide) .v3-coach-close::before, :where(body.battle-wide) .nct-icon-button::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 20px; height: 20px; display: block; margin: 0px; transform: translate(-50%, -50%); pointer-events: none; background: linear-gradient(45deg, transparent calc(50% - 1px), currentcolor calc(50% - 1px), currentcolor calc(50% + 1px), transparent calc(50% + 1px)), linear-gradient(-45deg, transparent calc(50% - 1px), currentcolor calc(50% - 1px), currentcolor calc(50% + 1px), transparent calc(50% + 1px));
+}
+
+:where(body.battle-wide) #v3TableGuide .v3-coach-header {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+
+:where(body.battle-wide) #v3TableGuide .v3-coach-tools {
+  display: flex; align-items: center; gap: 8px; flex: 0 0 auto;
+}
+
+:where(body.battle-wide) .battle-card-dialog-head, :where(body.battle-wide) .deck-dialog-head {
+  align-items: flex-start; gap: 20px;
+}
+
+:root:has(> body.battle-wide) .nct-deal-layer {
+  position: fixed; inset: 0px; z-index: 20000; pointer-events: none; overflow: visible;
+}
+
+:root:has(> body.battle-wide) .nct-deal-card {
+  position: absolute; display: block; box-sizing: border-box; overflow: hidden; border: 1px solid var(--nct-control-line); border-radius: var(--nct-radius); background: var(--nct-surface); box-shadow: rgba(0, 0, 0, 0.6) 0px 8px 20px; pointer-events: none; transform-origin: center center;
+}
+
+:root:has(> body.battle-wide) .nct-deal-art {
+  position: absolute; inset: 0px; display: block; width: 100%; height: 100%; object-fit: contain; background: var(--nct-bg);
+}
+
+:root:has(> body.battle-wide) .nct-deal-fallback {
+  display: grid; place-items: center; width: 100%; height: 100%; font-size: var(--nct-type-caption); color: var(--nct-text);
+}
+
+:where(body.battle-wide) #v3HandPreview {
+  position: fixed; z-index: 9999; pointer-events: none; display: none; box-sizing: border-box; align-items: flex-start; gap: 14px; max-width: calc(-32px + 100vw); padding: 10px; background: var(--nct-surface); border: 1px solid var(--nct-control-line); border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.867) 0px 16px 44px; color: var(--nct-text);
+}
+
+:where(body.battle-wide) #v3HandPreview .nct-hover-art {
+  display: block; width: min(185px, 19vw); height: auto; max-height: min(52vh, 300px); aspect-ratio: 5 / 7; object-fit: contain; background: var(--nct-bg); flex: 0 0 auto;
+}
+
+:where(body.battle-wide) #v3HandPreview .nct-hover-copy {
+  width: min(155px, 16vw); max-height: min(52vh, 300px); overflow: hidden; font-size: var(--nct-type-body); line-height: 1.6;
+}
+
+:where(body.battle-wide) #v3HandPreview strong {
+  display: block; font-size: var(--nct-type-heading); color: var(--nct-guide); margin-bottom: 12px;
+}
+
+:where(body.battle-wide) #v3HandPreview p {
+  font-size: var(--nct-type-body); line-height: 1.6; margin: 0px 0px 14px; color: var(--nct-text);
+}
+
+:where(body.battle-wide) #v3HandPreview .v3-card-ability {
+  margin: 0px;
+}
+
+:where(body.battle-wide) #battleTour {
+  user-select: none;
+}
+
+:where(body.battle-wide) #battleTour :is(input, textarea, .v3-history-list, .v3-card-ability, dialog) {
+  user-select: text;
+}
+
+:where(body.battle-wide) .v3-sidebar > .turn-info {
+  background: var(--nct-raised); border: 1px solid var(--nct-line); border-radius: var(--nct-radius);
+}
+
+:where(body.battle-wide) .turn-info #v3TableControls {
+  position: static; transform: none; max-height: none; height: auto; overflow: visible; width: 100%; padding: 12px;
+}
+
+:where(body.battle-wide) .turn-info.has-live-guide #v3TableControls {
+  display: none;
+}
+
+:where(body.battle-wide) .turn-info.has-live-guide {
+  padding: 12px;
+}
+
+:where(body.battle-wide) #v3TableGuide[data-mode="tour"] {
+  border-width: 1px 1px 1px 3px; box-shadow: rgba(0, 0, 0, 0.533) 0px 12px 32px;
+}
+
+:where(body.battle-wide) #v3TableGuide[data-mode="live"] {
+  position: static; inset: auto; transform: none; display: block; width: 100%; max-width: none; min-width: 0px; max-height: none; overflow: visible; margin: 0px; padding: 0px; border: 0px; border-radius: 0px; background: transparent; box-shadow: none;
+}
+
+:where(body.battle-wide) #v3TableGuide[data-mode="live"] .v3-coach-step {
+  color: var(--nct-muted); font-size: var(--nct-type-caption); line-height: 1.5; white-space: normal; min-width: 0px;
+}
+
+:where(body.battle-wide) #v3TableGuide[data-mode="live"] .v3-guide-action {
+  margin: 8px 0px 0px; padding: 0px 0px 0px 10px; border-top: 0px; border-right: 0px; border-bottom: 0px; border-image: none; border-left: 2px solid var(--nct-line); background: transparent; font-size: var(--nct-type-body); font-weight: 400; text-align: left; color: var(--nct-text); line-height: 1.6;
+}
+
+:where(body.battle-wide) #v3TableGuide[data-mode="live"] .v3-coach-header {
+  gap: 8px;
+}
+
+:where(body.battle-wide) #v3ConcedeDialog {
+  width: min(420px, -32px + 100vw); max-height: calc(100dvh - 48px); padding: 24px; margin: auto; inset: 0px; border: 1px solid var(--nct-control-line); border-radius: 8px; background: var(--nct-surface); color: var(--nct-text); box-shadow: rgba(0, 0, 0, 0.6) 0px 18px 64px;
+}
+
+:where(body.battle-wide) #v3ConcedeDialog::backdrop {
+  background: rgba(0, 0, 0, 0.667); backdrop-filter: blur(3px);
+}
+
+:where(body.battle-wide) .nct-dialog-header {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+}
+
+:where(body.battle-wide) #v3ConcedeTitle {
+  margin: 0px; font-size: var(--nct-type-heading); line-height: 1.35; color: var(--nct-text);
+}
+
+:where(body.battle-wide) #v3ConcedeDialog p {
+  font-size: var(--nct-type-control); line-height: 1.6; margin: 16px 0px 24px; color: var(--nct-muted);
+}
+
+:where(body.battle-wide) .nct-dialog-actions {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+
+:where(body.battle-wide) #v3ConcedeDialog button {
+  height: 44px;
+}
+
+:where(body.battle-wide) #v3ConcedeDialog .nct-dialog-actions button {
+  font-size: var(--nct-type-control);
+}
+}
+
+:where(body.battle-wide) [hidden], :where(body.battle-wide) .hide {
+  display: none;
+}

@@ -1,0 +1,2 @@
+/* Website layers are independent of the table; battle overrides never restyle site navigation. */
+@layer site, site-overrides, layout, theme, components;

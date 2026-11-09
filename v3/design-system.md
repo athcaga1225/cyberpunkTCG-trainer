@@ -1,20 +1,23 @@
 # V3 visual roles
 
-Desktop design cleanup, 2026-11-09. The approved blue-black / teal / yellow palette remains the basis.
+Desktop design cleanup, 2026-11-09. The approved blue-black / teal / yellow palette applies to the battle view. Website appearance is separate and restored from the pre-cleanup 8972eb6 revision.
 
 ## Stylesheets and cascade
 
-- `site.css`: site navigation, learning/rules pages and card catalogue layout.
+- `style-order.css`: declares the layer order before every other stylesheet.
+- `site.css`: the original site navigation, learning/rules pages and card catalogue styles, including their original typography and accents.
 - `table-layout.css`: tabletop geometry and game-state presentation.
 - `table-theme.css`: tabletop palette and card orientation presentation.
 - `design-system.css`: shared typography, action roles, focus, icon buttons, hover preview and confirmation dialog.
 - `dice-animation.css`: transient dice presentation.
 
-Cascade order is `layout → theme → components`. The unlayered `[hidden]` and `.hide` utilities control semantic visibility. This replaces priority flags with explicit, named responsibilities. V3 HTML contains no style block. All V3 CSS/HTML/JS is checked for priority flags, including runtime `setProperty` calls. Dynamic measured dimensions/coordinates and game state remain in JavaScript; static preview/flight styling is CSS.
+Cascade order is `site → site-overrides → layout → theme → components`. Original website declarations retain their hierarchy without priority flags. Battle components and battle visibility utilities are scoped to `body.battle-wide`; battle tokens activate only while that mode is active. Root-level deal clones use the same conditional root tokens. This replaces priority flags with explicit, named responsibilities. V3 HTML contains no style block. All V3 CSS/HTML/JS is checked for priority flags, including runtime `setProperty` calls. Dynamic measured dimensions/coordinates and game state remain in JavaScript; static preview/flight styling is CSS.
 
-The migration removed 415 CSS priority flags, one runtime priority assignment and 1,641 superseded exact-selector/context/property declarations. Native CSS serialization retains shorthand declarations. Shared/V2 files are unchanged.
+V3 retains zero CSS priority flags and no runtime priority assignment. The website restoration preserves authored shorthand declarations and custom properties; website/catalogue rules do not live in the battle-layout sheet. Shared/V2 files are unchanged.
 
-## Type
+## Battle type
+
+This six-role scale applies only to the table. Website pages retain their original authored scale and responsive values.
 
 | Role | Size | Use |
 | --- | --- | --- |
@@ -31,7 +34,7 @@ Artwork text and dice drawings are separate from text controls. Icon buttons hid
 
 Primary confirmation/next/game actions use yellow with dark text. Back/cancel/navigation utilities use the raised dark surface, pale text and a teal-gray outline. Hover and keyboard focus use teal. Disabled actions use a muted gray surface and disabled cursor. Informational guidance uses teal; its static instruction banner uses pale gray with dark text. Card identity colors remain tied to the card, not the close button.
 
-Close controls use a centered 20px drawing, 2px stroke and 44px hit target. All close controls share the same neutral border, surface and hover state. Dropdown arrows are 20px with a 14px right inset and reserved 44px padding.
+Close controls use a centered 20px drawing, 2px stroke and 44px hit target. Battle close controls share the same neutral border, surface and hover state. Website popup controls retain their original design. Dropdown arrows are 20px with a 14px right inset and reserved 44px padding.
 
 ## Concede
 
@@ -54,3 +57,7 @@ Board labels do not select during card/dice operations; inputs, card ability tex
 Turn owner and round text share a left edge. The phase panel also hosts End Turn and Restart. The right status area sizes naturally and has no scrolling; history keeps its independent scroll. The step-by-step table tour remains a floating panel with back/next/close, and no minimize button or redundant instruction banner. Live hints use a compact docked sidebar treatment, with one current instruction and close control, without duplicate phase headings or tutorial navigation. Obsolete minimize styles are removed.
 
 `v3-desktop-finish.browser.cjs` covers these cases at 1440×900 and 1280×720, including a mixed-orientation fixture, actual preparation, a live-guided sale, full-size dice visibility, phase-local End Turn and opponent handoff. Existing full-match and shared design checks remain in place.
+
+## Website isolation regression
+
+`v3-style-isolation.browser.cjs` compares the visible home, learning, rules and catalogue controls, plus the catalogue modal, against the original website CSS when `V3_SITE_BASELINE_HTML` points to an HTML snapshot from commit `8972eb6`. It compares typography, colors, backgrounds, borders, padding, margins, minimum heights and shadows at 1440×900 and 1024×768. It also enters and exits an actual game and verifies that learning-page styles are identical afterward, while battle controls retain 16px yellow actions. Without the optional snapshot it still enforces the navigation/isolation regression. The baseline can be produced with `git show 8972eb6:v3/index.html`.

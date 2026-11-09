@@ -10,6 +10,7 @@ on:
       - 'v3/turn-practice.js'
       - 'v3/turn-practice-ui.js'
       - 'v3/site.css'
+      - 'v3/style-order.css'
       - 'v3/table-layout.css'
       - 'v3/table-theme.css'
       - 'v3/design-system.css'

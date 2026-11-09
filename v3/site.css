@@ -1,5 +1,5 @@
-/* Site and catalogue layout. Shared visual roles: design-system.css. */
-@layer layout {
+/* Website appearance restored from 8972eb6. Former priority declarations use an explicit website-only layer. */
+@layer site {
 :root {
   font-family: "PingFang TC", "Noto Sans TC", system-ui, sans-serif; color: rgb(233, 239, 240); background: rgb(7, 16, 21); font-weight: 400;
 }
@@ -9,11 +9,11 @@
 }
 
 body {
-  margin: 0px; background-color: rgb(7, 16, 21); min-height: 100vh;
+  margin: 0px; background: radial-gradient(at 85% 12%, rgba(74, 16, 28, 0.333), transparent 40%), rgb(7, 16, 21); min-height: 100vh;
 }
 
 button {
-  font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: var(--nct-type-control); line-height: inherit; font-family: inherit; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; cursor: pointer;
+  font: inherit; cursor: pointer;
 }
 
 header {
@@ -25,7 +25,7 @@ header {
 }
 
 .tag {
-  font-size: var(--nct-type-body); letter-spacing: 0.22em; color: rgb(248, 80, 74);
+  font-size: 14px; letter-spacing: 0.22em; color: rgb(248, 80, 74);
 }
 
 nav {
@@ -45,11 +45,11 @@ nav button.active, .btn.primary {
 }
 
 h1 {
-  font-size: var(--nct-type-display); line-height: 1.06; margin: 14px 0px 18px; letter-spacing: -0.04em;
+  font-size: clamp(36px, 6vw, 72px); line-height: 1.06; margin: 14px 0px 18px; letter-spacing: -0.04em;
 }
 
 h2 {
-  font-size: var(--nct-type-title); color: rgb(41, 255, 255);
+  font-size: 28px; color: rgb(41, 255, 255);
 }
 
 p {
@@ -57,7 +57,7 @@ p {
 }
 
 .lead {
-  max-width: 700px; font-size: var(--nct-type-control);
+  max-width: 700px; font-size: 18px;
 }
 
 .panel {
@@ -69,15 +69,11 @@ p {
 }
 
 .number {
-  color: rgb(248, 80, 74); font-size: var(--nct-type-body); letter-spacing: 0.2em;
+  color: rgb(248, 80, 74); font-size: 14px; letter-spacing: 0.2em;
 }
 
 .muted {
   color: rgb(148, 163, 167);
-}
-
-.hide {
-  display: none;
 }
 
 .actions {
@@ -121,7 +117,7 @@ p {
 }
 
 .footer {
-  border-top: 1px solid rgb(48, 64, 68); padding: 24px 5vw; color: rgb(132, 150, 154); font-size: var(--nct-type-body);
+  border-top: 1px solid rgb(48, 64, 68); padding: 24px 5vw; color: rgb(132, 150, 154); font-size: 14px;
 }
 
 a {
@@ -151,7 +147,7 @@ header {
 }
 
 .panel h3 {
-  margin: 8px 0px; font-size: var(--nct-type-control);
+  margin: 8px 0px; font-size: 17px;
 }
 
 .panel select {
@@ -191,7 +187,7 @@ header {
 }
 
 .deck-label {
-  color: rgb(248, 80, 74); font-size: var(--nct-type-body); letter-spacing: 0.15em;
+  color: rgb(248, 80, 74); font-size: 14px; letter-spacing: 0.15em;
 }
 
 .deck-summaryline {
@@ -199,19 +195,19 @@ header {
 }
 
 .deck-summaryline strong {
-  font-size: var(--nct-type-title); color: rgb(239, 248, 249);
+  font-size: clamp(24px, 3vw, 34px); color: rgb(239, 248, 249);
 }
 
 .deck-summaryline small {
-  font-size: var(--nct-type-body); letter-spacing: 0.1em; color: rgb(152, 177, 181);
+  font-size: 14px; letter-spacing: 0.1em; color: rgb(152, 177, 181);
 }
 
 .deck-summaryhint {
-  font-size: var(--nct-type-body); color: rgb(144, 165, 170);
+  font-size: 14px; color: rgb(144, 165, 170);
 }
 
 .deck-summaryhint span {
-  font-size: var(--nct-type-heading); margin-left: 4px; color: rgb(41, 255, 255);
+  font-size: 22px; margin-left: 4px; color: rgb(41, 255, 255);
 }
 
 .deck-inner {
@@ -219,11 +215,11 @@ header {
 }
 
 .deck-inner > h2 {
-  font-size: var(--nct-type-heading); letter-spacing: 0.12em; margin: 30px 0px 14px;
+  font-size: 20px; letter-spacing: 0.12em; margin: 30px 0px 14px;
 }
 
 .deck-inner > h2 small {
-  font-size: var(--nct-type-body); color: rgb(135, 153, 158);
+  font-size: 14px; color: rgb(135, 153, 158);
 }
 
 .deck-visual-grid {
@@ -247,23 +243,23 @@ header {
 }
 
 .deck-art-fallback {
-  font-weight: 700; font-size: var(--nct-type-body); text-align: center; color: rgb(41, 255, 255); padding: 8px; letter-spacing: 0.04em;
+  font-weight: 700; font-size: 14px; text-align: center; color: rgb(41, 255, 255); padding: 8px; letter-spacing: 0.04em;
 }
 
 .deck-art-fallback span {
-  display: block; font-weight: 400; font-size: var(--nct-type-body); margin-top: 12px; line-height: 1.4; color: rgb(204, 204, 221);
+  display: block; font-weight: 400; font-size: 14px; margin-top: 12px; line-height: 1.4; color: rgb(204, 204, 221);
 }
 
 .deck-name {
-  font-size: var(--nct-type-body); line-height: 1.45; min-height: 39px; padding: 10px 1px 5px; color: rgb(239, 248, 249); font-weight: 500;
+  font-size: 14px; line-height: 1.45; min-height: 39px; padding: 10px 1px 5px; color: rgb(239, 248, 249); font-weight: 500;
 }
 
 .deck-meta {
-  display: flex; justify-content: space-between; gap: 4px; align-items: center; margin-top: auto; font-size: var(--nct-type-body); letter-spacing: 0.04em; color: rgb(145, 172, 177);
+  display: flex; justify-content: space-between; gap: 4px; align-items: center; margin-top: auto; font-size: 14px; letter-spacing: 0.04em; color: rgb(145, 172, 177);
 }
 
 .deck-meta b {
-  font-size: var(--nct-type-control); color: rgb(248, 80, 74);
+  font-size: 16px; color: rgb(248, 80, 74);
 }
 
 #deckImageDialog {
@@ -283,7 +279,7 @@ header {
 }
 
 .deck-dialog-head {
-  display: flex; align-items: center; justify-content: space-between; gap: 24px; width: 100%; font-size: var(--nct-type-body);
+  display: flex; align-items: center; justify-content: space-between; gap: 24px; width: 100%; font-size: 14px;
 }
 
 @media (max-width: 650px) {
@@ -313,7 +309,7 @@ header {
 }
 
 .terminology-compare strong {
-  display: block; color: rgb(41, 255, 255); font-size: var(--nct-type-control); margin-top: 8px;
+  display: block; color: rgb(41, 255, 255); font-size: 18px; margin-top: 8px;
 }
 
 .terminology-list {
@@ -345,7 +341,7 @@ header {
 }
 
 .term-example {
-  background: rgb(13, 36, 43); border-left: 2px solid rgb(41, 255, 255); padding: 12px; font-size: var(--nct-type-body);
+  background: rgb(13, 36, 43); border-left: 2px solid rgb(41, 255, 255); padding: 12px; font-size: 14px;
 }
 
 @media (max-width: 740px) {
@@ -355,11 +351,11 @@ header {
 }
 
 .deck-original {
-  color: rgb(145, 169, 174); font-size: var(--nct-type-body); line-height: 1.35; padding: 0px 1px 9px; min-height: 30px; overflow-wrap: anywhere;
+  color: rgb(145, 169, 174); font-size: 14px; line-height: 1.35; padding: 0px 1px 9px; min-height: 30px; overflow-wrap: anywhere;
 }
 
 .deck-tile .deck-name {
-  min-height: 0px; font-size: var(--nct-type-body);
+  min-height: 0px; font-size: 14px;
 }
 
 .deck-tile .deck-original {
@@ -371,7 +367,7 @@ header {
 }
 
 .learning-overview h2 {
-  font-size: var(--nct-type-heading);
+  font-size: 20px;
 }
 
 .learning-overview .panel {
@@ -407,7 +403,7 @@ header {
 }
 
 .chapter-learning h3 {
-  margin: 0px 0px 8px; color: rgb(41, 255, 255); font-size: var(--nct-type-heading);
+  margin: 0px 0px 8px; color: rgb(41, 255, 255); font-size: 19px;
 }
 
 .chapter-learning p {
@@ -441,11 +437,39 @@ header {
 }
 
 small {
-  font-size: var(--nct-type-body);
+  font-size: 14px;
+}
+
+#decks .deck-visual-grid {
+  grid-template-columns: repeat(5, minmax(0px, 1fr)); gap: 17px;
+}
+
+#decks .deck-inner > h2:first-of-type + .deck-visual-grid {
+  grid-template-columns: repeat(3, minmax(0px, 1fr)); max-width: 790px;
+}
+
+#decks .deck-tile {
+  padding: 11px; gap: 0px;
+}
+
+#decks .deck-art {
+  aspect-ratio: 5 / 7;
+}
+
+#decks .deck-tile .deck-name {
+  font-size: 18px; line-height: 1.45; padding: 13px 2px 5px; font-weight: 500;
+}
+
+#decks .deck-tile .deck-original {
+  font-size: 16px; line-height: 1.45; min-height: 0px; padding: 0px 2px 12px; margin: 0px;
+}
+
+#decks .deck-tile .deck-meta {
+  font-size: 14px; line-height: 1.4;
 }
 
 #decks .deck-tile .deck-meta b {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
 }
 
 #decks .deck-collection summary {
@@ -461,7 +485,7 @@ small {
 }
 
 #decks .deck-summaryhint span {
-  margin: 0px; color: rgb(41, 255, 255); font-size: var(--nct-type-title); line-height: 1;
+  margin: 0px; color: rgb(41, 255, 255); font-size: 26px; line-height: 1;
 }
 
 #decks .deck-collection[open] .deck-summaryhint .when-closed {
@@ -490,6 +514,18 @@ small {
 #decks .deck-inner > h2:first-of-type + .deck-visual-grid {
   grid-template-columns: repeat(3, minmax(0px, 1fr));
 }
+
+#decks .deck-tile {
+  padding: 7px;
+}
+
+#decks .deck-tile .deck-name {
+  font-size: 16px;
+}
+
+#decks .deck-tile .deck-original {
+  font-size: 14px;
+}
 }
 
 @media (max-width: 460px) {
@@ -503,15 +539,15 @@ small {
 }
 
 #deckImageDialog .deck-dialog-head {
-  gap: 20px; margin-bottom: 10px;
+  align-items: flex-start; gap: 20px; margin-bottom: 10px;
 }
 
 #deckImageDialog #deckDialogTitle {
-  letter-spacing: 0px; color: rgb(239, 248, 249);
+  font-size: clamp(20px, 2vw, 25px); line-height: 1.45; letter-spacing: 0px; font-weight: 650; color: rgb(239, 248, 249); overflow-wrap: anywhere;
 }
 
 #deckImageDialog .deck-dialog-close {
-  appearance: none; flex: 0 0 42px; width: 42px; height: 42px; display: grid; place-items: center; padding: 0px; background: transparent; border: 1px solid rgb(107, 60, 67); border-radius: 4px; font-size: var(--nct-type-title); line-height: 1; color: rgb(237, 245, 245); cursor: pointer;
+  appearance: none; flex: 0 0 42px; width: 42px; height: 42px; display: grid; place-items: center; padding: 0px; background: transparent; border: 1px solid rgb(107, 60, 67); border-radius: 4px; font-size: 27px; line-height: 1; color: rgb(237, 245, 245); cursor: pointer;
 }
 
 #deckImageDialog .deck-dialog-close:hover, #deckImageDialog .deck-dialog-close:focus-visible {
@@ -520,7 +556,7 @@ small {
 
 @media (max-width: 650px) {
 #deckImageDialog #deckDialogTitle {
-  font-size: var(--nct-type-heading);
+  font-size: 20px;
 }
 
 #deckImageDialog .deck-dialog-head {
@@ -537,11 +573,11 @@ small {
 }
 
 #deckImageDialog #deckDialogTitle {
-  display: block; font-size: var(--nct-type-title); font-weight: 650; line-height: 1.35; overflow-wrap: anywhere;
+  display: block; font-size: clamp(21px, 2.25vw, 27px); font-weight: 650; line-height: 1.35; overflow-wrap: anywhere;
 }
 
 #deckImageDialog .deck-dialog-english {
-  display: block; font-size: var(--nct-type-control); font-weight: 400; line-height: 1.45; color: rgb(157, 182, 188); overflow-wrap: anywhere;
+  display: block; font-size: 16px; font-weight: 400; line-height: 1.45; color: rgb(157, 182, 188); overflow-wrap: anywhere;
 }
 
 #deckImageDialog .deck-dialog-english:empty {
@@ -549,11 +585,11 @@ small {
 }
 
 #rules .terminology-list {
-  display: grid; grid-template-columns: repeat(2, minmax(0px, 1fr)); align-items: start;
+  display: grid; grid-template-columns: repeat(2, minmax(0px, 1fr)); align-items: start; gap: 16px;
 }
 
 #rules .term-column {
-  display: flex; flex-direction: column; min-width: 0px;
+  display: flex; flex-direction: column; gap: 14px; min-width: 0px;
 }
 
 #rules .term-entry {
@@ -561,15 +597,33 @@ small {
 }
 
 #rules .term-entry summary {
-  padding: 18px 20px; font-size: var(--nct-type-control); line-height: 1.45; font-weight: 500;
+  padding: 18px 20px; font-size: 18px; line-height: 1.45; font-weight: 500;
+}
+
+#rules .term-entry > div {
+  padding: 10px 20px 18px;
 }
 
 #rules .term-entry > div p {
-  font-size: var(--nct-type-control); line-height: 1.75;
+  font-size: 17px; line-height: 1.75;
+}
+
+#rules .term-example {
+  font-size: 16px; line-height: 1.75; padding: 14px;
 }
 
 #rules .terminology-compare p {
-  font-size: var(--nct-type-control);
+  font-size: 17px;
+}
+
+#rules .terminology-compare strong {
+  font-size: 20px;
+}
+
+@media (max-width: 740px) {
+#rules .terminology-list {
+  grid-template-columns: 1fr;
+}
 }
 
 #learn .lesson-journey {
@@ -581,11 +635,11 @@ small {
 }
 
 #learn .lesson-journey-row strong {
-  font-size: var(--nct-type-control); color: rgb(41, 255, 255);
+  font-size: 17px; color: rgb(41, 255, 255);
 }
 
 #learn .lesson-journey-row span {
-  font-size: var(--nct-type-body); color: rgb(202, 217, 223);
+  font-size: 15px; color: rgb(202, 217, 223);
 }
 
 #learn .lesson-progress-track {
@@ -601,7 +655,7 @@ small {
 }
 
 #learn .lesson-progress-dots span {
-  display: grid; place-items: center; padding: 7px 2px; border: 1px solid rgb(75, 98, 105); background: rgb(16, 29, 36); color: rgb(170, 190, 195); font-size: var(--nct-type-body);
+  display: grid; place-items: center; padding: 7px 2px; border: 1px solid rgb(75, 98, 105); background: rgb(16, 29, 36); color: rgb(170, 190, 195); font-size: 14px;
 }
 
 #learn .lesson-progress-dots span.done {
@@ -616,28 +670,30 @@ small {
   margin-bottom: 10px;
 }
 
+#learn #labStage > .progress {
+  height: 8px; margin: 8px 0px 20px;
+}
+
+#learn #labStage > .progress span {
+  background: rgb(248, 80, 74);
+}
+
 #learn .lesson-current-status {
-  font-size: var(--nct-type-body); color: rgb(189, 205, 211); margin: 0px 0px 12px;
+  font-size: 15px; color: rgb(189, 205, 211); margin: 0px 0px 12px;
 }
 
 @keyframes nctHandShuffle {
-0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
-
-30% { transform: translateY(-10px) rotate(-5deg); opacity: 0.75; }
-
-65% { transform: translateY(-4px) rotate(5deg); opacity: 1; }
-
-100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+  0% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+  30% { transform: translateY(-10px) rotate(-5deg); opacity: 0.75; }
+  65% { transform: translateY(-4px) rotate(5deg); opacity: 1; }
+  100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
 }
 
 @keyframes nctDeckShuffle {
-0%, 100% { transform: translateX(0px) rotate(0deg); }
-
-25% { transform: translateX(-8px) rotate(-5deg); }
-
-50% { transform: translateX(8px) rotate(5deg); }
-
-75% { transform: translateX(-5px) rotate(-3deg); }
+  0%, 100% { transform: translateX(0px) rotate(0deg); }
+  25% { transform: translateX(-8px) rotate(-5deg); }
+  50% { transform: translateX(8px) rotate(5deg); }
+  75% { transform: translateX(-5px) rotate(-3deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -654,6 +710,14 @@ small {
   background: rgb(248, 80, 74); transition: width 0.24s;
 }
 
+.card-preview-dialog {
+  box-sizing: border-box; width: min(560px, -24px + 100vw); max-width: calc(-24px + 100vw); max-height: calc(100dvh - 24px); padding: 18px; overflow: hidden; overscroll-behavior: contain; background: rgb(7, 16, 21); border: 1px solid rgb(248, 80, 74); color: rgb(239, 248, 249);
+}
+
+.card-preview-dialog .deck-dialog-wrap {
+  display: flex; flex-direction: column; gap: 14px; width: 100%; max-height: calc(100dvh - 60px); min-height: 0px; align-items: stretch; overflow: hidden;
+}
+
 .card-preview-dialog .deck-dialog-head {
   display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; width: 100%; flex: 0 0 auto;
 }
@@ -662,21 +726,49 @@ small {
   flex: 1 1 0%; min-width: 0px; display: flex; flex-direction: column; gap: 4px;
 }
 
+.card-preview-dialog #deckDialogTitle {
+  display: block; font-size: clamp(21px, 2.25vw, 27px); font-weight: 650; line-height: 1.35; overflow-wrap: anywhere; color: rgb(239, 248, 249);
+}
+
 .card-preview-dialog .deck-dialog-english {
-  font-size: var(--nct-type-control); line-height: 1.4; color: rgb(169, 192, 198);
+  font-size: 16px; line-height: 1.4; color: rgb(169, 192, 198);
+}
+
+.card-preview-dialog img {
+  display: block; width: auto; height: auto; min-height: 0px; max-width: 100%; max-height: min(70vh, 100dvh - 205px); object-fit: contain; align-self: center; flex: 0 1 auto;
+}
+
+.card-preview-dialog p {
+  flex: 0 0 auto; text-align: center; margin: 0px; font-size: 15px; line-height: 1.45;
+}
+
+.card-preview-dialog .deck-dialog-close {
+  display: grid; place-items: center; flex: 0 0 42px; width: 42px; height: 42px; padding: 0px; background: transparent; border: 1px solid rgb(107, 60, 67); border-radius: 4px; color: rgb(239, 248, 249); font-size: 27px; line-height: 1; cursor: pointer;
 }
 
 .card-preview-dialog .deck-dialog-close:hover, .card-preview-dialog .deck-dialog-close:focus-visible {
   color: rgb(41, 255, 255); border-color: rgb(41, 255, 255);
 }
 
-.card-preview-dialog [hidden] {
-  display: none;
+@media (max-width: 650px) {
+.card-preview-dialog {
+  width: calc(-16px + 100vw); max-width: calc(-16px + 100vw); max-height: calc(100dvh - 16px); padding: 12px;
 }
 
-@media (max-width: 650px) {
+.card-preview-dialog .deck-dialog-wrap {
+  max-height: calc(100dvh - 40px); gap: 10px;
+}
+
+.card-preview-dialog #deckDialogTitle {
+  font-size: 20px;
+}
+
 .card-preview-dialog .deck-dialog-english {
-  font-size: var(--nct-type-body);
+  font-size: 14px;
+}
+
+.card-preview-dialog img {
+  max-height: calc(100dvh - 175px); max-width: 100%; width: auto;
 }
 
 .card-preview-dialog .deck-dialog-close {
@@ -685,9 +777,8 @@ small {
 }
 
 @keyframes nctDealCard {
-0% { opacity: 0; transform: translateX(46px) translateY(10px) scale(0.85); }
-
-100% { opacity: 1; transform: translateX(0px) translateY(0px) scale(1); }
+  0% { opacity: 0; transform: translateX(46px) translateY(10px) scale(0.85); }
+  100% { opacity: 1; transform: translateX(0px) translateY(0px) scale(1); }
 }
 
 .card-preview-dialog .deck-popup-titles strong:focus {
@@ -695,16 +786,12 @@ small {
 }
 
 .card-preview-dialog .deck-dialog-close {
-  appearance: none; -webkit-tap-highlight-color: transparent; outline: none; box-shadow: none;
-}
-
-.card-preview-dialog .deck-dialog-close:focus:not(:focus-visible) {
-  outline: none; box-shadow: none;
+  appearance: none; -webkit-tap-highlight-color: transparent; outline: none;
 }
 
 @media (hover: none) and (pointer: coarse) {
 .card-preview-dialog .deck-dialog-close, .card-preview-dialog .deck-dialog-close:focus, .card-preview-dialog .deck-dialog-close:focus-visible {
-  -webkit-tap-highlight-color: transparent; outline: none; box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
 }
 }
 
@@ -719,15 +806,11 @@ small {
 }
 
 #decks .card-guide-tabs button {
-  padding: 13px 17px; background: rgb(14, 26, 32); border: 1px solid rgb(70, 96, 106); color: rgb(198, 217, 221); font-size: var(--nct-type-control); cursor: pointer; border-radius: 4px;
+  padding: 13px 17px; background: rgb(14, 26, 32); border: 1px solid rgb(70, 96, 106); color: rgb(198, 217, 221); font-size: 15px; cursor: pointer; border-radius: 4px;
 }
 
 #decks .card-guide-tabs button[aria-selected="true"] {
   border-color: rgb(41, 255, 255); background: rgb(18, 48, 57); color: rgb(41, 255, 255); font-weight: 650;
-}
-
-#decks #starterDeckGallery[hidden], #decks #betaCardCollection[hidden] {
-  display: none;
 }
 
 #decks .beta-browser {
@@ -739,19 +822,19 @@ small {
 }
 
 #decks .beta-browser-intro h2 {
-  font-size: var(--nct-type-heading); margin: 0px 0px 5px;
+  font-size: 23px; margin: 0px 0px 5px;
 }
 
 #decks .beta-browser-intro p {
-  font-size: var(--nct-type-body); line-height: 1.5; margin: 0px;
+  font-size: 15px; line-height: 1.5; margin: 0px;
 }
 
 #decks .beta-counter {
-  font-size: var(--nct-type-control); color: rgb(41, 255, 255); white-space: nowrap;
+  font-size: 16px; color: rgb(41, 255, 255); white-space: nowrap;
 }
 
 #decks .beta-data-note {
-  border-left: 2px solid rgb(248, 80, 74); background: rgb(21, 29, 33); padding: 12px 16px; font-size: var(--nct-type-body); line-height: 1.7; color: rgb(175, 196, 201);
+  border-left: 2px solid rgb(248, 80, 74); background: rgb(21, 29, 33); padding: 12px 16px; font-size: 15px; line-height: 1.7; color: rgb(175, 196, 201);
 }
 
 #decks .beta-filters {
@@ -759,11 +842,11 @@ small {
 }
 
 #decks .beta-filters label {
-  display: flex; flex-direction: column; gap: 7px; font-size: var(--nct-type-body); color: rgb(171, 196, 201);
+  display: flex; flex-direction: column; gap: 7px; font-size: 14px; color: rgb(171, 196, 201);
 }
 
 #decks .beta-filters input, #decks .beta-filters select {
-  width: 100%; min-height: 44px; border: 1px solid rgb(66, 96, 106); background: rgb(10, 27, 34); color: rgb(239, 248, 249); border-radius: 4px; padding: 10px 12px; font-size: var(--nct-type-control);
+  width: 100%; min-height: 44px; border: 1px solid rgb(66, 96, 106); background: rgb(10, 27, 34); color: rgb(239, 248, 249); border-radius: 4px; padding: 10px 12px; font-size: 15px;
 }
 
 #decks .beta-results {
@@ -779,7 +862,7 @@ small {
 }
 
 #decks .beta-card-art {
-  width: 100%; aspect-ratio: 5 / 7; display: flex; align-items: center; justify-content: center; position: relative; background: rgb(11, 19, 25);
+  width: 100%; aspect-ratio: 5 / 7; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: rgb(11, 19, 25);
 }
 
 #decks .beta-card-art img {
@@ -791,19 +874,19 @@ small {
 }
 
 #decks .beta-art-fallback {
-  font-size: var(--nct-type-body); color: rgb(157, 191, 196); text-align: center; padding: 6px;
+  font-size: 14px; color: rgb(157, 191, 196); text-align: center; padding: 6px;
 }
 
 #decks .beta-card-title {
-  font-size: var(--nct-type-control); line-height: 1.4; margin-top: 7px; overflow-wrap: anywhere; font-weight: 500;
+  font-size: 18px; line-height: 1.4; margin-top: 7px; overflow-wrap: anywhere; font-weight: 500;
 }
 
 #decks .beta-card-english {
-  font-size: var(--nct-type-body); line-height: 1.45; color: rgb(172, 189, 194); overflow-wrap: anywhere;
+  font-size: 15px; line-height: 1.45; color: rgb(172, 189, 194); overflow-wrap: anywhere;
 }
 
 #decks .beta-card-meta {
-  display: flex; justify-content: space-between; gap: 6px; align-items: center; margin-top: auto; padding-top: 8px; font-size: var(--nct-type-body); color: rgb(171, 193, 199);
+  display: flex; justify-content: space-between; gap: 6px; align-items: center; margin-top: auto; padding-top: 8px; font-size: 14px; color: rgb(171, 193, 199);
 }
 
 #decks .beta-card-meta b {
@@ -811,11 +894,11 @@ small {
 }
 
 #decks .beta-pages {
-  justify-content: center;
+  display: flex; justify-content: center; align-items: center; gap: 18px; margin: 26px 0px 15px;
 }
 
 #decks .beta-pages button {
-  background: rgb(18, 30, 35); border: 1px solid rgb(69, 96, 106); border-radius: 4px; color: rgb(231, 240, 242); font-size: var(--nct-type-control); cursor: pointer;
+  background: rgb(18, 30, 35); border: 1px solid rgb(69, 96, 106); border-radius: 4px; color: rgb(231, 240, 242); padding: 10px 15px; font-size: 15px; cursor: pointer;
 }
 
 #decks .beta-pages button:disabled {
@@ -823,11 +906,11 @@ small {
 }
 
 #decks .beta-pages span {
-  font-size: var(--nct-type-body);
+  font-size: 15px;
 }
 
 #decks .beta-empty {
-  grid-column: 1 / -1; font-size: var(--nct-type-control);
+  grid-column: 1 / -1; font-size: 16px;
 }
 
 @media (max-width: 950px) {
@@ -854,11 +937,11 @@ small {
 }
 
 #decks .beta-card-title {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
 }
 
 #decks .beta-card-english {
-  font-size: var(--nct-type-body);
+  font-size: 14px;
 }
 }
 
@@ -868,20 +951,16 @@ small {
 }
 }
 
-#decks .beta-detail-panel[hidden] {
-  display: none;
-}
-
 #decks .beta-detail-panel {
   margin: 24px 0px; background: rgb(11, 23, 29); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(56, 105, 118) rgb(56, 105, 118) rgb(56, 105, 118) rgb(41, 255, 255); border-image: none; border-radius: 6px; scroll-margin-top: 18px;
 }
 
 #decks .beta-detail-header {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid rgb(51, 71, 78); padding: 10px 18px; color: rgb(41, 255, 255); font-size: var(--nct-type-body); letter-spacing: 0.05em;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid rgb(51, 71, 78); padding: 10px 18px; color: rgb(41, 255, 255); font-size: 14px; letter-spacing: 0.05em;
 }
 
 #decks .beta-detail-header button {
-  background: none; color: rgb(209, 232, 235); border: 0px; min-width: 38px; min-height: 38px; font-size: var(--nct-type-control); cursor: pointer;
+  background: none; color: rgb(209, 232, 235); border: 0px; min-width: 38px; min-height: 38px; font-size: 25px; cursor: pointer;
 }
 
 #decks .beta-detail-body {
@@ -893,27 +972,27 @@ small {
 }
 
 #decks .beta-detail-title {
-  font-size: var(--nct-type-title); font-weight: 500; margin: 0px 0px 5px;
+  font-size: 26px; font-weight: 500; margin: 0px 0px 5px;
 }
 
 #decks .beta-detail-english {
-  font-size: var(--nct-type-control); color: rgb(185, 201, 207); margin: 0px 0px 9px;
+  font-size: 16px; color: rgb(185, 201, 207); margin: 0px 0px 9px;
 }
 
 #decks .beta-detail-meta {
-  font-size: var(--nct-type-body); color: rgb(41, 255, 255); letter-spacing: 0.04em; margin: 0px 0px 22px;
+  font-size: 14px; color: rgb(41, 255, 255); letter-spacing: 0.04em; margin: 0px 0px 22px;
 }
 
 #decks .beta-detail-copy h4 {
-  font-size: var(--nct-type-control); font-weight: 600; color: rgb(237, 247, 249); margin: 0px 0px 11px;
+  font-size: 17px; font-weight: 600; color: rgb(237, 247, 249); margin: 0px 0px 11px;
 }
 
 #decks .beta-ability-text {
-  font-size: var(--nct-type-control); line-height: 1.85; color: rgb(232, 241, 242); white-space: pre-line; margin: 0px 0px 18px;
+  font-size: 17px; line-height: 1.85; color: rgb(232, 241, 242); white-space: pre-line; margin: 0px 0px 18px;
 }
 
 #decks .beta-detail-note {
-  font-size: var(--nct-type-body); line-height: 1.6; color: rgb(168, 190, 197); margin: 0px 0px 16px;
+  font-size: 14px; line-height: 1.6; color: rgb(168, 190, 197); margin: 0px 0px 16px;
 }
 
 #decks .beta-detail-links {
@@ -921,7 +1000,7 @@ small {
 }
 
 #decks .beta-detail-links a {
-  font-size: var(--nct-type-body); color: rgb(41, 255, 255);
+  font-size: 15px; color: rgb(41, 255, 255);
 }
 
 #decks .beta-tile[aria-pressed="true"] {
@@ -929,7 +1008,7 @@ small {
 }
 
 #decks .beta-translation-tag, #decks .beta-translation-pending {
-  display: block; font-size: var(--nct-type-body); line-height: 1.4; margin-top: 5px;
+  display: block; font-size: 14px; line-height: 1.4; margin-top: 5px;
 }
 
 #decks .beta-translation-tag {
@@ -950,20 +1029,16 @@ small {
 }
 
 #decks .beta-detail-title {
-  font-size: var(--nct-type-heading);
+  font-size: 22px;
 }
 
 #decks .beta-ability-text {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
 }
 }
 
 #decks #betaCardDetail.beta-card-dialog {
-  position: fixed; inset: 0px; margin: auto; padding: 0px; box-sizing: border-box; overflow: hidden;
-}
-
-#decks #betaCardDetail.beta-card-dialog:not([open]) {
-  display: none;
+  position: fixed; inset: 0px; width: min(900px, -30px + 100vw); max-width: calc(-30px + 100vw); max-height: calc(100dvh - 30px); margin: auto; padding: 0px; border-width: 1px 1px 1px 2px; border-style: solid; border-color: rgb(89, 10, 17) rgb(89, 10, 17) rgb(89, 10, 17) rgb(248, 80, 74); border-image: none; border-radius: 8px; background: rgb(7, 16, 21); color: rgb(234, 242, 244); box-sizing: border-box; overflow: hidden; box-shadow: rgba(0, 0, 0, 0.933) 0px 24px 85px;
 }
 
 #decks #betaCardDetail.beta-card-dialog[open] {
@@ -975,7 +1050,7 @@ small {
 }
 
 #decks #betaCardDetail .beta-detail-header {
-  flex: 0 0 auto;
+  flex: 0 0 auto; border-bottom: 1px solid rgb(51, 71, 78); padding: 10px 16px;
 }
 
 #decks #betaCardDetail .beta-detail-header strong:focus {
@@ -983,11 +1058,19 @@ small {
 }
 
 #decks #betaCardDetail .beta-detail-header button {
-  -webkit-tap-highlight-color: transparent;
+  appearance: none; background: transparent; border: 1px solid rgb(84, 100, 109); border-radius: 5px; color: rgb(234, 242, 244); font-size: 23px; width: 40px; height: 40px; padding: 0px; -webkit-tap-highlight-color: transparent; box-shadow: none; outline: none;
+}
+
+#decks #betaCardDetail .beta-detail-header button:hover {
+  border-color: rgb(41, 255, 255); color: rgb(41, 255, 255);
+}
+
+#decks #betaCardDetail .beta-detail-header button:focus-visible {
+  outline: rgb(41, 255, 255) solid 2px; outline-offset: 2px;
 }
 
 #decks #betaCardDetail .beta-detail-body {
-  flex: 1 1 auto; overscroll-behavior: contain;
+  min-height: 0px; flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; grid-template-columns: minmax(170px, 280px) minmax(0px, 1fr); padding: 20px;
 }
 
 #decks #betaCardDetail .beta-detail-art img {
@@ -995,34 +1078,134 @@ small {
 }
 
 @media (max-width: 650px) {
+#decks #betaCardDetail.beta-card-dialog {
+  width: calc(-16px + 100vw); max-width: calc(-16px + 100vw); max-height: calc(100dvh - 16px);
+}
+
+#decks #betaCardDetail .beta-detail-body {
+  grid-template-columns: 1fr; padding: 14px; gap: 14px;
+}
+
+#decks #betaCardDetail .beta-detail-art {
+  max-width: 240px; margin: 0px auto;
+}
+
 #decks #betaCardDetail .beta-detail-header button:focus-visible {
   outline: none; box-shadow: none;
 }
 }
 
+#decks #betaCardDetail.beta-card-dialog {
+  width: min(990px, -28px + 100vw); max-width: calc(-28px + 100vw); border-width: 1px 1px 1px 2px; border-style: solid; border-color: rgb(89, 10, 17) rgb(89, 10, 17) rgb(89, 10, 17) rgb(248, 80, 74); border-image: none;
+}
+
+#decks #betaCardDetail .beta-detail-header {
+  background: rgb(11, 25, 31); padding: 10px 17px;
+}
+
+#decks #betaCardDetail .beta-detail-header strong {
+  color: rgb(152, 189, 196); font-size: 14px; font-weight: 600;
+}
+
 #decks #betaCardDetail .beta-detail-body {
-  grid-template-columns: minmax(240px, 360px) minmax(0px, 1fr);
+  grid-template-columns: minmax(240px, 360px) minmax(0px, 1fr); gap: 30px; padding: 24px; align-items: start;
 }
 
 #decks #betaCardDetail .beta-detail-art {
-  position: relative; min-width: 0px;
+  position: relative; max-width: none; min-width: 0px; margin: 0px;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame {
+  width: 100%; aspect-ratio: 5 / 7; background: rgb(10, 20, 26); border-radius: 7px; overflow: hidden; border: 1px solid rgb(51, 65, 74);
+}
+
+#decks #betaCardDetail .beta-detail-image-frame img {
+  display: block; width: 100%; height: 100%; object-fit: contain;
+}
+
+#decks #betaCardDetail .beta-detail-copy {
+  min-width: 0px;
+}
+
+#decks #betaCardDetail .beta-detail-eyebrow {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin: 0px 0px 14px;
 }
 
 #decks #betaCardDetail .beta-detail-number, #decks #betaCardDetail .beta-detail-rarity {
-  display: inline-flex; align-items: center; font-size: var(--nct-type-body); line-height: 1.3; border: 1px solid rgb(83, 105, 113); padding: 5px 9px; border-radius: 3px; color: rgb(186, 215, 221); letter-spacing: 0.035em;
+  display: inline-flex; align-items: center; font-size: 14px; line-height: 1.3; border: 1px solid rgb(83, 105, 113); padding: 5px 9px; border-radius: 3px; color: rgb(186, 215, 221); letter-spacing: 0.035em;
+}
+
+#decks #betaCardDetail .beta-detail-rarity {
+  border-color: rgb(145, 57, 68); color: rgb(255, 157, 159);
+}
+
+#decks #betaCardDetail .beta-detail-title {
+  font-size: clamp(23px, 2.4vw, 30px); line-height: 1.35; margin: 0px 0px 6px; overflow-wrap: anywhere; font-weight: 500;
+}
+
+#decks #betaCardDetail .beta-detail-english {
+  margin: 0px 0px 9px; font-size: 17px; line-height: 1.5; color: rgb(181, 197, 204); overflow-wrap: anywhere;
 }
 
 #decks #betaCardDetail .beta-detail-set {
-  font-size: var(--nct-type-body); letter-spacing: 0.08em; color: rgb(111, 153, 164); margin: 0px 0px 22px;
+  font-size: 14px; letter-spacing: 0.08em; color: rgb(111, 153, 164); margin: 0px 0px 22px;
+}
+
+#decks #betaCardDetail .beta-detail-stats {
+  display: grid; grid-template-columns: repeat(3, minmax(0px, 1fr)); gap: 10px; margin: 20px 0px;
 }
 
 #decks #betaCardDetail .beta-detail-stat {
-  display: flex; flex-direction: column; align-items: center;
+  display: flex; flex-direction: column; gap: 5px; align-items: center; padding: 10px 6px; border: 1px solid rgb(59, 86, 96); border-radius: 5px; background: rgb(17, 31, 37);
+}
+
+#decks #betaCardDetail .beta-detail-stat small {
+  font-size: 14px; color: rgb(159, 177, 185);
+}
+
+#decks #betaCardDetail .beta-detail-stat strong {
+  font-size: 22px; font-weight: 600;
+}
+
+#decks #betaCardDetail .beta-detail-effect {
+  border-top: 1px solid rgb(48, 68, 75); padding-top: 18px; margin-top: 4px;
+}
+
+#decks #betaCardDetail .beta-detail-effect h4 {
+  font-size: 16px; color: rgb(41, 255, 255); font-weight: 500; margin: 0px 0px 10px;
+}
+
+#decks #betaCardDetail .beta-ability-text {
+  font-size: 17px; line-height: 1.85; color: rgb(231, 240, 242); margin: 0px 0px 20px; white-space: pre-line;
+}
+
+#decks #betaCardDetail .beta-detail-links {
+  border-top: 1px solid rgb(40, 60, 68); padding-top: 16px; margin-top: 2px;
 }
 
 @media (max-width: 650px) {
+#decks #betaCardDetail.beta-card-dialog {
+  width: calc(-16px + 100vw); max-width: calc(-16px + 100vw); max-height: calc(100dvh - 16px);
+}
+
+#decks #betaCardDetail .beta-detail-body {
+  grid-template-columns: minmax(0px, 1fr); gap: 17px; padding: 15px 14px 22px;
+}
+
 #decks #betaCardDetail .beta-detail-art {
-  max-width: none;
+  width: min(100%, 340px); max-width: none; margin: 0px auto;
+}
+
+#decks #betaCardDetail .beta-detail-title {
+  font-size: 24px;
+}
+
+#decks #betaCardDetail .beta-detail-english {
+  font-size: 16px;
+}
+
+#decks #betaCardDetail .beta-ability-text {
+  font-size: 16px;
 }
 
 #decks #betaCardDetail .beta-detail-stats {
@@ -1031,7 +1214,7 @@ small {
 }
 
 #decks #betaCardDetail.beta-card-dialog {
-  width: min(760px, -24px + 100vw); max-width: calc(-24px + 100vw); color: rgb(240, 245, 245);
+  width: min(760px, -24px + 100vw); max-width: calc(-24px + 100vw); max-height: calc(100dvh - 24px); border-width: 1px 1px 1px 2px; border-style: solid; border-color: rgb(239, 64, 86); border-image: none; border-radius: 14px 4px; background: radial-gradient(at 50% 0%, rgba(89, 10, 17, 0.22), transparent 45%), rgb(8, 13, 18); box-shadow: rgb(59, 17, 26) 0px 0px 0px 1px, rgba(0, 0, 0, 0.933) 0px 22px 70px, rgba(201, 29, 57, 0.2) 0px 0px 26px; color: rgb(240, 245, 245);
 }
 
 #decks #betaCardDetail .beta-detail-header {
@@ -1039,11 +1222,19 @@ small {
 }
 
 #decks #betaCardDetail .beta-detail-header strong {
-  color: rgb(145, 169, 177); font-weight: 500; letter-spacing: 0.12em;
+  font-size: 14px; color: rgb(145, 169, 177); font-weight: 500; letter-spacing: 0.12em;
+}
+
+#decks #betaCardDetail .beta-detail-header button {
+  width: 44px; height: 44px; min-width: 44px; border: 1px solid rgb(41, 255, 255); border-radius: 5px; color: rgb(41, 255, 255); background: rgb(7, 27, 36); font-size: 30px; line-height: 1;
+}
+
+#decks #betaCardDetail .beta-detail-header button:hover {
+  background: rgb(18, 56, 68);
 }
 
 #decks #betaCardDetail .beta-detail-body {
-  display: flex; flex-direction: column; align-items: stretch; padding: 8px clamp(15px, 4vw, 30px) 26px; min-height: 0px; overflow-y: auto; scrollbar-gutter: stable;
+  display: flex; flex-direction: column; align-items: stretch; gap: 22px; padding: 8px clamp(15px, 4vw, 30px) 26px; min-height: 0px; overflow-y: auto; scrollbar-gutter: stable;
 }
 
 #decks #betaCardDetail .beta-detail-art {
@@ -1051,7 +1242,11 @@ small {
 }
 
 #decks #betaCardDetail .beta-detail-image-frame {
-  width: 100%; aspect-ratio: 5 / 7;
+  width: 100%; aspect-ratio: 5 / 7; border: 1px solid rgb(124, 99, 84); border-radius: 7px; background: rgb(16, 23, 29); overflow: hidden; box-shadow: rgba(0, 0, 0, 0.6) 0px 14px 35px;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame img {
+  display: block; width: 100%; height: 100%; object-fit: contain;
 }
 
 #decks #betaCardDetail .beta-detail-copy {
@@ -1059,11 +1254,11 @@ small {
 }
 
 #decks #betaCardDetail .beta-card-identity {
-  display: grid;
+  display: grid; grid-template-columns: 6px minmax(0px, 1fr); gap: 12px; align-items: start;
 }
 
 #decks #betaCardDetail .beta-title-accent {
-  height: 100%;
+  width: 6px; height: 100%; min-height: 60px; background: rgb(248, 80, 74); box-shadow: rgba(248, 80, 74, 0.333) 0px 0px 12px;
 }
 
 #decks #betaCardDetail .beta-card-names {
@@ -1071,68 +1266,100 @@ small {
 }
 
 #decks #betaCardDetail .beta-detail-title {
-  margin: 0px 0px 8px; letter-spacing: 0.01em; overflow-wrap: anywhere;
+  font-size: clamp(23px, 3.4vw, 32px); font-weight: 500; line-height: 1.32; margin: 0px 0px 8px; letter-spacing: 0.01em; overflow-wrap: anywhere;
 }
 
 #decks #betaCardDetail .beta-detail-english {
-  line-height: 1.4; margin: 0px; overflow-wrap: anywhere;
+  color: rgb(184, 204, 210); font-size: 16px; line-height: 1.4; margin: 0px; overflow-wrap: anywhere;
 }
 
 #decks #betaCardDetail .beta-detail-eyebrow {
-  display: flex; flex-wrap: wrap;
+  grid-column: 2; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0px;
 }
 
 #decks #betaCardDetail .beta-detail-rarity, #decks #betaCardDetail .beta-detail-number {
-  padding: 6px 10px; border-radius: 3px; border: 1px solid rgb(213, 175, 83); color: rgb(247, 207, 109); background: rgb(25, 25, 18); font-size: var(--nct-type-body); line-height: 1.25; letter-spacing: 0.04em; font-weight: 600;
+  padding: 6px 10px; border-radius: 3px; border: 1px solid rgb(213, 175, 83); color: rgb(247, 207, 109); background: rgb(25, 25, 18); font-size: 14px; line-height: 1.25; letter-spacing: 0.04em; font-weight: 600;
+}
+
+#decks #betaCardDetail .beta-detail-number {
+  border-color: rgb(53, 109, 123); color: rgb(183, 211, 220); background: rgb(12, 28, 36);
 }
 
 #decks #betaCardDetail .beta-detail-stats {
-  display: grid; grid-template-columns: repeat(3, minmax(0px, 1fr));
+  display: grid; grid-template-columns: repeat(3, minmax(0px, 1fr)); gap: 10px; margin: 0px;
 }
 
 #decks #betaCardDetail .beta-detail-stat {
-  min-width: 0px;
+  min-width: 0px; min-height: 76px; padding: 10px 7px; border: 1px solid rgb(215, 52, 73); border-radius: 7px 2px; background: linear-gradient(140deg, rgb(36, 23, 31), rgb(16, 25, 34)); box-shadow: rgba(248, 80, 74, 0.086) 0px 1px 0px inset; gap: 6px;
 }
 
 #decks #betaCardDetail .beta-detail-stat small {
-  letter-spacing: 0.05em;
+  font-size: 14px; letter-spacing: 0.05em; color: rgb(173, 192, 197);
 }
 
 #decks #betaCardDetail .beta-detail-stat strong {
-  color: rgb(238, 246, 247);
+  font-size: 25px; line-height: 1.1; color: rgb(238, 246, 247);
+}
+
+#decks #betaCardDetail .beta-detail-effect {
+  margin: 0px; padding: 16px 17px 18px; border: 1px solid rgb(41, 255, 255); border-radius: 7px 2px; background: linear-gradient(125deg, rgba(6, 54, 60, 0.27), rgba(7, 16, 21, 0.9)); box-shadow: rgba(41, 255, 255, 0.05) 0px 0px 16px inset;
+}
+
+#decks #betaCardDetail .beta-detail-effect h4 {
+  display: inline-block; margin: 0px 0px 12px; padding: 3px 13px 5px; border-bottom: 2px solid rgb(41, 255, 255); font-size: 18px; font-weight: 600; color: rgb(41, 255, 255); letter-spacing: 0.05em;
 }
 
 #decks #betaCardDetail .beta-ability-text {
-  white-space: pre-line;
+  margin: 0px; font-size: 17px; line-height: 1.85; color: rgb(241, 246, 246); white-space: pre-line;
 }
 
 #decks #betaCardDetail .beta-detail-links {
-  padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin: 0px;
+  display: flex; align-items: center; justify-content: center; gap: 0px; flex-wrap: wrap; padding: 0px; margin: 0px; border-top: 0px;
 }
 
 #decks #betaCardDetail .beta-detail-links a {
-  text-underline-offset: 4px;
+  font-size: 15px; text-decoration: underline; text-underline-offset: 4px; padding: 4px 13px; color: rgb(41, 255, 255);
+}
+
+#decks #betaCardDetail .beta-detail-links a + a {
+  border-left: 1px solid rgb(87, 113, 122);
 }
 
 @media (max-width: 650px) {
 #decks #betaCardDetail.beta-card-dialog {
-  border-radius: 10px 3px;
+  width: calc(-12px + 100vw); max-width: calc(-12px + 100vw); max-height: calc(100dvh - 12px); border-radius: 10px 3px;
 }
 
 #decks #betaCardDetail .beta-detail-body {
-  grid-template-columns: none;
+  grid-template-columns: none; padding: 6px 15px 22px; gap: 20px;
 }
 
 #decks #betaCardDetail .beta-detail-header {
   padding: 9px 12px 0px 15px;
 }
 
+#decks #betaCardDetail .beta-detail-art {
+  width: min(100%, 330px); margin: 0px auto;
+}
+
 #decks #betaCardDetail .beta-detail-copy {
   gap: 17px;
 }
 
+#decks #betaCardDetail .beta-detail-title {
+  font-size: 25px;
+}
+
 #decks #betaCardDetail .beta-detail-english {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
+}
+
+#decks #betaCardDetail .beta-ability-text {
+  font-size: 16px;
+}
+
+#decks #betaCardDetail .beta-detail-effect {
+  padding: 13px 14px 16px;
 }
 
 #decks #betaCardDetail .beta-detail-links a {
@@ -1146,16 +1373,36 @@ small {
 }
 }
 
+#decks #betaCardDetail.beta-card-dialog {
+  border: 2px solid rgb(228, 49, 72); border-radius: 16px 4px; background: radial-gradient(at 20% 0%, rgba(93, 16, 27, 0.263), transparent 60%), rgb(8, 12, 17); box-shadow: rgb(81, 17, 28) 0px 0px 0px 1px, rgba(242, 47, 75, 0.282) 0px 0px 26px, rgba(0, 0, 0, 0.933) 0px 25px 70px;
+}
+
 #decks #betaCardDetail .beta-detail-body {
   gap: 21px;
 }
 
+#decks #betaCardDetail .beta-detail-image-frame {
+  border-color: rgb(189, 152, 79); border-radius: 12px; box-shadow: rgb(121, 99, 43) 0px 0px 0px 1px, rgba(0, 0, 0, 0.667) 0px 16px 36px;
+}
+
+#decks #betaCardDetail .beta-card-identity {
+  grid-template-columns: 7px minmax(0px, 1fr) auto; gap: 12px; align-items: start;
+}
+
+#decks #betaCardDetail .beta-title-accent {
+  grid-area: 1 / 1 / span 2; width: 7px; min-height: 88px; background: rgb(248, 80, 74);
+}
+
+#decks #betaCardDetail .beta-card-names {
+  grid-area: 1 / 2;
+}
+
 #decks #betaCardDetail .beta-detail-title {
-  font-size: var(--nct-type-title); line-height: 1.37;
+  font-weight: 500; font-size: clamp(24px, 3.4vw, 33px); line-height: 1.37;
 }
 
 #decks #betaCardDetail .beta-detail-english {
-  color: rgb(179, 203, 208); font-size: var(--nct-type-control); letter-spacing: 0.02em;
+  color: rgb(179, 203, 208); font-size: 16px; letter-spacing: 0.02em;
 }
 
 #decks #betaCardDetail .beta-detail-eyebrow {
@@ -1163,7 +1410,7 @@ small {
 }
 
 #decks #betaCardDetail .beta-detail-eyebrow span {
-  font-size: var(--nct-type-body); padding: 5px 8px; border-radius: 5px 2px; font-weight: 500; white-space: nowrap;
+  font-size: 14px; padding: 5px 8px; border-radius: 5px 2px; font-weight: 500; white-space: nowrap;
 }
 
 #decks #betaCardDetail .beta-detail-eyebrow .beta-chip-red {
@@ -1194,6 +1441,30 @@ small {
   border-color: rgb(52, 120, 135); color: rgb(148, 217, 227); background: rgb(12, 38, 48);
 }
 
+#decks #betaCardDetail .beta-detail-stats {
+  gap: 11px;
+}
+
+#decks #betaCardDetail .beta-detail-stat {
+  min-height: 86px; border: 1.5px solid rgb(238, 51, 76); background: linear-gradient(160deg, rgb(41, 32, 42), rgb(16, 25, 32)); border-radius: 12px 3px;
+}
+
+#decks #betaCardDetail .beta-detail-stat strong {
+  font-size: 29px; font-weight: 600;
+}
+
+#decks #betaCardDetail .beta-detail-effect {
+  border: 1.5px solid rgb(41, 255, 255); background: linear-gradient(145deg, rgba(6, 48, 58, 0.57), rgba(5, 27, 35, 0.56)); box-shadow: rgba(41, 255, 255, 0.063) 0px 0px 22px inset, rgba(41, 255, 255, 0.07) 0px 0px 13px; border-radius: 12px 3px;
+}
+
+#decks #betaCardDetail .beta-detail-effect h4 {
+  font-size: 20px; color: rgb(41, 255, 255); border-bottom: 2px solid rgb(41, 255, 255); margin-bottom: 14px;
+}
+
+#decks #betaCardDetail .beta-ability-text {
+  font-size: 18px; line-height: 1.8;
+}
+
 @media (max-width: 650px) {
 #decks #betaCardDetail .beta-detail-body {
   gap: 20px; padding: 8px 16px 24px;
@@ -1204,15 +1475,23 @@ small {
 }
 
 #decks #betaCardDetail .beta-card-identity {
-  gap: 11px;
+  grid-template-columns: 6px minmax(0px, 1fr); gap: 11px;
+}
+
+#decks #betaCardDetail .beta-card-names {
+  grid-area: 1 / 2;
 }
 
 #decks #betaCardDetail .beta-detail-eyebrow {
   grid-area: 2 / 2; max-width: none; justify-content: flex-start; margin-top: -2px;
 }
 
+#decks #betaCardDetail .beta-title-accent {
+  grid-area: 1 / 1 / span 2; min-height: 72px;
+}
+
 #decks #betaCardDetail .beta-detail-title {
-  font-size: var(--nct-type-title);
+  font-size: 26px;
 }
 
 #decks #betaCardDetail .beta-detail-stats {
@@ -1220,12 +1499,24 @@ small {
 }
 
 #decks #betaCardDetail .beta-detail-stat {
-  padding: 8px 4px;
+  min-height: 77px; padding: 8px 4px;
+}
+
+#decks #betaCardDetail .beta-detail-stat strong {
+  font-size: 26px;
+}
+
+#decks #betaCardDetail .beta-detail-effect {
+  padding: 16px 14px 20px;
+}
+
+#decks #betaCardDetail .beta-ability-text {
+  font-size: 16px;
 }
 }
 
 #decks #betaCardDetail.beta-card-dialog {
-  --card-accent: #8faeb7; --card-accent-rgb: 143,174,183; border-radius: 14px 4px;
+  --card-accent: #8faeb7; --card-accent-rgb: 143,174,183; border: 2px solid var(--card-accent); border-radius: 14px 4px; background: radial-gradient(ellipse at 20% 0%,rgba(var(--card-accent-rgb),.12),transparent 63%),#080c11; box-shadow: 0 0 0 1px rgba(var(--card-accent-rgb),.24),0 0 25px rgba(var(--card-accent-rgb),.19),0 22px 70px #000e;
 }
 
 #decks #betaCardDetail.beta-card-dialog[data-card-color="red"] {
@@ -1245,11 +1536,11 @@ small {
 }
 
 #decks #betaCardDetail .beta-title-accent {
-  box-shadow: 0 0 12px rgba(var(--card-accent-rgb),.24);
+  background: var(--card-accent); box-shadow: 0 0 12px rgba(var(--card-accent-rgb),.24);
 }
 
 #decks #betaCardDetail .beta-card-identity {
-  gap: 12px; align-items: start;
+  grid-template-columns: 7px minmax(0px, 1fr); gap: 12px; align-items: start;
 }
 
 #decks #betaCardDetail .beta-card-names {
@@ -1261,27 +1552,51 @@ small {
 }
 
 #decks #betaCardDetail .beta-card-kind {
-  color: var(--card-accent); margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px; background: none; border: 0px; box-shadow: none;
+  color: var(--card-accent); font-size: 16px; line-height: 1.4; font-weight: 500; letter-spacing: 0.04em; margin: 13px 0px 0px; padding: 0px; background: none; border: 0px; box-shadow: none;
+}
+
+#decks #betaCardDetail .beta-detail-header button {
+  border: 1px solid var(--card-accent); color: var(--card-accent); background: rgba(var(--card-accent-rgb),.08); box-shadow: none;
 }
 
 #decks #betaCardDetail .beta-detail-header button:hover {
-  
+  border-color: var(--card-accent); color: var(--card-accent); background: rgba(var(--card-accent-rgb),.18);
+}
+
+#decks #betaCardDetail .beta-detail-header button:focus-visible {
+  outline-color: var(--card-accent);
+}
+
+#decks #betaCardDetail .beta-detail-stats {
+  gap: 11px;
+}
+
+#decks #betaCardDetail .beta-detail-stat {
+  border: 1.5px solid var(--card-accent); background: linear-gradient(160deg,rgba(var(--card-accent-rgb),.11),#101920); box-shadow: inset 0 1px 0 rgba(var(--card-accent-rgb),.16);
+}
+
+#decks #betaCardDetail .beta-detail-stat small {
+  color: rgb(189, 203, 208);
 }
 
 #decks #betaCardDetail .beta-detail-effect {
-  border-radius: 0px; margin: 0px;
+  border: 0px; border-radius: 0px; padding: 12px 0px 0px; margin: 0px; background: none; box-shadow: none;
 }
 
 #decks #betaCardDetail .beta-detail-effect h4 {
-  border: 0px; padding: 0px; margin: 0px 0px 11px; color: rgb(255, 255, 255); font-size: var(--nct-type-control); font-weight: 500; letter-spacing: 0px;
+  display: block; border: 0px; padding: 0px; margin: 0px 0px 11px; color: rgb(255, 255, 255); font-size: 18px; font-weight: 500; letter-spacing: 0px;
 }
 
 #decks #betaCardDetail .beta-ability-text {
-  font-size: var(--nct-type-control); margin: 0px; padding: 0px; background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; box-shadow: none;
+  color: rgb(255, 255, 255); font-size: 18px; line-height: 1.85; margin: 0px; padding: 0px; background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; box-shadow: none;
 }
 
 #decks #betaCardDetail .beta-detail-links a {
   color: var(--card-accent);
+}
+
+#decks #betaCardDetail .beta-detail-links a + a {
+  border-left-color: rgba(var(--card-accent-rgb),.36);
 }
 
 @media (max-width: 650px) {
@@ -1297,21 +1612,25 @@ small {
   grid-area: 1 / 2;
 }
 
+#decks #betaCardDetail .beta-card-kind {
+  font-size: 15px; margin-top: 11px;
+}
+
 #decks #betaCardDetail .beta-detail-effect {
   padding: 7px 0px 0px;
 }
 
 #decks #betaCardDetail .beta-detail-effect h4 {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
 }
 
 #decks #betaCardDetail .beta-ability-text {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
 }
 }
 
 #decks #betaCardDetail .beta-detail-image-frame {
-  background: transparent; border: 0px; outline: 0px; box-shadow: none;
+  background: transparent; border-radius: 0px; overflow: hidden;
 }
 
 #decks #betaCardDetail .beta-detail-art {
@@ -1319,11 +1638,7 @@ small {
 }
 
 #decks #betaCardDetail .beta-detail-header button {
-  appearance: none; width: 38px; height: 38px; min-width: 38px; min-height: 38px; padding: 0px; border-radius: 0px; outline: none; font-size: var(--nct-type-control); line-height: 1; cursor: pointer; border: 0px; background: transparent; box-shadow: none; color: rgb(255, 255, 255);
-}
-
-#decks #betaCardDetail .beta-detail-header button:hover {
-  color: rgb(226, 230, 232);
+  appearance: none; width: 38px; height: 38px; min-width: 38px; min-height: 38px; padding: 0px; border-radius: 0px; outline: none; font-size: 29px; line-height: 1; cursor: pointer;
 }
 
 #decks #betaCardDetail .beta-detail-header button:focus-visible {
@@ -1335,73 +1650,45 @@ small {
 }
 
 #decks #betaCardDetail .beta-detail-stat {
-  border-radius: 7px; min-height: 60px; padding: 7px 5px; background: linear-gradient(135deg, rgb(10, 11, 14), rgb(22, 24, 29) 58%, rgb(5, 7, 10)); box-shadow: none; gap: 3px;
+  border: 1px solid rgba(var(--card-accent-rgb),.6); border-radius: 7px;
 }
 
 #decks #betaCardDetail .beta-detail-stat small {
-  font-size: var(--nct-type-body); line-height: 1.25; color: rgb(172, 183, 189);
+  font-size: 14px; line-height: 1.25; color: rgb(172, 183, 189);
 }
 
 #decks #betaCardDetail .beta-detail-stat strong {
-  line-height: 1.1; font-weight: 550; font-size: var(--nct-type-heading);
-}
-
-#decks #betaCardDetail .beta-detail-effect {
-  padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px; border-image: none; background: transparent; box-shadow: none;
-}
-
-#decks #betaCardDetail .beta-detail-effect h4 {
-  display: none;
+  line-height: 1.1; font-weight: 550;
 }
 
 #decks #betaCardDetail .beta-ability-text {
   color: rgb(255, 255, 255);
 }
 
-@media (max-width: 650px) {
-#decks #betaCardDetail .beta-detail-stat {
-  min-height: 56px;
-}
-
-#decks #betaCardDetail .beta-detail-stat strong {
-  font-size: var(--nct-type-heading);
-}
-}
-
 #decks #betaCardDetail .beta-card-kind {
-  font-weight: 400; font-size: var(--nct-type-body); line-height: 1.25; margin-top: 7px; letter-spacing: 0px;
-}
-
-@media (max-width: 650px) {
-#decks #betaCardDetail .beta-card-kind {
-  font-size: var(--nct-type-body); margin-top: 6px;
-}
-}
-
-#decks #betaCardDetail .beta-detail-art, #decks #betaCardDetail .beta-detail-image-frame {
-  border: 0px; box-shadow: none;
+  font-weight: 400;
 }
 
 #decks #betaCardDetail .beta-detail-image-frame {
-  clip-path: inset(0px round 15px); isolation: isolate; overflow: hidden; border-radius: 15px;
+  clip-path: inset(0px round 15px); isolation: isolate;
 }
 
 #decks #betaCardDetail .beta-detail-image-frame img {
-  display: block; width: 100%; height: 100%; transform: scale(1.018); transform-origin: center center; object-fit: cover; border: 0px; border-radius: 15px;
+  display: block; width: 100%; height: 100%; transform: scale(1.018); transform-origin: center center;
 }
 
 @media (max-width: 650px) {
 #decks #betaCardDetail .beta-detail-image-frame {
-  clip-path: inset(0px round 14px); border-radius: 14px;
-}
-
-#decks #betaCardDetail .beta-detail-image-frame img {
-  border-radius: 14px;
+  clip-path: inset(0px round 14px);
 }
 }
 
 #decks .beta-page-jump select {
-  background: rgb(18, 30, 35); border: 1px solid rgb(69, 96, 106); border-radius: 4px; color: rgb(231, 240, 242); padding: 10px 8px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; font-family: inherit; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; font-size: var(--nct-type-control); max-width: 105px;
+  background: rgb(18, 30, 35); border: 1px solid rgb(69, 96, 106); border-radius: 4px; color: rgb(231, 240, 242); padding: 10px 8px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; font-family: inherit; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; font-size: 15px; max-width: 105px;
+}
+
+#decks .beta-pages {
+  gap: 10px; flex-wrap: wrap;
 }
 
 #decks .beta-detail-art img, #deckDialogImage {
@@ -1409,11 +1696,15 @@ small {
 }
 
 #decks .beta-pages {
-  flex-wrap: nowrap;
+  display: grid; grid-template-columns: auto minmax(0px, 1fr) auto; align-items: center; gap: 10px; flex-wrap: nowrap;
 }
 
 #decks .beta-page-center {
-  min-width: 0px;
+  display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0px;
+}
+
+#decks .beta-page-center select {
+  width: 90px; min-width: 0px;
 }
 
 #decks .beta-pages button {
@@ -1421,7 +1712,7 @@ small {
 }
 
 #decks .beta-page-center span {
-  white-space: nowrap; font-size: var(--nct-type-caption);
+  white-space: nowrap; font-size: 13px;
 }
 
 @media (max-width: 430px) {
@@ -1434,15 +1725,15 @@ small {
 }
 
 #decks .beta-page-center select {
-  width: 76px; padding: 10px 3px; font-size: var(--nct-type-control);
+  width: 76px; padding: 10px 3px; font-size: 13px;
 }
 
 #decks .beta-pages button {
-  padding: 10px 7px; font-size: var(--nct-type-control);
+  padding: 10px 7px; font-size: 13px;
 }
 
 #decks .beta-page-center span {
-  font-size: var(--nct-type-caption);
+  font-size: 12px;
 }
 }
 
@@ -1451,7 +1742,7 @@ small {
 }
 
 #decks .beta-pages > button {
-  min-width: 0px; min-height: 46px; width: fit-content; padding: 10px 18px; border-radius: 6px; background: rgb(16, 29, 35); border: 1px solid rgb(64, 89, 99); color: rgb(220, 233, 236); font-size: var(--nct-type-control);
+  min-width: 0px; min-height: 46px; width: fit-content; padding: 10px 18px; border-radius: 6px; background: rgb(16, 29, 35); border: 1px solid rgb(64, 89, 99); color: rgb(220, 233, 236); font-size: 15px;
 }
 
 #decks .beta-pages > button:first-child {
@@ -1475,7 +1766,7 @@ small {
 }
 
 #decks .beta-page-center select {
-  appearance: none; box-sizing: border-box; min-width: 106px; width: 106px; max-width: none; min-height: 46px; padding: 10px 30px 10px 14px; border: 1px solid rgb(84, 113, 123); border-radius: 6px; background: rgb(19, 35, 42); color: rgb(232, 242, 243); font-size: var(--nct-type-control); font-weight: 500; text-align: left; box-shadow: none; outline-offset: 3px; cursor: pointer;
+  appearance: none; box-sizing: border-box; min-width: 106px; width: 106px; max-width: none; min-height: 46px; padding: 10px 30px 10px 14px; border: 1px solid rgb(84, 113, 123); border-radius: 6px; background: rgb(19, 35, 42); color: rgb(232, 242, 243); font-size: 15px; font-weight: 500; text-align: left; box-shadow: none; outline-offset: 3px; cursor: pointer;
 }
 
 #decks .beta-page-center select:focus-visible {
@@ -1483,7 +1774,7 @@ small {
 }
 
 #decks .beta-page-center #betaPages {
-  color: rgb(165, 183, 190); font-size: var(--nct-type-body); white-space: nowrap;
+  color: rgb(165, 183, 190); font-size: 14px; white-space: nowrap;
 }
 
 @media (max-width: 470px) {
@@ -1492,7 +1783,7 @@ small {
 }
 
 #decks .beta-pages > button {
-  font-size: var(--nct-type-control); padding: 9px; min-height: 44px;
+  font-size: 13px; padding: 9px; min-height: 44px;
 }
 
 #decks .beta-page-center {
@@ -1500,7 +1791,7 @@ small {
 }
 
 #decks .beta-page-center select {
-  min-width: 83px; width: 83px; min-height: 44px; font-size: var(--nct-type-control); padding: 9px 23px 9px 9px;
+  min-width: 83px; width: 83px; min-height: 44px; font-size: 13px; padding: 9px 23px 9px 9px;
 }
 
 #decks .beta-page-select-wrap::after {
@@ -1508,12 +1799,12 @@ small {
 }
 
 #decks .beta-page-center #betaPages {
-  font-size: var(--nct-type-caption);
+  font-size: 12px;
 }
 }
 
 #decks .beta-page-center select:focus, #decks .beta-page-center select:focus-visible {
-  border-color: rgb(41, 255, 255); outline: none; box-shadow: none;
+  border-color: rgb(41, 255, 255);
 }
 
 #decks .beta-card-art {
@@ -1528,14 +1819,22 @@ small {
   max-height: calc(100dvh - 72px); box-shadow: rgba(0, 0, 0, 0.933) 0px 22px 70px, rgba(201, 29, 57, 0.2) 0px 0px 26px;
 }
 
+#decks #betaCardDetail .beta-detail-image-frame {
+  border: 0px; box-shadow: rgba(0, 0, 0, 0.6) 0px 14px 35px;
+}
+
 @media (max-width: 650px) {
 #decks #betaCardDetail.beta-card-dialog {
   max-height: calc(100dvh - 76px); width: calc(-24px + 100vw); max-width: calc(-24px + 100vw);
 }
 }
 
+#decks .deck-visual-grid {
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 16px;
+}
+
 #decks .deck-tile {
-  background: linear-gradient(150deg, rgb(25, 22, 29), rgb(12, 29, 34)); border: 1px solid rgb(74, 48, 55); border-radius: 4px; color: rgb(239, 248, 249);
+  gap: 5px; padding: 9px; background: linear-gradient(150deg, rgb(25, 22, 29), rgb(12, 29, 34)); border: 1px solid rgb(74, 48, 55); border-radius: 4px; color: rgb(239, 248, 249);
 }
 
 #decks .deck-tile:hover, #decks .deck-tile:focus-visible {
@@ -1547,15 +1846,15 @@ small {
 }
 
 #decks .deck-tile .deck-name {
-  overflow-wrap: anywhere;
+  font-size: 18px; line-height: 1.4; margin-top: 7px; font-weight: 500; overflow-wrap: anywhere;
 }
 
 #decks .deck-tile .deck-original {
-  color: rgb(172, 189, 194); overflow-wrap: anywhere;
+  font-size: 15px; line-height: 1.45; color: rgb(172, 189, 194); margin: 0px; padding: 0px; min-height: 0px; overflow-wrap: anywhere;
 }
 
 #decks .deck-tile .deck-meta {
-  display: flex; justify-content: space-between; gap: 6px; align-items: center; color: rgb(171, 193, 199);
+  display: flex; justify-content: space-between; gap: 6px; align-items: center; margin-top: auto; padding-top: 8px; font-size: 14px; color: rgb(171, 193, 199);
 }
 
 #decks .deck-tile .deck-meta b {
@@ -1574,10 +1873,6 @@ small {
 
 #decks .card-guide-tabs button, #decks .card-guide-tabs button[aria-selected="true"] {
   font-weight: 400;
-}
-
-#decks #betaCardDetail.beta-card-dialog[open], #decks #betaCardDetail.beta-card-dialog[open] .beta-detail-art, #decks #betaCardDetail.beta-card-dialog[open] .beta-detail-image-frame, #decks #betaCardDetail.beta-card-dialog[open] .beta-detail-image-frame img {
-  animation: auto ease 0s 1 normal none running none; transition: none; transform: none;
 }
 
 @media (max-width: 650px) {
@@ -1608,15 +1903,15 @@ small {
 }
 
 #decks .beta-browser-intro h2 {
-  font-size: var(--nct-type-title); line-height: 1.28; overflow-wrap: normal; word-break: normal;
+  font-size: clamp(20px, 5.4vw, 26px); line-height: 1.28; overflow-wrap: normal; word-break: normal;
 }
 
 #decks .beta-browser-intro p {
-  font-size: var(--nct-type-body); line-height: 1.5;
+  font-size: 14px; line-height: 1.5;
 }
 
 #decks .beta-counter {
-  font-size: var(--nct-type-body); white-space: normal;
+  font-size: 14px; white-space: normal;
 }
 }
 
@@ -1629,31 +1924,27 @@ small {
 }
 
 #decks .deck-tile {
-  padding: 9px; gap: 5px; min-width: 0px; transform: none; transition: none;
+  padding: 9px; gap: 5px; min-width: 0px;
 }
 
 #decks .deck-tile .deck-name {
-  font-size: var(--nct-type-control); line-height: 1.4; margin: 7px 0px 0px; padding: 0px; font-weight: 500;
+  font-size: 18px; line-height: 1.4; margin: 7px 0px 0px; padding: 0px; font-weight: 500;
 }
 
 #decks .deck-tile .deck-original {
-  font-size: var(--nct-type-body); line-height: 1.45; margin: 0px; padding: 0px; min-height: 0px;
+  font-size: 15px; line-height: 1.45; margin: 0px; padding: 0px; min-height: 0px;
 }
 
 #decks .deck-tile .deck-meta {
-  font-size: var(--nct-type-body); line-height: 1.4; margin-top: auto; padding-top: 8px;
-}
-
-#decks .deck-tile:hover, #decks .deck-tile:focus-visible, #decks .beta-tile:hover, #decks .beta-tile:focus-visible {
-  border-color: rgb(74, 48, 55); transform: none;
+  font-size: 14px; line-height: 1.4; margin-top: auto; padding-top: 8px;
 }
 
 #decks .deck-tile:focus-visible, #decks .beta-tile:focus-visible {
   outline: rgb(139, 170, 178) solid 2px; outline-offset: 2px;
 }
 
-#decks .deck-tile:active, #decks .beta-tile:active {
-  border-color: rgb(74, 48, 55); transform: none;
+#decks .deck-tile .deck-name .card-title-subline, #decks .beta-card-title .card-title-subline {
+  display: block;
 }
 
 @media (max-width: 950px) {
@@ -1672,11 +1963,11 @@ small {
 }
 
 #decks .deck-tile .deck-name {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
 }
 
 #decks .deck-tile .deck-original {
-  font-size: var(--nct-type-body);
+  font-size: 14px;
 }
 }
 
@@ -1687,7 +1978,7 @@ small {
 }
 
 #decks .deck-tile, #decks .beta-tile {
-  box-sizing: border-box; display: flex; flex-direction: column; align-items: stretch; height: 100%; min-height: 0px;
+  box-sizing: border-box; display: flex; flex-direction: column; align-items: stretch; height: 100%; min-height: 0px; gap: 5px;
 }
 
 #decks .deck-art, #decks .beta-card-art {
@@ -1699,7 +1990,7 @@ small {
 }
 
 #decks .deck-tile .deck-original, #decks .beta-card-english {
-  box-sizing: border-box; flex: 0 0 auto; min-height: calc(4.35em); margin: 0px; padding: 0px; overflow-wrap: anywhere;
+  box-sizing: border-box; flex: 0 0 auto; min-height: calc(4.35em); line-height: 1.45; margin: 0px; padding: 0px; overflow-wrap: anywhere;
 }
 
 #decks .deck-tile .deck-meta, #decks .beta-card-meta {
@@ -1757,7 +2048,7 @@ header nav button.active {
 }
 
 #learn #labStage .lesson-feedback-title {
-  display: block; color: rgb(41, 255, 255); font-size: var(--nct-type-control); font-weight: 600; line-height: 1.5;
+  display: block; color: rgb(41, 255, 255); font-size: 16px; font-weight: 600; line-height: 1.5;
 }
 
 #learn #labStage .lesson-feedback.is-error .lesson-feedback-title {
@@ -1765,7 +2056,11 @@ header nav button.active {
 }
 
 #learn #labStage .lesson-feedback-detail {
-  margin: 6px 0px 0px; color: rgb(198, 214, 218); font-size: var(--nct-type-control); line-height: 1.75;
+  margin: 6px 0px 0px; color: rgb(198, 214, 218); font-size: 16px; line-height: 1.75;
+}
+
+#learn #labStage .chapter-actions {
+  margin-top: 0px; gap: 12px;
 }
 
 @media (min-width: 768px) {
@@ -1809,11 +2104,15 @@ header nav button.active {
 }
 
 #decks .deck-tile .deck-name .card-title-subline, #decks .beta-card-title .card-title-subline {
-  display: block; font-size: var(--nct-type-caption); font-weight: 400; line-height: 1.4; letter-spacing: 0.5px; color: rgb(212, 217, 220);
+  display: block; font-size: 0.85em; font-weight: 400; line-height: 1.4; letter-spacing: 0.5px; color: rgb(212, 217, 220);
+}
+
+#decks .deck-tile .deck-original, #decks .beta-card-english {
+  line-height: 1.25;
 }
 
 #decks .deck-tile .deck-original .card-english-subline, #decks .beta-card-english .card-english-subline {
-  display: block; font-weight: 400; margin-top: 1px;
+  display: block; font-size: 0.85em; font-weight: 400; line-height: 1.2; letter-spacing: 0.5px; margin-top: 1px;
 }
 
 @media (min-width: 768px) {
@@ -1823,19 +2122,19 @@ header nav button.active {
 }
 
 #decks .deck-tile .deck-original, #decks .beta-card-english {
-  font-size: var(--nct-type-caption); letter-spacing: 0.5px; font-weight: 400; line-height: 1.2;
+  font-size: 12.75px; letter-spacing: 0.5px; font-weight: 400; line-height: 1.2;
 }
 
 #decks .deck-tile .deck-original .card-english-subline, #decks .beta-card-english .card-english-subline {
-  font-size: inherit; line-height: 1.2; letter-spacing: inherit;
+  font-size: 1em; line-height: 1.2; letter-spacing: inherit;
 }
 
 #decks #betaCardDetail .beta-detail-tags {
-  --tag-height: 27px; --tag-padding-x: 10px; justify-content: flex-start; margin: 0px;
+  --tag-height: 27px; --tag-padding-x: 10px; display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: center; gap: 8px; margin: 0px;
 }
 
 #decks #betaCardDetail .beta-detail-tags > span {
-  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--tag-height); min-height: 0px; border: 1.5px solid rgb(81, 82, 91); border-radius: 9999px; background: transparent; color: rgb(222, 222, 227); font-size: var(--nct-type-caption); font-weight: 400; line-height: 1; letter-spacing: 0px; text-align: center; white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: var(--tag-height); min-height: 0px; padding: 0 var(--tag-padding-x); border: 1.5px solid rgb(81, 82, 91); border-radius: 9999px; background: transparent; color: rgb(222, 222, 227); font-size: 12px; font-weight: 400; line-height: 1; letter-spacing: 0px; text-align: center; white-space: nowrap;
 }
 
 #decks, #decks * {
@@ -1846,13 +2145,31 @@ header nav button.active {
   gap: 1px;
 }
 
+#decks #betaCardDetail .beta-ability-text {
+  line-height: 1.5; letter-spacing: 1px;
+}
+
 #decks .beta-filters select {
   appearance: none; padding-right: 44px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23e5f3f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; background-size: 18px 18px;
 }
 
 @media (min-width: 900px) {
+#decks #betaCardDetail .beta-detail-stat {
+  border-color: rgba(var(--card-accent-rgb),.42);
+}
+
+#decks #betaCardDetail .beta-detail-stat small {
+  font-size: 12px;
+}
+
+#decks #betaCardDetail .beta-detail-stat strong {
+  font-size: 23px; line-height: 1.1;
+}
+}
+
+@media (min-width: 900px) {
 #decks #betaCardDetail.beta-card-dialog {
-  width: min(930px, -32px + 100vw); max-width: calc(-32px + 100vw); border-radius: 10px; background: linear-gradient(90deg, rgb(16, 16, 20) 0%, rgb(16, 16, 20) 43%, rgb(13, 16, 21) 43%, rgb(13, 16, 21) 100%); box-shadow: rgba(0, 0, 0, 0.733) 0px 18px 48px;
+  width: min(930px, -32px + 100vw); max-width: calc(-32px + 100vw); border: 1px solid rgba(var(--card-accent-rgb),.6); border-radius: 10px; background: linear-gradient(90deg, rgb(16, 16, 20) 0%, rgb(16, 16, 20) 43%, rgb(13, 16, 21) 43%, rgb(13, 16, 21) 100%); box-shadow: rgba(0, 0, 0, 0.733) 0px 18px 48px;
 }
 
 #decks #betaCardDetail .beta-detail-header {
@@ -1860,7 +2177,7 @@ header nav button.active {
 }
 
 #decks #betaCardDetail .beta-detail-header strong {
-  font-size: var(--nct-type-caption); letter-spacing: 1px;
+  font-size: 11px; letter-spacing: 1px;
 }
 
 #decks #betaCardDetail .beta-detail-body {
@@ -1892,36 +2209,32 @@ header nav button.active {
 }
 
 #decks #betaCardDetail .beta-detail-title {
-  font-size: var(--nct-type-title); line-height: 1.3;
+  font-size: clamp(23px, 2.2vw, 29px); line-height: 1.3;
 }
 
 #decks #betaCardDetail .beta-detail-english {
-  font-size: var(--nct-type-body); line-height: 1.4;
-}
-
-#decks #betaCardDetail .beta-detail-effect {
-  padding-top: 15px;
+  font-size: 14px; line-height: 1.4;
 }
 
 #decks #betaCardDetail .beta-ability-text {
-  font-size: var(--nct-type-body); line-height: 1.5; letter-spacing: 1px;
+  font-size: 15px; line-height: 1.5; letter-spacing: 1px;
 }
 
 #decks #betaCardDetail .beta-detail-stat {
-  background: transparent; min-height: 58px; padding: 7px 6px; box-shadow: none;
+  border-color: rgba(var(--card-accent-rgb),.42);
 }
 
 #decks #betaCardDetail .beta-detail-stat small {
-  font-size: var(--nct-type-caption);
+  font-size: 12px;
 }
 
 #decks #betaCardDetail .beta-detail-stat strong {
-  font-size: var(--nct-type-heading); line-height: 1.1;
+  font-size: 23px; line-height: 1.1;
 }
 }
 
 #decks #betaCardDetail .beta-detail-meta-line {
-  color: rgb(174, 183, 189); font-size: var(--nct-type-caption); letter-spacing: 1px;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px; color: rgb(174, 183, 189); font-size: 11px; letter-spacing: 1px;
 }
 
 #decks #betaCardDetail .beta-detail-meta-line strong {
@@ -1941,15 +2254,11 @@ header nav button.active {
 }
 
 #decks #betaCardDetail .beta-detail-section-label {
-  flex-basis: 100%; width: 100%; margin: 0px 0px 3px; color: var(--card-accent); font-size: var(--nct-type-caption); font-weight: 500; letter-spacing: 1px; line-height: 1.4;
-}
-
-#decks #betaCardDetail .beta-detail-effect {
-  padding-top: 15px;
+  flex-basis: 100%; width: 100%; margin: 0px 0px 3px; color: var(--card-accent); font-size: 11px; font-weight: 500; letter-spacing: 1px; line-height: 1.4;
 }
 
 #decks #betaCardDetail .beta-detail-effect h4.beta-detail-section-label {
-  color: var(--card-accent); font-size: var(--nct-type-caption); font-weight: 500; letter-spacing: 1px; display: block; border: 0px; margin: 0px 0px 10px; padding: 0px;
+  color: var(--card-accent); font-size: 11px; font-weight: 500; letter-spacing: 1px;
 }
 
 #decks #betaCardDetail .beta-ability-text {
@@ -1957,19 +2266,19 @@ header nav button.active {
 }
 
 #decks #betaCardDetail .beta-detail-links {
-  justify-content: flex-end; padding-top: 13px;
+  justify-content: flex-end; border-top: 1px solid rgba(var(--card-accent-rgb),.22); padding-top: 13px;
 }
 
 #decks #betaCardDetail .beta-detail-links a {
-  font-size: var(--nct-type-caption); text-decoration: none; padding: 0px;
+  font-size: 12px; text-decoration: none; padding: 0px;
 }
 
 #decks #betaCardDetail .beta-printings {
-  width: 100%; margin-top: 20px; padding-top: 15px;
+  width: 100%; margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(var(--card-accent-rgb),.26);
 }
 
 #decks #betaCardDetail .beta-printings h4 {
-  font-size: var(--nct-type-caption); font-weight: 400; letter-spacing: 1px; color: rgb(210, 200, 204); margin: 0px 0px 12px;
+  font-size: 11px; font-weight: 400; letter-spacing: 1px; color: rgb(210, 200, 204); text-align: left; margin: 0px 0px 12px;
 }
 
 #decks #betaCardDetail .beta-printing-strip {
@@ -1977,7 +2286,7 @@ header nav button.active {
 }
 
 #decks #betaCardDetail .beta-printing-option {
-  flex: 0 0 72px; display: flex; flex-direction: column; gap: 6px; align-items: center; padding: 6px 5px; border: 1px solid rgb(85, 68, 75); border-radius: 5px; background: rgb(21, 21, 25); color: rgb(198, 208, 211); cursor: pointer; font-size: var(--nct-type-caption);
+  flex: 0 0 72px; display: flex; flex-direction: column; gap: 6px; align-items: center; padding: 6px 5px; border: 1px solid rgb(85, 68, 75); border-radius: 5px; background: rgb(21, 21, 25); color: rgb(198, 208, 211); cursor: pointer; font-size: 11px;
 }
 
 #decks #betaCardDetail .beta-printing-option img {
@@ -1985,11 +2294,11 @@ header nav button.active {
 }
 
 #decks #betaCardDetail .beta-printing-option.selected {
-  box-shadow: 0 0 0 1px rgba(var(--card-accent-rgb),.3);
+  border-color: var(--card-accent); box-shadow: 0 0 0 1px rgba(var(--card-accent-rgb),.3);
 }
 
 #decks #betaCardDetail .beta-printing-option:focus-visible {
-  outline-offset: 2px;
+  outline: 2px solid var(--card-accent); outline-offset: 2px;
 }
 
 @media (max-width: 899px) {
@@ -1998,52 +2307,12 @@ header nav button.active {
 }
 
 #decks #betaCardDetail .beta-detail-section-label {
-  font-size: var(--nct-type-caption);
+  font-size: 11px;
 }
 }
 
-#decks #betaCardDetail .beta-card-identity {
-  grid-template-columns: 3px minmax(0px, 1fr);
-}
-
-#decks #betaCardDetail .beta-title-accent {
-  width: 3px;
-}
-
-@media (max-width: 899px) {
-#decks #betaCardDetail.beta-card-dialog {
-  width: min(930px, -24px + 100vw); max-width: calc(-24px + 100vw); border-radius: 10px; background: rgb(16, 16, 20); box-shadow: rgba(0, 0, 0, 0.733) 0px 18px 48px;
-}
-
-#decks #betaCardDetail .beta-detail-art {
-  width: 100%; max-width: none; padding: 8px 28px 0px; box-sizing: border-box;
-}
-
-#decks #betaCardDetail .beta-detail-image-frame {
-  border: 0px; border-radius: 10px; clip-path: inset(0px round 10px); box-shadow: none;
-}
-
-#decks #betaCardDetail .beta-detail-image-frame img {
-  border-radius: 10px;
-}
-
-#decks #betaCardDetail .beta-printings {
-  margin: 12px 0px 0px; box-sizing: border-box; padding-top: 11px;
-}
-}
-
-@media (max-width: 380px) {
-#decks #betaCardDetail .beta-detail-image-frame {
-  width: min(100%, 165px);
-}
-}
-
-#decks #starterDeckGallery .deck-collection, #decks #starterDeckGallery .deck-collection:nth-of-type(2n) {
-  border-left-color: rgb(248, 80, 74);
-}
-
-#decks #starterDeckGallery .deck-summaryhint .when-closed, #decks #starterDeckGallery .deck-summaryhint .when-open {
-  color: rgb(255, 255, 255);
+#decks #betaDetailClose::before, #decks #closeDeckDialog::before {
+  content: ""; display: block; width: 19px; height: 19px; margin: auto; background: linear-gradient(45deg, transparent calc(50% - 0.75px), currentcolor calc(50% - 0.75px), currentcolor calc(50% + 0.75px), transparent calc(50% + 0.75px)), linear-gradient(-45deg, transparent calc(50% - 0.75px), currentcolor calc(50% - 0.75px), currentcolor calc(50% + 0.75px), transparent calc(50% + 0.75px));
 }
 
 #decks #betaCardDetail .beta-source-link {
@@ -2064,45 +2333,19 @@ header nav button.active {
 }
 }
 
-#decks #betaCardDetail .beta-detail-meta-line {
-  display: inline-flex; width: max-content; max-width: 100%; justify-content: flex-start; align-items: baseline; flex-wrap: nowrap; gap: 6px;
-}
-
 #decks #betaCardDetail .beta-detail-meta-line > strong, #decks #betaCardDetail .beta-detail-meta-line > span {
-  min-width: 0px; white-space: nowrap; flex: 0 0 auto;
-}
-
-#decks #betaCardDetail .beta-detail-meta-line > span + span::before {
-  margin-right: 6px;
+  min-width: 0px; white-space: nowrap;
 }
 
 @media (max-width: 380px) {
 #decks #betaCardDetail .beta-detail-meta-line {
-  letter-spacing: 0.5px; gap: 5px;
-}
-
-#decks #betaCardDetail .beta-detail-meta-line > span + span::before {
-  margin-right: 5px;
-}
-}
-
-@media (max-width: 899px) {
-#decks #betaCardDetail .beta-detail-body {
-  gap: 8px;
-}
-
-#decks #betaCardDetail .beta-detail-art {
-  margin-bottom: 0px;
-}
-
-#decks #betaCardDetail .beta-detail-copy {
-  padding-top: 4px;
+  letter-spacing: 0.5px;
 }
 }
 
 @media (max-width: 767px) {
 #decks #betaSearch {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
 }
 }
 
@@ -2114,22 +2357,12 @@ header nav button.active {
   border-left: 0px; padding-left: 0px;
 }
 
-@media (max-width: 899px) {
-#decks #betaCardDetail .beta-detail-image-frame {
-  width: min(100%, 190px); max-width: 190px; margin: 0px auto;
-}
-
-#decks #betaCardDetail .beta-detail-image-frame img {
-  display: block; width: 100%; height: auto;
-}
-}
-
 #decks #betaCardDetail .beta-printings h4, #decks #betaCardDetail .beta-printing-option, #decks #betaCardDetail .beta-detail-meta-line, #decks #betaCardDetail .beta-detail-section-label, #decks #betaCardDetail .beta-detail-effect h4.beta-detail-section-label {
-  line-height: 1.4; text-size-adjust: 100%; font-size: var(--nct-type-caption);
+  line-height: 1.4; text-size-adjust: 100%;
 }
 
 #decks #betaCardDetail .beta-detail-header strong {
-  line-height: 1.4; text-size-adjust: 100%; font-size: var(--nct-type-body);
+  line-height: 1.4; text-size-adjust: 100%;
 }
 
 #decks #starterDeckGallery .deck-visual-grid {
@@ -2153,19 +2386,19 @@ header nav button.active {
 }
 
 #decks #starterDeckGallery .deck-tile .deck-name {
-  font-size: var(--nct-type-control); line-height: 1.4; font-weight: 500; min-height: 0px; margin-top: 7px; padding: 0px; overflow-wrap: anywhere;
+  font-size: 18px; line-height: 1.4; font-weight: 500; min-height: 0px; margin-top: 7px; padding: 0px; overflow-wrap: anywhere;
 }
 
 #decks #starterDeckGallery .deck-tile .deck-original {
-  font-size: var(--nct-type-body); line-height: 1.45; color: rgb(172, 189, 194); min-height: 0px; margin: 0px; padding: 0px; overflow-wrap: anywhere;
+  font-size: 15px; line-height: 1.45; color: rgb(172, 189, 194); min-height: 0px; margin: 0px; padding: 0px; overflow-wrap: anywhere;
 }
 
 #decks #starterDeckGallery .deck-tile .deck-meta {
-  display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: var(--nct-type-body); line-height: 1.4; color: rgb(171, 193, 199); margin-top: auto; padding-top: 8px;
+  display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 14px; line-height: 1.4; color: rgb(171, 193, 199); margin-top: auto; padding-top: 8px;
 }
 
 #decks #starterDeckGallery .deck-tile .deck-meta b {
-  position: absolute; z-index: 2; top: 16px; right: 16px; min-width: 33px; height: 33px; border: 1px solid rgba(248, 80, 74, 0.72); border-radius: 50%; background: rgba(7, 16, 21, 0.94); display: flex; align-items: center; justify-content: center; box-sizing: border-box; padding: 0px 5px; font-size: var(--nct-type-caption); line-height: 1; font-weight: 600; color: rgb(248, 251, 252); letter-spacing: -0.04em; box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
+  position: absolute; z-index: 2; top: 16px; right: 16px; min-width: 33px; height: 33px; border: 1px solid rgba(248, 80, 74, 0.72); border-radius: 50%; background: rgba(7, 16, 21, 0.94); display: flex; align-items: center; justify-content: center; box-sizing: border-box; padding: 0px 5px; font-size: 12px; line-height: 1; font-weight: 600; color: rgb(248, 251, 252); letter-spacing: -0.04em; box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
 }
 
 @media (max-width: 950px) {
@@ -2184,15 +2417,15 @@ header nav button.active {
 }
 
 #decks #starterDeckGallery .deck-tile .deck-name {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
 }
 
 #decks #starterDeckGallery .deck-tile .deck-original {
-  font-size: var(--nct-type-body);
+  font-size: 14px;
 }
 
 #decks #starterDeckGallery .deck-tile .deck-meta b {
-  top: 12px; right: 12px; min-width: 29px; height: 29px; font-size: var(--nct-type-caption);
+  top: 12px; right: 12px; min-width: 29px; height: 29px; font-size: 11px;
 }
 }
 
@@ -2203,109 +2436,81 @@ header nav button.active {
 }
 
 #decks #starterDeckGallery .deck-tile.beta-tile .deck-name.beta-card-title {
-  font-size: var(--nct-type-control); line-height: 1.4; font-weight: 500; margin-top: 7px; padding: 0px; min-height: 0px;
+  font-size: 18px; line-height: 1.4; font-weight: 500; margin-top: 7px; padding: 0px; min-height: 0px;
 }
 
 #decks #starterDeckGallery .deck-tile.beta-tile .deck-original.beta-card-english {
-  font-size: var(--nct-type-body); line-height: 1.45; margin: 0px; padding: 0px; min-height: 0px;
+  font-size: 15px; line-height: 1.45; margin: 0px; padding: 0px; min-height: 0px;
 }
 
 #decks #starterDeckGallery .deck-tile.beta-tile .deck-meta.beta-card-meta {
-  display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: var(--nct-type-body); line-height: 1.4; margin-top: auto; padding-top: 8px;
+  display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 14px; line-height: 1.4; margin-top: auto; padding-top: 8px;
 }
 
 #decks #starterDeckGallery .deck-tile.beta-tile .deck-meta.beta-card-meta b {
-  position: static; display: inline; min-width: 0px; height: auto; padding: 0px; border: 0px; border-radius: 0px; background: none; box-shadow: none; font-size: var(--nct-type-body); letter-spacing: normal; line-height: inherit; font-weight: 600; color: rgb(248, 80, 74);
+  position: static; display: inline; min-width: 0px; height: auto; padding: 0px; border: 0px; border-radius: 0px; background: none; box-shadow: none; font-size: 14px; letter-spacing: normal; line-height: inherit; font-weight: 600; color: rgb(248, 80, 74);
 }
 
 #decks #starterDeckGallery .deck-tile .deck-art .starter-quantity-badge {
-  position: absolute; top: 8px; right: 8px; z-index: 2; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(7, 16, 21, 0.94); border: 1px solid rgba(248, 80, 74, 0.72); box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px; color: rgb(248, 251, 252); font-size: var(--nct-type-caption); line-height: 1; font-weight: 600; pointer-events: none;
+  position: absolute; top: 8px; right: 8px; z-index: 2; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(7, 16, 21, 0.94); border: 1px solid rgba(248, 80, 74, 0.72); box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px; color: rgb(248, 251, 252); font-size: 12px; line-height: 1; font-weight: 600; pointer-events: none;
 }
 
 @media (max-width: 700px) {
 #decks #starterDeckGallery .deck-tile.beta-tile .deck-name.beta-card-title {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
 }
 
 #decks #starterDeckGallery .deck-tile.beta-tile .deck-original.beta-card-english {
-  font-size: var(--nct-type-body);
+  font-size: 14px;
 }
 
 #decks #starterDeckGallery .deck-tile .deck-art .starter-quantity-badge {
-  width: 29px; height: 29px; top: 6px; right: 6px; font-size: var(--nct-type-caption);
+  width: 29px; height: 29px; top: 6px; right: 6px; font-size: 11px;
 }
 }
 
 @media (max-width: 899px) {
-#decks #betaCardDetail .beta-detail-art {
-  display: block; min-width: 0px;
-}
-
-#decks #betaCardDetail .beta-detail-image-frame {
-  display: block;
-}
-
-#decks #betaCardDetail .beta-printings {
-  width: 100%; min-width: 0px; max-width: 100%; text-align: left;
-}
-
-#decks #betaCardDetail .beta-printings h4 {
-  text-align: left;
-}
-
 #decks #betaCardDetail .beta-printing-strip {
-  overscroll-behavior-x: contain; justify-content: flex-start; max-width: 100%; overflow-x: auto;
+  overscroll-behavior-x: contain;
 }
 
 #decks #betaCardDetail .beta-printing-option {
   flex-shrink: 0;
 }
-
-#decks #betaCardDetail .beta-detail-copy {
-  min-width: 0px;
 }
 
-#decks #betaCardDetail .beta-detail-meta-line {
-  width: auto; max-width: 100%; flex-wrap: wrap;
-}
-}
-
-#decks .card-guide-tabs, #decks #starterDeckGallery {
-  display: none;
+#decks .v3-quick-filters {
+  display: flex; gap: 9px; flex-wrap: wrap; margin: 18px 0px 16px;
 }
 
-#decks #betaCardCollection {
-  display: block;
+#decks .v3-quick-filter {
+  appearance: none; border: 1px solid rgb(90, 41, 50); background: rgb(20, 25, 30); color: rgb(214, 228, 231); border-radius: 4px; padding: 11px 15px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; font-family: inherit; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; font-size: 12px; letter-spacing: 0.6px; cursor: pointer;
 }
 
-#decks #betaCardDetail .beta-printing-strip {
-  justify-content: flex-start;
+#decks .v3-quick-filter:hover, #decks .v3-quick-filter:focus-visible {
+  border-color: rgb(248, 80, 74);
 }
 
-#decks #betaCardDetail .beta-printings h4 {
-  text-align: left;
+#decks .v3-quick-filter[aria-pressed="true"] {
+  border-color: rgb(248, 80, 74); color: rgb(255, 255, 255); background: rgb(59, 23, 30);
+}
+
+#decks .v3-quick-filter:disabled {
+  opacity: 0.4; cursor: not-allowed; border-color: rgb(68, 68, 68);
 }
 
 @media (max-width: 650px) {
-#decks #betaCardDetail .beta-detail-image-frame {
-  display: block;
+#decks .v3-quick-filters {
+  display: grid; grid-template-columns: repeat(2, minmax(0px, 1fr)); gap: 8px;
 }
 
-#decks #betaCardDetail .beta-detail-image-frame img {
-  display: block; width: 100%; height: auto;
-}
-
-#decks #betaCardDetail .beta-printings {
-  text-align: left;
-}
-
-#decks #betaCardDetail .beta-printing-strip {
-  overflow-x: auto; justify-content: flex-start;
+#decks .v3-quick-filter {
+  padding: 11px 8px; font-size: 11px;
 }
 }
 
 #decks #betaCardCollection #betaCount {
-  display: block; width: max-content; max-width: 100%; margin: 0px 0px 16px; color: rgb(41, 255, 255); font-size: var(--nct-type-body); line-height: 1.5; text-align: left;
+  display: block; width: max-content; max-width: 100%; margin: 0px 0px 16px; color: rgb(41, 255, 255); font-size: 14px; line-height: 1.5; text-align: left;
 }
 
 #decks #betaCardCollection .beta-browser-intro {
@@ -2316,8 +2521,66 @@ header nav button.active {
   display: none;
 }
 
+#decks #betaResults .v3-card-series {
+  display: block; align-self: flex-start; max-width: 100%; margin-top: auto; padding-top: 9px; color: rgb(41, 255, 255); font-size: 10px; font-weight: 600; line-height: 1.45; letter-spacing: 0.5px; text-align: left; overflow-wrap: anywhere;
+}
+
+#decks #betaResults .v3-card-series[data-series="topper"] {
+  color: rgb(241, 199, 128);
+}
+
+#decks #betaResults .v3-card-series[data-series="heist"], #decks #betaResults .v3-card-series[data-series="power"] {
+  color: rgb(248, 142, 137);
+}
+
 #decks #betaResults .beta-card-meta {
   margin-top: 0px; padding-top: 3px;
+}
+
+@media (max-width: 700px) {
+#decks #betaResults .v3-card-series {
+  font-size: 10px; letter-spacing: 0px; line-height: 1.35;
+}
+}
+
+#decks #betaResults .v3-no-results {
+  grid-column: 1 / -1; margin: 12px 0px; padding: 20px 22px; color: rgb(232, 209, 210); background: rgba(248, 80, 74, 0.055); border-width: 1px 1px 1px 2px; border-style: solid; border-color: rgba(248, 80, 74, 0.28) rgba(248, 80, 74, 0.28) rgba(248, 80, 74, 0.28) rgb(248, 80, 74); border-image: none; border-radius: 5px; font-size: 14px; line-height: 1.6;
+}
+
+#decks .beta-filters .v3-search-field {
+  display: block; position: relative; width: 100%; min-width: 0px;
+}
+
+#decks .beta-filters .v3-search-field input {
+  width: 100%; padding-right: 48px;
+}
+
+#decks .beta-filters .v3-search-field input::-webkit-search-cancel-button {
+  appearance: none; display: none;
+}
+
+#decks .beta-filters #v3SearchClear {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; padding: 0px; border: 0px; background: transparent; color: rgb(197, 220, 225); font-family: inherit; font-size: 26px; font-weight: 400; line-height: 1; cursor: pointer; border-radius: 4px;
+}
+
+#decks .beta-filters #v3SearchClear:hover, #decks .beta-filters #v3SearchClear:focus-visible {
+  color: rgb(41, 255, 255); background: rgba(41, 255, 255, 0.1); outline-offset: 2px;
+}
+
+#decks #betaCardCollection .v3-filter-heading {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 22px 0px 14px;
+}
+
+#decks #betaCardCollection .v3-filter-title {
+  font-size: 18px; font-weight: 500; color: rgb(239, 248, 249);
+}
+
+#decks #v3FiltersReset {
+  border: 1px solid rgb(66, 96, 106); border-radius: 4px; background: transparent; color: rgb(171, 196, 201); font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; font-family: inherit; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; font-size: 14px; padding: 9px 12px; cursor: pointer;
+}
+
+#decks #v3FiltersReset:hover {
+  color: rgb(41, 255, 255); border-color: rgb(41, 255, 255);
 }
 
 #decks #betaCardCollection .beta-filters {
@@ -2328,12 +2591,32 @@ header nav button.active {
   min-width: 0px; grid-column: auto; gap: 5px;
 }
 
+#decks #betaCardCollection .beta-filters .v3-search-row {
+  grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0px, 1fr) auto; align-items: end; gap: 12px; min-width: 0px;
+}
+
+#decks #betaCardCollection .beta-filters .v3-filter-search {
+  grid-column: auto; min-width: 0px;
+}
+
+#decks #betaCardCollection .v3-search-row #v3FiltersReset {
+  height: 46px; min-height: 46px; white-space: nowrap; align-self: end;
+}
+
 #decks #betaCardCollection .beta-filters input, #decks #betaCardCollection .beta-filters select {
   height: 46px; min-height: 46px;
 }
 
 #decks #betaCardCollection .beta-filters select {
   padding-right: 44px; background-position: right 16px center; background-size: 18px 18px;
+}
+
+#decks #betaCardCollection .beta-filters #v3SearchClear {
+  color: rgb(138, 155, 163); transition: color 0.2s;
+}
+
+#decks #betaCardCollection .beta-filters #v3SearchClear:hover, #decks #betaCardCollection .beta-filters #v3SearchClear:focus-visible {
+  color: rgb(41, 255, 255);
 }
 
 #decks #betaCardCollection .beta-filters {
@@ -2344,11 +2627,31 @@ header nav button.active {
 #decks #betaCardCollection .beta-filters {
   gap: 10px 14px;
 }
+
+#decks #betaCardCollection .beta-filters .v3-search-row {
+  display: block; position: relative; grid-column: 1 / -1; width: 100%;
+}
+
+#decks #betaCardCollection .beta-filters .v3-search-row .v3-filter-search {
+  display: flex; width: 100%; min-width: 0px;
+}
+
+#decks #betaCardCollection .v3-search-row #v3FiltersReset {
+  position: absolute; right: 0px; top: -4px; height: 30px; min-height: 30px; padding: 4px 0px 4px 10px; border: 0px; background: transparent; line-height: 22px;
+}
+
+#decks #betaCardCollection .beta-filters .v3-filter-series, #decks #betaCardCollection .beta-filters .v3-filter-sort {
+  grid-column: 1 / -1;
+}
 }
 
 @media (min-width: 900px) {
 #decks #betaCardCollection .beta-filters {
-  gap: 12px 14px;
+  grid-template-columns: repeat(4, minmax(0px, 1fr)); gap: 12px 14px;
+}
+
+#decks #betaCardCollection .beta-filters .v3-search-row {
+  grid-column: 1 / -1; width: 100%; max-width: none;
 }
 
 #decks #betaCardCollection .beta-filters label {
@@ -2368,6 +2671,16 @@ header nav button.active {
   border-color: rgb(41, 255, 255); outline: rgba(41, 255, 255, 0.22) solid 2px; outline-offset: 1px;
 }
 
+#decks #betaCardCollection .beta-filters .v3-search-row {
+  padding-bottom: 23px; margin-bottom: 5px; border-bottom: 1px solid rgba(171, 196, 201, 0.24);
+}
+
+@media (max-width: 650px) {
+#decks #betaCardCollection .beta-filters .v3-search-row {
+  padding-bottom: 21px; margin-bottom: 9px;
+}
+}
+
 #preGameChecklist .pregame-steps {
   display: grid; grid-template-columns: repeat(2, minmax(0px, 1fr)); gap: 32px 44px; margin: 32px 0px 30px;
 }
@@ -2385,7 +2698,7 @@ header nav button.active {
 }
 
 #preGameChecklist .pregame-step h3 {
-  font-size: var(--nct-type-heading); line-height: 1.45; margin: 0px 0px 16px; color: rgb(232, 237, 239); font-weight: 600;
+  font-size: 21px; line-height: 1.45; margin: 0px 0px 16px; color: rgb(232, 237, 239); font-weight: 600;
 }
 
 #preGameChecklist .pregame-step p {
@@ -2414,7 +2727,7 @@ header nav button.active {
 }
 
 #preGameChecklist .pregame-step h3 {
-  font-size: var(--nct-type-heading); margin-bottom: 12px;
+  font-size: 19px; margin-bottom: 12px;
 }
 
 #preGameChecklist .pregame-step p {
@@ -2435,11 +2748,11 @@ header nav button.active {
 }
 
 #preGameChecklist .pregame-index {
-  font-size: var(--nct-type-caption); color: rgb(248, 80, 74); letter-spacing: 0.1em; margin-right: 12px; font-weight: 600;
+  font-size: 12px; color: rgb(248, 80, 74); letter-spacing: 0.1em; margin-right: 12px; font-weight: 600;
 }
 
 #preGameChecklist .pregame-heading h3 {
-  margin: 0px; font-size: var(--nct-type-heading);
+  margin: 0px; font-size: 20px;
 }
 
 #preGameChecklist .pregame-setup-flow {
@@ -2451,7 +2764,7 @@ header nav button.active {
 }
 
 #preGameChecklist .pregame-mini-label {
-  display: block; color: rgb(248, 80, 74); font-size: var(--nct-type-caption); letter-spacing: 0.14em; margin-bottom: 9px;
+  display: block; color: rgb(248, 80, 74); font-size: 11px; letter-spacing: 0.14em; margin-bottom: 9px;
 }
 
 #preGameChecklist .pregame-step-last .pregame-setup-flow p {
@@ -2478,12 +2791,28 @@ header nav button.active {
 }
 
 #preGameChecklist .pregame-heading h3 {
-  font-size: var(--nct-type-heading);
+  font-size: 19px;
 }
 }
 
 #preGameChecklist .pregame-step p strong {
   color: rgb(41, 255, 255); font-weight: 600;
+}
+
+#tableOrientation {
+  margin: 20px 0px 24px;
+}
+
+#tableOrientation > .number {
+  margin-bottom: 9px;
+}
+
+#tableOrientation h2 {
+  margin: 0px 0px 12px;
+}
+
+#tableOrientation > p {
+  max-width: 78ch;
 }
 
 .table-orientation-grid {
@@ -2503,11 +2832,11 @@ header nav button.active {
 }
 
 .table-orientation-grid strong {
-  color: rgb(41, 255, 255); font-size: var(--nct-type-body); font-weight: 600;
+  color: rgb(41, 255, 255); font-size: 15px; font-weight: 600;
 }
 
 .table-orientation-grid p {
-  margin: 6px 0px 0px; font-size: var(--nct-type-body); line-height: 1.7;
+  margin: 6px 0px 0px; font-size: 14px; line-height: 1.7;
 }
 
 @media (max-width: 800px) {
@@ -2579,15 +2908,15 @@ header nav button.active {
 }
 
 #tableOrientation .field-map-en {
-  font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-weight: 600; font-stretch: normal; font-size: var(--nct-type-caption); line-height: 1.25; font-family: system-ui, sans-serif; letter-spacing: 0.15em; color: rgb(248, 80, 74);
+  font: 600 10px / 1.25 system-ui, sans-serif; letter-spacing: 0.15em; color: rgb(248, 80, 74);
 }
 
 #tableOrientation .field-map-zone strong {
-  font-size: var(--nct-type-body); line-height: 1.4; font-weight: 600;
+  font-size: 15px; line-height: 1.4; font-weight: 600;
 }
 
 #tableOrientation .field-map-symbol {
-  font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-weight: 500; font-stretch: normal; font-size: var(--nct-type-caption); line-height: 1.55; font-family: system-ui, sans-serif; color: rgb(133, 158, 165); letter-spacing: 0.06em;
+  font: 500 11px / 1.55 system-ui, sans-serif; color: rgb(133, 158, 165); letter-spacing: 0.06em;
 }
 
 #tableOrientation .zone-rival {
@@ -2623,11 +2952,11 @@ header nav button.active {
 }
 
 #tableOrientation .field-map-key {
-  display: grid; grid-template-columns: 190px 1fr; gap: 4px 18px; align-items: center;
+  display: grid; grid-template-columns: 190px 1fr; gap: 4px 18px; align-items: center; border-top: 1px solid rgba(174, 188, 192, 0.2); margin-top: 12px; padding: 19px 0px 0px;
 }
 
 #tableOrientation .field-map-key > .number {
-  grid-column: 1 / -1; font-size: var(--nct-type-caption);
+  grid-column: 1 / -1; font-size: 11px;
 }
 
 #tableOrientation .field-map-key strong {
@@ -2635,11 +2964,11 @@ header nav button.active {
 }
 
 #tableOrientation .field-map-key p {
-  margin: 0px;
+  margin: 0px; line-height: 1.8;
 }
 
 #tableOrientation .field-map-note {
-  margin: 15px 0px 0px; font-size: var(--nct-type-caption);
+  margin: 15px 0px 0px; font-size: 13px;
 }
 
 @media (max-width: 750px) {
@@ -2663,7 +2992,7 @@ header nav button.active {
 }
 
 #tableOrientation .field-map-dice {
-  font-size: var(--nct-type-caption); line-height: 2; letter-spacing: 0.04em; color: rgb(165, 181, 185);
+  display: block; font-size: 12px; line-height: 2; letter-spacing: 0.04em; color: rgb(165, 181, 185);
 }
 
 #tableOrientation .field-map-card-slots {
@@ -2679,7 +3008,7 @@ header nav button.active {
 }
 
 #tableOrientation .field-map-hand-note {
-  padding: 11px 0px 0px; font-size: var(--nct-type-caption); line-height: 1.75; color: rgb(174, 188, 192);
+  padding: 11px 0px 0px; font-size: 13px; line-height: 1.75; color: rgb(174, 188, 192);
 }
 
 #tableOrientation .field-map-hand-note strong {
@@ -2691,7 +3020,7 @@ header nav button.active {
 }
 
 #tableOrientation .field-map-die {
-  display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; color: rgb(182, 206, 215); font-style: normal; font-variant: normal; font-size-adjust: none; font-language-override: normal; font-kerning: auto; font-optical-sizing: auto; font-feature-settings: normal; font-variation-settings: normal; font-weight: 600; font-stretch: normal; font-size: var(--nct-type-caption); line-height: 1.2; font-family: system-ui, sans-serif;
+  display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; color: rgb(182, 206, 215); font: 600 10px / 1.2 system-ui, sans-serif;
 }
 
 #tableOrientation .field-map-die svg {
@@ -2711,11 +3040,11 @@ header nav button.active {
 }
 
 #tableOrientation .field-dice-reference-title strong {
-  font-size: var(--nct-type-body); color: rgb(228, 237, 239);
+  font-size: 15px; color: rgb(228, 237, 239);
 }
 
 #tableOrientation .field-dice-reference-title > span {
-  color: rgb(130, 154, 159); font-size: var(--nct-type-caption);
+  color: rgb(130, 154, 159); font-size: 12px;
 }
 
 #tableOrientation .field-dice-reference-items {
@@ -2735,11 +3064,11 @@ header nav button.active {
 }
 
 #tableOrientation .field-die-label strong {
-  color: rgb(41, 255, 255); font-size: var(--nct-type-caption);
+  color: rgb(41, 255, 255); font-size: 13px;
 }
 
 #tableOrientation .field-die-label small {
-  color: rgb(155, 176, 181); font-size: var(--nct-type-caption); white-space: nowrap;
+  color: rgb(155, 176, 181); font-size: 11px; white-space: nowrap;
 }
 
 @media (max-width: 950px) {
@@ -2759,11 +3088,11 @@ header nav button.active {
 }
 
 #tableOrientation .field-map-key strong {
-  font-size: var(--nct-type-control);
+  font-size: 16px;
 }
 
 #tableOrientation .field-map-key p {
-  font-size: var(--nct-type-body); line-height: 1.7;
+  font-size: 14px; line-height: 1.7;
 }
 
 #tableOrientation .field-map-flash {
@@ -2771,9 +3100,8 @@ header nav button.active {
 }
 
 @keyframes fieldMapFlash {
-0% { background: rgba(41, 255, 255, 0.18); }
-
-100% { background: rgba(41, 255, 255, 0.043); }
+  0% { background: rgba(41, 255, 255, 0.18); }
+  100% { background: rgba(41, 255, 255, 0.043); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2787,7 +3115,7 @@ header nav button.active {
 }
 
 #learn .lesson-references > h2 {
-  font-size: var(--nct-type-heading);
+  font-size: 22px; margin: 8px 0px 3px;
 }
 
 #learn .lesson-references > p {
@@ -2807,7 +3135,7 @@ header nav button.active {
 }
 
 #learn .lesson-ref > summary::after {
-  content: ""; display: block; width: 16px; height: 16px; flex: 0 0 16px; background-image: linear-gradient(rgb(41, 255, 255), rgb(41, 255, 255)), linear-gradient(rgb(41, 255, 255), rgb(41, 255, 255)); background-position: center center, center center; background-size: 16px 2px, 2px 16px; background-repeat: no-repeat, no-repeat; background-color: initial;
+  content: ""; display: block; width: 16px; height: 16px; flex: 0 0 16px; background: linear-gradient(rgb(41, 255, 255), rgb(41, 255, 255)) center center / 16px 2px no-repeat, linear-gradient(rgb(41, 255, 255), rgb(41, 255, 255)) center center / 2px 16px no-repeat;
 }
 
 #learn .lesson-ref[open] > summary::after {
@@ -2819,11 +3147,11 @@ header nav button.active {
 }
 
 #learn .lesson-ref > summary b {
-  font-size: var(--nct-type-control);
+  font-size: 16px; font-weight: 500;
 }
 
 #learn .lesson-ref > summary small {
-  font-size: var(--nct-type-caption); color: rgb(148, 163, 167);
+  font-size: 13px; color: rgb(148, 163, 167);
 }
 
 #learn .lesson-ref-body {
@@ -2847,7 +3175,7 @@ header nav button.active {
 }
 
 #learn .lesson-ref-body .learning-overview h2 {
-  font-size: var(--nct-type-control);
+  font-size: 17px;
 }
 
 #learn .chapter-learning {
@@ -2855,11 +3183,11 @@ header nav button.active {
 }
 
 #learn .chapter-learning h3 {
-  font-size: var(--nct-type-body); letter-spacing: 0.04em; color: rgb(148, 163, 167); font-weight: 500; margin-bottom: 6px;
+  font-size: 14px; letter-spacing: 0.04em; color: rgb(148, 163, 167); font-weight: 500; margin-bottom: 6px;
 }
 
 #learn .chapter-learning p {
-  font-size: var(--nct-type-control); color: rgb(210, 223, 225); line-height: 1.75;
+  font-size: 16px; color: rgb(210, 223, 225); line-height: 1.75;
 }
 
 #learn #labStage {
@@ -2871,7 +3199,7 @@ header nav button.active {
 }
 
 #learn .lesson-colors-label {
-  font-size: var(--nct-type-body); color: rgb(184, 203, 208); font-weight: 500; margin: 0px 0px 12px;
+  font-size: 14px; color: rgb(184, 203, 208); font-weight: 500; margin: 0px 0px 12px;
 }
 
 #learn .lesson-colors-row {
@@ -2879,7 +3207,7 @@ header nav button.active {
 }
 
 #learn .lesson-colors-row button {
-  font-size: var(--nct-type-control); text-align: center; padding: 12px 6px; border-width: 4px 1px 1px; border-style: solid; border-color: rgb(248, 80, 74) rgb(48, 64, 68) rgb(48, 64, 68); border-image: none; background: rgb(16, 32, 39); color: rgb(228, 237, 237); cursor: pointer;
+  font-size: 13px; text-align: center; padding: 12px 6px; border-width: 4px 1px 1px; border-style: solid; border-color: rgb(248, 80, 74) rgb(48, 64, 68) rgb(48, 64, 68); border-image: none; background: rgb(16, 32, 39); color: rgb(228, 237, 237); cursor: pointer;
 }
 
 #learn .lesson-colors-row button:hover, #learn .lesson-colors-row button[aria-pressed="true"] {
@@ -2891,15 +3219,21 @@ header nav button.active {
 }
 
 #learn .lesson-color-title {
-  display: block; color: rgb(233, 239, 240); font-size: var(--nct-type-body); line-height: 1.5;
+  display: block; color: rgb(233, 239, 240); font-size: 15px; line-height: 1.5;
 }
 
 #learn .lesson-color-description {
-  margin: 6px 0px 0px; color: rgb(206, 220, 223); font-size: var(--nct-type-body); line-height: 1.65;
+  margin: 6px 0px 0px; color: rgb(206, 220, 223); font-size: 14px; line-height: 1.65;
 }
 
 #learn .lesson-colors-note {
-  font-size: var(--nct-type-caption); color: rgb(174, 191, 195); line-height: 1.65; margin: 10px 0px 0px;
+  font-size: 13px; color: rgb(174, 191, 195); line-height: 1.65; margin: 10px 0px 0px;
+}
+
+@media (max-width: 520px) {
+#learn .lesson-colors-row {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
 }
 
 #learn .lesson-ref-body #tableOrientation {
@@ -2921,7 +3255,7 @@ header nav button.active {
 }
 
 #learn .pregame-colors h3 {
-  margin: 0px 0px 12px; color: rgb(185, 212, 216); font-size: var(--nct-type-heading); font-weight: 400;
+  margin: 0px 0px 12px; color: rgb(185, 212, 216); font-size: 19px; font-weight: 400;
 }
 
 #learn .pregame-colors-bars {
@@ -2929,19 +3263,19 @@ header nav button.active {
 }
 
 #learn .pregame-colors-bars span {
-  display: block; width: 60px; height: 12px; border-radius: 100px;
+  display: block; width: 60px; height: 12px; background: var(--c); border-radius: 100px;
 }
 
 #learn .pregame-colors p {
-  font-size: var(--nct-type-body); color: rgb(185, 212, 216); line-height: 1.7; margin: 0px;
+  font-size: 15px; color: rgb(185, 212, 216); line-height: 1.7; margin: 0px;
 }
 
 #learn .lesson-references > .number, #learn #labStage .chapter-progress > .number {
-  font-size: var(--nct-type-control); line-height: 1.4; letter-spacing: 0.16em; color: rgb(248, 80, 74); font-weight: 600;
+  font-size: 18px; line-height: 1.4; letter-spacing: 0.16em; color: rgb(248, 80, 74); font-weight: 600;
 }
 
 #learn .lesson-references > h2, #learn #labStage > h2 {
-  color: rgb(41, 255, 255);
+  font-size: clamp(28px, 2.5vw, 36px); line-height: 1.25; font-weight: 700; color: rgb(41, 255, 255);
 }
 
 #learn .lesson-references > h2 {
@@ -2977,7 +3311,7 @@ header nav button.active {
 }
 
 #learn #referenceSetup #preGameChecklist .pregame-step h3 {
-  font-size: var(--nct-type-heading); margin: 0px;
+  font-size: 19px; margin: 0px;
 }
 
 #learn #referenceSetup #preGameChecklist .pregame-step .pregame-heading {
@@ -3003,7 +3337,7 @@ header nav button.active {
 }
 
 #learn {
-  --learn-font: "PingFang TC","Noto Sans TC",system-ui,sans-serif; --learn-page: var(--nct-type-display); --learn-section: var(--nct-type-title); --learn-subheading: var(--nct-type-heading); --learn-body: var(--nct-type-control); --learn-caption: var(--nct-type-body); --learn-control: var(--nct-type-control); font-family: var(--learn-font); font-weight: 400;
+  --learn-font: "PingFang TC","Noto Sans TC",system-ui,sans-serif; --learn-page: clamp(32px,3.4vw,40px); --learn-section: clamp(26px,2.5vw,36px); --learn-subheading: 20px; --learn-body: 16px; --learn-caption: 14px; --learn-control: 16px; font-family: var(--learn-font); font-weight: 400;
 }
 
 #learn > h1 {
@@ -3015,7 +3349,7 @@ header nav button.active {
 }
 
 #learn .lesson-references > .number, #learn #labStage .chapter-progress .number {
-  font-family: var(--learn-font); font-size: var(--nct-type-control); font-weight: 600; line-height: 1.4; letter-spacing: 0.16em;
+  font-family: var(--learn-font); font-size: 18px; font-weight: 600; line-height: 1.4; letter-spacing: 0.16em;
 }
 
 #learn .lesson-ref > summary b, #learn #referenceSetup .pregame-heading h3, #learn #referenceSetup .pregame-colors h3, #learn #referenceCards .learning-overview h2, #learn .lesson-color-title {
@@ -3032,6 +3366,10 @@ header nav button.active {
 
 #learn .lesson-ref > summary b {
   font-weight: 600;
+}
+
+#learn .lesson-ref > summary small {
+  font-weight: 400;
 }
 
 #learn #referenceCards .learning-overview .number, #learn #referenceSetup .pregame-mini-label {
@@ -3072,7 +3410,7 @@ header nav button.active {
 
 @media (max-width: 520px) {
 #learn {
-  --learn-section: var(--nct-type-title);
+  --learn-section: 28px;
 }
 
 #learn #labStage .chapter-actions {
@@ -3101,11 +3439,11 @@ header nav button.active {
 }
 
 #learn #labStage .chapter-actions .btn {
-  font-size: var(--nct-type-control); font-weight: 600;
+  font-size: 16px; font-weight: 600;
 }
 
 #learn #tableOrientation .field-map-die {
-  font-family: var(--learn-font,system-ui,sans-serif); font-size: var(--nct-type-body); font-weight: 600; line-height: 1.35; gap: 8px;
+  font-family: var(--learn-font,system-ui,sans-serif); font-size: 14px; font-weight: 600; line-height: 1.35; gap: 8px;
 }
 
 #learn #tableOrientation .field-map-die span {
@@ -3117,16 +3455,16 @@ header nav button.active {
 }
 
 #learn #tableOrientation .field-die-label strong {
-  font-family: var(--learn-font,system-ui,sans-serif); font-size: var(--nct-type-control); line-height: 1.4; font-weight: 600;
+  font-family: var(--learn-font,system-ui,sans-serif); font-size: 16px; line-height: 1.4; font-weight: 600;
 }
 
 #learn #tableOrientation .field-die-label small {
-  font-family: var(--learn-font,system-ui,sans-serif); font-size: var(--nct-type-body); line-height: 1.4; font-weight: 400;
+  font-family: var(--learn-font,system-ui,sans-serif); font-size: 14px; line-height: 1.4; font-weight: 400;
 }
 
 @media (max-width: 600px) {
 #learn #tableOrientation .field-map-die {
-  font-size: var(--nct-type-body);
+  font-size: 14px;
 }
 
 #learn #tableOrientation .field-die-label {
@@ -3143,7 +3481,7 @@ header nav button.active {
 }
 
 #learn #referenceSetup .pregame-ram-example-title {
-  font-size: var(--nct-type-control); font-weight: 600; color: rgb(233, 239, 240); line-height: 1.5;
+  font-size: 16px; font-weight: 600; color: rgb(233, 239, 240); line-height: 1.5;
 }
 
 #learn #referenceSetup .pregame-ram-example-line {
@@ -3151,7 +3489,7 @@ header nav button.active {
 }
 
 #learn #referenceSetup .pregame-ram-color {
-  display: inline-block; padding: 6px 10px; border: 1px solid rgb(54, 81, 90); font-size: var(--nct-type-body); font-weight: 600; line-height: 1.5;
+  display: inline-block; padding: 6px 10px; border: 1px solid rgb(54, 81, 90); font-size: 14px; font-weight: 600; line-height: 1.5;
 }
 
 #learn #referenceSetup .pregame-ram-green {
@@ -3163,11 +3501,11 @@ header nav button.active {
 }
 
 #learn #referenceSetup .pregame-ram-example p {
-  margin: 0px; font-size: var(--nct-type-control); line-height: 1.75;
+  margin: 0px; font-size: 16px; line-height: 1.75;
 }
 
 #home, #learn, #rules, #decks {
-  --v3-page: var(--nct-type-display); --v3-section: var(--nct-type-title); --v3-subheading: var(--nct-type-heading); --v3-body: var(--nct-type-control); --v3-caption: var(--nct-type-body); font-family: "PingFang TC", "Noto Sans TC", system-ui, sans-serif; font-weight: 400;
+  --v3-page: clamp(32px,3.4vw,40px); --v3-section: clamp(26px,2.5vw,36px); --v3-subheading: 20px; --v3-body: 16px; --v3-caption: 14px; font-family: "PingFang TC", "Noto Sans TC", system-ui, sans-serif; font-weight: 400;
 }
 
 #home > h1, #learn > h1, #rules > h1, #decks > h1 {
@@ -3239,7 +3577,7 @@ header nav button.active {
 }
 
 #rules .term-entry > summary span::before {
-  content: ""; display: block; width: 16px; height: 16px; background-image: linear-gradient(rgb(41, 255, 255), rgb(41, 255, 255)), linear-gradient(rgb(41, 255, 255), rgb(41, 255, 255)); background-position: center center, center center; background-size: 16px 2px, 2px 16px; background-repeat: no-repeat, no-repeat; background-color: initial;
+  content: ""; display: block; width: 16px; height: 16px; background: linear-gradient(rgb(41, 255, 255), rgb(41, 255, 255)) center center / 16px 2px no-repeat, linear-gradient(rgb(41, 255, 255), rgb(41, 255, 255)) center center / 2px 16px no-repeat;
 }
 
 #rules .term-entry[open] > summary span::before {
@@ -3280,7 +3618,7 @@ header nav button.active {
 }
 
 #rules .term-entry > summary {
-  font-size: var(--nct-type-control); min-height: 64px;
+  font-size: 18px; min-height: 64px;
 }
 
 #rules .terminology-list {
@@ -3288,8 +3626,12 @@ header nav button.active {
 }
 }
 
+#rules .rules-official-link {
+  margin: 24px 0px 8px;
+}
+
 #rules .rules-official-link .btn {
-  display: inline-flex; align-items: center; min-height: 44px; padding: 11px 17px; text-decoration: none; font-size: var(--nct-type-control); font-weight: 600; line-height: 1.4;
+  display: inline-flex; align-items: center; min-height: 44px; padding: 11px 17px; text-decoration: none; font-size: 16px; font-weight: 600; line-height: 1.4;
 }
 
 #rules .rules-official-link .btn:hover {
@@ -3305,7 +3647,7 @@ header nav button.active {
 }
 
 #rules .rules-official-link > a {
-  display: inline-flex; align-items: center; gap: 5px; min-height: 40px; padding: 6px 0px; border: 0px; background: transparent; border-radius: 0px; color: rgb(185, 213, 218); text-decoration: none; font-size: var(--nct-type-control); font-weight: 600; line-height: 1.5;
+  display: inline-flex; align-items: center; gap: 5px; min-height: 40px; padding: 6px 0px; border: 0px; background: transparent; border-radius: 0px; color: rgb(185, 213, 218); text-decoration: none; font-size: 16px; font-weight: 600; line-height: 1.5;
 }
 
 #rules .rules-official-link > a:hover, #rules .rules-official-link > a:focus-visible {
@@ -3335,7 +3677,15 @@ a[target="_blank"]:hover .external-arrow, a[target="_blank"]:focus-visible .exte
 }
 
 #decks #betaCardDetail .beta-errata-notice {
-  margin: 14px 0px 0px; padding: 12px 14px; border-left: 2px solid rgb(248, 80, 74); background: rgba(80, 24, 32, 0.24); color: rgb(225, 198, 200); font-size: var(--nct-type-body); line-height: 1.7;
+  margin: 14px 0px 0px; padding: 12px 14px; border-left: 2px solid rgb(248, 80, 74); background: rgba(80, 24, 32, 0.24); color: rgb(225, 198, 200); font-size: 14px; line-height: 1.7;
+}
+
+#decks #betaCardCollection .beta-filters .v3-search-row {
+  grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0px, 1fr) auto; align-items: end; gap: 12px; width: 100%;
+}
+
+#decks #betaCardCollection .beta-filters .v3-search-row .v3-filter-search {
+  display: flex; width: 100%; min-width: 0px;
 }
 
 @media (min-width: 900px) {
@@ -3348,10 +3698,387 @@ a[target="_blank"]:hover .external-arrow, a[target="_blank"]:focus-visible .exte
 #decks #betaCardCollection .beta-filters {
   grid-template-columns: repeat(2, minmax(0px, 1fr));
 }
+
+#decks #betaCardCollection .beta-filters .v3-search-row {
+  grid-column: 1 / -1; display: block; width: 100%;
+}
+
+#decks #betaCardCollection .beta-filters .v3-search-row .v3-filter-search {
+  width: 100%;
+}
+
+#decks #betaCardCollection .beta-filters .v3-filter-series, #decks #betaCardCollection .beta-filters .v3-filter-sort {
+  grid-column: auto;
+}
+}
+
+:is(#betaDetailClose, #closeDeckDialog, #closeBattleCard, #closeBoardTour, #v3TableGuide .v3-coach-close) {
+  flex: 0 0 auto;
+}
+
+:is(#betaDetailClose, #closeDeckDialog, #closeBattleCard, #closeBoardTour, #v3TableGuide .v3-coach-close)::before {
+  pointer-events: none;
+}
+}
+@layer site-overrides {
+.hide {
+  display: none;
+}
+
+.card-preview-dialog [hidden] {
+  display: none;
+}
+
+@media (max-width: 650px) {
+.card-preview-dialog {
+  overflow: hidden;
+}
+}
+
+.card-preview-dialog .deck-dialog-close {
+  box-shadow: none;
+}
+
+.card-preview-dialog .deck-dialog-close:focus:not(:focus-visible) {
+  outline: none; box-shadow: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+.card-preview-dialog .deck-dialog-close, .card-preview-dialog .deck-dialog-close:focus, .card-preview-dialog .deck-dialog-close:focus-visible {
+  outline: none; box-shadow: none;
+}
+}
+
+#decks #starterDeckGallery[hidden], #decks #betaCardCollection[hidden] {
+  display: none;
+}
+
+#decks .beta-detail-panel[hidden] {
+  display: none;
+}
+
+#decks #betaCardDetail.beta-card-dialog:not([open]) {
+  display: none;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame {
+  border: 0px; outline: 0px; box-shadow: none;
+}
+
+#decks #betaCardDetail .beta-detail-header button {
+  border: 0px; background: transparent; box-shadow: none; color: rgb(255, 255, 255);
+}
+
+#decks #betaCardDetail .beta-detail-header button:hover {
+  color: rgb(226, 230, 232);
+}
+
+#decks #betaCardDetail .beta-detail-stat {
+  min-height: 60px; padding: 7px 5px; background: linear-gradient(135deg, rgb(10, 11, 14), rgb(22, 24, 29) 58%, rgb(5, 7, 10)); box-shadow: none; gap: 3px;
+}
+
+#decks #betaCardDetail .beta-detail-stat strong {
+  font-size: 21px;
+}
+
+#decks #betaCardDetail .beta-detail-effect {
+  padding: 0px; border: 0px; background: transparent; box-shadow: none;
+}
+
+#decks #betaCardDetail .beta-detail-effect h4 {
+  display: none;
+}
+
+@media (max-width: 650px) {
+#decks #betaCardDetail .beta-detail-stat {
+  min-height: 56px;
+}
+
+#decks #betaCardDetail .beta-detail-stat strong {
+  font-size: 20px;
+}
+}
+
+#decks #betaCardDetail .beta-card-kind {
+  font-size: 14px; line-height: 1.25; margin-top: 7px; letter-spacing: 0px;
+}
+
+@media (max-width: 650px) {
+#decks #betaCardDetail .beta-card-kind {
+  font-size: 14px; margin-top: 6px;
+}
+}
+
+#decks #betaCardDetail .beta-detail-art, #decks #betaCardDetail .beta-detail-image-frame {
+  border: 0px; box-shadow: none;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame {
+  overflow: hidden; border-radius: 15px;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame img {
+  object-fit: cover; border: 0px; border-radius: 15px;
+}
+
+@media (max-width: 650px) {
+#decks #betaCardDetail .beta-detail-image-frame {
+  border-radius: 14px;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame img {
+  border-radius: 14px;
+}
+}
+
+#decks .beta-page-center select:focus, #decks .beta-page-center select:focus-visible {
+  outline: none; box-shadow: none;
+}
+
+#decks #betaCardDetail.beta-card-dialog[open], #decks #betaCardDetail.beta-card-dialog[open] .beta-detail-art, #decks #betaCardDetail.beta-card-dialog[open] .beta-detail-image-frame, #decks #betaCardDetail.beta-card-dialog[open] .beta-detail-image-frame img {
+  animation: auto ease 0s 1 normal none running none; transition: none; transform: none;
+}
+
+#decks .deck-tile {
+  transform: none; transition: none;
+}
+
+#decks .deck-tile:hover, #decks .deck-tile:focus-visible, #decks .beta-tile:hover, #decks .beta-tile:focus-visible {
+  border-color: rgb(74, 48, 55); transform: none;
+}
+
+#decks .deck-tile:active, #decks .beta-tile:active {
+  border-color: rgb(74, 48, 55); transform: none;
+}
+
+@media (min-width: 900px) {
+#decks #betaCardDetail .beta-detail-stat {
+  background: transparent; min-height: 58px; padding: 7px 6px; box-shadow: none;
+}
+}
+
+@media (min-width: 900px) {
+#decks #betaCardDetail .beta-detail-effect {
+  padding-top: 15px;
+}
+
+#decks #betaCardDetail .beta-detail-stat {
+  background: transparent; min-height: 58px; padding: 7px 6px; box-shadow: none;
+}
+}
+
+#decks #betaCardDetail .beta-detail-effect {
+  border-top: 1px solid rgba(var(--card-accent-rgb),.22); padding-top: 15px;
+}
+
+#decks #betaCardDetail .beta-detail-effect h4.beta-detail-section-label {
+  display: block; border: 0px; margin: 0px 0px 10px; padding: 0px;
+}
+
+#decks #betaDetailClose, #decks #closeDeckDialog {
+  font-size: 0px; line-height: 0;
+}
+
+#decks #betaCardDetail .beta-card-identity {
+  grid-template-columns: 3px minmax(0px, 1fr);
+}
+
+#decks #betaCardDetail .beta-title-accent {
+  width: 3px;
+}
+
+@media (max-width: 899px) {
+#decks #betaCardDetail.beta-card-dialog {
+  width: min(930px, -24px + 100vw); max-width: calc(-24px + 100vw); border: 1px solid rgba(var(--card-accent-rgb),.6); border-radius: 10px; background: rgb(16, 16, 20); box-shadow: rgba(0, 0, 0, 0.733) 0px 18px 48px;
+}
+
+#decks #betaCardDetail .beta-detail-art {
+  width: 100%; max-width: none; padding: 8px 28px 0px; box-sizing: border-box;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame {
+  width: min(100%, 190px); max-width: 190px; margin: 0px auto; border: 0px; border-radius: 10px; clip-path: inset(0px round 10px); box-shadow: none;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame img {
+  border-radius: 10px;
+}
+
+#decks #betaCardDetail .beta-printings {
+  width: 100%; max-width: none; margin: 12px 0px 0px; box-sizing: border-box; padding-top: 11px;
+}
+
+#decks #betaCardDetail .beta-printings h4 {
+  text-align: left;
+}
+
+#decks #betaCardDetail .beta-printing-strip {
+  justify-content: center;
+}
+
+#decks #betaCardDetail .beta-detail-copy {
+  padding-top: 15px;
+}
+}
+
+@media (max-width: 380px) {
+#decks #betaCardDetail .beta-detail-image-frame {
+  width: min(100%, 165px);
+}
+}
+
+#decks #starterDeckGallery .deck-collection, #decks #starterDeckGallery .deck-collection:nth-of-type(2n) {
+  border-left-color: rgb(248, 80, 74);
+}
+
+#decks #starterDeckGallery .deck-summaryhint .when-closed, #decks #starterDeckGallery .deck-summaryhint .when-open {
+  color: rgb(255, 255, 255);
+}
+
+#decks #betaCardDetail .beta-detail-meta-line {
+  display: inline-flex; width: max-content; max-width: 100%; justify-content: flex-start; align-items: baseline; flex-wrap: nowrap; gap: 6px;
+}
+
+#decks #betaCardDetail .beta-detail-meta-line > strong, #decks #betaCardDetail .beta-detail-meta-line > span {
+  flex: 0 0 auto;
+}
+
+#decks #betaCardDetail .beta-detail-meta-line > span + span::before {
+  margin-right: 6px;
+}
+
+@media (max-width: 380px) {
+#decks #betaCardDetail .beta-detail-meta-line {
+  gap: 5px;
+}
+
+#decks #betaCardDetail .beta-detail-meta-line > span + span::before {
+  margin-right: 5px;
+}
+}
+
+@media (max-width: 899px) {
+#decks #betaCardDetail .beta-detail-body {
+  gap: 8px;
+}
+
+#decks #betaCardDetail .beta-detail-art {
+  margin-bottom: 0px;
+}
+
+#decks #betaCardDetail .beta-detail-copy {
+  padding-top: 4px;
+}
+}
+
+@media (max-width: 899px) {
+#decks #betaCardDetail .beta-detail-art {
+  display: block;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame {
+  display: block; width: min(100%, 190px); max-width: 190px; margin: 0px auto;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame img {
+  display: block; width: 100%; height: auto;
+}
+}
+
+#decks #betaCardDetail .beta-printings h4, #decks #betaCardDetail .beta-printing-option, #decks #betaCardDetail .beta-detail-meta-line, #decks #betaCardDetail .beta-detail-section-label, #decks #betaCardDetail .beta-detail-effect h4.beta-detail-section-label {
+  font-size: 11px;
+}
+
+#decks #betaCardDetail .beta-detail-header strong {
+  font-size: 14px;
+}
+
+@media (max-width: 899px) {
+#decks #betaCardDetail .beta-detail-art {
+  display: block; min-width: 0px;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame {
+  display: block;
+}
+
+#decks #betaCardDetail .beta-printings {
+  width: 100%; min-width: 0px; max-width: 100%; text-align: left;
+}
+
+#decks #betaCardDetail .beta-printings h4 {
+  text-align: left;
+}
+
+#decks #betaCardDetail .beta-printing-strip {
+  justify-content: flex-start; max-width: 100%; overflow-x: auto;
+}
+
+#decks #betaCardDetail .beta-detail-copy {
+  min-width: 0px;
+}
+
+#decks #betaCardDetail .beta-detail-meta-line {
+  width: auto; max-width: 100%; flex-wrap: wrap;
+}
+}
+
+#decks .card-guide-tabs, #decks #starterDeckGallery {
+  display: none;
+}
+
+#decks #betaCardCollection {
+  display: block;
+}
+
+#decks #betaCardDetail .beta-printing-strip {
+  justify-content: flex-start;
+}
+
+#decks #betaCardDetail .beta-printings h4 {
+  text-align: left;
+}
+
+@media (max-width: 650px) {
+#decks #betaCardDetail .beta-detail-image-frame {
+  display: block;
+}
+
+#decks #betaCardDetail .beta-detail-image-frame img {
+  display: block; width: 100%; height: auto;
+}
+
+#decks #betaCardDetail .beta-printings {
+  text-align: left;
+}
+
+#decks #betaCardDetail .beta-printing-strip {
+  overflow-x: auto; justify-content: flex-start;
+}
+}
+
+#decks .beta-filters #v3SearchClear[hidden] {
+  display: none;
+}
+
+#decks #betaCardCollection .beta-filters #v3SearchClear {
+  background: transparent; border: 0px; box-shadow: none;
+}
+
+#decks #betaCardCollection .beta-filters #v3SearchClear:hover, #decks #betaCardCollection .beta-filters #v3SearchClear:focus-visible {
+  background: transparent;
 }
 
 body button, body .btn, body button:hover, body button:active {
   box-shadow: none; text-shadow: none;
+}
+
+:is(#betaDetailClose, #closeDeckDialog, #closeBattleCard, #closeBoardTour, #v3TableGuide .v3-coach-close) {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; min-width: 44px; min-height: 44px; padding: 0px; font-size: 0px; line-height: 0;
+}
+
+:is(#betaDetailClose, #closeDeckDialog, #closeBattleCard, #closeBoardTour, #v3TableGuide .v3-coach-close)::before {
+  content: ""; display: block; position: absolute; left: 50%; top: 50%; width: 20px; height: 20px; margin: 0px; transform: translate(-50%, -50%); background: linear-gradient(45deg, transparent calc(50% - 1px), currentcolor calc(50% - 1px), currentcolor calc(50% + 1px), transparent calc(50% + 1px)), linear-gradient(-45deg, transparent calc(50% - 1px), currentcolor calc(50% - 1px), currentcolor calc(50% + 1px), transparent calc(50% + 1px));
 }
 
 body select:not([multiple]) {
