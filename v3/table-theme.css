@@ -119,7 +119,7 @@ body.battle-wide #battle .v3-played-card.is-unit-spent>img{inset:auto;left:50%;t
 /* The right column sizes its utility controls independently of the card rows. */
 body.battle-wide #battle .v3-sidebar{display:contents}
 body.battle-wide #battle .v3-guide-dock{grid-area:guide}
-body.battle-wide #battle .v3-guide-dock>.v3-table-btn{width:100%;min-height:44px}
+body.battle-wide #battle .v3-guide-dock>.v3-table-btn{appearance:none;width:100%;height:44px;min-height:44px;padding:6px 9px;border:1px solid #507581;border-radius:5px;cursor:pointer}
 body.battle-wide #battle .v3-guide-dock:empty{display:none}
 @media(min-width:901px){
  body.battle-wide #battle .v3-sidebar{grid-area:sidebar;display:grid;grid-template-areas:"room" "history" "actions" "guide";grid-template-rows:auto minmax(0,1fr) minmax(112px,.28fr) auto;gap:6px;min-width:0;min-height:0}
