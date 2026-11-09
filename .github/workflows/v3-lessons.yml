@@ -9,6 +9,11 @@ on:
       - 'v3/heist-effects.js'
       - 'v3/turn-practice.js'
       - 'v3/turn-practice-ui.js'
+      - 'v3/site.css'
+      - 'v3/table-layout.css'
+      - 'v3/table-theme.css'
+      - 'v3/design-system.css'
+      - 'tests/v3-design-system.test.js'
       - 'v3/practice-guide.js'
       - 'v3/card-reference.js'
       - 'v3/dice-animation.js'
@@ -100,3 +105,6 @@ jobs:
         run: V3_OPPONENT_DECK=embracingPower node tests/v3-full-match.test.js
       - name: Verify 100 Embracing Power vs Heist matches
         run: V3_TEST_DECK=embracingPower V3_OPPONENT_DECK=theHeist node tests/v3-full-match.test.js
+
+      - name: Verify V3 shared typography and CSS priority policy
+        run: node tests/v3-design-system.test.js

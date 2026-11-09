@@ -128,6 +128,20 @@ let scenario='random',defensePreset='none',opponentMode='mirror',state=freshPrac
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
 let guidanceOn=true,guideIntro=0,guideMinimized=false,opponentTimer=null,selectedDie=4;
 let confirmConcede=false;
+const concedeDialog=document.createElement('dialog');concedeDialog.id='v3ConcedeDialog';concedeDialog.setAttribute('aria-labelledby','v3ConcedeTitle');concedeDialog.setAttribute('aria-describedby','v3ConcedeDescription');
+concedeDialog.innerHTML='<div class="nct-dialog-header"><h2 id="v3ConcedeTitle">確定認輸？</h2><button type="button" class="nct-icon-button" aria-label="關閉認輸確認"></button></div><p id="v3ConcedeDescription">認輸後會結束本局，並判定對手獲勝。</p><div class="nct-dialog-actions"><button type="button" class="btn" id="v3ConcedeCancel" autofocus>繼續對戰</button><button type="button" class="btn" id="v3ConcedeConfirm">確認認輸</button></div>';
+board.append(concedeDialog);
+function openConcedeDialog(){
+ if(state.finished||state.phase==='pregame'||concedeDialog.open)return;
+ confirmConcede=true;hideHandHover();
+ if(opponentTimer!==null){clearTimeout(opponentTimer);opponentTimer=null;}
+ concedeDialog.showModal();$('v3ConcedeCancel').focus();
+}
+concedeDialog.querySelector('.nct-icon-button').onclick=()=>concedeDialog.close();
+$('v3ConcedeCancel').onclick=()=>concedeDialog.close();
+$('v3ConcedeConfirm').onclick=()=>{const result=P.concede(state);concedeDialog.close('concede');runTableCommand(()=>result);};
+concedeDialog.addEventListener('close',()=>{confirmConcede=false;scheduleOpponent();board.querySelector('.v3-concede')?.focus();});
+
 let paymentAction=null,draggedCardId=null;
 let selectedLegendId=null,effectChoiceId=null,effectChoices=new Set();
 let pendingDeal=null;
@@ -153,7 +167,7 @@ function dealHand(mode){
  const layer=document.createElement('div');
  layer.setAttribute('aria-hidden','true');
  layer.dataset.v3DealLayer='';
- layer.style.cssText='position:fixed;inset:0;z-index:20000;pointer-events:none;overflow:visible;';
+ layer.className='nct-deal-layer';
  document.documentElement.append(layer);
  let remaining=0;
  const startX=start.left+start.width/2,startY=start.top+start.height/2;
@@ -162,7 +176,7 @@ function dealHand(mode){
   if(!end.width||!end.height)continue;
   const img=target.querySelector('img');
   const clone=document.createElement('div');
-  clone.style.cssText='position:absolute;display:block;box-sizing:border-box;overflow:hidden;border:1px solid #9d4b52;border-radius:3px;background:#15212a;box-shadow:0 8px 20px #0009;pointer-events:none;transform-origin:center center;';
+  clone.className='nct-deal-card';
   // End coordinates are exact target bounding boxes (no layout or margins).
   clone.style.left=end.left+'px';
   clone.style.top=end.top+'px';
@@ -172,11 +186,11 @@ function dealHand(mode){
    const copy=img.cloneNode(false);
    copy.removeAttribute('id');
    copy.loading='eager';
-   copy.style.cssText='position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;background:#101820;';
+   copy.className='nct-deal-art';
    clone.append(copy);
   }else{
    const text=document.createElement('span');text.textContent=target.dataset.cardName||'CARD';
-   text.style.cssText='display:grid;place-items:center;width:100%;height:100%;font-size:12px;color:#e9f1f3;';
+   text.className='nct-deal-fallback';
    clone.append(text);
   }
   layer.append(clone);
@@ -210,10 +224,10 @@ document.querySelectorAll('#starterDeckGallery [data-card-name][data-deck-image]
 // is disabled while this rail is owned by V3, preventing two competing popups.
 const hover=document.createElement('div');
 hover.id='v3HandPreview';hover.hidden=true;hover.setAttribute('aria-hidden','true');
-hover.style.cssText='position:fixed;z-index:9999;pointer-events:none;display:none;box-sizing:border-box;align-items:flex-start;gap:14px;max-width:calc(100vw - 32px);padding:10px;background:#071015f8;border:1px solid #567c85;border-radius:8px;box-shadow:0 16px 44px #000d;color:#e9eff0;';
+;
 const hoverArt=document.createElement('img');
-hoverArt.alt='';hoverArt.style.cssText='display:block;width:min(185px,19vw);height:auto;max-height:min(52vh,300px);aspect-ratio:5/7;object-fit:contain;background:#101820;flex:none;';
-const hoverInfo=document.createElement('div');hoverInfo.style.cssText='width:min(155px,16vw);max-height:min(52vh,300px);overflow:hidden;font-size:14px;line-height:1.65;';
+hoverArt.alt='';hoverArt.className='nct-hover-art';;
+const hoverInfo=document.createElement('div');hoverInfo.className='nct-hover-copy';;
 hover.append(hoverArt,hoverInfo);document.body.append(hover);
 let publicPreviewAnchor=null;
 let previewId=null,leaveTimer=null,previewLoad=0,hoverPending=null,hoverPendingId=null;
@@ -305,15 +319,15 @@ function showHandHover(card,anchor=null){
  const name=card.name,image=art.get(name);
  hoverInfo.replaceChildren();
  const heading=document.createElement('strong');
- heading.textContent=name;heading.style.cssText='display:block;font-size:17px;color:#29ffff;margin-bottom:12px;';
+ heading.textContent=name;;
  hoverInfo.append(heading);
  const reference=window.NCTV3CardReference?.[card.name];
  const detail=document.createElement('p');
  detail.textContent=(card.type||reference?.type||'卡牌')+' · COST '+(card.cost??reference?.cost??'—')+(card.sellTag?' · SELL TAG':'');
- detail.style.margin='0 0 14px';hoverInfo.append(detail);
+ hoverInfo.append(detail);
  const note=document.createElement('p');note.className='v3-card-ability';
  note.textContent=reference?.abilityZh||reference?.abilityEnglish||'尚未載入此卡能力文字，請查看卡面。';
- note.style.cssText='margin:0;color:#e2edf0';hoverInfo.append(note);
+ hoverInfo.append(note);
  if(card.gear?.length){const gear=document.createElement('p');gear.textContent='裝備：'+card.gear.map(g=>g.name+' — '+(window.NCTV3CardReference?.[g.name]?.abilityZh||'')).join('；');hoverInfo.append(gear);}
  if(card.unimplementedEffect){const warning=document.createElement('p');warning.textContent='此卡能力尚未支援，無法打出。';hoverInfo.append(warning);}
 
@@ -424,7 +438,7 @@ function sizeHandRail(rail){
   const h=Math.max(40,Math.min(Math.max(56,height),(width-Math.max(0,nodes.length-1)*12)*7/5)),w=h*5/7;
   const overlap=Math.min(w-12,Math.max(0,(w*nodes.length-width)/Math.max(1,nodes.length-1)));
   rail.style.setProperty('--preview-stack-overlap',Math.max(0,overlap).toFixed(2)+'px');
-  nodes.forEach((el,i)=>{el.style.setProperty('--v3-hand-order',String(i+1));el.style.height=h+'px';el.style.width=w+'px';el.style.zIndex=String(i+1)});
+  nodes.forEach((el,i)=>{el.style.setProperty('--v3-hand-order',String(i+1));el.style.height=h+'px';el.style.width=w+'px'});
  }
 }
 function fitHandRails(){
@@ -441,7 +455,7 @@ function fitHandRails(){
  for(const rail of board.querySelectorAll('.v3-legend-layout>.cardbacks')){
   const slots=[...rail.querySelectorAll('.v3-legend-slot')];if(!slots.length)continue;
   const h=Math.max(36,Math.min(160,rail.clientHeight-6,(rail.clientWidth-6)/(1+(slots.length-1)*.66)));
-  for(const [index,slot] of slots.entries()){slot.style.marginLeft=index?(-h*.34)+'px':'0px';slot.style.zIndex=String(index+1);slot.style.width=h+'px';slot.style.height=h+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-legend-spent');card.style.width=(spent?h:h*5/7)+'px';card.style.setProperty('height',(spent?h*5/7:h)+'px','important');}
+  for(const [index,slot] of slots.entries()){slot.style.marginLeft=index?(-h*.34)+'px':'0px';slot.style.setProperty('--nct-legend-order',String(index+1));slot.style.width=h+'px';slot.style.height=h+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-legend-spent');card.style.width=(spent?h:h*5/7)+'px';card.style.height=(spent?h*5/7:h)+'px';}
  }
 }
 function sellDropReason(card){
@@ -649,8 +663,8 @@ function renderGuide(){
   add('p','查看標示的桌面區域，再選擇「下一步」。',guideRoot,'v3-guide-action');
   guideAnchor=board.querySelector(step.zone);mark(guideAnchor);
   const actions=add('div','',guideRoot,'v3-coach-actions');
-  if(guideIntro>0){const back=add('button','上一步',actions,'btn');back.type='button';back.addEventListener('click',()=>{guideIntro--;render()});}
-  const next=add('button',guideIntro===coachSteps.length-1?'開始實戰':'下一步 →',actions,'btn');next.type='button';next.addEventListener('click',()=>{guideIntro++;render()});
+  if(guideIntro>0){const back=add('button','上一步',actions,'btn v3-coach-back');back.type='button';back.addEventListener('click',()=>{guideIntro--;render()});}
+  const next=add('button',guideIntro===coachSteps.length-1?'開始實戰':'下一步 →',actions,'btn v3-coach-next');next.type='button';next.addEventListener('click',()=>{guideIntro++;render()});
   const skip=add('button','略過說明，直接操作',guideRoot,'v3-coach-skip');skip.type='button';skip.addEventListener('click',()=>{guideIntro=coachSteps.length;render()});
  }else{
   guideRoot.dataset.mode='live';
@@ -749,7 +763,7 @@ function renderTrashViewer(){
  trashDialog.replaceChildren();
  const head=add('div','',trashDialog,'v3-trash-header');
  add('h2',(trashSide==='player'?'我的':'對手')+'棄牌區 · '+(state[trashSide].trash||[]).length+' 張',head);
- const close=add('button','×',head,'btn');close.type='button';close.setAttribute('aria-label','關閉棄牌區');close.onclick=()=>trashDialog.close();
+ const close=add('button','',head,'nct-icon-button');close.type='button';close.setAttribute('aria-label','關閉棄牌區');close.onclick=()=>trashDialog.close();
  const cards=add('div','',trashDialog,'v3-trash-cards');
  if(!(state[trashSide].trash||[]).length)add('p','目前沒有棄牌。',cards);
  for(const c of (state[trashSide].trash||[])){
@@ -956,12 +970,7 @@ function renderTableControls(){
  if(message&&message!==initial)add('span',compactFeedback(message),tableControls,'v3-table-feedback');
  if(state.finished){confirmConcede=false;const result=E.resultSummary(state);headline.textContent=result.title;add('span',result.reason,tableControls,'v3-result-reason');tableButton('重新開局',()=>({ok:true,state:freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),message:initial}));return}
  if(state.overtime)add('span','OVERTIME · 7 顆骰立即獲勝',tableControls,'v3-overtime');
- if(confirmConcede){
-  add('strong','確定認輸並結束本局？',tableControls,'v3-table-selection');
-  tableButton('確認認輸',()=>P.concede(state));
-  const keep=add('button','繼續對戰',tableControls,'v3-table-btn');keep.type='button';keep.addEventListener('click',()=>{confirmConcede=false;render()});return;
- }
- const concede=add('button','認輸',tableControls,'v3-table-btn v3-concede');concede.type='button';concede.addEventListener('click',()=>{confirmConcede=true;render()});
+ const concede=add('button','認輸',tableControls,'v3-table-btn v3-concede');concede.type='button';concede.addEventListener('click',openConcedeDialog);
  if(E.pending(state)){renderEffectChoices();return;}
  if(state.phase==='react'&&state.pendingAttack?.defendingSide==='player'){renderDefenseControls();return;}
  if(state.turn==='ai'){

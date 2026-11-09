@@ -149,25 +149,17 @@ for(const c of audit.entries){
 const starters=read('starter-decks.js');
 const lessonSource=read('v3/trainer-modules.js');
 const v3Html=read('v3/index.html');
+const v3Layout=read('v3/table-layout.css').replace(/\s+/g,'');
 assert(v3Html.includes('class="v3-rotate-overlay"'),'V3 battle must provide a portrait rotation gate');
-assert(v3Html.includes('@media screen and (orientation:portrait) and (max-width:900px)'),'Portrait gating must apply only to phone-sized viewports');
-assert(v3Html.includes('body.battle-wide #battle>:not(.v3-rotate-overlay){display:none!important}'),'Portrait must block access to battle controls');
+assert(v3Layout.includes('@mediascreenand(orientation:portrait)and(max-width:900px)'),'Portrait gating must apply only to phone-sized viewports');
+assert(v3Layout.includes('body.battle-wide#battle>:not(.v3-rotate-overlay){display:none;'),'Portrait must block access to battle controls');
 assert(v3Html.includes('class="btn" data-go="home">返回首頁'),'The rotation gate must allow returning to other website sections');
 
-assert(v3Html.includes('distinguish direct card search from the secondary dropdown filters'),'V3 must visually separate card search from secondary filters');
-assert(v3Html.includes('border-bottom:1px solid rgba(171,196,201,.24)'),'Search/filter divider must be present');
+assert(v3Html.includes('v3/site.css?v=1')&&v3Html.includes('v3/design-system.css?v=1'),'V3 visual roles load as external stylesheets');
 
 assert(!v3Html.includes('官方規則優先</h2>'),'Redundant official rules explanation is removed');
 assert(v3Html.includes('class="rules-official-link"'),'Official rules link remains available');
 assert(v3Html.includes('class="rules-official-link"><a href="https://cyberpunktcg.com/comprehensive-rules"'),'Official rules link is plain text, not a framed button');
-assert(v3Html.includes('#rules .rules-official-link{display:flex;justify-content:flex-end'),'Official rules link is right-aligned');
-assert(v3Html.includes('a[target="_blank"]:hover .external-arrow'),'External arrow moves on hover');
-assert(v3Html.includes('prefers-reduced-motion:reduce'),'Arrow animation respects reduced motion');
-assert(v3Html.includes('V3 shared visual rhythm'),'Shared type and panel system must remain present');
-assert(v3Html.includes('#rules .term-entry>summary *'),'Rule accordion text selection guard must remain present');
-assert(v3Html.includes('#rules .term-entry[open]>summary span::before'),'Rule accordion has matching CSS minus indicator');
-assert(v3Html.includes('#home .grid .panel,#rules>.panel'),'Home and rules panels use shared treatment');
-assert(v3Html.includes('#home>h1,#learn>h1,#rules>h1,#decks>h1'),'Major pages use one heading scale');
 const official=read('official-cards.js');
 const cardNames=new Set(beta.map(c=>c.name));
 for(const m of starters.matchAll(/\["([^"]+)",\d+\]/g))cardNames.add(m[1]);
