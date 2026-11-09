@@ -155,7 +155,7 @@ assert(v3Layout.includes('@mediascreenand(orientation:portrait)and(max-width:900
 assert(v3Layout.includes('body.battle-wide#battle>:not(.v3-rotate-overlay){display:none;'),'Portrait must block access to battle controls');
 assert(v3Html.includes('class="btn" data-go="home">返回首頁'),'The rotation gate must allow returning to other website sections');
 
-assert(v3Html.includes('v3/site.css?v=2')&&v3Html.includes('v3/design-system.css?v=6'),'V3 visual roles load as external stylesheets');
+assert(v3Html.includes('v3/site.css?v=2')&&v3Html.includes('v3/design-system.css?v=7'),'V3 visual roles load as external stylesheets');
 
 assert(!v3Html.includes('官方規則優先</h2>'),'Redundant official rules explanation is removed');
 assert(v3Html.includes('class="rules-official-link"'),'Official rules link remains available');

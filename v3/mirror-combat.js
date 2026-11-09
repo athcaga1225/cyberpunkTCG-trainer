@@ -123,11 +123,13 @@
    if(power(current.player.units.find(u=>u.id===p.attackerId))<=0)break;
    const r=react(current,'ai',{kind:'quick',cardId:c.id,sources:sources(c.cost)});if(r.ok){current=r.state;events.push(...r.events);}if(current.finished||E.pending(current))return ok(current,events);
   }
-  const b=blockers(current).sort((a,b)=>power(b)-power(a))[0];
+  const attacker=current.player.units.find(u=>u.id===p.attackerId),available=blockers(current).sort((a,b)=>power(a)-power(b));
+  const b=available.find(b=>power(b)>power(attacker)||(current.ai.pendingRebootOptics>0&&power(b)===power(attacker)))||available[0];
   if(b){const r=react(current,'ai',{kind:'block',blockerId:b.id});current=r.state;events.push(...r.events);if(current.finished||E.pending(current))return ok(current,events);}
   if(current.pendingAttack.target.kind==='unit'){
    const c=quicks(current).find(c=>c.name==='Reboot Optics');
-   if(c){const r=react(current,'ai',{kind:'quick',cardId:c.id,sources:sources(c.cost)});if(r.ok){current=r.state;events.push(...r.events);if(current.finished||E.pending(current))return ok(current,events);}}
+   const defender=current.ai.units.find(u=>u.id===current.pendingAttack.target.defenderId),attacker=current.player.units.find(u=>u.id===p.attackerId);
+   if(c&&defender&&power(attacker)>0&&power(attacker)>=power(defender)&&!current.ai.pendingRebootOptics){const r=react(current,'ai',{kind:'quick',cardId:c.id,sources:sources(c.cost)});if(r.ok){current=r.state;events.push(...r.events);if(current.finished||E.pending(current))return ok(current,events);}}
   }
   let ids;
   if(current.pendingAttack.target.kind==='gig'){

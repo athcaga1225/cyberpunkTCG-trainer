@@ -2343,7 +2343,7 @@ body.battle-wide #battle .v3-legend-layout > .preview-zone {
 }
 
 :where(body.battle-wide) #battle .v3-card-actions {
-  position: fixed; z-index: 8000; width: min(335px, -24px + 100vw); box-sizing: border-box; padding: 10px; background: rgb(13, 39, 50); border: 1px solid rgb(89, 194, 212); border-radius: 3px; max-height: 42vh; overflow: auto; display: flex; flex-wrap: wrap; gap: 7px; color: rgb(223, 245, 250);
+  position: fixed; z-index: 8000; width: min(335px, -24px + 100vw); box-sizing: border-box; padding: 10px; background: rgb(13, 39, 50); border: 1px solid rgb(89, 194, 212); border-radius: 3px; max-height: min(560px, calc(100dvh - 24px)); overflow: auto; display: flex; flex-wrap: wrap; gap: 7px; color: rgb(223, 245, 250);
 }
 
 :where(body.battle-wide) #battle .v3-card-actions[hidden] {

@@ -270,3 +270,7 @@ body.battle-wide {
   display: none;
 
 }
+
+:where(body.battle-wide) #v3CardActions .v3-search-rest {width:100%;font-size:var(--nct-type-body);color:var(--nct-muted);line-height:1.5}
+:where(body.battle-wide) #v3CardActions .v3-search-rest summary {cursor:pointer;padding:6px 0}
+:where(body.battle-wide) #v3CardActions .v3-action-footer {width:100%;position:sticky;bottom:-10px;padding:7px 0;background:var(--nct-raised);display:flex;gap:7px}

@@ -558,7 +558,7 @@ function paymentOptions(parent){
   const area=add('div','',parent,'v3-payment-summary');
   const progress=add('strong','付款 '+selectedPayments.size+' / '+context.cost+' €$',area,'v3-payment-total');progress.setAttribute('role','status');
   const available=G.sources(state).length,remaining=Math.max(0,context.cost-selectedPayments.size);
-  const instruction=!context.selecting?'付款已選好，點選高亮的友方單位或正面傳奇裝備。':available<context.cost?'目前只有 '+available+' 個就緒資源，費用需要 '+context.cost+'。可先變賣其他手牌取得 Eddies，或改選較低費用的牌。':remaining?'先點下方黃色框的 Eddies（變賣過的牌）或就緒傳奇。還需選 '+remaining+' 張，再確認出牌。':'資源已選好，按黃色按鈕確認；確認後才會消耗。';
+  const instruction=!context.selecting?'選擇裝備對象，或點桌上高亮的牌。':available<context.cost?'目前只有 '+available+' 個就緒資源，費用需要 '+context.cost+'。可先變賣其他手牌取得 Eddies，或改選較低費用的牌。':remaining?'先點下方黃色框的 Eddies（變賣過的牌）或就緒傳奇。還需選 '+remaining+' 張，再確認出牌。':'資源已選好，按黃色按鈕確認；確認後才會消耗。';
   add('span',instruction,area,'v3-payment-instruction');area.dataset.paymentState=!context.selecting?'target':available<context.cost?'shortage':remaining?'choose':'ready';
   if(paymentAction==='call'||paymentAction==='solo')localTableButton('取消付款',()=>{paymentAction=null;selectedPayments.clear();render()});
   return G.sources(state);
@@ -842,7 +842,7 @@ function renderEffectChoices(){
  const e=E.pending(state);if(!e)return;
  if(effectChoiceId!==e.id){effectChoiceId=e.id;effectChoices.clear();}
  const options=E.options(state,e),confirm=choice=>P.resolveEffect(state,choice);
- add('strong','待結算：'+(e.source||e.type),tableControls,'v3-table-selection');
+ add('strong',e.type==='search'?'Viktor · 搜尋裝備':'待結算：'+(e.source||e.type),tableControls,'v3-table-selection');
  const choiceButton=(label,id)=>{const b=add('button',label,tableControls,'v3-resource-choice');b.type='button';b.setAttribute('aria-pressed',String(effectChoices.has(id)));b.addEventListener('click',()=>{if(effectChoices.has(id))effectChoices.delete(id);else effectChoices.add(id);render()});};
  if(e.type==='shatteredDraw'){
   add('span','Shattered Memories：是否抽 5 張牌？目前牌庫 '+state.player.deck.length+' 張。',tableControls,'v3-table-hint');
@@ -860,9 +860,13 @@ function renderEffectChoices(){
   add('span','有多個待結算能力，請選擇先結算哪一個。',tableControls,'v3-table-hint');
   for(const c of options)tableButton('先結算：'+c.source,()=>confirm({effectId:c.id}));
  }else if(e.type==='search'){
-  add('span','搜尋牌庫頂 '+options.length+' 張：選最多兩張費用 2 以下的裝備；其餘隨機放回牌庫底。',tableControls,'v3-table-hint');
-  for(const c of options){if(c.type==='Gear'&&c.cost<=2)choiceButton(c.name+' · '+c.cost+' €$',c.id);else add('span',c.name+'（不能選取）',tableControls,'v3-table-hint');}
-  tableButton('確認搜尋（選取 '+effectChoices.size+' / 2）',()=>confirm({cardIds:[...effectChoices]}),effectChoices.size>2);
+  const eligible=options.filter(c=>c.type==='Gear'&&c.cost<=2),rest=options.filter(c=>!eligible.includes(c));
+  add('span','查看頂 '+options.length+' 張，選最多 2 張費用 ≤ 2 的裝備；其餘洗回牌庫底。',tableControls,'v3-table-hint');
+  for(const c of eligible)choiceButton(c.name+' · '+c.cost+' €$',c.id);
+  if(!eligible.length)add('span','沒有符合條件的裝備。',tableControls,'v3-table-hint');
+  if(rest.length){const details=add('details','',tableControls,'v3-search-rest');add('summary','另 '+rest.length+' 張不符合條件',details);for(const c of rest)add('div',c.name,details);details.addEventListener('toggle',()=>requestAnimationFrame(positionContextActions));}
+  const footer=add('div','',tableControls,'v3-action-footer');
+  footer.append(tableButton('確認搜尋（選取 '+effectChoices.size+' / 2）',()=>confirm({cardIds:[...effectChoices]}),effectChoices.size>2));
  }else if(e.type==='rippler'){
   add('span','只有我方查看牌庫頂；選擇保留或棄置。這不是抽牌。',tableControls,'v3-table-hint');
   add('strong','牌庫頂：'+options[0].name,tableControls,'v3-table-selection');
@@ -970,7 +974,7 @@ function renderTableControls(){
   const card=p.hand.find(c=>c.id===selectedId);
   if(card){
    add('span',card.name+' · '+card.cost+' €$',tableControls,'v3-table-selection');
-   if(card.sellTag)tableButton('變賣',()=>P.sell(state,card.id),p.soldThisTurn);
+   if(card.sellTag&&paymentAction!=='gear-target')tableButton('變賣',()=>P.sell(state,card.id),p.soldThisTurn);
    if(!card.unimplementedEffect){
     paymentOptions(tableControls);
    }
@@ -1024,10 +1028,15 @@ function renderTableControls(){
     const pay=chosenPayments(card.cost);
     if(paymentAction!=='gear-target')localTableButton('選擇裝備目標',()=>{paymentAction='gear-target';render()},!pay).classList.add('v3-action-primary');
     else{
+     const targets=[...p.units,...p.legends.filter(l=>l.faceUp)];
+     if(targets.length){
+      const select=document.createElement('select');select.setAttribute('aria-label','裝備對象');
+      for(const target of targets){const option=document.createElement('option');option.value=target.id;option.textContent=target.name;select.append(option);}
+      if(!targets.some(t=>t.id===targetId))targetId=targets[0].id;select.value=targetId;
+      select.addEventListener('change',()=>{targetId=select.value});tableControls.append(select);
+      tableButton('確認裝備',()=>P.gear(state,card.id,pay||[],select.value),!pay);
+     }else add('span','需要友方單位或正面傳奇。',tableControls,'v3-table-hint');
      localTableButton('重新選擇付款',()=>{paymentAction=null;render()});
-     for(const unit of p.units)tableButton('裝備至 '+unit.name,()=>P.gear(state,card.id,pay||[],unit.id),!pay);
-     for(const legend of p.legends.filter(l=>l.faceUp))tableButton('裝備至 '+legend.name,()=>P.gear(state,card.id,pay||[],legend.id),!pay);
-     if(!p.units.length&&!p.legends.some(l=>l.faceUp))add('span','沒有合法裝備對象：需要友方單位或正面傳奇。',tableControls,'v3-table-hint');
     }
    }else if(card.type==='Program'){
     const pay=chosenPayments(card.cost);
