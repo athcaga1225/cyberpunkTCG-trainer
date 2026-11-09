@@ -51,6 +51,7 @@
   #v3OpeningSetup .v3-opening-primary:hover:not(:disabled), #v3ConcedeConfirm:hover {background:#fff76b;border-color:#fff76b}
   #v3TableGuide .v3-coach-back {background:var(--nct-raised);border-color:var(--nct-control-line);color:var(--nct-text)}
   #v3TableGuide .v3-coach-back:hover {background:#173641;border-color:var(--nct-guide)}
+  .v3-room-buttons button {padding:8px;white-space:nowrap}
   .v3-coach-actions {gap:10px}
   #v3TableGuide .v3-coach-skip {font-size:var(--nct-type-control);color:var(--nct-muted);min-height:44px}
 

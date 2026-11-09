@@ -1861,9 +1861,6 @@ body.battle-wide #battle #toggleV3BattleActions {
   min-height: 32px; padding: 5px 12px; margin: 3px auto 0px; background: rgb(16, 41, 50); border: 1px solid rgb(41, 168, 182); color: rgb(215, 246, 248); font-size: var(--nct-type-caption); cursor: pointer; white-space: nowrap; display: block;
 }
 
-body.battle-wide #battle .player-fixer {
-  z-index: 1;
-}
 
 body.battle-wide #battle .player-hand:has(.is-hand-hover) {
   position: relative; overflow: visible; z-index: 500; isolation: auto;
@@ -2510,13 +2507,7 @@ body.battle-wide #battle .v3-legend-layout > .preview-zone {
   padding: 5px 9px; min-height: 28px; font-size: var(--nct-type-control); cursor: pointer; border-radius: 2px;
 }
 
-#battle .player-fixer .v3-zone-actions {
-  position: absolute; right: 6px;
-}
 
-#battle .player-fixer .v3-zone-actions select {
-  display: none;
-}
 
 #battle .v3-card-actions {
   position: fixed; z-index: 8000; width: min(335px, -24px + 100vw); box-sizing: border-box; padding: 10px; background: rgb(13, 39, 50); border: 1px solid rgb(89, 194, 212); border-radius: 3px; max-height: 42vh; overflow: auto; display: flex; flex-wrap: wrap; gap: 7px; color: rgb(223, 245, 250);
@@ -2580,13 +2571,7 @@ body.battle-wide #battle .player-eddies .v3-eddie-tokens {
   visibility: hidden;
 }
 
-#battle .player-fixer:has(.v3-zone-actions) .mini-dice {
-  width: calc(100% - 52px); box-sizing: border-box;
-}
 
-#battle .player-fixer .v3-zone-actions {
-  top: 26px;
-}
 
 #battle .v3-setup-fields {
   display: grid; grid-template-columns: repeat(3, minmax(0px, 1fr)); gap: 10px;
@@ -2885,25 +2870,10 @@ body.battle-wide #battle .v3-gig-values {
   grid-area: 3 / 1 / auto / -1; display: flex; gap: 3px; flex-wrap: wrap; align-content: flex-start; min-height: 0px; overflow: auto; margin: 0px;
 }
 
-body.battle-wide #battle .player-fixer {
-  display: grid; grid-template-columns: minmax(0px, 1fr) 100px; grid-template-rows: auto minmax(0px, 1fr); gap: 3px 7px;
-}
 
-body.battle-wide #battle .player-fixer > small {
-  grid-area: 1 / 1 / auto / -1;
-}
 
-body.battle-wide #battle .player-fixer .mini-dice {
-  grid-area: 2 / 1; height: 100%; margin: 0px; align-items: center; width: 100%;
-}
 
-body.battle-wide #battle .player-fixer .v3-fixer-roll {
-  grid-area: 2 / 2; align-self: center; justify-content: flex-end; margin: 0px; position: static;
-}
 
-body.battle-wide #battle .player-fixer #v3RollControl {
-  width: 96px; min-height: 44px; padding: 8px 10px; font-size: var(--nct-type-control);
-}
 
 body.battle-wide #battle .player-fixer .die-icon:disabled {
   cursor: not-allowed; opacity: 0.4;
@@ -3054,9 +3024,6 @@ body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-selected:
   font-size: var(--nct-type-control);
 }
 
-#battle .player-fixer #v3RollControl:disabled {
-  background: rgb(39, 57, 66); color: rgb(138, 155, 163); border: 1px solid rgb(82, 99, 109); opacity: 1; cursor: not-allowed;
-}
 
 #v3HandPreview p, #v3HandPreview > div {
   font-size: var(--nct-type-body); line-height: 1.6;
@@ -3346,17 +3313,8 @@ body.battle-wide #battle .v3-eddie-token[aria-pressed="true"] {
   background: rgb(230, 236, 238); color: rgb(16, 28, 36); border-left: 4px solid rgb(255, 255, 255);
 }
 
-#battle .v3-phase-panel:has(> .v3-ready-actions) > strong {
-  display: none;
-}
 
-#battle .v3-phase-panel > .v3-ready-actions {
-  justify-content: center; flex: 0 0 auto; max-width: 100%;
-}
 
-#battle .v3-phase-panel > .v3-ready-actions button {
-  min-height: 44px;
-}
 
 body.battle-wide #battle .v3-eddie-token {
   width: 68px; height: 45px; flex: 0 0 68px; aspect-ratio: 1331 / 878; overflow: visible; min-height: 44px;

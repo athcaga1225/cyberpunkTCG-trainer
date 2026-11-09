@@ -25,7 +25,7 @@
    return hint(5,'defense','對手已宣告攻擊。可點選高亮的 Blocker 攔截，或選 Quick 手牌並支付；完成後按「結束反應並結算」。關閉此提示不會略過防守。');
   }
   if(s.turn==='ai')return hint(6,'opponent',s.ai.practiceBot?.kind==='mirror-the-heist'?'觀察自動對手：正在自動重置、抽牌、擲骰、變賣及出牌。':'固定腳本沒有自動行動，請略過至下一回合。');
-  if(s.phase==='start')return hint(2,s.step,{ready:'在回合狀態區點「重置資源」，開始準備階段。',draw:'在牌庫點「抽 1 張」，將牌加入手牌。',roll:'點合事佬區的一顆骰子，再按同區的「擲骰」；d20 必須最後使用。'}[s.step]);
+  if(s.phase==='start')return hint(2,s.step,{ready:'在回合狀態區點「重置資源」，開始準備階段。',draw:'在回合狀態區點「抽 1 張」，將牌加入手牌。',roll:'點合事佬區的一顆骰子，再按回合狀態區的「擲骰」；d20 必須最後使用。'}[s.step]);
   const card=s.player.hand.find(c=>c.id===selectedId),available=sources(s);
   if(card){
    if(card.unimplementedEffect)return hint(4,'unsupported','此卡能力尚未支援。請取消選取並改選其他手牌。');

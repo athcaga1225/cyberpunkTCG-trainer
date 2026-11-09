@@ -42,3 +42,7 @@ Concede opens a native modal dialog centered in the viewport, outside sidebar la
 `v3-design-system.test.js` enforces stylesheet loading, six typography roles and no priority flags. `v3-design-system.browser.cjs` checks actual computed 16px controls, icon geometry/colors, inset arrows, distinct back/next colors, modal centering, unchanged sidebar geometry, cancel/confirm/focus/restart, and the shared site/catalogue controls. Desktop checks cover 1440×900 and 1280×720.
 
 Existing browser checks cover opening, sidebar, hover/click regions, Eddies orientation, outcomes and complete matches; existing native game suites remain unchanged apart from replacing historical CSS-source-string assertions with the computed browser checks. Mobile/tablet redesign remains deferred.
+
+## Preparation controls
+
+Reset, draw and roll share one 44px action slot in the turn-status panel. Only the current legal preparation action appears. The player chooses a die directly in the Fixer area and confirms the roll in turn status; no secondary select or persistent disabled Roll button is rendered. Both Fixer areas use the same full-width rail and 44px icon height. The main phase, opponent turn and finished game have no preparation button. Guidance names and highlights the current controls.

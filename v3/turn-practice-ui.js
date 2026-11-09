@@ -632,7 +632,7 @@ function scheduleOpponent(){
  },900);
 }
 const coachSteps=[
- {zone:'.player-fixer',title:'先重置、抽牌，再選骰子',text:'先在回合狀態區按「重置資源」，再到牌庫按「抽 1 張」。輪到擲骰時，可直接點黃色框內的一顆骰子，再按同區的「擲骰」；d20 必須留到最後。關閉引導不會跳過準備階段。'},
+ {zone:'.v3-phase-panel',title:'在回合區完成準備',text:'先在回合狀態區按「重置資源」，接著在同一位置按「抽 1 張」。輪到擲骰時，到合事佬區選一顆骰子，再回這裡按「擲骰」；d20 必須留到最後。關閉引導不會跳過準備階段。'},
  {zone:'.player-hand',title:'直接點選手牌',text:'點一下手牌即可選取，卡牌旁會出現出牌／變賣操作。有變賣標記的牌可按「變賣」，取得一張 Eddie。'},
  {zone:'.player-eddies',title:'直接點桌上的資源付款',text:'Eddies 區只放變賣得到的卡牌。選取要打出的手牌後，直接點桌上就緒的傳奇或 Eddie 付款，再確認出牌；確認前不會消耗。手牌也能拖到 Eddies 區變賣。'},
  {zone:'#v3TableControls',title:'現在跟著提示完成回合',text:'操作直接放在卡牌與場地旁，右側保留回合及結果。先依序重置、抽牌、擲骰，再選手牌出牌。按「結束回合」後，自動對手會自動行動。'}
@@ -692,10 +692,10 @@ function renderGuide(){
   }
   const label={ready:'重置資源',draw:'抽 1 張',roll:'擲骰',sell:'變賣',play:'打出單位',end:'結束回合'}[h.key];
   if(label)for(const button of tableControls.querySelectorAll('button'))if(button.textContent===label&&!button.disabled)mark(button);
-  const zones={effect:'#v3CardActions',legend:'.player-legends','legend-payment':'.player-legends',defense:'#v3CardActions',ready:'.v3-phase-panel',draw:'.player-deck',roll:'.player-fixer','select-sale':'.player-hand',sell:'.player-hand','select-unit':'.player-hand',payment:'.player-eddies',play:'#v3CardActions',attack:'.player-field',target:'.opponent-field',opponent:'.opponent-field'};
+  const zones={effect:'#v3CardActions',legend:'.player-legends','legend-payment':'.player-legends',defense:'#v3CardActions',ready:'.v3-phase-panel',draw:'.v3-phase-panel',roll:'.player-fixer','select-sale':'.player-hand',sell:'.player-hand','select-unit':'.player-hand',payment:'.player-eddies',play:'#v3CardActions',attack:'.player-field',target:'.opponent-field',opponent:'.opponent-field'};
   guideAnchor=board.querySelector(zones[h.key]||'#v3TableControls');mark(guideAnchor);
  }
- if(guideAnchor)guideAnchor.querySelectorAll('button.v3-table-btn.v3-guide-active').forEach(b=>b.classList.remove('v3-guide-active'));
+ if(guideAnchor)board.querySelectorAll('button.v3-table-btn.v3-guide-active').forEach(b=>b.classList.remove('v3-guide-active'));
  const glossary=add('details','',guideRoot,'v3-guide-glossary');add('summary','規則與名詞',glossary);
  const glossaryText={2:'每回合依序重置、抽牌、選擇一顆合事佬骰；d20 必須留到最後。',3:'每回合最多變賣一張有變賣標記的手牌。每張就緒 Eddie 或合法傳奇資源可支付 1 €$。',4:'單位通常有 Lag；裝備可附在友方單位或正面傳奇。選取卡牌後，在卡牌旁確認操作。',5:'先選己方就緒且可攻擊的單位，再指定合法目標。防守方可依時機使用已支援的 Quick、Blocker 或呼叫傳奇。',6:'結束回合後，自動對手會自動行動；需要你防守或選擇能力時會暫停。'};
  add('p',glossaryText[h.stage]||'看完桌面說明後，可依實戰引導直接操作。關閉提示不會改變遊戲狀態。',glossary);glossary.addEventListener('toggle',positionGuide);
@@ -728,8 +728,8 @@ function fixerHint(){
  if(!state.player.fixer.length)return '合事佬區已空；每回合抽牌後直接進入主要階段';
  if(state.turn!=='player')return '等待對手完成回合，再進行準備階段';
  if(state.phase==='start'&&state.step==='ready')return '先在回合狀態區按「重置資源」，再抽牌、選骰';
- if(state.phase==='start'&&state.step==='draw')return '先在牌庫按「抽 1 張」，接著就能選骰';
- if(state.phase==='start'&&state.step==='roll')return '點選一顆骰子，再按同區的「擲骰」';
+ if(state.phase==='start'&&state.step==='draw')return '先在回合狀態區按「抽 1 張」，接著就能選骰';
+ if(state.phase==='start'&&state.step==='roll')return '點選一顆骰子，再按回合狀態區的「擲骰」';
  return '本回合已擲骰，下一回合再選';
 }
 function renderFixerChoices(){
@@ -741,7 +741,7 @@ function renderFixerChoices(){
    const button=document.createElement('button');button.type='button';button.className=die.className;button.innerHTML=die.innerHTML;die.replaceWith(button);die=button;
    button.addEventListener('click',()=>{
     if(state.turn!=='player'||state.phase!=='start'||state.step!=='roll'||state.finished){message=fixerHint();render();return;}
-    selectedDie=side;message='已選 d'+side+'；按合事佬區「擲骰」確認。';render();
+    selectedDie=side;message='已選 d'+side+'；按回合狀態區「擲骰」確認。';render();
    });
   }
   die.dataset.sides=String(side);
@@ -983,12 +983,8 @@ function renderTableControls(){
   if(state.step==='ready')tableButton('重置資源',()=>P.ready(state));
   if(state.step==='draw')tableButton('抽 1 張',()=>P.draw(state));
   if(state.step==='roll'){
-   const select=document.createElement('select');select.setAttribute('aria-label','選擇合事佬骰子');
-   for(const side of p.fixer){const option=document.createElement('option');option.value=side;option.textContent='d'+side;option.disabled=side===20&&p.fixer.length>1;select.append(option)}
-   select.value=String(currentDie());
-   select.addEventListener('change',()=>{selectedDie=Number(select.value);render()});
-   tableControls.append(select);
-   tableButton('擲骰',()=>{const side=currentDie();return P.roll(state,side,Math.floor(Math.random()*side)+1)});
+   const roll=tableButton('擲骰',()=>{const side=currentDie();return P.roll(state,side,Math.floor(Math.random()*side)+1)},currentDie()===undefined);
+   roll.id='v3RollControl';roll.title='擲出目前選取的 d'+currentDie();
   }
   return;
  }
@@ -1131,17 +1127,11 @@ function layoutTableActions(){
  for(const b of [...tableControls.children]){if(b.classList.contains('v3-concede'))roomButtons.append(b);else if(['開啟桌面引導','重新看桌面說明'].includes(b.textContent))guideDock.append(b);}
  board.querySelectorAll('.v3-zone-actions').forEach(e=>e.remove());
  const put=(selector)=>{const row=add('div','',board.querySelector(selector),'v3-zone-actions');return row;};
- // Keep one real roll control in place, including disabled phases.
- const canRoll=state.turn==='player'&&state.phase==='start'&&state.step==='roll'&&!state.finished&&!E.pending(state)&&!confirmConcede&&currentDie()!==undefined;
- let roll=[...tableControls.querySelectorAll('button')].find(b=>b.textContent==='擲骰');
- if(!roll)roll=tableButton('擲骰',()=>{const side=currentDie();return P.roll(state,side,Math.floor(Math.random()*side)+1)},!canRoll);
- roll.id='v3RollControl';roll.disabled=!canRoll;roll.setAttribute('aria-disabled',String(!canRoll));roll.title=canRoll?'擲出目前選取的 d'+currentDie():fixerHint();
- const rollArea=put('.player-fixer');rollArea.classList.add('v3-fixer-roll');rollArea.append(roll);
  if(state.phase==='pregame'||state.finished)return;
- if(state.phase==='start'){
-  const names={ready:'重置資源',draw:'抽 1 張',roll:'擲骰'},selector={ready:'.v3-phase-panel',draw:'.player-deck',roll:'.player-fixer'};
-  const row=state.step==='roll'?rollArea:put(selector[state.step]);if(state.step==='ready')row.classList.add('v3-ready-actions');
-  for(const b of [...tableControls.children])if(b.textContent===names[state.step]||b.tagName==='SELECT')row.append(b);
+ if(state.turn==='player'&&state.phase==='start'&&!E.pending(state)){
+  const row=put('.v3-phase-panel');row.classList.add('v3-preparation-actions');row.setAttribute('aria-label','準備階段操作');
+  const label={ready:'重置資源',draw:'抽 1 張',roll:'擲骰'}[state.step];
+  for(const b of [...tableControls.children])if(b.tagName==='BUTTON'&&b.textContent===label)row.append(b);
   return;
  }
  const defending=state.phase==='react'&&state.pendingAttack?.defendingSide==='player',effect=Boolean(E.pending(state));

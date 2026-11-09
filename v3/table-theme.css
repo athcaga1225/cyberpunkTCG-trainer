@@ -23,7 +23,6 @@ body.battle-wide #battle :is(.v3-room-buttons button,.v3-table-btn,.v3-card-acti
 body.battle-wide #battle .preview-zone>.v3-trash-summary{border:0;background:transparent;color:var(--nct-text);height:100%;margin:0}
 body.battle-wide #battle .v3-trash-summary>span{color:inherit}
 body.battle-wide #battle .v3-action-primary:not(:disabled){background:var(--nct-action);border-color:var(--nct-action);color:#11151a}
-body.battle-wide #battle .player-fixer #v3RollControl:disabled{background:#273942;border-color:#52636d;color:#8a9ba3}
 body.battle-wide #battle .mini-dice .die-icon svg{stroke:#9ebdce;filter:none}
 body.battle-wide #battle .mini-dice .die-icon b{color:#d7edf4;text-shadow:none}
 body.battle-wide #battle .mini-dice .die-icon.is-die-selected svg{fill:#29ffff;stroke:#127a83}
@@ -129,10 +128,21 @@ body.battle-wide #battle .v3-guide-dock:empty{display:none}
  body.battle-wide #battle .v3-sidebar{grid-area:sidebar;display:grid;grid-template-areas:"room" "history" "actions" "guide";grid-template-rows:auto minmax(0,1fr) minmax(112px,.28fr) auto;gap:6px;min-width:0;min-height:0}
  body.battle-wide #battle .v3-room-panel{padding:10px;overflow:visible}
  body.battle-wide #battle .v3-room-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
- body.battle-wide #battle .v3-room-buttons button{width:100%;height:44px;min-width:0;margin:0}
+ body.battle-wide #battle .v3-room-buttons button{width:100%;height:44px;min-width:0;margin:0;padding:8px;white-space:nowrap}
  body.battle-wide #battle .v3-sidebar>.turn-info{height:100%;padding:0}
  body.battle-wide #battle .player-hand .hand-card{--v3-hand-hover-lift:18px;position:relative;top:0}
  body.battle-wide #battle .player-hand .hand-card.is-hand-hover{top:calc(-1 * var(--v3-hand-hover-lift))}
 }
+
+/* Preparation stays with the turn status; both Fixer areas are dice-only. */
+body.battle-wide #battle :is(.player-fixer,.opponent-fixer){display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:4px;padding:6px 8px}
+body.battle-wide #battle :is(.player-fixer,.opponent-fixer)>small{grid-column:1;grid-row:1}
+body.battle-wide #battle :is(.player-fixer,.opponent-fixer) .mini-dice{grid-column:1;grid-row:2;display:flex;align-items:center;justify-content:space-between;width:100%;height:100%;margin:0;gap:4px}
+body.battle-wide #battle :is(.player-fixer,.opponent-fixer) .die-icon{flex:1 1 0;min-width:0;max-width:64px;height:44px;min-height:44px;max-height:44px}
+body.battle-wide #battle .v3-phase-panel:has(.v3-preparation-actions){display:grid;grid-template-columns:minmax(0,1fr) 112px;grid-template-rows:auto auto;align-content:center;align-items:center;gap:4px 12px}
+body.battle-wide #battle .v3-phase-panel:has(.v3-preparation-actions)>strong{grid-column:1;grid-row:1}
+body.battle-wide #battle .v3-phase-panel:has(.v3-preparation-actions)>span{grid-column:1;grid-row:2}
+body.battle-wide #battle .v3-phase-panel>.v3-preparation-actions{grid-column:2;grid-row:1 / 3;display:flex;align-items:center;margin:0;padding:0}
+body.battle-wide #battle .v3-preparation-actions>.v3-table-btn{width:100%;min-height:44px;margin:0}
 
 }
