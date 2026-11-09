@@ -3,6 +3,9 @@
 const $=id=>document.getElementById(id),P=window.NCTV3TurnPractice,H=window.NCTV3Heist,A=window.NCTV3Actions,G=window.NCTV3Guide,D=window.NCTV3Dice,C=window.NCTV3Combat,E=window.NCTV3Effects;
 const root=$('v3TurnPractice'),board=$('battleTour'),picker=$('battleDeckChoice');
 if(!root||!board||!P||!H||!G||!D||!C||!E||!picker)return;
+const isPracticeDeck=()=>['theHeist','embracingPower'].includes(picker.value);
+const deckName=()=>picker.value==='embracingPower'?'Embracing Power':'The Heist';
+const freshPractice=(mode,opts)=>picker.value==='embracingPower'?window.NCTV3Embracing.fresh('random',{...opts,aiMode:'mirror'}):H.fresh(mode,opts);
 const openingRoot=document.createElement('section');
 openingRoot.id='v3OpeningSetup';
 openingRoot.className='v3-opening-setup';
@@ -40,7 +43,7 @@ function newZone(cls,label,area){const zone=document.createElement('section');zo
 const phasePanel=newZone('v3-phase-panel','回合狀態','phase');
 const ownerLabel=document.createElement('strong'),phaseLabel=document.createElement('span');phasePanel.append(ownerLabel,phaseLabel);
 const roomPanel=newZone('v3-room-panel','ROOM / 對局','room');
-const roomDescription=document.createElement('p');roomDescription.textContent='The Heist · 單人鏡像練習';roomPanel.append(roomDescription);
+const roomDescription=document.createElement('p');roomDescription.textContent=deckName()+' · 單人鏡像練習';roomPanel.append(roomDescription);
 const roomButtons=document.createElement('div');roomButtons.className='v3-room-buttons';roomPanel.append(roomButtons);
 const leaveButton=$('leaveBattleScreen');if(leaveButton)roomButtons.append(leaveButton);
 const historyPanel=newZone('v3-history-panel','行動紀錄','history');
@@ -64,8 +67,8 @@ function renderBoardInformation(){
  ownerLabel.textContent=state.finished?'對局結束':state.phase==='pregame'?'設定開局':state.phase==='react'?'防守反應':state.turn==='ai'?'等待對手':'你的回合';
  phasePanel.dataset.owner=state.finished?'finished':state.phase==='pregame'?'setup':state.turn;
  phaseLabel.textContent=state.phase==='pregame'?'SETUP':'ROUND '+state.round+' · '+phase();
- roomPanel.querySelector(':scope > small').textContent='ROOM / '+(opponentMode==='mirror'?'The Heist':'固定腳本');
- roomDescription.textContent='The Heist · '+(opponentMode==='mirror'?'鏡像對手':'固定腳本練習');
+ roomPanel.querySelector(':scope > small').textContent='ROOM / '+(opponentMode==='mirror'?deckName():'固定腳本');
+ roomDescription.textContent=deckName()+' · '+(opponentMode==='mirror'?'鏡像對手':'固定腳本練習');
  if(shownHistoryVersion!==historyVersion){
   const bottom=historyList.scrollHeight-historyList.scrollTop-historyList.clientHeight<40,oldScroll=historyList.scrollTop;historyList.replaceChildren();
   if(!actionHistory.length)add('p','完成開局後，這裡會依序記錄雙方行動。',historyList,'v3-history-empty');
@@ -107,7 +110,7 @@ function setActionTray(open){
 }
 toggleActions?.addEventListener('click',()=>setActionTray(!root.classList.contains('is-open')));
 document.getElementById('startBoardTour')?.addEventListener('click',event=>{
- if(picker.value!=='theHeist')return;
+ if(!isPracticeDeck())return;
  event.stopImmediatePropagation();guidanceOn=true;guideIntro=0;setActionTray(false);render();
 },true);
 // Activating a highlighted tour region must also dismiss the action tray.
@@ -116,8 +119,8 @@ board.addEventListener('click',event=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root.classList.contains('is-open'))setActionTray(false)});
 
-const initial='The Heist：先選擇開局方式，再擲骰決定先後攻。';
-let scenario='random',defensePreset='none',opponentMode='mirror',state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
+const initial='先選擇開局方式，再擲骰決定先後攻。';
+let scenario='random',defensePreset='none',opponentMode='mirror',state=freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
 let guidanceOn=true,guideIntro=0,guideMinimized=false,opponentTimer=null,selectedDie=4;
 let confirmConcede=false;
@@ -255,7 +258,7 @@ function positionHandHover(anchor){
 let lastPointerX=-1,lastPointerY=-1,handPointerInside=false;
 function liveHandAt(x,y){
  const rail=board.querySelector('.player-hand .hand-placeholder');
- if(!rail||picker.value!=='theHeist'||board.closest('.hide'))return null;
+ if(!rail||!isPracticeDeck()||board.closest('.hide'))return null;
  const r=rail.getBoundingClientRect();
  if(x<r.left||x>r.right||y>r.bottom)return null;
  if(y<r.top){const raised=document.elementFromPoint(x,y)?.closest('.hand-card.is-hand-hover');return raised&&rail.contains(raised)?state.player.hand.find(c=>c.id===raised.dataset.cardId)||null:null;}
@@ -601,11 +604,11 @@ function chosenPayments(cost){
 }
 function scheduleOpponent(){
  if(opponentTimer!==null){clearTimeout(opponentTimer);opponentTimer=null;}
- if(confirmConcede||E.pending(state)||state.phase!=='opponent'||state.step!=='pendingBot'||picker.value!=='theHeist'||state.finished||state.turn!=='ai'||state.ai.practiceBot?.kind!=='mirror-the-heist')return;
+ if(confirmConcede||E.pending(state)||state.phase!=='opponent'||state.step!=='pendingBot'||!isPracticeDeck()||state.finished||state.turn!=='ai'||state.ai.practiceBot?.kind!=='mirror-the-heist')return;
  const snapshot=state;
  opponentTimer=setTimeout(()=>{
   opponentTimer=null;
-  if(state!==snapshot||picker.value!=='theHeist')return;
+  if(state!==snapshot||!isPracticeDeck())return;
   const die=state.ai.fixer.find(d=>d!==20)??state.ai.fixer[0];
   runTableCommand(()=>P.opponentTurn(state,die?Math.floor(Math.random()*die)+1:null));
  },900);
@@ -619,7 +622,7 @@ const coachSteps=[
 function renderGuide(){
  board.querySelectorAll('.v3-guide-active').forEach(el=>el.classList.remove('v3-guide-active'));
  guideRoot.replaceChildren();guideRoot.hidden=true;guideAnchor=null;
- if(picker.value!=='theHeist'||state.phase==='pregame')return;
+ if(!isPracticeDeck()||state.phase==='pregame')return;
  const reopen=add('button',guidanceOn?'重新看桌面說明':'開啟桌面引導',tableControls,'v3-table-btn');reopen.type='button';
  reopen.addEventListener('click',()=>{guidanceOn=true;guideIntro=0;render()});
  if(!guidanceOn)return;
@@ -845,7 +848,7 @@ function renderLegendControls(){
   add('span','Go Solo：支付 '+l.cost+' €$，以就緒單位登場並可立即攻擊。',tableControls,'v3-table-hint');
   if(paymentAction!=='solo')localTableButton('Go Solo（'+l.cost+' €$）',()=>{paymentAction='solo';selectedPayments.clear();render()}).classList.add('v3-action-primary');
   else{paymentOptions(tableControls);const sources=chosenPayments(l.cost);tableButton('確認 Go Solo（'+l.cost+' €$）',()=>P.goSolo(state,l.id,sources||[]),!sources);}
- }else add('span',l.legendEffect==='jackie'?'本回合第一次打出藍色單位或裝備時，會觸發 Jackie。':l.goSolo?'Go Solo 僅在自己的主要階段使用；此傳奇仍可支付資源。':'Viktor 呼叫搜尋已結算；此傳奇仍可支付資源。',tableControls,'v3-table-hint');
+ }else add('span',l.legendEffect==='jackie'?'本回合第一次打出藍色單位或裝備時，會觸發 Jackie。':l.goSolo?'Go Solo 僅在自己的主要階段使用；此傳奇仍可支付資源。':l.legendEffect==='yorinobu'?'每回合第一次友方 ARASAKA 單位攻擊時抽牌；聲望低於 20 時再棄一張。':l.legendEffect==='saburo'?'友方 ARASAKA 單位攻擊期間戰力 +1。':'Viktor 呼叫搜尋已結算；此傳奇仍可支付資源。',tableControls,'v3-table-hint');
 }
 function renderEffectChoices(){
  const e=E.pending(state);if(!e)return;
@@ -853,7 +856,19 @@ function renderEffectChoices(){
  const options=E.options(state,e),confirm=choice=>P.resolveEffect(state,choice);
  add('strong','待結算：'+(e.source||e.type),tableControls,'v3-table-selection');
  const choiceButton=(label,id)=>{const b=add('button',label,tableControls,'v3-resource-choice');b.type='button';b.setAttribute('aria-pressed',String(effectChoices.has(id)));b.addEventListener('click',()=>{if(effectChoices.has(id))effectChoices.delete(id);else effectChoices.add(id);render()});};
- if(e.type==='order'){
+ if(e.type==='shatteredDraw'){
+  add('span','Shattered Memories：是否抽 5 張牌？目前牌庫 '+state.player.deck.length+' 張。',tableControls,'v3-table-hint');
+  tableButton('抽 5 張',()=>confirm({draw:true}));tableButton('不抽牌，繼續',()=>confirm({draw:false}));
+ }else if(e.type==='defeatUnit'||e.type==='spendUnit'){
+  add('span',e.source+'：選擇符合條件的單位。',tableControls,'v3-table-hint');
+  for(const u of options)tableButton((e.type==='defeatUnit'?'擊敗：':'橫置：')+(u.side==='player'?'我方 · ':'對手 · ')+u.name,()=>confirm({unitId:u.id,side:u.side}));
+ }else if(e.type==='swapGigs'){
+  const own=document.createElement('select'),rival=document.createElement('select');own.setAttribute('aria-label','交換友方委託骰');rival.setAttribute('aria-label','交換對手委託骰');
+  for(const [side,select] of [['player',own],['ai',rival]])for(const g of state[side].gigs){const o=document.createElement('option');o.value=g.id;o.textContent='d'+g.sides+' = '+g.value;select.append(o)}tableControls.append(own,rival);
+  tableButton('確認交換委託骰',()=>confirm({friendlyGigId:own.value,rivalGigId:rival.value}));tableButton('不交換，繼續',()=>confirm({skip:true}));
+ }else if(e.type==='radioport'){
+  add('span','私下查看一張友方蓋牌傳奇；符合條件時可免費呼叫。',tableControls,'v3-table-hint');for(const l of options)tableButton('查看傳奇位置 '+(state.player.legends.indexOf(l)+1),()=>confirm({legendId:l.id}));tableButton('不查看，繼續',()=>confirm({skip:true}));
+ }else if(e.type==='order'){
   add('span','有多個待結算能力，請選擇先結算哪一個。',tableControls,'v3-table-hint');
   for(const c of options)tableButton('先結算：'+c.source,()=>confirm({effectId:c.id}));
  }else if(e.type==='search'){
@@ -874,7 +889,7 @@ function renderEffectChoices(){
   for(const l of e.cards)add('strong','位置 '+l.position+'：'+l.name,tableControls,'v3-table-selection');
   tableButton('看完，繼續',()=>confirm({kind:'ack'}));
  }else if(e.type==='discard'){
-  add('span','抽牌後，我方街頭聲望較高；必須棄置一張目前手牌。',tableControls,'v3-table-hint');
+  add('span',e.source+'：必須棄置一張目前手牌。',tableControls,'v3-table-hint');
   for(const c of options)tableButton('棄置：'+c.name,()=>confirm({cardId:c.id}));
  }else if(e.type==='readyEddies'){
   const count=Math.min(e.count,options.length);add('span','選擇 '+count+' 張已使用的 Eddie 重置。',tableControls,'v3-table-hint');
@@ -931,11 +946,11 @@ function compactFeedback(text){
 function renderTableControls(){
  tableControls.replaceChildren();
  if(!E.pending(state)){effectChoiceId=null;effectChoices.clear();}
- if(picker.value!=='theHeist'||state.phase==='pregame')return;
+ if(!isPracticeDeck()||state.phase==='pregame')return;
  const p=state.player;
  const headline=add('span',state.phase==='main'?'主要階段':phase(),tableControls,'v3-table-phase');
  if(message&&message!==initial)add('span',compactFeedback(message),tableControls,'v3-table-feedback');
- if(state.finished){confirmConcede=false;const result=E.resultSummary(state);headline.textContent=result.title;add('span',result.reason,tableControls,'v3-result-reason');tableButton('重新開局',()=>({ok:true,state:H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),message:initial}));return}
+ if(state.finished){confirmConcede=false;const result=E.resultSummary(state);headline.textContent=result.title;add('span',result.reason,tableControls,'v3-result-reason');tableButton('重新開局',()=>({ok:true,state:freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),message:initial}));return}
  if(state.overtime)add('span','OVERTIME · 7 顆骰立即獲勝',tableControls,'v3-overtime');
  if(confirmConcede){
   add('strong','確定認輸並結束本局？',tableControls,'v3-table-selection');
@@ -1050,7 +1065,8 @@ function renderTableControls(){
       const [side,gigId,delta]=sel.value?sel.value.split(':'):['player',null,0];
       return P.program(state,card.id,pay||[],{side,gigId,delta:Number(delta)});
      },!pay);
-    }else add('span','尚未支援的卡牌效果',tableControls,'v3-table-hint');
+    }else if(card.programEffect)tableButton('使用 '+card.name,()=>P.program(state,card.id,pay||[],{}),!pay);
+    else add('span','尚未支援的卡牌效果',tableControls,'v3-table-hint');
    }
    tableButton('取消選取',()=>{selectedId=null;return {ok:true,state,message:'已取消選取'}});
   }
@@ -1058,7 +1074,7 @@ function renderTableControls(){
   const attacker=p.units.find(u=>u.id===attackUnitId);
   if(attacker){
    add('span','攻擊：'+attacker.name+' · '+A.unitStats(attacker).power+' PWR',tableControls,'v3-table-selection');
-   if(!G.canAttack(attacker))add('span',(attacker.lag&&!attacker.goSolo)?'此單位仍有 Lag，要等下一次重置後才能攻擊。':!attacker.ready?'此單位已使用，本回合不能再次攻擊。':'此單位的攻擊能力尚未支援。',tableControls,'v3-table-hint');
+   if(!G.canAttack(attacker))add('span',attacker.cannotAttack?'此單位不能攻擊；可在對手回合使用 Blocker。':(attacker.lag&&!attacker.goSolo)?'此單位仍有 Lag，要等下一次重置後才能攻擊。':!attacker.ready?'此單位已使用，本回合不能再次攻擊。':'此單位的攻擊能力尚未支援。',tableControls,'v3-table-hint');
    else{
     const quick=state.ai.practiceBot?.kind!=='mirror-the-heist'&&state.ai.quickExercise?.enabled&&state.ai.hand.some(c=>c.id==='training-quick-floor-it');
     if(quick){const label=add('label','防守方 Floor It',tableControls,'v3-table-hint');const cb=document.createElement('input');cb.type='checkbox';cb.dataset.tableQuick='';label.prepend(cb);}
@@ -1144,11 +1160,11 @@ function render(){
  const sequence=++renderSequence;
  cancelDeals();
  const deal=pendingDeal;pendingDeal=null;
- const supported=picker.value==='theHeist';
+ const supported=isPracticeDeck();
  if(!supported){contextActions.hidden=true;board.querySelector('.table-preview').dataset.v3Stage='preview';guideRoot.hidden=true;tableControls.replaceChildren();if(opponentTimer!==null){clearTimeout(opponentTimer);opponentTimer=null;}board.querySelectorAll('.v3-guide-active').forEach(el=>el.classList.remove('v3-guide-active'));}
  root.replaceChildren();
  openingRoot.replaceChildren();
- openingRoot.hidden=state.phase!=='pregame'||picker.value!=='theHeist';
+ openingRoot.hidden=state.phase!=='pregame'||!isPracticeDeck();
  if(!openingRoot.hidden){
   // Opening is its own pre-match dialog, separate from both tutorial and turn actions.
   document.getElementById('closeBoardTour')?.click();
@@ -1159,8 +1175,8 @@ function render(){
   board.querySelectorAll('[data-practice-indicator]').forEach(el=>el.remove());
   const slots=board.querySelector('.player-field .field-slots');
   if(slots){slots.replaceChildren();['己方角色','己方角色','裝備'].forEach(label=>add('div',label,slots))}
-  if($('battlePreviewStatus'))$('battlePreviewStatus').textContent='Embracing Power 目前仍為卡圖預覽，尚未接入實際回合練習。';
-  add('p','目前只有 The Heist 已接入實際手牌與支付練習。Embracing Power 仍保留原本卡圖預覽。',root,'v3-turn-note');
+  if($('battlePreviewStatus'))$('battlePreviewStatus').textContent='此牌組目前僅提供卡圖預覽。';
+  add('p','此牌組目前僅提供卡圖預覽，尚未接入實戰。',root,'v3-turn-note');
   return;
  }
  const p=state.player;
@@ -1183,12 +1199,12 @@ function render(){
  renderBoardInformation();
  if(!deal)scheduleOpponent();
  if(deal&&state.phase!=='pregame')requestAnimationFrame(()=>{
-  if(sequence===renderSequence&&picker.value==='theHeist'&&!$('battle')?.classList.contains('hide'))dealHand(deal);
+  if(sequence===renderSequence&&isPracticeDeck()&&!$('battle')?.classList.contains('hide'))dealHand(deal);
   if(!activeDeals.length)scheduleOpponent();
  });
  const header=add('div','',root,'v3-turn-header');
- add('strong','THE HEIST / '+(state.phase==='pregame'?'開局設定':'ROUND '+state.round),header);add('span',state.phase==='pregame'?'等待先後攻':phase(),header);
- add('p','The Heist 支援隨機起手與一次整手重抽，也可選固定手牌練習。鏡像模式包含傳奇、裝備能力、攻擊及 Quick／Blocker；仍是有限規則與對手策略。',root,'v3-turn-note');
+ add('strong',deckName()+' / '+(state.phase==='pregame'?'開局設定':'ROUND '+state.round),header);add('span',state.phase==='pregame'?'等待先後攻':phase(),header);
+ add('p',deckName()+' 支援隨機起手與一次整手重抽。鏡像模式包含傳奇、裝備能力、攻擊與防守反應；對手策略仍有限。',root,'v3-turn-note');
  if(state.phase==='pregame'){
   const order=add('div','',openingRoot,'v3-selected-detail');
   add('strong',state.opening?.orderChosen?'開局設定 / 確認六張起手':'開局設定 / 選擇牌組與先後攻',order);
@@ -1199,18 +1215,18 @@ function render(){
   const deckSelect=document.createElement('select');
   deckSelect.id='v3RoomDeckSelect';deckSelect.setAttribute('aria-label','選擇實戰牌組');
   const playable=document.createElement('option');playable.value='theHeist';playable.textContent='The Heist（目前可操作）';deckSelect.append(playable);
-  const unavailable=document.createElement('option');unavailable.value='embracingPower';unavailable.textContent='Embracing Power（尚未接入實戰）';unavailable.disabled=true;deckSelect.append(unavailable);
-  deckSelect.value='theHeist';
+  const unavailable=document.createElement('option');unavailable.value='embracingPower';unavailable.textContent='Embracing Power（目前可操作）';deckSelect.append(unavailable);
+  deckSelect.value=picker.value;
   deckSelect.addEventListener('change',()=>{picker.value=deckSelect.value;picker.dispatchEvent(new Event('change',{bubbles:true}))});
   deckLabel.append(deckSelect);
   const handLabel=add('label','開局方式',setupFields);
   const handSelect=document.createElement('select');handSelect.setAttribute('aria-label','選擇開局方式');
   for(const [value,label] of [['random','隨機起手（可重抽一次）'],['basic','固定練習：基礎出牌手牌'],['quick','固定練習：效果與 Quick 手牌']]){
-   const option=document.createElement('option');option.value=value;option.textContent=label;option.disabled=value==='random'&&opponentMode!=='mirror';handSelect.append(option);
+   const option=document.createElement('option');option.value=value;option.textContent=label;option.disabled=(value==='random'&&opponentMode!=='mirror')||(picker.value==='embracingPower'&&value!=='random');handSelect.append(option);
   }
   handSelect.value=scenario;
   handSelect.addEventListener('change',()=>{
-   scenario=handSelect.value;D.cancel();state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});
+   scenario=handSelect.value;D.cancel();state=freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});
    pendingDeal=null;selectedId=null;selectedPayments.clear();paymentAction=null;targetId=null;
    gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';
    actionHistory=[];historyVersion++;message=scenario==='random'?'先決定先後攻，再洗牌抽取六張起手。':'已更新本局六張固定練習手牌。';render();
@@ -1218,13 +1234,13 @@ function render(){
   handLabel.append(handSelect);
   const opponentLabel=add('label','對手類型',setupFields);
   const opponentSelect=document.createElement('select');opponentSelect.setAttribute('aria-label','選擇對手模式');
-  for(const [value,label] of [['mirror','自動測試對手：The Heist 鏡像牌組'],['script','固定目標：Blocker／Quick 腳本練習']]){
-   const option=document.createElement('option');option.value=value;option.textContent=label;opponentSelect.append(option);
+  for(const [value,label] of [['mirror','自動測試對手：'+deckName()+' 鏡像牌組'],['script','固定目標：Blocker／Quick 腳本練習']]){
+   const option=document.createElement('option');option.value=value;option.textContent=label;option.disabled=picker.value==='embracingPower'&&value==='script';opponentSelect.append(option);
   }
   opponentSelect.value=opponentMode;
   opponentSelect.addEventListener('change',()=>{
    opponentMode=opponentSelect.value;if(opponentMode==='script'&&scenario==='random')scenario='basic';D.cancel();
-   state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});
+   state=freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});
    pendingDeal=null;selectedId=null;attackUnitId=null;selectedPayments.clear();paymentAction=null;
    actionHistory=[];historyVersion++;message='已更新對手模式。';render();
   });
@@ -1239,7 +1255,7 @@ function render(){
   }
   defenderSelect.value=defensePreset;
   defenderSelect.addEventListener('change',()=>{
-   defensePreset=defenderSelect.value;D.cancel();state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});
+   defensePreset=defenderSelect.value;D.cancel();state=freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});
    pendingDeal=null;selectedId=null;attackUnitId=null;selectedPayments.clear();paymentAction=null;
    actionHistory=[];historyVersion++;message='已更新腳本對手設定。';render();
   });
@@ -1473,27 +1489,28 @@ function render(){
    command('執行鏡像對手回合',()=>P.opponentTurn(state,die?Math.floor(Math.random()*die)+1:null),buttons);
   }else command('略過對手行動，開始下一回合',()=>P.next(state),buttons);
  }
- command('重新開始 The Heist 練習',()=>({ok:true,state:H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),message:initial}),buttons);
+ command('重新開始 '+deckName()+' 練習',()=>({ok:true,state:freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),message:initial}),buttons);
  const status=add('p',message,root,'v3-turn-feedback');status.setAttribute('role','status');
  const summary=add('div','',root,'v3-turn-log');add('strong','實際練習狀態',summary);
  add('p','場地：'+(p.units.map(c=>c.name+'（'+(c.ready?'Ready':'Spent')+(c.lag?' / Lag':'')+'）').join('、')||'無'),summary);
  add('p','委託骰：'+(p.gigs.map(d=>'d'+d.sides+'='+d.value).join('、')||'無'),summary);
  add('p','棄牌區：'+((p.trash||[]).map(c=>c.name).join('、')||'無'),summary);
  add('p','對手練習單位：'+(state.ai.units.map(u=>u.name+'（'+(u.ready?'Ready':'Spent')+'，PWR '+(A?.unitStats?.(u)?.power??u.power)+'）').join('、')||'無'),summary);
- indicator('.turn-info','THE HEIST：'+phase());
+ indicator('.turn-info',deckName()+'：'+phase());
  indicator('.player-eddies','Eddies 就緒 '+p.eddies.filter(e=>e.ready).length+'/'+p.eddies.length);
  indicator('.player-gigs',p.gigs.length+' 顆委託骰');
  indicator('.opponent-gigs',(state.ai.gigs||[]).length+(state.ai.practiceBot?.kind==='mirror-the-heist'?' 顆委託骰':' 顆練習委託骰'));
  indicator('.player-field',p.units.length+' 張實際單位 · 移出遊戲 '+(p.removed?.length||0)+' 張');
  indicator('.player-deck','練習牌庫：'+p.deck.length+' 張');
- if($('battlePreviewStatus'))$('battlePreviewStatus').textContent='The Heist 實際牌組操作練習。選取手牌後在桌面指定支付資源；未支援的特殊能力仍不會自動結算。';
+ if($('battlePreviewStatus'))$('battlePreviewStatus').textContent=deckName()+' 實際牌組操作練習。選取手牌後在桌面指定支付資源；未支援的特殊能力仍不會自動結算。';
 }
 const shuffleButton=$('redrawBattleHand'),legendButton=$('toggleBattleLegends');
 function syncDeck(){
  actionHistory=[];historyVersion++;
  D.cancel();
- if(picker.value==='theHeist'){
-  scenario=opponentMode==='mirror'?'random':'basic';state=H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});pendingDeal=$('battle')?.classList.contains('hide')?null:'all';selectedId=null;selectedPayments.clear();paymentAction=null;targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
+ if(isPracticeDeck()){
+  if(picker.value==='embracingPower')opponentMode='mirror';
+  scenario=opponentMode==='mirror'?'random':'basic';state=freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true});pendingDeal=$('battle')?.classList.contains('hide')?null:'all';selectedId=null;selectedPayments.clear();paymentAction=null;targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';message=initial;
   if(shuffleButton)shuffleButton.disabled=true;
   if(legendButton)legendButton.disabled=true;
  }else{
@@ -1509,11 +1526,11 @@ const battlePage=$('battle');
 function dealOnEntry(){
  const visible=battlePage&&!battlePage.classList.contains('hide');
  if(!visible){entryDealt=false;cancelDeals();D.cancel();guideRoot.hidden=true;return}
- if(entryDealt||picker.value!=='theHeist')return;
+ if(entryDealt||!isPracticeDeck())return;
  if(state.phase!=='pregame'){guideRoot.hidden=!guidanceOn;requestAnimationFrame(positionGuide);}
  entryDealt=true;
- if(picker.value==='theHeist'&&state.phase==='pregame'){document.getElementById('closeBoardTour')?.click();setActionTray(false)}
- requestAnimationFrame(()=>{if(!battlePage.classList.contains('hide')&&picker.value==='theHeist'&&state.phase!=='pregame')dealHand('all')});
+ if(isPracticeDeck()&&state.phase==='pregame'){document.getElementById('closeBoardTour')?.click();setActionTray(false)}
+ requestAnimationFrame(()=>{if(!battlePage.classList.contains('hide')&&isPracticeDeck()&&state.phase!=='pregame')dealHand('all')});
 }
 if(battlePage&&typeof MutationObserver!=='undefined'){
  new MutationObserver(dealOnEntry).observe(battlePage,{attributes:true,attributeFilter:['class']});

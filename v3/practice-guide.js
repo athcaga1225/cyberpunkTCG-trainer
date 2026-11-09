@@ -2,7 +2,7 @@
 (function(root,factory){const api=factory(typeof module!=='undefined'&&module.exports?require('./battle-actions.js'):root.NCTV3Actions,typeof module!=='undefined'&&module.exports?require('./mirror-combat.js'):root.NCTV3Combat);if(typeof module!=='undefined'&&module.exports)module.exports=api;if(root)root.NCTV3Guide=api;})(typeof globalThis!=='undefined'?globalThis:this,(A,C)=>{
  'use strict';
  const sources=s=>[...s.player.eddies.filter(c=>c.ready).map(c=>({kind:'eddie',id:c.id,label:'Eddie '+(s.player.eddies.indexOf(c)+1)})),...s.player.legends.filter(c=>c.ready&&(!c.faceUp||c.sellTag)).map(c=>({kind:'legend',id:c.id,label:c.name}))];
- const canAttack=u=>u.ready&&(!u.lag||u.goSolo)&&!u.deferredEffect&&!u.unimplementedEffect;
+ const canAttack=u=>!u.cannotAttack&&u.ready&&(!u.lag||u.goSolo)&&!u.deferredEffect&&!u.unimplementedEffect;
  function targets(s,u){
   if(s.ai.practiceBot?.kind==='mirror-the-heist')return C.targets(s,'player',u?.id);
   if(!u||!canAttack(u))return {units:[],gigs:false};
@@ -35,7 +35,7 @@
    return hint(4,'play',card.type==='Gear'?(paymentAction==='gear-target'?'直接點選高亮的友方單位或正面傳奇，確認裝備。':'支付已選好，按「選擇裝備目標」，再點選友方單位或正面傳奇。'):'支付已選好，確認卡牌旁的目標後，點「'+(card.type==='Unit'?'打出單位':'使用')+'」。');
   }
   const attacker=s.player.units.find(u=>u.id===attackUnitId);
-  if(attacker&&!canAttack(attacker))return hint(4,'unavailable','此單位目前無法攻擊：'+(attacker.lag?'仍有 Lag。':!attacker.ready?'本回合已使用。':'攻擊能力尚未支援。')+'可改選其他單位或結束回合。');
+  if(attacker&&!canAttack(attacker))return hint(4,'unavailable','此單位目前無法攻擊：'+(attacker.cannotAttack?'卡文規定不能攻擊。':attacker.lag?'仍有 Lag。':!attacker.ready?'本回合已使用。':'攻擊能力尚未支援。')+'可改選其他單位或結束回合。');
   if(attacker&&!targets(s,attacker).units.length&&!targets(s,attacker).gigs)return hint(6,'end','此單位目前沒有可結算的攻擊目標，或場上有尚未支援的能力；可繼續出牌或結束回合。');
   if(attacker)return hint(5,'target','點對手已使用的單位或「攻擊委託區」。鏡像對手會自動使用已支援的防守反應；固定腳本則先選防守反應。');
   if(s.player.units.length){

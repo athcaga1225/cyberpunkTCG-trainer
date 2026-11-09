@@ -48,7 +48,7 @@ const path=require('node:path');
 const html=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 const ui=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(html.includes('src="v3/heist-practice.js?v=7"'),'Heist module must load in V3');
-assert(html.indexOf('src="v3/heist-practice.js?v=7"')<html.indexOf('src="v3/turn-practice-ui.js?v=45"'),'Module must load before UI');
+assert(html.indexOf('src="v3/heist-practice.js?v=7"')<html.indexOf('src="v3/turn-practice-ui.js?v=46"'),'Module must load before UI');
 assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
@@ -226,7 +226,7 @@ const quickNext=P.next(quickResult.state);assert(quickNext.ok);
 assert.equal(quickNext.state.ai.units[0].ready,true,'Training rival is reset for repeatable turns');
 const practiceUI=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(practiceUI.includes('renderRivalField()'),'Rival training target must render');
-assert(practiceUI.includes("H.fresh(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true})"),'Practice hand scenarios must be wired');
+assert(practiceUI.includes("freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true})"),'Practice hand scenarios must be wired');
 /* Reboot Optics may be played in the open Main Phase; effect is pending until combat exists. */
 assert.equal(H.byName.get('Reboot Optics').unimplementedEffect,false);
 let protect=H.fresh('quick');protect.turn='player';protect.phase='main';
@@ -292,7 +292,7 @@ assert(handStyles.includes('overflow:visible'),'Raised card must not be clipped 
 assert(animatedUI.includes("raisedHandId=anchor?null:card.id"),'Only the active real card is magnified');
 assert(animatedUI.includes("el.dataset.cardId===raisedHandId"),'No other cards are raised');
 assert(animatedUI.includes("el.classList.remove('is-hand-hover')"),'Hover class must clear when pointer leaves');
-assert(handStyles.includes('v3/turn-practice-ui.js?v=45'),'Updated hover script must bypass browser cache');
+assert(handStyles.includes('v3/turn-practice-ui.js?v=46'),'Updated hover script must bypass browser cache');
 /* Desktop game page is viewport-locked, with gameplay controls in a tray. */
 assert(handStyles.includes('height:100dvh!important'),'Battle should use full viewport height');
 assert(handStyles.includes('grid-template-rows:minmax(0,1.45fr)'),'Top and bottom card rows must be taller than utility rows');
@@ -485,7 +485,7 @@ assert(animatedUI.includes("P.reactAttack(state,attackUnitId"),'Table attacks us
 assert(handStyles.includes('body.battle-wide #battle #v3TableControls'),'Table control strip requires a compact stylesheet');
 assert(animatedUI.includes("setActionTray(false)"),'Hand selection must not open the full-height test tray');
 assert(handStyles.includes('body.battle-wide #battle #v3OpeningSetup'),'Standalone opening dialog must have its own layout');
-assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=45'),
+assert(handStyles.indexOf('v3/board-tour.js?v=1')<handStyles.indexOf('v3/turn-practice-ui.js?v=46'),
   'Tour click handlers must initialize before practice controls');
 
 // Bounded mirror opponent turn: real cards and resource payments, no fake attacks.

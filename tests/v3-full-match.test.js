@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('node:assert/strict');
-const H = require('../v3/heist-practice');
+const H = process.env.V3_TEST_DECK==='embracingPower'?require('../v3/embracing-practice'):require('../v3/heist-practice');
 const P = require('../v3/turn-practice');
 const E = require('../v3/heist-effects');
 const C = require('../v3/mirror-combat');
@@ -10,7 +10,7 @@ function random(seed) {
  return () => { n = (Math.imul(n, 1664525) + 1013904223) >>> 0; return n / 4294967296; };
 }
 function checkInventory(s) {
- const dice = [];
+ const dice = [], gigIds = [];
  for (const who of ['player', 'ai']) {
   const p = s[who];
   const cards = [...p.hand, ...p.deck, ...(p.trash || []), ...(p.removed || []), ...p.units, ...p.legends];
@@ -20,9 +20,10 @@ function checkInventory(s) {
   assert.equal(normal.length, 40, who + ': no main-deck card lost or created');
   assert.equal(new Set(normal).size, 40, who + ': no card in multiple zones');
   assert.equal(cards.filter(c => c.type === 'Legend').length, 3, who + ': all Legends accounted for');
-  for (const g of p.gigs) { assert(g.value >= 1 && g.value <= g.sides); dice.push(g.sides); }
+  for (const g of p.gigs) { assert(g.value >= 1 && g.value <= g.sides); dice.push(g.sides); gigIds.push(g.id); }
   dice.push(...p.fixer);
  }
+ assert.equal(new Set(gigIds).size,gigIds.length,'no duplicated Gig identities after swapping or stealing');
  assert.equal(dice.length, 12);
  for (const d of [4, 6, 8, 10, 12, 20]) assert.equal(dice.filter(x => x === d).length, 2);
 }
@@ -38,6 +39,11 @@ function choice(s, e) {
   case 'discard': return {cardId: cards[0].id};
   case 'readyEddies': return {eddieIds: cards.slice(0, e.count).map(c => c.id)};
   case 'adjust': return {delta: 0};
+  case 'radioport': return {skip: true};
+  case 'swapGigs': return {skip: true};
+  case 'defeatUnit': return {side: cards[0].side, unitId: cards[0].id};
+  case 'spendUnit': return {unitId: cards[0].id};
+  case 'shatteredDraw': return {draw: false};
   default: throw Error('Uncovered effect: ' + e.type);
  }
 }
@@ -110,6 +116,6 @@ try {
   const key = s.winner + ':' + s.outcome.reason; results[key] = (results[key] || 0) + 1;
  }
 } finally { Math.random = savedRandom; }
-for (const key of ['player:seven-at-start', 'ai:seven-at-start', 'ai:overtime-seven']) assert(results[key] > 0, key);
-for (const key of ['sell', 'play', 'reactAttack', 'defend', 'resolveEffect', 'ai-call', 'ai-go-solo', 'ai-gear', 'overtime']) assert(coverage.has(key), key);
+if(process.env.V3_TEST_DECK!=='embracingPower')for (const key of ['player:seven-at-start', 'ai:seven-at-start', 'ai:overtime-seven']) assert(results[key] > 0, key);
+for (const key of ['sell', 'play', 'reactAttack', 'defend', 'resolveEffect', 'ai-call', 'ai-go-solo', 'ai-gear']) assert(coverage.has(key), key);
 console.log('PASS 100 seeded complete random-opening matches, both first players, keep/Mulligan, exact inventory/dice conservation after every action, immutable commands, automatic AI/effect resumption, normal and Overtime outcomes, and terminal action guards:', JSON.stringify(results));

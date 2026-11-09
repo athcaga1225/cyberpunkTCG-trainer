@@ -209,6 +209,10 @@
  function botProgramChoices(s){
   const choices=[];
   for(const card of s.ai.hand.filter(c=>c.type==='Program'&&!c.unimplementedEffect&&!c.deferredEffect&&botSources(s,c.cost).length===c.cost)){
+   if(card.programEffect){
+    const useful=card.programEffect==='industrial'?s.ai.gigs.length>0:card.programEffect==='surveillance'?s.player.units.some(u=>u.ready&&Number.isFinite(u.cost)&&u.cost<=4):card.programEffect==='over-edge'?s.ai.gigs.some(g=>g.sides===20&&s.player.units.some(u=>combat.power(u)<=g.value)):s.ai.hand.length<=3&&s.ai.deck.length>=5;
+    if(useful)choices.push({card,opts:{},rank:3});continue;
+   }
    if(card.name==='Floor It'&&s.ai.deck.length){
     const targets=s.player.units.filter(u=>!u.deferredEffect&&!u.unimplementedEffect);if(!targets.length)continue;
     const target=targets.sort((a,b)=>combat.power(b)-combat.power(a))[0];

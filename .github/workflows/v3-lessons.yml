@@ -14,6 +14,9 @@ on:
       - 'v3/dice-animation.js'
       - 'v3/dice-animation.css'
       - 'v3/heist-practice.js'
+      - 'v3/embracing-practice.js'
+      - 'v3/embracing-reference.js'
+      - 'tests/v3-embracing.test.js'
       - 'v3/index.html'
       - 'rules-core.js'
       - 'localization.js'
@@ -56,6 +59,8 @@ jobs:
           node --check v3/heist-effects.js
           node --check v3/dice-animation.js
           node --check v3/heist-practice.js
+          node --check v3/embracing-practice.js
+          node --check v3/embracing-reference.js
           node --check v3/turn-practice.js
       - name: Verify The Heist real-card payment practice
         run: node tests/v3-heist-practice.test.js
@@ -74,6 +79,10 @@ jobs:
         run: node tests/v3-outcomes.test.js
       - name: Verify 100 complete seeded desktop match state flows
         run: node tests/v3-full-match.test.js
+      - name: Verify Embracing Power abilities and timing
+        run: node tests/v3-embracing.test.js
+      - name: Verify 100 complete Embracing Power matches
+        run: V3_TEST_DECK=embracingPower node tests/v3-full-match.test.js
       - name: Verify active mirror Call, Go Solo and Gear decisions
         run: node tests/v3-ai-strategy.test.js
       - name: Verify AI main Programs and defensive Call

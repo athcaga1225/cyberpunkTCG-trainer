@@ -101,7 +101,7 @@
  function unitStats(unit){
   if(!unit||typeof unit!=="object")return {power:0,blocker:false};
   const gear=Array.isArray(unit.gear)?unit.gear:[];
-  return {power:(Number.isFinite(unit.power)?unit.power:0)+(Number.isFinite(unit.tempPowerModifier)?unit.tempPowerModifier:0)+gear.reduce((n,g)=>n+(Number.isFinite(g.power)?g.power:0),0),
+  return {power:(Number.isFinite(unit.power)?unit.power:0)+(Number.isFinite(unit.tempPowerModifier)?unit.tempPowerModifier:0)+(Number.isFinite(unit.attackPowerModifier)?unit.attackPowerModifier:0)+gear.reduce((n,g)=>n+(Number.isFinite(g.power)?g.power:0),0),
    blocker:unit.blocker===true||gear.some(g=>g.blocker===true),
    cannotBeBlockedIfLowerCred:unit.cannotBeBlockedIfLowerCred===true};
  }
@@ -128,6 +128,24 @@
   const card=p.hand.find(c=>c.id===cardId);
   if(!card||card.type!=="Program")return fail("找不到程式卡");
   if(card.unimplementedEffect)return fail("此程式的效果尚未支援");
+  if(card.programEffect){
+   if(!['industrial','surveillance','over-edge','shattered'].includes(card.programEffect))return fail('此程式的效果尚未支援');
+   const paid=pay(state,who,card.cost,sources);if(!paid.ok)return paid;const next=paid.state,q=next[who],events=paid.events;
+   q.hand.splice(q.hand.findIndex(c=>c.id===cardId),1);(q.trash??=[]).push(card);
+   const before=next.pendingEffects?.length||0;
+   if(card.programEffect==='industrial')E.queue(next,who,'adjust',{source:card.name,min:0,max:4,drawOnAtLeast:8,resolving:true});
+   if(card.programEffect==='surveillance')E.queue(next,who,'spendUnit',{source:card.name,costMax:4,resolving:true});
+   if(card.programEffect==='over-edge'){const d=q.gigs.find(g=>g.sides===20);if(d)E.queue(next,who,'defeatUnit',{source:card.name,powerMax:d.value,targetSides:['player','ai'],resolving:true});}
+   if(card.programEffect==='shattered'){
+    const discarded=next.player.hand.length+next.ai.hand.length;
+    for(const side of [next.turn,next.turn==='player'?'ai':'player']){const p=next[side];(p.trash??=[]).push(...p.hand);p.hand=[];E.queue(next,side,'shatteredDraw',{source:card.name,resolving:true});}
+    if(q.gigs.some(g=>g.value===discarded))E.queue(next,who,'draw',{source:card.name,count:2,resolving:true});
+    events.push('雙方棄置全部手牌，共 '+discarded+' 張');
+   }
+   // The Program finishes resolving before payment-triggered effects.
+   if(next.pendingEffects?.length>before)next.pendingEffects=next.pendingEffects.slice(before).concat(next.pendingEffects.slice(0,before));
+   return success(next,[...events,'使用 '+card.name]);
+  }
   if(card.name==='Reboot Optics'){
    // The effect is recorded for the NEXT rival Unit fight this turn.
    // No fight exists in the bounded practice yet, so no combat resolution is claimed.

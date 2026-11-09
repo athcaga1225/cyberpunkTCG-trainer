@@ -21,18 +21,24 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   else if(e.type==='peekOne')await buttons.getByRole('button',{name:/^查看傳奇位置 /}).first().click();
   else if(e.type==='freeCall')await click('不呼叫，繼續');
   else if(e.type==='discard')await buttons.getByRole('button',{name:/^棄置：/}).first().click();
+  else if(e.type==='shatteredDraw')await click('不抽牌，繼續');
+  else if(e.type==='swapGigs')await click('不交換，繼續');
+  else if(e.type==='radioport')await click('不查看，繼續');
+  else if(e.type==='defeatUnit')await buttons.getByRole('button',{name:/^擊敗：/}).first().click();
+  else if(e.type==='spendUnit')await buttons.getByRole('button',{name:/^橫置：/}).first().click();
   else if(e.type==='adjust')await click('確認委託骰調整');
   else if(e.type==='readyEddies'){const n=Math.min(e.count,s.player.eddies.filter(c=>!c.ready).length);for(let i=0;i<n;i++)await buttons.getByRole('button',{name:/^Eddie /}).nth(i).click();await click('確認重置');}
   else throw Error('unhandled effect '+e.type);
  }
  async function run(seed,first,mulligan,active){
-  const target=new URL(url);target.searchParams.set('match-seed',seed);await page.goto('about:blank');await page.goto(target.href);
+  const target=new URL(url);target.searchParams.set('match-seed',seed);await page.goto('about:blank');await page.goto(target.href);if(process.env.V3_TEST_DECK==='embracingPower')await page.getByRole('combobox',{name:'選擇實戰牌組',exact:true}).selectOption('embracingPower');
   // Both dice still roll through the UI; seed controls the whole random opening and later turns.
+  if(process.env.V3_TEST_DECK==='embracingPower')await page.evaluate(()=>{const next=Math.random;let rolls=[.95,.1];Math.random=()=>rolls.length?rolls.shift():next();});
   await click('雙方擲 d20 決定選擇權');let s=await state();while(!s.opening.winner){await click('雙方擲 d20 決定選擇權');s=await state();}
   if(s.opening.winner==='player')await click(first==='player'?'我方選擇先攻':'我方選擇後攻');else await click('對手選擇先攻');
   await click(mulligan?'整手重抽一次':'保留這六張');await click('開始對戰');if(await board.getByRole('button',{name:'關閉桌面引導',exact:true}).count())await click('關閉桌面引導');
   let actions=0,maxRound=1;
-  while(actions++<350){s=await state();invariant(s);maxRound=Math.max(maxRound,s.round);if(s.finished)break;
+  while(actions++<600){s=await state();invariant(s);maxRound=Math.max(maxRound,s.round);if(s.finished)break;
    if(s.pendingEffects?.length){await effects(s);continue;}
    if(s.phase==='react'&&s.pendingAttack?.defendingSide==='player'){await click('結束反應並結算');continue;}
    if(s.turn==='ai'){await page.waitForFunction(()=>{const s=window.__matchAudit.state;return s.finished||s.turn==='player'||s.pendingEffects?.length||s.phase==='react';},{},{timeout:6000});continue;}
