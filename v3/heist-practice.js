@@ -31,7 +31,7 @@ const supported=new Set(['Floor It','Reboot Optics','Dexter DeShawn: One Last Ch
 const powers={'Heywood Ripperdoc':8,'Offduty Malfini':5,'Dexter DeShawn: One Last Chance':4,'Secondhand Bombus':0,'Psycho Squad':6,'Delamain Cab':4,'MT0D12 Flathead':7,'Evelyn Parker: Scheming Siren':0,'T-Bug: Amateur Philosopher':4,'Mandibular Upgrade':0,'Kiroshi Optics':1,'Zetatech Faceplate':2,"Dying Night: V's Pistol":2,'Tetratronic Rippler':1};
 const byName=new Map(specs.map(([name,qty,type,cost,sellTag])=>[name,{
  name,type,cost,sellTag,power:powers[name]??null,
- color:['Dexter DeShawn: One Last Chance','Heywood Ripperdoc','Offduty Malfini','Secondhand Bombus','T-Bug: Amateur Philosopher','Kiroshi Optics','Mandibular Upgrade','Zetatech Faceplate'].includes(name)?'Yellow':'Blue',
+ color:['Dexter DeShawn: One Last Chance','Heywood Ripperdoc','Offduty Malfini','Secondhand Bombus','T-Bug: Amateur Philosopher','Kiroshi Optics','Mandibular Upgrade','Zetatech Faceplate',"Afterparty at Lizzie's"].includes(name)?'Yellow':'Blue',
  attackEffect:({'Evelyn Parker: Scheming Siren':'evelyn','Dexter DeShawn: One Last Chance':'dexter','Kiroshi Optics':'kiroshi',"Dying Night: V's Pistol":'dying-night'})[name]||null,
  defeatEffect:({'T-Bug: Amateur Philosopher':'tbug','Dexter DeShawn: One Last Chance':'dexter'})[name]||null,
  endReadyEddie:name==='Delamain Cab',

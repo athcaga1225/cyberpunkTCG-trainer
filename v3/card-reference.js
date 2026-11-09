@@ -113,7 +113,7 @@ window.NCTV3CardReference={
     "power": null
   },
   "Jackie Welles: Pour One Out For Me": {
-    "abilityZh": "每回合第一次打出藍色單位或藍色裝備時，你可以將 1 個友方委託骰的點數降低最多 2。若該委託骰因此變為最低點數委託骰，抽 1 張牌。",
+    "abilityZh": "每回合第一次打出藍色單位或藍色裝備時，你可以將 1 個友方委託骰的點數降低最多 2。若該委託骰因此降至 1 點，抽 1 張牌。",
     "abilityEnglish": "The first time you play a Blue Unit or Blue Gear each turn, you may decrease a friendly Gig by up to 2. If it becomes a min Gig, draw 1.",
     "type": "Legend",
     "cost": null,

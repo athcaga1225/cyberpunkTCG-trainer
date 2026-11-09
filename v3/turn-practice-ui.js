@@ -909,7 +909,7 @@ function renderDefenseControls(){
    let select=null;
    if(chosen.name==='Floor It'){
     select=document.createElement('select');select.setAttribute('aria-label','Quick 指定對手單位');
-    for(const u of state.ai.units){const option=document.createElement('option');option.value=u.id;option.textContent=u.name;select.append(option)}select.value=p.attackerId;tableControls.append(select);
+    for(const u of state.ai.units){const option=document.createElement('option');option.value=u.id;option.textContent=u.name;select.append(option)}if(!state.ai.units.some(u=>u.id===rivalUnitId))rivalUnitId=p.attackerId;select.value=rivalUnitId;select.addEventListener('change',()=>{rivalUnitId=select.value});tableControls.append(select);
    }
    tableButton('使用 Quick：'+chosen.name,()=>P.defend(state,{kind:'quick',cardId:chosen.id,sources:sources||[],rivalUnitId:select?.value}),!sources);
   }
@@ -983,7 +983,7 @@ function renderTableControls(){
        .map(delta=>[side+':'+g.id+':'+delta,(side==='player'?'我方':'對手')+' d'+g.sides+' '+(delta>0?'+1':'-1')])))]){
       const opt=document.createElement('option');opt.value=value;opt.textContent=label;gigSelect.append(opt);
      }
-     tableControls.append(gigSelect);
+     const selected=gigId&&gigDelta?gigSide+':'+gigId+':'+gigDelta:'';if([...gigSelect.options].some(o=>o.value===selected))gigSelect.value=selected;gigSelect.addEventListener('change',()=>{const [side,id,delta]=gigSelect.value?gigSelect.value.split(':'):['player',null,0];gigSide=side;gigId=id;gigDelta=Number(delta)});tableControls.append(gigSelect);
      options.gigSelect=gigSelect;
     }
     if(card.onPlaySpendRival){
@@ -991,18 +991,18 @@ function renderTableControls(){
      if(targets.length){
       const select=document.createElement('select');select.setAttribute('aria-label','登場橫置目標');
       for(const unit of targets){const opt=document.createElement('option');opt.value=unit.id;opt.textContent='橫置：'+unit.name;select.append(opt)}
-      tableControls.append(select);options.rivalSelect=select;
+      if(!targets.some(u=>u.id===rivalUnitId))rivalUnitId=targets[0].id;select.value=rivalUnitId;select.addEventListener('change',()=>{rivalUnitId=select.value});tableControls.append(select);options.rivalSelect=select;
      }
     }
     if(card.onPlayDefeatGear){
-     const optionsGear=['player','ai'].flatMap(side=>(state[side]?.units||[]).flatMap(unit=>
+     const optionsGear=['player','ai'].flatMap(side=>[...(state[side]?.units||[]),...(state[side]?.legends||[]).filter(l=>l.faceUp)].flatMap(unit=>
       (unit.gear||[]).map(gear=>({side,unit,gear}))));
      if(optionsGear.length){
       const select=document.createElement('select');select.setAttribute('aria-label','可選擇擊敗裝備');
-      for(const [value,label] of [['','不擊敗裝備'],...optionsGear.map(o=>[o.side+':'+o.gear.id,o.gear.name+' / '+o.unit.name])]){
+      for(const [value,label] of [['','不擊敗裝備'],...optionsGear.map(o=>[o.side+':'+o.gear.id,(o.side==='player'?'我方':'對手')+' · '+o.gear.name+' / '+o.unit.name])]){
        const opt=document.createElement('option');opt.value=value;opt.textContent=label;select.append(opt);
       }
-      tableControls.append(select);options.gearSelect=select;
+      const chosen=defeatGearId?defeatGearSide+':'+defeatGearId:'';select.value=optionsGear.some(o=>o.side+':'+o.gear.id===chosen)?chosen:'';select.addEventListener('change',()=>{const [side,...id]=select.value.split(':');defeatGearSide=side||'player';defeatGearId=id.join(':')||null});tableControls.append(select);options.gearSelect=select;
      }
     }
     tableButton('打出單位',()=>{
@@ -1030,8 +1030,9 @@ function renderTableControls(){
    }else if(card.type==='Program'){
     const pay=chosenPayments(card.cost);
     if(card.name==='Floor It'){
-     const rival=state.ai.units[0];
-     tableButton('使用 Floor It'+(rival?' → '+rival.name:''),()=>P.program(state,card.id,pay||[],{rivalUnitId:rival?.id}),!pay);
+     const rivals=state.ai.units;let select=null;
+     if(rivals.length){select=document.createElement('select');select.setAttribute('aria-label','Floor It 指定對手單位');for(const u of rivals){const opt=document.createElement('option');opt.value=u.id;opt.textContent=u.name;select.append(opt)}if(!rivals.some(u=>u.id===rivalUnitId))rivalUnitId=rivals[0].id;select.value=rivalUnitId;select.addEventListener('change',()=>{rivalUnitId=select.value});tableControls.append(select);}
+     tableButton('使用 Floor It',()=>P.program(state,card.id,pay||[],{rivalUnitId:select?.value}),!pay);
     }else if(card.name==='Reboot Optics')tableButton('使用 Reboot Optics',()=>P.program(state,card.id,pay||[],{}),!pay);
     else if(card.name==="Afterparty at Lizzie's"){
      const sel=document.createElement('select');sel.setAttribute('aria-label','調整委託骰目標');
@@ -1039,7 +1040,7 @@ function renderTableControls(){
       [-1,1].filter(delta=>g.value+delta>=1&&g.value+delta<=g.sides)
        .map(delta=>[side+':'+g.id+':'+delta,(side==='player'?'我方':'對手')+' d'+g.sides+' '+(delta>0?'+1':'-1')])) )];
      for(const [value,label] of options){const opt=document.createElement('option');opt.value=value;opt.textContent=label;sel.append(opt)}
-     tableControls.append(sel);
+     const chosen=gigId&&gigDelta?gigSide+':'+gigId+':'+gigDelta:'';if([...sel.options].some(o=>o.value===chosen))sel.value=chosen;sel.addEventListener('change',()=>{const [side,id,delta]=sel.value?sel.value.split(':'):['player',null,0];gigSide=side;gigId=id;gigDelta=Number(delta)});tableControls.append(sel);
      tableButton('使用 Afterparty',()=>{
       const [side,gigId,delta]=sel.value?sel.value.split(':'):['player',null,0];
       return P.program(state,card.id,pay||[],{side,gigId,delta:Number(delta)});
@@ -1064,6 +1065,7 @@ function renderTableControls(){
      }
      tableControls.append(sel);
     }
+    if(A.unitStats(attacker).power<=0&&G.targets(state,attacker).gigs)add('span','戰力 0 仍可攻擊，但不會奪取委託骰。',tableControls,'v3-table-hint');
     const rival=state.ai.gigs;
     if(rival.length){
      const select=document.createElement('select');select.setAttribute('aria-label','選擇對手委託骰');

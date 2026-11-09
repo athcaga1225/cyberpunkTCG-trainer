@@ -4,7 +4,7 @@
  const sources=s=>[...s.player.eddies.filter(c=>c.ready).map(c=>({kind:'eddie',id:c.id,label:'Eddie '+(s.player.eddies.indexOf(c)+1)})),...s.player.legends.filter(c=>c.ready&&(!c.faceUp||c.sellTag)).map(c=>({kind:'legend',id:c.id,label:c.name}))];
  const canAttack=u=>u.ready&&(!u.lag||u.goSolo)&&!u.deferredEffect&&!u.unimplementedEffect;
  function targets(s,u){
-  if(s.ai.practiceBot?.kind==='mirror-the-heist'){const t=C.targets(s,'player',u?.id);return {...t,gigs:t.gigs&&(C.power(u)>0||u?.attackEffect||(u?.gear||[]).some(g=>g.attackEffect))};}
+  if(s.ai.practiceBot?.kind==='mirror-the-heist')return C.targets(s,'player',u?.id);
   if(!u||!canAttack(u))return {units:[],gigs:false};
   const units=s.ai.units.filter(d=>A.fightSpentUnit(s,'player',u.id,d.id,{reactionResolved:true}).ok).map(d=>d.id);
   const power=A.unitStats(u).power,count=power<=0?0:Math.min(s.ai.gigs.length,Math.floor(power/10)+1);
