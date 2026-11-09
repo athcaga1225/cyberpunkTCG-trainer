@@ -85,7 +85,7 @@ const guideRoot=document.createElement('aside');guideRoot.id='v3TableGuide';guid
 guideRoot.setAttribute('aria-label','桌面操作引導');board.append(guideRoot);
 let guideAnchor=null;
 function positionGuide(){
- if(guideRoot.hidden||!guideAnchor?.isConnected)return;
+ if(guideRoot.hidden||guideRoot.dataset.mode==='live'||!guideAnchor?.isConnected)return;
  const gap=14,pad=12,w=guideRoot.offsetWidth,h=guideRoot.offsetHeight,a=guideAnchor.getBoundingClientRect();
  const clamp=(v,max)=>Math.max(pad,Math.min(v,Math.max(pad,max)));
  const blocks=[...board.querySelectorAll('.player-hand,.opponent-hand,.player-legends,.opponent-legends,.v3-played-card,#v3TableControls,#v3CardActions,.player-fixer,.player-gigs,.v3-phase-panel,.v3-room-panel')].map(el=>el.getBoundingClientRect());
@@ -126,7 +126,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&root.classList.cont
 const initial='先選擇開局方式，再擲骰決定先後攻。';
 let scenario='random',defensePreset='none',opponentMode='mirror',state=freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),selectedId=null,selectedPayments=new Set(),targetId=null,gigId=null,gigSide='player',gigDelta=0,rivalUnitId=null,defeatGearId=null,defeatGearSide='player',message=initial;
 // Card-deal motion uses transient visual clones; actual hand/game state never animates or changes.
-let guidanceOn=true,guideIntro=0,guideMinimized=false,opponentTimer=null,selectedDie=4;
+let guidanceOn=true,guideIntro=0,opponentTimer=null,selectedDie=4;
 let confirmConcede=false;
 const concedeDialog=document.createElement('dialog');concedeDialog.id='v3ConcedeDialog';concedeDialog.setAttribute('aria-labelledby','v3ConcedeTitle');concedeDialog.setAttribute('aria-describedby','v3ConcedeDescription');
 concedeDialog.innerHTML='<div class="nct-dialog-header"><h2 id="v3ConcedeTitle">確定認輸？</h2><button type="button" class="nct-icon-button" aria-label="關閉認輸確認"></button></div><p id="v3ConcedeDescription">認輸後會結束本局，並判定對手獲勝。</p><div class="nct-dialog-actions"><button type="button" class="btn" id="v3ConcedeCancel" autofocus>繼續對戰</button><button type="button" class="btn" id="v3ConcedeConfirm">確認認輸</button></div>';
@@ -639,7 +639,7 @@ const coachSteps=[
 ];
 function renderGuide(){
  board.querySelectorAll('.v3-guide-active').forEach(el=>el.classList.remove('v3-guide-active'));
- guideRoot.replaceChildren();guideRoot.hidden=true;guideAnchor=null;
+ guideRoot.replaceChildren();guideRoot.hidden=true;guideAnchor=null;phaseZone?.classList.remove('has-live-guide');
  if(!isPracticeDeck()||state.phase==='pregame')return;
  const reopen=add('button',guidanceOn?'重新看桌面說明':'開啟桌面引導',tableControls,'v3-table-btn');reopen.type='button';
  reopen.addEventListener('click',()=>{guidanceOn=true;guideIntro=0;render()});
@@ -647,33 +647,26 @@ function renderGuide(){
  document.getElementById('closeBoardTour')?.click();
  const h=G.next(state,{selectedId,payments:[...selectedPayments],attackUnitId,selectedLegendId,paymentAction});
  guideRoot.hidden=false;guideRoot.dataset.step=h.key;
- guideRoot.classList.toggle('is-minimized',guideMinimized);
  const header=add('div','',guideRoot,'v3-coach-header');
  const stepLabel=add('small','',header,'v3-coach-step');
  const tools=add('div','',header,'v3-coach-tools');
- const minimize=add('button','',tools,'v3-coach-minimize');minimize.dataset.icon=guideMinimized?'plus':'minus';minimize.setAttribute('aria-label',guideMinimized?'展開提示':'收合提示');minimize.title=guideMinimized?'展開提示':'收合提示';minimize.type='button';minimize.setAttribute('aria-expanded',String(!guideMinimized));
- minimize.onclick=()=>{guideMinimized=!guideMinimized;guideRoot.classList.toggle('is-minimized',guideMinimized);minimize.dataset.icon=guideMinimized?'plus':'minus';minimize.setAttribute('aria-label',guideMinimized?'展開提示':'收合提示');minimize.title=guideMinimized?'展開提示':'收合提示';minimize.setAttribute('aria-expanded',String(!guideMinimized));positionGuide()};
  const close=add('button','',tools,'v3-coach-close');close.type='button';close.setAttribute('aria-label','關閉桌面引導');
  close.addEventListener('click',()=>{guidanceOn=false;render()});
  const mark=el=>el?.classList.add('v3-guide-active');
  if(!state.finished&&guideIntro<coachSteps.length&&state.phase!=='react'&&!E.pending(state)){
-  const step=coachSteps[guideIntro];guideRoot.dataset.mode='tour';
+  const step=coachSteps[guideIntro];guideRoot.dataset.mode='tour';board.append(guideRoot);
   stepLabel.textContent='桌面操作 '+(guideIntro+1)+' / '+coachSteps.length;
   add('strong',step.title,guideRoot);add('p',step.text,guideRoot);
-  add('p','查看標示的桌面區域，再選擇「下一步」。',guideRoot,'v3-guide-action');
   guideAnchor=board.querySelector(step.zone);mark(guideAnchor);
   const actions=add('div','',guideRoot,'v3-coach-actions');
   if(guideIntro>0){const back=add('button','上一步',actions,'btn v3-coach-back');back.type='button';back.addEventListener('click',()=>{guideIntro--;render()});}
   const next=add('button',guideIntro===coachSteps.length-1?'開始實戰':'下一步 →',actions,'btn v3-coach-next');next.type='button';next.addEventListener('click',()=>{guideIntro++;render()});
   const skip=add('button','略過說明，直接操作',guideRoot,'v3-coach-skip');skip.type='button';skip.addEventListener('click',()=>{guideIntro=coachSteps.length;render()});
  }else{
-  guideRoot.dataset.mode='live';
-  stepLabel.textContent='實戰引導 '+String(h.stage).padStart(2,'0')+' / 06';
+  guideRoot.dataset.mode='live';phaseZone.append(guideRoot);phaseZone.classList.add('has-live-guide');guideRoot.style.left='';guideRoot.style.top='';
   const stageNames=['','開局設定','準備回合','變賣與支付','出牌與能力','攻擊與反應','回合交接'];
-  add('strong',stageNames[h.stage],guideRoot);
-  if(state.phase==='start'){const preparation={ready:'1 / 3 · 重置資源',draw:'2 / 3 · 抽牌',roll:'3 / 3 · 選骰與擲骰'};add('span',preparation[state.step],guideRoot,'v3-guide-substep');}
+  stepLabel.textContent='實戰提示 · '+stageNames[h.stage];
   const text=add('p',h.text,guideRoot,'v3-guide-action');text.setAttribute('role','status');text.setAttribute('aria-live','polite');
-  add('small','完成操作後，提示會自動更新。',guideRoot);
   for(const el of board.querySelectorAll('.player-hand .hand-card')){
    const c=state.player.hand.find(c=>c.id===el.dataset.cardId);
    if((h.key==='select-sale'&&c?.sellTag)||(h.key==='select-unit'&&c?.type==='Unit'&&!c.unimplementedEffect&&c.cost<=G.sources(state).length))mark(el);
@@ -696,10 +689,12 @@ function renderGuide(){
   guideAnchor=board.querySelector(zones[h.key]||'#v3TableControls');mark(guideAnchor);
  }
  if(guideAnchor)board.querySelectorAll('button.v3-table-btn.v3-guide-active').forEach(b=>b.classList.remove('v3-guide-active'));
+ if(guideRoot.dataset.mode==='tour'){
  const glossary=add('details','',guideRoot,'v3-guide-glossary');add('summary','規則與名詞',glossary);
  const glossaryText={2:'每回合依序重置、抽牌、選擇一顆合事佬骰；d20 必須留到最後。',3:'每回合最多變賣一張有變賣標記的手牌。每張就緒 Eddie 或合法傳奇資源可支付 1 €$。',4:'單位通常有 Lag；裝備可附在友方單位或正面傳奇。選取卡牌後，在卡牌旁確認操作。',5:'先選己方就緒且可攻擊的單位，再指定合法目標。防守方可依時機使用已支援的 Quick、Blocker 或呼叫傳奇。',6:'結束回合後，自動對手會自動行動；需要你防守或選擇能力時會暫停。'};
  add('p',glossaryText[h.stage]||'看完桌面說明後，可依實戰引導直接操作。關閉提示不會改變遊戲狀態。',glossary);glossary.addEventListener('toggle',positionGuide);
  const source=add('a','官方 Comprehensive Rules',glossary);source.href='https://cyberpunktcg.com/comprehensive-rules';source.target='_blank';source.rel='noopener noreferrer';
+ }
  requestAnimationFrame(positionGuide);
 }
 
@@ -1127,13 +1122,12 @@ function layoutTableActions(){
  for(const b of [...tableControls.children]){if(b.classList.contains('v3-concede'))roomButtons.append(b);else if(['開啟桌面引導','重新看桌面說明'].includes(b.textContent))guideDock.append(b);}
  board.querySelectorAll('.v3-zone-actions').forEach(e=>e.remove());
  const put=(selector)=>{const row=add('div','',board.querySelector(selector),'v3-zone-actions');return row;};
- if(state.phase==='pregame'||state.finished)return;
- if(state.turn==='player'&&state.phase==='start'&&!E.pending(state)){
-  const row=put('.v3-phase-panel');row.classList.add('v3-preparation-actions');row.setAttribute('aria-label','準備階段操作');
-  const label={ready:'重置資源',draw:'抽 1 張',roll:'擲骰'}[state.step];
-  for(const b of [...tableControls.children])if(b.tagName==='BUTTON'&&b.textContent===label)row.append(b);
-  return;
- }
+ if(state.phase==='pregame')return;
+ const preparing=state.turn==='player'&&state.phase==='start'&&!E.pending(state);
+ const label=state.finished?'重新開局':preparing?{ready:'重置資源',draw:'抽 1 張',roll:'擲骰'}[state.step]:state.turn==='player'&&state.phase==='main'?'結束回合':null;
+ const action=[...tableControls.children].find(b=>b.tagName==='BUTTON'&&b.textContent===label);
+ if(action){const row=put('.v3-phase-panel');row.classList.add('v3-turn-action');row.classList.toggle('v3-preparation-actions',preparing);row.setAttribute('aria-label',preparing?'準備階段操作':state.finished?'對局結果':'主要階段操作');row.append(action);}
+ if(preparing||state.finished)return;
  const defending=state.phase==='react'&&state.pendingAttack?.defendingSide==='player',effect=Boolean(E.pending(state));
  if(confirmConcede||(!defending&&!effect&&(state.phase!=='main'||!(selectedId||selectedLegendId||attackUnitId))))return;
  contextActions.setAttribute('aria-label',effect?'待結算能力':defending?'防守操作':'選取卡牌操作');

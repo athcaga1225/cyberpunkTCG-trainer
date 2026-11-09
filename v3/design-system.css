@@ -75,7 +75,6 @@
   .v3-history-list p {margin:6px 0;color:var(--nct-text)}
   .v3-history-list article {padding:12px 0;border-color:var(--nct-line)}
   #v3TableGuide .v3-guide-action {padding:12px 14px;line-height:1.6}
-  #v3TableGuide[data-mode="tour"] .v3-guide-action {background:#e6ecee;color:#101c24;border-left-color:#fff}
   #v3OpeningSetup>.v3-selected-detail {width:min(560px,calc(100vw - 32px))}
 
   select {
@@ -84,16 +83,16 @@
     background-repeat:no-repeat;background-position:right 14px center;background-size:20px 20px;
   }
 
-  /* Close, minimize and expand use the same centered 20px drawing and 44px target. */
+  /* Close controls use the same centered 20px drawing and 44px target. */
   #closeBattleCard, #closeDeckDialog, #betaDetailClose, #closeBoardTour,
-  .v3-coach-close, .v3-coach-minimize, .nct-icon-button, #v3SearchClear {
+  .v3-coach-close, .nct-icon-button, #v3SearchClear {
     appearance:none;position:relative;inset:auto;display:inline-flex;align-items:center;justify-content:center;
     flex:0 0 44px;width:44px;height:44px;min-width:44px;min-height:44px;
     margin:0;padding:0;border:1px solid var(--nct-control-line);border-radius:var(--nct-radius);
     background:var(--nct-raised);color:var(--nct-text);font-size:0;line-height:0;box-shadow:none;transform:none;
   }
   #closeBattleCard:hover, #closeDeckDialog:hover, #betaDetailClose:hover, #closeBoardTour:hover,
-  .v3-coach-close:hover, .v3-coach-minimize:hover, .nct-icon-button:hover, #v3SearchClear:hover {
+  .v3-coach-close:hover, .nct-icon-button:hover, #v3SearchClear:hover {
     color:var(--nct-text);border-color:var(--nct-guide);background:#173641;
   }
   #closeBattleCard::before, #closeDeckDialog::before, #betaDetailClose::before, #closeBoardTour::before,
@@ -101,13 +100,6 @@
     content:"";position:absolute;left:50%;top:50%;width:20px;height:20px;display:block;margin:0;
     transform:translate(-50%,-50%);pointer-events:none;
     background:linear-gradient(45deg,transparent calc(50% - 1px),currentColor calc(50% - 1px),currentColor calc(50% + 1px),transparent calc(50% + 1px)),linear-gradient(-45deg,transparent calc(50% - 1px),currentColor calc(50% - 1px),currentColor calc(50% + 1px),transparent calc(50% + 1px));
-  }
-  .v3-coach-minimize::before {
-    content:"";position:absolute;left:50%;top:50%;width:20px;height:20px;margin:0;transform:translate(-50%,-50%);
-    background:linear-gradient(to bottom,transparent 9px,currentColor 9px,currentColor 11px,transparent 11px);
-  }
-  .v3-coach-minimize[data-icon="plus"]::before {
-    background:linear-gradient(to bottom,transparent 9px,currentColor 9px,currentColor 11px,transparent 11px),linear-gradient(to right,transparent 9px,currentColor 9px,currentColor 11px,transparent 11px);
   }
   #v3TableGuide .v3-coach-header {display:flex;align-items:center;justify-content:space-between;gap:12px}
   #v3TableGuide .v3-coach-tools {display:flex;align-items:center;gap:8px;flex:none}
@@ -124,6 +116,19 @@
   #v3HandPreview strong {display:block;font-size:var(--nct-type-heading);color:var(--nct-guide);margin-bottom:12px}
   #v3HandPreview p {font-size:var(--nct-type-body);line-height:1.6;margin:0 0 14px;color:var(--nct-text)}
   #v3HandPreview .v3-card-ability {margin:0}
+
+  /* Board labels should not become a text selection during card operations. */
+  #battleTour {user-select:none;-webkit-user-select:none}
+  #battleTour :is(input,textarea,.v3-history-list,.v3-card-ability,dialog) {user-select:text;-webkit-user-select:text}
+  .v3-sidebar>.turn-info {background:var(--nct-raised);border:1px solid var(--nct-line);border-radius:var(--nct-radius)}
+  .turn-info #v3TableControls {position:static;transform:none;max-height:none;height:auto;overflow:visible;width:100%;padding:12px}
+  .turn-info.has-live-guide #v3TableControls {display:none}
+  .turn-info.has-live-guide {padding:12px}
+  #v3TableGuide[data-mode="tour"] {border-width:1px;border-left-width:3px;box-shadow:0 12px 32px #0008}
+  #v3TableGuide[data-mode="live"] {position:static;inset:auto;transform:none;display:block;width:100%;max-width:none;min-width:0;max-height:none;overflow:visible;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+  #v3TableGuide[data-mode="live"] .v3-coach-step {color:var(--nct-muted);font-size:var(--nct-type-caption);line-height:1.5;white-space:normal;min-width:0}
+  #v3TableGuide[data-mode="live"] .v3-guide-action {margin:8px 0 0;padding:0 0 0 10px;border:0;border-left:2px solid var(--nct-line);background:transparent;font-size:var(--nct-type-body);font-weight:400;text-align:left;color:var(--nct-text);line-height:1.6}
+  #v3TableGuide[data-mode="live"] .v3-coach-header {gap:8px}
 
   /* Native dialog top layer: centered confirmation never consumes sidebar space. */
   #v3ConcedeDialog {

@@ -31,7 +31,7 @@ Artwork text and dice drawings are separate from text controls. Icon buttons hid
 
 Primary confirmation/next/game actions use yellow with dark text. Back/cancel/navigation utilities use the raised dark surface, pale text and a teal-gray outline. Hover and keyboard focus use teal. Disabled actions use a muted gray surface and disabled cursor. Informational guidance uses teal; its static instruction banner uses pale gray with dark text. Card identity colors remain tied to the card, not the close button.
 
-X / plus / minus use a centered 20px drawing, 2px stroke and 44px hit target. All close controls share the same neutral border, surface and hover state. Dropdown arrows are 20px with a 14px right inset and reserved 44px padding.
+Close controls use a centered 20px drawing, 2px stroke and 44px hit target. All close controls share the same neutral border, surface and hover state. Dropdown arrows are 20px with a 14px right inset and reserved 44px padding.
 
 ## Concede
 
@@ -39,10 +39,18 @@ Concede opens a native modal dialog centered in the viewport, outside sidebar la
 
 ## Verification
 
-`v3-design-system.test.js` enforces stylesheet loading, six typography roles and no priority flags. `v3-design-system.browser.cjs` checks actual computed 16px controls, icon geometry/colors, inset arrows, distinct back/next colors, modal centering, unchanged sidebar geometry, cancel/confirm/focus/restart, and the shared site/catalogue controls. Desktop checks cover 1440×900 and 1280×720.
+`v3-design-system.test.js` enforces stylesheet loading, six typography roles and no priority flags. `v3-design-system.browser.cjs` checks actual computed 16px controls, close-icon geometry/colors, inset arrows, distinct back/next colors, modal centering, unchanged sidebar geometry, cancel/confirm/focus/restart, and the shared site/catalogue controls. Desktop checks cover 1440×900 and 1280×720.
 
 Existing browser checks cover opening, sidebar, hover/click regions, Eddies orientation, outcomes and complete matches; existing native game suites remain unchanged apart from replacing historical CSS-source-string assertions with the computed browser checks. Mobile/tablet redesign remains deferred.
 
 ## Preparation controls
 
 Reset, draw and roll share one 44px action slot in the turn-status panel. Only the current legal preparation action appears. The player chooses a die directly in the Fixer area and confirms the roll in turn status; no secondary select or persistent disabled Roll button is rendered. Both Fixer areas use the same full-width rail and 44px icon height. The main phase, opponent turn and finished game have no preparation button. Guidance names and highlights the current controls.
+
+## Desktop finishing pass
+
+Board labels do not select during card/dice operations; inputs, card ability text, dialogs and action history retain text selection. Mixed ready/spent Legends share square slots and a common vertical center. Gig dice use the same 44px drawings as Fixer dice; desktop rows reserve enough height for the full shape and caption. Deck label/number groups center vertically. ROOM uses a subtle separate surface.
+
+Turn owner and round text share a left edge. The phase panel also hosts End Turn and Restart. The right status area sizes naturally and has no scrolling; history keeps its independent scroll. The step-by-step table tour remains a floating panel with back/next/close, and no minimize button or redundant instruction banner. Live hints use a compact docked sidebar treatment, with one current instruction and close control, without duplicate phase headings or tutorial navigation. Obsolete minimize styles are removed.
+
+`v3-desktop-finish.browser.cjs` covers these cases at 1440×900 and 1280×720, including a mixed-orientation fixture, actual preparation, a live-guided sale, full-size dice visibility, phase-local End Turn and opponent handoff. Existing full-match and shared design checks remain in place.

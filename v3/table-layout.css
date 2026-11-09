@@ -2781,21 +2781,9 @@ body.battle-wide #battle #v3OpeningSetup .v3-setup-fields {
   font-size: var(--nct-type-caption); color: rgb(105, 212, 229);
 }
 
-#battle #v3TableGuide.is-minimized {
-  padding: 10px 13px;
-}
 
-#battle #v3TableGuide.is-minimized > :not(.v3-coach-tools):not(strong):not(small) {
-  display: none;
-}
 
-#battle #v3TableGuide.is-minimized > small:last-of-type {
-  display: none;
-}
 
-#battle #v3TableGuide.is-minimized > strong {
-  margin: 4px 0px 0px;
-}
 
 @media (max-width: 900px) {
 #battle .player-trash {
@@ -3020,9 +3008,6 @@ body.battle-wide #battle .player-hand .preview-card-rail .hand-card.is-selected:
   width: 44px; height: 44px; padding: 0px; font-size: var(--nct-type-heading);
 }
 
-#battle #v3TableGuide.is-minimized > strong {
-  font-size: var(--nct-type-control);
-}
 
 
 #v3HandPreview p, #v3HandPreview > div {
@@ -3117,17 +3102,8 @@ body.battle-wide #battle #v3OpeningSetup .v3-opening-card small {
   margin: 0px; gap: 6px; flex: 0 0 auto;
 }
 
-#battle #v3TableGuide .v3-coach-minimize {
-  width: 44px; height: 44px; padding: 0px; display: flex; align-items: center; justify-content: center; line-height: 1; font-size: var(--nct-type-heading);
-}
 
-#battle #v3TableGuide.is-minimized > .v3-coach-header {
-  margin-bottom: 5px; display: flex;
-}
 
-#battle #v3TableGuide.is-minimized {
-  width: 280px;
-}
 
 body.battle-wide #battle .v3-legend-layout > .player-eddies.is-paying {
   flex-wrap: nowrap; align-items: stretch; border-left: 1px solid rgb(55, 82, 93);
@@ -3309,9 +3285,6 @@ body.battle-wide #battle .v3-eddie-token[aria-pressed="true"] {
   color: rgb(252, 238, 10);
 }
 
-#battle #v3TableGuide[data-mode="tour"] .v3-guide-action {
-  background: rgb(230, 236, 238); color: rgb(16, 28, 36); border-left: 4px solid rgb(255, 255, 255);
-}
 
 
 
@@ -3424,17 +3397,8 @@ body.battle-wide #battle .v3-legend-layout > .cardbacks {
   display: block; white-space: nowrap; line-height: 1.3; font-size: var(--nct-type-body);
 }
 
-#battle #v3TableGuide .v3-coach-header .v3-coach-tools .v3-coach-minimize {
-  position: relative; width: 44px; height: 44px; padding: 0px; font-size: 0px; line-height: 0;
-}
 
-#battle #v3TableGuide .v3-coach-minimize::before {
-  content: ""; position: absolute; left: 50%; top: 50%; width: 20px; height: 20px; margin: 0px; transform: translate(-50%, -50%); background: linear-gradient(transparent 9px, currentcolor 9px, currentcolor 11px, transparent 11px); pointer-events: none;
-}
 
-#battle #v3TableGuide .v3-coach-minimize[data-icon="plus"]::before {
-  background-image: linear-gradient(transparent 9px, currentcolor 9px, currentcolor 11px, transparent 11px), linear-gradient(to right, transparent 9px, currentcolor 9px, currentcolor 11px, transparent 11px); background-color: initial;
-}
 
 #battle .player-legends, #battle .opponent-legends {
   position: relative;
