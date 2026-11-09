@@ -32,8 +32,8 @@ body.battle-wide #battle #v3CardActions :is(.v3-table-hint,.v3-table-selection){
 body.battle-wide #battle :is(.v3-payment-summary strong,.v3-payment-count){color:#e8bf70}
 body.battle-wide #battle .v3-payment-summary{border-color:var(--nct-line)}
 body.battle-wide #battle .v3-payment-summary>span{color:var(--nct-muted)}
-body.battle-wide #battle .v3-phase-panel strong{text-align:left;border:0;border-left:3px solid #b1ee62;border-radius:0;color:#b1ee62;background:transparent;padding:5px 10px}
-body.battle-wide #battle .v3-phase-panel[data-owner="ai"] strong{border-color:var(--nct-rival);color:var(--nct-rival)}
+body.battle-wide #battle .v3-phase-panel strong{border:0;border-radius:0;color:#b1ee62;background:transparent}
+body.battle-wide #battle .v3-phase-panel[data-owner="ai"] strong{color:var(--nct-rival)}
 body.battle-wide #battle .v3-phase-panel>span{color:var(--nct-muted)}
 body.battle-wide #battle .v3-history-list article{border-color:#24424e;padding:10px 0}
 body.battle-wide #battle .v3-history-list article small{color:#65cedb}
@@ -136,18 +136,15 @@ body.battle-wide #battle :is(.player-fixer,.opponent-fixer){display:grid;grid-te
 body.battle-wide #battle :is(.player-fixer,.opponent-fixer)>small{grid-column:1;grid-row:1}
 body.battle-wide #battle :is(.player-fixer,.opponent-fixer) .mini-dice{grid-column:1;grid-row:2;display:flex;align-items:center;justify-content:space-between;width:100%;height:100%;margin:0;gap:4px}
 body.battle-wide #battle :is(.player-fixer,.opponent-fixer) .die-icon{flex:1 1 0;min-width:0;max-width:64px;height:44px;min-height:44px;max-height:44px}
-body.battle-wide #battle .v3-phase-panel:has(.v3-turn-action){display:grid;grid-template-columns:minmax(0,1fr) 112px;grid-template-rows:auto auto;align-content:center;align-items:center;gap:4px 12px}
-body.battle-wide #battle .v3-phase-panel:has(.v3-turn-action)>strong{grid-column:1;grid-row:1}
-body.battle-wide #battle .v3-phase-panel:has(.v3-turn-action)>span{grid-column:1;grid-row:2}
+body.battle-wide #battle .v3-phase-panel{display:grid;grid-template-columns:minmax(0,1fr) 112px;grid-template-rows:28px 22px;align-content:center;align-items:center;justify-items:stretch;gap:4px 12px;text-align:left}
+body.battle-wide #battle .v3-phase-panel>strong{grid-column:1;grid-row:1;min-height:28px;line-height:28px;border:0;padding:0;margin:0;text-align:left}
+body.battle-wide #battle .v3-phase-panel>span{grid-column:1;grid-row:2;min-height:22px;line-height:22px;padding:0;margin:0;text-align:left;white-space:nowrap}
 body.battle-wide #battle .v3-phase-panel>.v3-turn-action{grid-column:2;grid-row:1 / 3;display:flex;align-items:center;margin:0;padding:0}
 body.battle-wide #battle .v3-turn-action>.v3-table-btn{width:100%;min-height:44px;margin:0}
 
 body.battle-wide #battle .v3-legend-layout>.cardbacks{align-items:center;align-content:center}
 body.battle-wide #battle .v3-legend-slot{display:grid;grid-template-rows:minmax(0,1fr);align-self:center;align-items:center;justify-items:center}
 body.battle-wide #battle .v3-legend-slot>.v3-legend-card{grid-area:1 / 1;align-self:center;justify-self:center;margin:0}
-body.battle-wide #battle .v3-phase-panel{display:grid;grid-template-columns:minmax(0,1fr);justify-items:stretch;align-content:center;text-align:left}
-body.battle-wide #battle .v3-phase-panel>strong{text-align:left;justify-self:stretch}
-body.battle-wide #battle .v3-phase-panel>span{text-align:left;padding-left:13px}
 body.battle-wide #battle .v3-room-panel{background:#10232c;border-color:#3c5b67}
 body.battle-wide #battle :is(.player-deck,.opponent-deck){display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
 body.battle-wide #battle :is(.player-deck,.opponent-deck)>small{flex:none;margin:0}
@@ -157,7 +154,7 @@ body.battle-wide #battle .v3-gig-values{flex-wrap:nowrap;gap:4px;overflow-x:auto
  body.battle-wide #battle .table-preview{grid-template-rows:minmax(0,1.35fr) minmax(80px,.75fr) minmax(104px,1.05fr) minmax(0,.45fr) minmax(0,.45fr) minmax(104px,1.05fr) minmax(80px,.75fr) minmax(0,1.35fr)}
 }
 
-body.battle-wide #battle :is(.player-gigs,.opponent-gigs){grid-template-rows:28px minmax(60px,1fr)}
-body.battle-wide #battle :is(.player-gigs,.opponent-gigs)>strong{line-height:1}
+body.battle-wide #battle :is(.player-gigs,.opponent-gigs){grid-template-columns:minmax(0,1fr) 112px;grid-template-rows:28px minmax(60px,1fr)}
+body.battle-wide #battle :is(.player-gigs,.opponent-gigs)>strong{width:112px;justify-self:end;text-align:right;line-height:1;font-variant-numeric:tabular-nums}
 
 }

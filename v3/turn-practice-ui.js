@@ -74,10 +74,10 @@ function renderBoardInformation(){
  roomPanel.querySelector(':scope > small').textContent='ROOM / '+(opponentMode==='mirror'?(crossDeck()?deckName()+' vs '+rivalDeckName():deckName()):'固定腳本');
  roomDescription.textContent=opponentMode==='mirror'?(crossDeck()?'自動對手：'+rivalDeckName():deckName()+' · 鏡像對手'):'固定腳本練習';
  if(shownHistoryVersion!==historyVersion){
-  const bottom=historyList.scrollHeight-historyList.scrollTop-historyList.clientHeight<40,oldScroll=historyList.scrollTop;historyList.replaceChildren();
+  historyList.replaceChildren();
   if(!actionHistory.length)add('p','完成開局後，這裡會依序記錄雙方行動。',historyList,'v3-history-empty');
   let group=null,groupKey=null;for(const event of actionHistory){const key=event.round+':'+event.actor;if(key!==groupKey){group=add('article','',historyList);group.dataset.actor=event.actor;add('small','ROUND '+event.round+' · '+event.actor,group);groupKey=key;}add('p',event.text,group);}
-  historyList.scrollTop=bottom?historyList.scrollHeight:oldScroll;shownHistoryVersion=historyVersion;
+  historyList.scrollTop=historyList.scrollHeight;requestAnimationFrame(()=>{historyList.scrollTop=historyList.scrollHeight});shownHistoryVersion=historyVersion;
  }
 }
 const contextActions=document.createElement('section');contextActions.id='v3CardActions';contextActions.className='v3-card-actions';contextActions.hidden=true;contextActions.setAttribute('aria-label','選取卡牌操作');board.append(contextActions);
@@ -85,7 +85,7 @@ const guideRoot=document.createElement('aside');guideRoot.id='v3TableGuide';guid
 guideRoot.setAttribute('aria-label','桌面操作引導');board.append(guideRoot);
 let guideAnchor=null;
 function positionGuide(){
- if(guideRoot.hidden||guideRoot.dataset.mode==='live'||!guideAnchor?.isConnected)return;
+ if(guideRoot.hidden||!guideAnchor?.isConnected)return;
  const gap=14,pad=12,w=guideRoot.offsetWidth,h=guideRoot.offsetHeight,a=guideAnchor.getBoundingClientRect();
  const clamp=(v,max)=>Math.max(pad,Math.min(v,Math.max(pad,max)));
  const blocks=[...board.querySelectorAll('.player-hand,.opponent-hand,.player-legends,.opponent-legends,.v3-played-card,#v3TableControls,#v3CardActions,.player-fixer,.player-gigs,.v3-phase-panel,.v3-room-panel')].map(el=>el.getBoundingClientRect());
@@ -145,6 +145,7 @@ concedeDialog.addEventListener('close',()=>{confirmConcede=false;scheduleOpponen
 let paymentAction=null,draggedCardId=null;
 let selectedLegendId=null,effectChoiceId=null,effectChoices=new Set();
 let pendingDeal=null;
+let failureMessage='';
 let activeDeals=[];
 let renderSequence=0;
 let entryDealt=false;
@@ -153,20 +154,20 @@ function cancelDeals(){
  document.querySelectorAll('[data-v3-deal-layer]').forEach(layer=>layer.remove());
  activeDeals=[];
 }
-function dealHand(mode){
+function dealHand(mode,side='player'){
  if(!mode||window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return;
- const source=board.querySelector('.player-deck .deck-pile');
- const rail=board.querySelector('.player-hand .hand-placeholder');
+ const source=board.querySelector('.'+side+'-deck .deck-pile');
+ const rail=board.querySelector(side==='player'?'.player-hand .hand-placeholder':'.opponent-hand .preview-card-rail');
  if(!source||!rail||typeof Element.prototype.animate!=='function')return;
  const start=source.getBoundingClientRect();
  if(!start.width||!start.height)return;
- const cards=[...rail.querySelectorAll('.hand-card')];
+ const cards=[...rail.querySelectorAll(side==='player'?'.hand-card':'.preview-art-card')];
  const targets=mode==='all'?cards:cards.filter(el=>mode.includes(el.dataset.cardId));
  // The flight layer is attached to the document root, outside all tabletop
  // grid, stacking, clipping and hover styles; its CSS pixels are viewport pixels.
  const layer=document.createElement('div');
  layer.setAttribute('aria-hidden','true');
- layer.dataset.v3DealLayer='';
+ layer.dataset.v3DealLayer='';layer.dataset.v3DealSide=side;
  layer.className='nct-deal-layer';
  document.documentElement.append(layer);
  let remaining=0;
@@ -186,7 +187,7 @@ function dealHand(mode){
    const copy=img.cloneNode(false);
    copy.removeAttribute('id');
    copy.loading='eager';
-   copy.className='nct-deal-art';
+   copy.className='nct-deal-art';copy.classList.toggle('nct-deal-back',side==='opponent');
    clone.append(copy);
   }else{
    const text=document.createElement('span');text.textContent=target.dataset.cardName||'CARD';
@@ -208,7 +209,7 @@ function dealHand(mode){
    clone.remove();
    if(target.isConnected)target.style.visibility='';
    activeDeals=activeDeals.filter(x=>x!==item);
-   if(!--remaining){layer.remove();scheduleOpponent();}
+   if(!--remaining){layer.remove();if(!activeDeals.length)scheduleOpponent();}
   };
   animation.finished.then(clean,clean);
  }
@@ -395,7 +396,7 @@ const phase=()=>state.finished?'已結束':E.pending(state)?'能力待結算':st
 const add=(tag,txt,parent,cls)=>{const el=document.createElement(tag);el.textContent=txt||'';if(cls)el.className=cls;parent.append(el);return el};
 function command(label,fn,parent,disabled=false){
  const b=add('button',label,parent,'btn');b.type='button';b.disabled=disabled;
- b.addEventListener('click',()=>{const previous=state;const wasPregame=state.phase==='pregame';const before=new Set(state.player.hand.map(c=>c.id));const r=fn();rememberAction(r,previous);message=r.ok?publicActionText(r.message,previous):r.reason;if(r.ok){state=r.state;D.transition(previous,state);if(wasPregame&&state.phase!=='pregame')pendingDeal='all';selectedPayments.clear();paymentAction=null;if(!state.player.hand.some(c=>c.id===selectedId))selectedId=null;const added=state.player.hand.map(c=>c.id).filter(id=>!before.has(id));if(added.length)pendingDeal=added;if(state.player.hand.length===6&&r.message===initial)pendingDeal='all';}render()});return b;
+ b.addEventListener('click',()=>{const previous=state;const wasPregame=state.phase==='pregame';const before=new Set(state.player.hand.map(c=>c.id));const r=fn();rememberAction(r,previous);message=r.ok?publicActionText(r.message,previous):r.reason;failureMessage=r.ok?'':r.reason;if(r.ok){state=r.state;D.transition(previous,state);if(wasPregame&&state.phase!=='pregame')pendingDeal='all';selectedPayments.clear();paymentAction=null;if(!state.player.hand.some(c=>c.id===selectedId))selectedId=null;const added=state.player.hand.map(c=>c.id).filter(id=>!before.has(id));if(added.length&&!(wasPregame&&state.phase!=='pregame'))pendingDeal=added;if(state.player.hand.length===6&&r.message===initial)pendingDeal='all';}render()});return b;
 }
 function indicator(selector,summary){
  const zone=board.querySelector(selector);if(!zone)return;
@@ -443,13 +444,15 @@ function sizeHandRail(rail){
 }
 function fitHandRails(){
  for(const rail of board.querySelectorAll('.player-field .field-slots,.opponent-field .field-slots')){
-  const side=Math.max(24,Math.min(280,rail.clientHeight-24));for(const card of rail.querySelectorAll('.v3-played-card')){const spent=card.classList.contains('is-unit-spent');card.style.height=((spent?side*5/7:side)+20)+'px';card.style.width=(spent?side:side*5/7)+'px';}
+  const side=Math.max(24,Math.min(280,rail.clientHeight-24));for(const card of rail.querySelectorAll('.v3-played-card')){const spent=card.classList.contains('is-unit-spent');card.style.height=((spent?side*5/7:side)+20)+'px';card.style.marginTop=(spent?side/7:0)+'px';card.style.width=(spent?side:side*5/7)+'px';}
  }
  for(const rail of board.querySelectorAll('.player-hand .hand-placeholder,.opponent-hand .preview-card-rail'))sizeHandRail(rail);
- for(const pool of board.querySelectorAll('.v3-eddie-tokens')){
-  const count=pool.querySelectorAll('.v3-eddie-slot').length,columns=Math.min(count||1,Math.max(1,Math.floor((pool.clientWidth+2)/72)));
-  const h=Math.max(44,Math.min(100,pool.clientHeight-6,(pool.clientWidth-6-(columns-1)*8)/columns)),short=Math.max(44,h*878/1331);
-  for(const slot of pool.querySelectorAll('.v3-eddie-slot')){slot.style.width=h+'px';slot.style.height=h+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-spent');card.style.width=(spent?h:short)+'px';card.style.height=(spent?short:h)+'px';}
+ const pools=[...board.querySelectorAll('.v3-eddie-tokens')];
+ const poolWidth=Math.min(...pools.map(pool=>pool.clientWidth)),poolHeight=Math.min(...pools.map(pool=>pool.clientHeight));
+ const columns=Math.max(1,Math.floor((poolWidth+2)/72));
+ const eddieSide=Math.max(44,Math.min(100,poolHeight-6,(poolWidth-6-(columns-1)*8)/columns)),short=Math.max(44,eddieSide*878/1331);
+ for(const pool of pools){
+  for(const slot of pool.querySelectorAll('.v3-eddie-slot')){slot.style.width=eddieSide+'px';slot.style.height=eddieSide+'px';const card=slot.querySelector('button'),spent=card.classList.contains('is-spent');card.style.width=(spent?eddieSide:short)+'px';card.style.height=(spent?short:eddieSide)+'px';}
   pool.scrollTop=Number(pool.dataset.scrollTop)||0;
  }
  for(const rail of board.querySelectorAll('.v3-legend-layout>.cardbacks')){
@@ -599,12 +602,12 @@ function runTableCommand(fn){
  const before=new Set(state.player.hand.map(c=>c.id));
  const result=fn();
  rememberAction(result,previous);
- message=result.ok?publicActionText(result.message,previous):result.reason;
+ message=result.ok?publicActionText(result.message,previous):result.reason;failureMessage=result.ok?'':result.reason;
  if(result.ok){
   const wasPregame=state.phase==='pregame';state=result.state;D.transition(previous,state);
   if(wasPregame&&state.phase!=='pregame')pendingDeal='all';
   const added=state.player.hand.filter(c=>!before.has(c.id)).map(c=>c.id);
-  if(added.length)pendingDeal=added;
+  if(added.length&&!(wasPregame&&state.phase!=='pregame'))pendingDeal=added;
   selectedPayments.clear();paymentAction=null;
   if(!state.player.hand.some(c=>c.id===selectedId))selectedId=null;
   if(!state.player.legends.some(c=>c.id===selectedLegendId)||state.phase==='start'||(state.turn!=='player'&&state.phase!=='react'))selectedLegendId=null;
@@ -622,7 +625,7 @@ function chosenPayments(cost){
 }
 function scheduleOpponent(){
  if(opponentTimer!==null){clearTimeout(opponentTimer);opponentTimer=null;}
- if(confirmConcede||E.pending(state)||state.phase!=='opponent'||state.step!=='pendingBot'||!isPracticeDeck()||state.finished||state.turn!=='ai'||state.ai.practiceBot?.kind!=='mirror-the-heist')return;
+ if(activeDeals.length||$('battle')?.classList.contains('hide')||confirmConcede||E.pending(state)||state.phase!=='opponent'||state.step!=='pendingBot'||!isPracticeDeck()||state.finished||state.turn!=='ai'||state.ai.practiceBot?.kind!=='mirror-the-heist')return;
  const snapshot=state;
  opponentTimer=setTimeout(()=>{
   opponentTimer=null;
@@ -639,62 +642,32 @@ const coachSteps=[
 ];
 function renderGuide(){
  board.querySelectorAll('.v3-guide-active').forEach(el=>el.classList.remove('v3-guide-active'));
- guideRoot.replaceChildren();guideRoot.hidden=true;guideAnchor=null;phaseZone?.classList.remove('has-live-guide');
+ guideRoot.replaceChildren();guideRoot.hidden=true;guideAnchor=null;
  if(!isPracticeDeck()||state.phase==='pregame')return;
+ const touring=guidanceOn&&guideIntro<coachSteps.length&&!state.finished&&state.phase!=='react'&&!E.pending(state);
+ if(!touring)guidanceOn=false;
  const reopen=add('button',guidanceOn?'重新看桌面說明':'開啟桌面引導',tableControls,'v3-table-btn');reopen.type='button';
  reopen.addEventListener('click',()=>{guidanceOn=true;guideIntro=0;render()});
- if(!guidanceOn)return;
+ if(!touring)return;
  document.getElementById('closeBoardTour')?.click();
+ guideRoot.hidden=false;guideRoot.dataset.mode='tour';board.append(guideRoot);
  const h=G.next(state,{selectedId,payments:[...selectedPayments],attackUnitId,selectedLegendId,paymentAction});
- guideRoot.hidden=false;guideRoot.dataset.step=h.key;
  const header=add('div','',guideRoot,'v3-coach-header');
- const stepLabel=add('small','',header,'v3-coach-step');
+ add('small','桌面操作 '+(guideIntro+1)+' / '+coachSteps.length,header,'v3-coach-step');
  const tools=add('div','',header,'v3-coach-tools');
  const close=add('button','',tools,'v3-coach-close');close.type='button';close.setAttribute('aria-label','關閉桌面引導');
  close.addEventListener('click',()=>{guidanceOn=false;render()});
- const mark=el=>el?.classList.add('v3-guide-active');
- if(!state.finished&&guideIntro<coachSteps.length&&state.phase!=='react'&&!E.pending(state)){
-  const step=coachSteps[guideIntro];guideRoot.dataset.mode='tour';board.append(guideRoot);
-  stepLabel.textContent='桌面操作 '+(guideIntro+1)+' / '+coachSteps.length;
-  add('strong',step.title,guideRoot);add('p',step.text,guideRoot);
-  guideAnchor=board.querySelector(step.zone);mark(guideAnchor);
-  const actions=add('div','',guideRoot,'v3-coach-actions');
-  if(guideIntro>0){const back=add('button','上一步',actions,'btn v3-coach-back');back.type='button';back.addEventListener('click',()=>{guideIntro--;render()});}
-  const next=add('button',guideIntro===coachSteps.length-1?'開始實戰':'下一步 →',actions,'btn v3-coach-next');next.type='button';next.addEventListener('click',()=>{guideIntro++;render()});
-  const skip=add('button','略過說明，直接操作',guideRoot,'v3-coach-skip');skip.type='button';skip.addEventListener('click',()=>{guideIntro=coachSteps.length;render()});
- }else{
-  guideRoot.dataset.mode='live';phaseZone.append(guideRoot);phaseZone.classList.add('has-live-guide');guideRoot.style.left='';guideRoot.style.top='';
-  const stageNames=['','開局設定','準備回合','變賣與支付','出牌與能力','攻擊與反應','回合交接'];
-  stepLabel.textContent='實戰提示 · '+stageNames[h.stage];
-  const text=add('p',h.text,guideRoot,'v3-guide-action');text.setAttribute('role','status');text.setAttribute('aria-live','polite');
-  for(const el of board.querySelectorAll('.player-hand .hand-card')){
-   const c=state.player.hand.find(c=>c.id===el.dataset.cardId);
-   if((h.key==='select-sale'&&c?.sellTag)||(h.key==='select-unit'&&c?.type==='Unit'&&!c.unimplementedEffect&&c.cost<=G.sources(state).length))mark(el);
-  }
-  if(h.key==='defense'){
-   const ids=new Set(C.blockers(state).map(c=>c.id)),quickIds=new Set(C.quicks(state).map(c=>c.id));
-   board.querySelectorAll('.player-field .v3-played-card').forEach((el,i)=>{if(ids.has(state.player.units[i].id))mark(el)});
-   board.querySelectorAll('.player-hand .hand-card').forEach(el=>{if(quickIds.has(el.dataset.cardId))mark(el)});
-  }
-  if(paymentContext()?.selecting)board.querySelectorAll('.is-payment-available').forEach(mark);
-  if(h.key==='attack')board.querySelectorAll('.player-field .v3-played-card').forEach((el,i)=>{const t=G.targets(state,state.player.units[i]);if(t.units.length||t.gigs)mark(el)});
-  if(h.key==='target'){
-   const targets=G.targets(state,state.player.units.find(u=>u.id===attackUnitId));
-   board.querySelectorAll('.opponent-field .v3-played-card').forEach((el,i)=>{if(targets.units.includes(state.ai.units[i].id))mark(el)});
-   if(targets.gigs)mark(board.querySelector('.opponent-gigs'));
-  }
-  const label={ready:'重置資源',draw:'抽 1 張',roll:'擲骰',sell:'變賣',play:'打出單位',end:'結束回合'}[h.key];
-  if(label)for(const button of tableControls.querySelectorAll('button'))if(button.textContent===label&&!button.disabled)mark(button);
-  const zones={effect:'#v3CardActions',legend:'.player-legends','legend-payment':'.player-legends',defense:'#v3CardActions',ready:'.v3-phase-panel',draw:'.v3-phase-panel',roll:'.player-fixer','select-sale':'.player-hand',sell:'.player-hand','select-unit':'.player-hand',payment:'.player-eddies',play:'#v3CardActions',attack:'.player-field',target:'.opponent-field',opponent:'.opponent-field'};
-  guideAnchor=board.querySelector(zones[h.key]||'#v3TableControls');mark(guideAnchor);
- }
- if(guideAnchor)board.querySelectorAll('button.v3-table-btn.v3-guide-active').forEach(b=>b.classList.remove('v3-guide-active'));
- if(guideRoot.dataset.mode==='tour'){
+ const step=coachSteps[guideIntro];
+ add('strong',step.title,guideRoot);add('p',step.text,guideRoot);
+ guideAnchor=board.querySelector(step.zone);guideAnchor?.classList.add('v3-guide-active');
+ const actions=add('div','',guideRoot,'v3-coach-actions');
+ if(guideIntro>0){const back=add('button','上一步',actions,'btn v3-coach-back');back.type='button';back.addEventListener('click',()=>{guideIntro--;render()});}
+ const next=add('button',guideIntro===coachSteps.length-1?'開始實戰':'下一步 →',actions,'btn v3-coach-next');next.type='button';next.addEventListener('click',()=>{guideIntro++;render()});
+ const skip=add('button','略過說明，直接操作',guideRoot,'v3-coach-skip');skip.type='button';skip.addEventListener('click',()=>{guideIntro=coachSteps.length;guidanceOn=false;render()});
  const glossary=add('details','',guideRoot,'v3-guide-glossary');add('summary','規則與名詞',glossary);
  const glossaryText={2:'每回合依序重置、抽牌、選擇一顆合事佬骰；d20 必須留到最後。',3:'每回合最多變賣一張有變賣標記的手牌。每張就緒 Eddie 或合法傳奇資源可支付 1 €$。',4:'單位通常有 Lag；裝備可附在友方單位或正面傳奇。選取卡牌後，在卡牌旁確認操作。',5:'先選己方就緒且可攻擊的單位，再指定合法目標。防守方可依時機使用已支援的 Quick、Blocker 或呼叫傳奇。',6:'結束回合後，自動對手會自動行動；需要你防守或選擇能力時會暫停。'};
- add('p',glossaryText[h.stage]||'看完桌面說明後，可依實戰引導直接操作。關閉提示不會改變遊戲狀態。',glossary);glossary.addEventListener('toggle',positionGuide);
+ add('p',glossaryText[h.stage]||'關閉說明不會改變遊戲狀態。',glossary);glossary.addEventListener('toggle',positionGuide);
  const source=add('a','官方 Comprehensive Rules',glossary);source.href='https://cyberpunktcg.com/comprehensive-rules';source.target='_blank';source.rel='noopener noreferrer';
- }
  requestAnimationFrame(positionGuide);
 }
 
@@ -779,7 +752,6 @@ function renderTableResources(side,prefix){
   b.disabled=!canPay||!c.ready;b.classList.toggle('is-spent',!c.ready);b.dataset.ready=String(c.ready);b.title=c.ready?'就緒 Eddie · 可支付 1 €$':'已使用 Eddie · 下次重置後可再使用';
   b.classList.toggle('is-payment-available',Boolean(canPay&&c.ready));b.onclick=()=>togglePayment('eddie',c.id);
  });
- if(!state[side].eddies.length)add('span',side==='player'?'變賣手牌後，Eddie 會放在這裡。':'尚無 Eddies',pool,'v3-eddies-empty');
  const trashZone=board.querySelector('.'+prefix+'-trash');
  let trash=trashZone.querySelector('.v3-trash-summary');if(!trash){trash=add('button','',trashZone,'v3-trash-summary');trash.type='button';trash.onclick=()=>{trashSide=side;trashOpener=trash;trashDialog.showModal();renderTrashViewer()};}
  trash.replaceChildren();add('span','TRASH',trash,'v3-trash-label');add('span',(state[side].trash||[]).length+' 張',trash,'v3-trash-count');trash.setAttribute('aria-label','查看'+(side==='player'?'我方':'對手')+'棄牌區');
@@ -950,11 +922,14 @@ function renderDefenseControls(){
  if(!C.quicks(state).length)add('span','目前手上沒有已支援的 Quick。',tableControls,'v3-table-hint');
  tableButton('結束反應並結算',()=>P.defend(state,{kind:'end'}));
 }
-function compactFeedback(text){
- if(/^(鏡像對手|自動對手)完成回合/.test(text))return '自動對手已完成行動，輪到你準備回合。';
- if(text.length<=160)return text;
- const parts=text.split('；'),actions=parts.filter(p=>/對手.*呼叫傳奇|Go Solo：|^裝備 |^對手使用程式：|^Quick：/.test(p));
- return (actions.length?actions.slice(-3):parts.slice(-2)).join('；');
+function statusSummary(){
+ if(failureMessage&&message===failureMessage)return failureMessage;
+ if(E.pending(state))return '請在卡牌旁完成能力選擇。';
+ if(state.phase==='react')return '選擇攔截、Quick 或呼叫傳奇；完成後結算。';
+ if(state.turn==='ai')return '對手正在行動，需要你防守時會暫停。';
+ if(state.phase==='start')return {ready:'先重置資源，再抽牌、選骰。',draw:'抽 1 張牌，接著選一顆合事佬骰。',roll:'在合事佬區選骰，再按回合區的「擲骰」。'}[state.step]||'';
+ if(state.phase==='main')return '點選手牌出牌，或點選己方單位攻擊。';
+ return '';
 }
 function renderTableControls(){
  tableControls.replaceChildren();
@@ -962,7 +937,7 @@ function renderTableControls(){
  if(!isPracticeDeck()||state.phase==='pregame')return;
  const p=state.player;
  const headline=add('span',state.phase==='main'?'主要階段':phase(),tableControls,'v3-table-phase');
- if(message&&message!==initial)add('span',compactFeedback(message),tableControls,'v3-table-feedback');
+ if(!state.finished)add('span',statusSummary(),tableControls,'v3-table-feedback');
  if(state.finished){confirmConcede=false;const result=E.resultSummary(state);headline.textContent=result.title;add('span',result.reason,tableControls,'v3-result-reason');tableButton('重新開局',()=>({ok:true,state:freshPractice(scenario,{preGame:true,defense:defensePreset,aiMode:opponentMode,randomizeLegends:true}),message:initial}));return}
  if(state.overtime)add('span','OVERTIME · 7 顆骰立即獲勝',tableControls,'v3-overtime');
  const concede=add('button','認輸',tableControls,'v3-table-btn v3-concede');concede.type='button';concede.addEventListener('click',openConcedeDialog);
@@ -1196,7 +1171,7 @@ function render(){
  renderBoardInformation();
  if(!deal)scheduleOpponent();
  if(deal&&state.phase!=='pregame')requestAnimationFrame(()=>{
-  if(sequence===renderSequence&&isPracticeDeck()&&!$('battle')?.classList.contains('hide'))dealHand(deal);
+  if(sequence===renderSequence&&isPracticeDeck()&&!$('battle')?.classList.contains('hide')){dealHand(deal);if(deal==='all')dealHand('all','opponent');}
   if(!activeDeals.length)scheduleOpponent();
  });
  const header=add('div','',root,'v3-turn-header');
@@ -1533,7 +1508,7 @@ function dealOnEntry(){
  if(state.phase!=='pregame'){guideRoot.hidden=!guidanceOn;requestAnimationFrame(positionGuide);}
  entryDealt=true;
  if(isPracticeDeck()&&state.phase==='pregame'){document.getElementById('closeBoardTour')?.click();setActionTray(false)}
- requestAnimationFrame(()=>{if(!battlePage.classList.contains('hide')&&isPracticeDeck()&&state.phase!=='pregame')dealHand('all')});
+ requestAnimationFrame(()=>{if(!battlePage.classList.contains('hide')&&isPracticeDeck()&&state.phase!=='pregame'){dealHand('all');dealHand('all','opponent');}});
 }
 if(battlePage&&typeof MutationObserver!=='undefined'){
  new MutationObserver(dealOnEntry).observe(battlePage,{attributes:true,attributeFilter:['class']});

@@ -162,6 +162,10 @@ body.battle-wide {
   position: absolute; inset: 0px; display: block; width: 100%; height: 100%; object-fit: contain; background: var(--nct-bg);
 }
 
+:root:has(> body.battle-wide) .nct-deal-back {
+  inset:auto;left:50%;top:50%;width:141%;height:71%;transform:translate(-50%,-50%) rotate(-90deg);object-fit:fill;background:transparent;
+}
+
 :root:has(> body.battle-wide) .nct-deal-fallback {
   display: grid; place-items: center; width: 100%; height: 100%; font-size: var(--nct-type-caption); color: var(--nct-text);
 }
@@ -200,39 +204,22 @@ body.battle-wide {
 
 :where(body.battle-wide) .v3-sidebar > .turn-info {
   background: var(--nct-raised); border: 1px solid var(--nct-line); border-radius: var(--nct-radius);
+  height:196px;min-height:196px;max-height:196px;overflow:hidden;
 }
 
 :where(body.battle-wide) .turn-info #v3TableControls {
-  position: static; transform: none; max-height: none; height: auto; overflow: visible; width: 100%; padding: 12px;
+  position: static; transform: none; max-height:none;height:100%;overflow:hidden;width:100%;padding:12px;align-content:flex-start;border:0;border-radius:0;background:transparent;box-shadow:none;
 }
 
-:where(body.battle-wide) .turn-info.has-live-guide #v3TableControls {
-  display: none;
-}
 
-:where(body.battle-wide) .turn-info.has-live-guide {
-  padding: 12px;
-}
 
 :where(body.battle-wide) #v3TableGuide[data-mode="tour"] {
   border-width: 1px 1px 1px 3px; box-shadow: rgba(0, 0, 0, 0.533) 0px 12px 32px;
 }
 
-:where(body.battle-wide) #v3TableGuide[data-mode="live"] {
-  position: static; inset: auto; transform: none; display: block; width: 100%; max-width: none; min-width: 0px; max-height: none; overflow: visible; margin: 0px; padding: 0px; border: 0px; border-radius: 0px; background: transparent; box-shadow: none;
-}
 
-:where(body.battle-wide) #v3TableGuide[data-mode="live"] .v3-coach-step {
-  color: var(--nct-muted); font-size: var(--nct-type-caption); line-height: 1.5; white-space: normal; min-width: 0px;
-}
 
-:where(body.battle-wide) #v3TableGuide[data-mode="live"] .v3-guide-action {
-  margin: 8px 0px 0px; padding: 0px 0px 0px 10px; border-top: 0px; border-right: 0px; border-bottom: 0px; border-image: none; border-left: 2px solid var(--nct-line); background: transparent; font-size: var(--nct-type-body); font-weight: 400; text-align: left; color: var(--nct-text); line-height: 1.6;
-}
 
-:where(body.battle-wide) #v3TableGuide[data-mode="live"] .v3-coach-header {
-  gap: 8px;
-}
 
 :where(body.battle-wide) #v3ConcedeDialog {
   width: min(420px, -32px + 100vw); max-height: calc(100dvh - 48px); padding: 24px; margin: auto; inset: 0px; border: 1px solid var(--nct-control-line); border-radius: 8px; background: var(--nct-surface); color: var(--nct-text); box-shadow: rgba(0, 0, 0, 0.6) 0px 18px 64px;
@@ -265,8 +252,10 @@ body.battle-wide {
 :where(body.battle-wide) #v3ConcedeDialog .nct-dialog-actions button {
   font-size: var(--nct-type-control);
 }
+:where(body.battle-wide) .turn-info #v3TableControls>.v3-table-hint {display:none}
 }
 
 :where(body.battle-wide) [hidden], :where(body.battle-wide) .hide {
   display: none;
+
 }

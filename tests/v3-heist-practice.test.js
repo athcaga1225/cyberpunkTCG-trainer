@@ -48,7 +48,7 @@ const path=require('node:path');
 const html=fs.readFileSync(path.resolve(__dirname,'../v3/index.html'),'utf8');
 const ui=fs.readFileSync(path.resolve(__dirname,'../v3/turn-practice-ui.js'),'utf8');
 assert(html.includes('src="v3/heist-practice.js?v=7"'),'Heist module must load in V3');
-assert(html.indexOf('src="v3/heist-practice.js?v=7"')<html.indexOf('src="v3/turn-practice-ui.js?v=50"'),'Module must load before UI');
+assert(html.indexOf('src="v3/heist-practice.js?v=7"')<html.indexOf('src="v3/turn-practice-ui.js?v=51"'),'Module must load before UI');
 assert(html.includes('id="v3TurnPractice"'),'Practice host must be present');
 assert(ui.includes("rail.replaceChildren()"),'UI must render actual hand in tabletop rail');
 assert(ui.includes("selectedPayments=new Set()"),'UI must allow explicit selection of payment sources');
