@@ -99,9 +99,12 @@
   if(restriction(s))return null;
   for(const u of s[who].units.slice().sort((a,b)=>power(b)-power(a))){
    if(power(u)<=0)continue;
-   const legal=targets(s,who,u.id),weak=s[other(who)].units.find(d=>legal.units.includes(d.id)&&(power(d)<power(u)||(s[who].pendingRebootOptics>0&&power(d)===power(u))));
+   const rival=s[other(who)],legal=targets(s,who,u.id);
+   // Spend an attack on the strongest defeatable public threat, not field order.
+   // Do not inspect the rival's hidden hand, deck or face-down Legend identities.
+   const weak=rival.units.filter(d=>legal.units.includes(d.id)&&(power(d)<power(u)||(s[who].pendingRebootOptics>0&&power(d)===power(u)))).sort((a,b)=>power(b)-power(a))[0];
    if(weak)return {attackerId:u.id,target:{kind:'unit',defenderId:weak.id}};
-   if(legal.gigs)return {attackerId:u.id,target:{kind:'gig'}};
+   if(legal.gigs&&rival.gigs.some(g=>!rival.chromeProtection||g.value<=power(u)))return {attackerId:u.id,target:{kind:'gig'}};
   }
   return null;
  }

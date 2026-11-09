@@ -2,6 +2,7 @@
 @layer site, site-overrides, layout, theme, components;
 
 :root:has(> body.battle-wide) {
+  --nct-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23e8f3f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   --nct-type-caption: 12px; --nct-type-body: 14px; --nct-type-control: 16px; --nct-type-heading: 20px; --nct-type-title: 28px; --nct-type-display: 40px; --nct-bg: #07131b; --nct-surface: #0a1923; --nct-raised: #102630; --nct-line: #295261; --nct-control-line: #507581; --nct-muted: #9bb9c4; --nct-text: #e8f3f6; --nct-action: #fcee0a; --nct-guide: #39d6ef; --nct-warning: #e8bf70; --nct-success: #b1ee62; --nct-radius: 6px;
 }
 
@@ -123,8 +124,18 @@ body.battle-wide {
 }
 
 :where(body.battle-wide) select {
-  appearance: none; padding-right: 44px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23e8f3f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 20px 20px;
+  appearance: none; padding-right: 44px; background-image: var(--nct-select-arrow); background-repeat: no-repeat; background-position: right 14px center; background-size: 20px 20px;
 }
+
+:where(body.battle-wide) #v3CardActions select {
+ min-width:0;max-width:100%;width:100%;flex:1 1 100%;box-sizing:border-box;appearance:none;padding-right:44px;background-color:var(--nct-raised);background-image:var(--nct-select-arrow);background-repeat:no-repeat;background-position:right 14px center;background-size:20px 20px;
+}
+:where(body.battle-wide) #battle .player-hand .hand-card.is-selected::before {
+ content:"";font-size:0;background-color:var(--nct-action);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310202a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 4 4 10-10'/%3E%3C/svg%3E");background-position:center;background-size:20px 20px;background-repeat:no-repeat;
+}
+:where(body.battle-wide) #v3CardActions .v3-payment-instruction {display:block;color:var(--nct-text);line-height:1.6}
+:where(body.battle-wide) #v3CardActions .v3-payment-summary[data-payment-state="choose"]>.v3-payment-instruction {border-left:2px solid var(--nct-action);padding-left:10px}
+:where(body.battle-wide) #v3CardActions .v3-payment-summary[data-payment-state="ready"]>.v3-payment-instruction {color:var(--nct-success)}
 
 :where(body.battle-wide) #closeBattleCard, :where(body.battle-wide) #closeBoardTour, :where(body.battle-wide) .v3-coach-close, :where(body.battle-wide) .nct-icon-button {
   appearance: none; position: relative; inset: auto; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 44px; width: 44px; height: 44px; min-width: 44px; min-height: 44px; margin: 0px; padding: 0px; border: 1px solid var(--nct-control-line); border-radius: var(--nct-radius); background: var(--nct-raised); color: var(--nct-text); font-size: 0px; line-height: 0; box-shadow: none; transform: none;

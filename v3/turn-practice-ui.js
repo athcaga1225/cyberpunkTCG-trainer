@@ -280,13 +280,13 @@ function liveHandAt(x,y){
  if(!rail||!isPracticeDeck()||board.closest('.hide'))return null;
  const r=rail.getBoundingClientRect();
  if(x<r.left||x>r.right||y>r.bottom)return null;
- if(y<r.top){const raised=document.elementFromPoint(x,y)?.closest('.hand-card.is-hand-hover');return raised&&rail.contains(raised)?state.player.hand.find(c=>c.id===raised.dataset.cardId)||null:null;}
+ if(y<r.top){const raised=document.elementFromPoint(x,y)?.closest('.hand-card:is(.is-hand-hover,.is-selected)');return raised&&rail.contains(raised)?state.player.hand.find(c=>c.id===raised.dataset.cardId)||null:null;}
  // Hit regions follow the original fan slots, independent of the raised card.
  // A painted card may overlap the next slot; only pointer movement changes selection.
  const hit=document.elementFromPoint(x,y);
  if(!hit||!rail.contains(hit))return null;
  const nodes=[...rail.querySelectorAll('.hand-card[data-card-id]')];
- const node=nodes.findLast(el=>{const box=el.getBoundingClientRect(),lift=el.classList.contains('is-hand-hover')?parseFloat(getComputedStyle(el).getPropertyValue('--v3-hand-hover-lift'))||0:0;return x>=box.left&&x<=box.right&&y>=box.top+lift&&y<=box.bottom+lift});
+ const node=nodes.findLast(el=>{const box=el.getBoundingClientRect(),lift=(el.classList.contains('is-hand-hover')||el.classList.contains('is-selected'))?parseFloat(getComputedStyle(el).getPropertyValue('--v3-hand-hover-lift'))||0:0;return x>=box.left&&x<=box.right&&y>=box.top+lift&&y<=box.bottom+lift});
  if(!node)return null;
  return state.player.hand.find(c=>c.id===node.dataset.cardId)||null;
 }
@@ -415,7 +415,7 @@ function renderHand(){
   event.stopPropagation();
   selectedId=selectedId===card.id?null:card.id;attackUnitId=null;selectedLegendId=null;
   selectedPayments.clear();paymentAction=null;targetId=null;gigId=null;gigSide='player';gigDelta=0;rivalUnitId=null;defeatGearId=null;defeatGearSide='player';
-  message=selectedId?'已選取 '+card.name:'已取消選取';render();setActionTray(false);
+  message=selectedId?'已選取 '+card.name:'已取消選取';render();if(event.detail!==0){raisedHandId=card.id;board.querySelector('.hand-card[data-card-id="'+card.id+'"]')?.classList.add('is-hand-hover');}setActionTray(false);
  };
  if(state.phase==='pregame')return;
  state.player.hand.forEach((card,i)=>{
@@ -423,7 +423,6 @@ function renderHand(){
   const selected=selectedId===card.id;btn.classList.toggle('is-selected',selected);
   btn.setAttribute('aria-pressed',String(selected));
   btn.setAttribute('aria-label','選取 '+card.name+'，費用 '+card.cost+(card.sellTag?'，可變賣':''));
-  btn.title=card.name;
   const src=art.get(card.name);
   if(src){const image=document.createElement('img');image.src=src;image.alt=card.name+' 卡面';image.loading='lazy';image.decoding='async';image.draggable=false;btn.append(image)}
   else{btn.classList.add('missing-art');add('span',card.name,btn,'preview-art-fallback')}
@@ -558,7 +557,9 @@ function paymentOptions(parent){
   const context=paymentContext();if(!context)return [];
   const area=add('div','',parent,'v3-payment-summary');
   const progress=add('strong','付款 '+selectedPayments.size+' / '+context.cost+' €$',area,'v3-payment-total');progress.setAttribute('role','status');
-  add('span',context.selecting?'直接點選桌上就緒的傳奇或 Eddies；再次點擊可取消。確認前不會消耗資源。':'付款已選好，點選高亮的友方單位或正面傳奇裝備。',area);
+  const available=G.sources(state).length,remaining=Math.max(0,context.cost-selectedPayments.size);
+  const instruction=!context.selecting?'付款已選好，點選高亮的友方單位或正面傳奇裝備。':available<context.cost?'目前只有 '+available+' 個就緒資源，費用需要 '+context.cost+'。可先變賣其他手牌取得 Eddies，或改選較低費用的牌。':remaining?'先點下方黃色框的 Eddies（變賣過的牌）或就緒傳奇。還需選 '+remaining+' 張，再確認出牌。':'資源已選好，按黃色按鈕確認；確認後才會消耗。';
+  add('span',instruction,area,'v3-payment-instruction');area.dataset.paymentState=!context.selecting?'target':available<context.cost?'shortage':remaining?'choose':'ready';
   if(paymentAction==='call'||paymentAction==='solo')localTableButton('取消付款',()=>{paymentAction=null;selectedPayments.clear();render()});
   return G.sources(state);
  }
@@ -775,7 +776,9 @@ function renderPublicCounters(){
    const sides=Number(die.querySelector('b')?.textContent.replace('D',''));die.style.opacity=p.fixer.includes(sides)?'1':'.25';
   }
   renderTableResources(side,prefix);
-  const resourceZone=board.querySelector('.'+prefix+'-eddies');resourceZone?.classList.toggle('is-paying',side==='player'&&Boolean(paymentContext()?.selecting));
+  const resourceZone=board.querySelector('.'+prefix+'-eddies'),paying=side==='player'&&Boolean(paymentContext()?.selecting);resourceZone?.classList.toggle('is-paying',paying);
+  const resourceHeading=resourceZone?.querySelector(':scope>small');if(resourceHeading)resourceHeading.textContent=paying?'點選 Eddies 付款':prefix==='player'?'PLAYER / EDDIES':'OPPONENT / EDDIES';
+  if(side==='player'){const title=board.querySelector('.player-legends>small');if(title)title.textContent=paying?'付款資源 · 點選就緒傳奇或 Eddies':'PLAYER / 傳奇角色';}
   const resources=board.querySelector('.'+prefix+'-eddies .placeholder-label');if(resources){const ready=p.eddies.filter(c=>c.ready).length,total=p.eddies.length;resources.textContent=ready+' / '+total;resources.setAttribute('aria-label','Eddies 就緒 '+ready+' / '+total);resources.title='就緒 '+ready+'，總計 '+total+' 個 Eddies';}
  }
  renderTrashViewer();
@@ -928,7 +931,7 @@ function statusSummary(){
  if(state.phase==='react')return '選擇攔截、Quick 或呼叫傳奇；完成後結算。';
  if(state.turn==='ai')return '對手正在行動，需要你防守時會暫停。';
  if(state.phase==='start')return {ready:'先重置資源，再抽牌、選骰。',draw:'抽 1 張牌，接著選一顆合事佬骰。',roll:'在合事佬區選骰，再按回合區的「擲骰」。'}[state.step]||'';
- if(state.phase==='main')return '點選手牌出牌，或點選己方單位攻擊。';
+ if(state.phase==='main'){const pay=paymentContext();if(pay?.selecting&&selectedPayments.size<pay.cost)return '先點選黃色框內的 Eddies 或就緒傳奇付款，再確認出牌。';return '點選手牌出牌，或點選己方單位攻擊。';}
  return '';
 }
 function renderTableControls(){

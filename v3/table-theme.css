@@ -128,7 +128,7 @@ body.battle-wide #battle .v3-guide-dock:empty{display:none}
  body.battle-wide #battle .v3-room-buttons button{width:100%;height:44px;min-width:0;margin:0;padding:8px;white-space:nowrap}
  body.battle-wide #battle .v3-sidebar>.turn-info{height:auto;min-height:0;padding:0;overflow:visible}
  body.battle-wide #battle .player-hand .hand-card{--v3-hand-hover-lift:18px;position:relative;top:0}
- body.battle-wide #battle .player-hand .hand-card.is-hand-hover{top:calc(-1 * var(--v3-hand-hover-lift))}
+ body.battle-wide #battle .player-hand .hand-card:is(.is-hand-hover,.is-selected){top:calc(-1 * var(--v3-hand-hover-lift))}
 }
 
 /* Preparation stays with the turn status; both Fixer areas are dice-only. */
@@ -156,5 +156,12 @@ body.battle-wide #battle .v3-gig-values{flex-wrap:nowrap;gap:4px;overflow-x:auto
 
 body.battle-wide #battle :is(.player-gigs,.opponent-gigs){grid-template-columns:minmax(0,1fr) 112px;grid-template-rows:28px minmax(60px,1fr)}
 body.battle-wide #battle :is(.player-gigs,.opponent-gigs)>strong{width:112px;justify-self:end;text-align:right;line-height:1;font-variant-numeric:tabular-nums}
+
+body.battle-wide #battle .player-hand .hand-card,body.battle-wide #battle .player-hand .hand-card:is(:hover,.is-hand-hover,.is-selected),body.battle-wide #battle .player-hand .hand-card>img{box-shadow:none;filter:none;outline:none}
+body.battle-wide #battle .player-eddies.is-paying{background:color-mix(in srgb,var(--nct-action) 8%,var(--nct-surface));outline:2px solid var(--nct-action);outline-offset:-2px;box-shadow:none}
+body.battle-wide #battle .player-eddies.is-paying>small,body.battle-wide #battle .player-eddies.is-paying>.placeholder-label{display:block;color:var(--nct-action)}
+body.battle-wide #battle .player-eddies.is-paying .v3-eddie-tokens{display:flex;opacity:1;filter:none}
+body.battle-wide #battle .player-eddies.is-paying .v3-eddie-token.is-payment-available{outline:1px dashed var(--nct-action);outline-offset:1px}
+body.battle-wide #battle .player-legends .v3-legend-card.is-payment-available{outline-color:var(--nct-action)}
 
 }
