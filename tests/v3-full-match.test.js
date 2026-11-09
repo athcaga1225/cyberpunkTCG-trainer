@@ -51,7 +51,7 @@ const savedRandom = Math.random, results = {}, coverage = new Set();
 try {
  for (let seed = 1; seed <= 100; seed++) {
   Math.random = random(seed);
-  let s = H.fresh('random', {aiMode: 'mirror', preGame: true});
+  let s = process.env.V3_OPPONENT_DECK?require('../v3/starter-match').fresh(process.env.V3_TEST_DECK||'theHeist',{opponentDeckKey:process.env.V3_OPPONENT_DECK}):H.fresh('random', {aiMode: 'mirror', preGame: true});
   function use(action, ...args) {
    const previous = JSON.stringify(s), r = P[action](s, ...args);
    assert.equal(JSON.stringify(s), previous, action + ': input snapshot remains immutable');
@@ -116,6 +116,6 @@ try {
   const key = s.winner + ':' + s.outcome.reason; results[key] = (results[key] || 0) + 1;
  }
 } finally { Math.random = savedRandom; }
-if(process.env.V3_TEST_DECK!=='embracingPower')for (const key of ['player:seven-at-start', 'ai:seven-at-start', 'ai:overtime-seven']) assert(results[key] > 0, key);
+if(!process.env.V3_OPPONENT_DECK&&process.env.V3_TEST_DECK!=='embracingPower')for (const key of ['player:seven-at-start', 'ai:seven-at-start', 'ai:overtime-seven']) assert(results[key] > 0, key);
 for (const key of ['sell', 'play', 'reactAttack', 'defend', 'resolveEffect', 'ai-call', 'ai-go-solo', 'ai-gear']) assert(coverage.has(key), key);
 console.log('PASS 100 seeded complete random-opening matches, both first players, keep/Mulligan, exact inventory/dice conservation after every action, immutable commands, automatic AI/effect resumption, normal and Overtime outcomes, and terminal action guards:', JSON.stringify(results));

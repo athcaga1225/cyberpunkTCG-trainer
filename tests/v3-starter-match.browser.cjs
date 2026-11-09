@@ -1,0 +1,13 @@
+'use strict';
+const {chromium}=require('playwright'),assert=require('node:assert/strict');
+(async()=>{const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});try{
+ const page=await browser.newPage({viewport:{width:1280,height:720},reducedMotion:'reduce'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto((process.env.V3_TEST_URL||'http://127.0.0.1:8035/v3/')+'#battle');
+ const own=page.getByRole('combobox',{name:'選擇實戰牌組',exact:true}),rival=page.getByRole('combobox',{name:'選擇對手牌組',exact:true}),scenario=page.getByRole('combobox',{name:'選擇開局方式',exact:true}),mode=page.getByRole('combobox',{name:'選擇對手模式',exact:true});
+ await scenario.selectOption('quick');await rival.selectOption('embracingPower');assert.equal(await scenario.inputValue(),'random');assert.equal(await scenario.locator('option[value="quick"]').evaluate(e=>e.disabled),true);assert.match(await page.locator('.v3-room-panel').innerText(),/The Heist vs Embracing Power/);
+ await own.selectOption('embracingPower');assert.equal(await rival.inputValue(),'embracingPower');assert.equal(await mode.locator('option[value="script"]').evaluate(e=>e.disabled),true);await rival.selectOption('theHeist');assert.match(await page.locator('.v3-room-panel').innerText(),/Embracing Power vs The Heist/);
+ await own.selectOption('theHeist');await mode.selectOption('script');assert.equal(await rival.count(),0);assert.equal(await scenario.inputValue(),'basic');await mode.selectOption('mirror');assert.equal(await rival.inputValue(),'same');await rival.selectOption('embracingPower');
+ const roll=page.getByRole('button',{name:'雙方擲 d20 決定選擇權',exact:true});const box=await roll.boundingBox();assert(box.y>=0&&box.y+box.height<=720,'opening action remains accessible');await page.screenshot({path:'/tmp/v3-cross-opening.png'});
+ await page.evaluate(()=>{const saved=Math.random;let rolls=[.95,.1];Math.random=()=>rolls.length?rolls.shift():saved();});await roll.click();await page.getByRole('button',{name:'我方選擇先攻',exact:true}).click();await page.getByRole('button',{name:'保留這六張',exact:true}).click();await page.getByRole('button',{name:'開始對戰',exact:true}).click();assert.equal(await page.locator('.player-hand .hand-card').count(),6);assert.match(await page.locator('.v3-room-panel').innerText(),/The Heist vs Embracing Power/);assert.doesNotMatch(await page.locator('.v3-room-panel').innerText(),/鏡像對手/);assert.deepEqual(errors,[]);
+ console.log('PASS cross-deck setup transitions, fixed-opening guards, script reset, both own presets, visible 720px opening action, and correct opponent label.');
+}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

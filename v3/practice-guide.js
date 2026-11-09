@@ -24,7 +24,7 @@
    if(!C.blockers(s).length&&!C.quicks(s).some(c=>c.cost<=sources(s).length))return hint(5,'defense','目前沒有可用的已支援反應。按「結束反應並結算」，繼續對手回合。');
    return hint(5,'defense','對手已宣告攻擊。可點選高亮的 Blocker 攔截，或選 Quick 手牌並支付；完成後按「結束反應並結算」。關閉此提示不會略過防守。');
   }
-  if(s.turn==='ai')return hint(6,'opponent',s.ai.practiceBot?.kind==='mirror-the-heist'?'觀察鏡像對手：正在自動重置、抽牌、擲骰、變賣及出牌。':'固定腳本沒有自動行動，請略過至下一回合。');
+  if(s.turn==='ai')return hint(6,'opponent',s.ai.practiceBot?.kind==='mirror-the-heist'?'觀察自動對手：正在自動重置、抽牌、擲骰、變賣及出牌。':'固定腳本沒有自動行動，請略過至下一回合。');
   if(s.phase==='start')return hint(2,s.step,{ready:'在回合狀態區點「重置資源」，開始準備階段。',draw:'在牌庫點「抽 1 張」，將牌加入手牌。',roll:'點合事佬區的一顆骰子，再按同區的「擲骰」；d20 必須最後使用。'}[s.step]);
   const card=s.player.hand.find(c=>c.id===selectedId),available=sources(s);
   if(card){
@@ -37,7 +37,7 @@
   const attacker=s.player.units.find(u=>u.id===attackUnitId);
   if(attacker&&!canAttack(attacker))return hint(4,'unavailable','此單位目前無法攻擊：'+(attacker.cannotAttack?'卡文規定不能攻擊。':attacker.lag?'仍有 Lag。':!attacker.ready?'本回合已使用。':'攻擊能力尚未支援。')+'可改選其他單位或結束回合。');
   if(attacker&&!targets(s,attacker).units.length&&!targets(s,attacker).gigs)return hint(6,'end','此單位目前沒有可結算的攻擊目標，或場上有尚未支援的能力；可繼續出牌或結束回合。');
-  if(attacker)return hint(5,'target','點對手已使用的單位或「攻擊委託區」。鏡像對手會自動使用已支援的防守反應；固定腳本則先選防守反應。');
+  if(attacker)return hint(5,'target','點對手已使用的單位或「攻擊委託區」。自動對手會自動使用已支援的防守反應；固定腳本則先選防守反應。');
   if(s.player.units.length){
    if(s.player.units.some(u=>{const t=targets(s,u);return t.units.length||t.gigs}))return hint(5,'attack','點選己方就緒單位，再指定對手目標；也可以繼續出牌或結束回合。');
    return hint(6,'end','單位已進場。本回合無可用攻擊目標或單位仍有 Lag；點「結束回合」觀察對手，也可繼續出牌。');
