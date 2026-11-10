@@ -28,10 +28,23 @@
   s.opening={resolved:false,playerRoll,rivalRoll,winner:playerRoll>rivalRoll?'player':'ai'};
   return ok(s,'先後攻擲骰：我方 '+playerRoll+'、對手 '+rivalRoll+'；'+(s.opening.winner==='player'?'由我方選先後攻。':'由腳本對手決定先後攻。'));
  }
+ // Only the bot's own six cards and public first-player order inform this policy.
+ function redrawOpeningHand(p,random){
+  p.deck=effects.shuffled([...p.deck,...p.hand],random);p.hand=[];
+  for(let i=0;i<6;i++)p.hand.push(p.deck.pop());
+ }
+ function chooseOpponentOpening(s,random){
+  const opening=s.opening;if(opening.handDecisions.ai!==null)return;
+  const hand=s.ai.hand,limit=opening.first==='ai'?3:4;
+  const keep=hand.some(u=>u.type==='Unit'&&!u.deferredEffect&&!u.unimplementedEffect&&Number.isFinite(u.cost)&&u.cost<=limit&&hand.some(c=>c.id!==u.id&&c.sellTag));
+  opening.handDecisions.ai=keep?'keep':'mulligan';opening.mulliganUsed.ai=!keep;
+  if(!keep)redrawOpeningHand(s.ai,random);
+ }
+ const opponentOpeningText=s=>s.opening.handDecisions.ai==='mulligan'?'對手已整手重抽一次':'對手保留起手';
  function chooseOrder(state,firstPlayer,random=Math.random){
   if(state.phase!=='pregame'||state.opening?.resolved||state.opening?.orderChosen||!state.opening?.winner)return fail('請先擲骰決定選擇權');
   if(firstPlayer!=='player'&&firstPlayer!=='ai')return fail('先攻選擇無效');
-  // No opponent decision engine exists: the scripted defender always picks first.
+  // The bot keeps the public order-choice policy of choosing first.
   if(state.opening.winner==='ai'&&firstPlayer!=='ai')return fail('本練習的腳本對手取得選擇權後固定選擇先攻');
   const s=copy(state);
   if(s.setupKind==='random'){
@@ -42,9 +55,10 @@
     p.legends.forEach((l,i)=>{l.ready=who!==firstPlayer||i>=2;l.faceUp=false;delete l.knownToOwner;});
     for(let i=0;i<6;i++)p.hand.push(p.deck.pop());
    }
-   Object.assign(s.opening,{first:firstPlayer,orderChosen:true,handDecisions:{player:null,ai:firstPlayer==='ai'?'keep':null},mulliganUsed:{player:false,ai:false}});
+   Object.assign(s.opening,{first:firstPlayer,orderChosen:true,handDecisions:{player:null,ai:null},mulliganUsed:{player:false,ai:false}});
+   if(firstPlayer==='ai')chooseOpponentOpening(s,random);
    s.step='mulligan';
-   return ok(s,'雙方已洗牌並抽取六張起手。'+(firstPlayer==='ai'?'對手先攻並選擇保留；現在輪到我方。':'我方先攻，請先決定保留或重抽。'));
+   return ok(s,'雙方已洗牌並抽取六張起手。'+(firstPlayer==='ai'?'對手先攻；'+opponentOpeningText(s)+'，現在輪到我方。':'我方先攻，請先決定保留或重抽。'));
   }
   return startMatch(s,firstPlayer);
  }
@@ -54,14 +68,12 @@
   const s=copy(state),p=s.player;
   if(choice==='mulligan'){
    if(p.hand.length!==6||p.deck.length!==34)return fail('起手資料不完整，不能重抽');
-   p.deck=effects.shuffled([...p.deck,...p.hand],random);p.hand=[];
-   for(let i=0;i<6;i++)p.hand.push(p.deck.pop());
+   redrawOpeningHand(p,random);
    s.opening.mulliganUsed.player=true;
   }
   s.opening.handDecisions.player=choice;
-  // Conservative, explicit bot policy: always keep; never reads the human hand.
-  s.opening.handDecisions.ai='keep';s.step='confirm-opening';
-  return ok(s,(choice==='mulligan'?'已將整手洗回牌庫並重抽六張；本局不能再次重抽。':'我方保留六張起手。')+'對手保留起手；確認後開始對戰。');
+  chooseOpponentOpening(s,random);s.step='confirm-opening';
+  return ok(s,(choice==='mulligan'?'已將整手洗回牌庫並重抽六張；本局不能再次重抽。':'我方保留六張起手。')+opponentOpeningText(s)+'；確認後開始對戰。');
  }
  function beginOpening(state){
   if(state.setupKind!=='random'||state.phase!=='pregame'||!state.opening?.orderChosen||state.opening.resolved||!state.opening.handDecisions?.player||!state.opening.handDecisions?.ai)return fail('請先完成雙方起手決定');

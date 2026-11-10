@@ -20,12 +20,12 @@ for(const own of keys)for(const rival of keys){
   assert.equal(P.ready(s).ok,false);assert.equal(P.openingHand(s,choice).ok,false);assert.equal(P.beginOpening(s).ok,false);assert.equal(JSON.stringify(s),initial);
   const tied=good(P.rollForOrder(s,10,10));assert.equal(tied.opening.winner,null);assert.equal(tied.player.hand.length+tied.ai.hand.length,0);assert.equal(P.chooseOrder(tied,first,random).ok,false);assert.equal(randomCalls,0);
   s=good(P.rollForOrder(s,20,1));s=good(P.chooseOrder(s,first,random));verify(s,expected);
-  assert.equal(s.opening.first,first);assert.equal(s.opening.handDecisions.ai,first==='ai'?'keep':null);
+  assert.equal(s.opening.first,first);if(first==='ai')assert(['keep','mulligan'].includes(s.opening.handDecisions.ai));else assert.equal(s.opening.handDecisions.ai,null);
   for(const w of who){assert.deepEqual(s[w].legends.map(l=>l.ready),w===first?[false,false,true]:[true,true,true]);distinct[w].add(s[w].hand.map(c=>c.id).join());legendOrders[w].add(s[w].legends.map(l=>l.id).join());}
-  const old=JSON.stringify(s),rivalBefore=JSON.stringify(s.ai),legendsBefore=JSON.stringify(s.player.legends),handBefore=JSON.stringify(s.player.hand),deckBefore=JSON.stringify(s.player.deck);
+  const old=JSON.stringify(s),rivalBefore=JSON.stringify(s.ai),rivalDecision=s.opening.handDecisions.ai,rivalLegends=JSON.stringify(s.ai.legends),legendsBefore=JSON.stringify(s.player.legends),handBefore=JSON.stringify(s.player.hand),deckBefore=JSON.stringify(s.player.deck);
   const r=P.openingHand(s,choice,seeded(seed+1000));assert.equal(JSON.stringify(s),old,'opening command does not mutate its input');s=good(r);verify(s,expected);
-  assert.equal(JSON.stringify(s.ai),rivalBefore,'human Mulligan never redraws or changes the rival');assert.equal(JSON.stringify(s.player.legends),legendsBefore);
-  assert.equal(s.opening.mulliganUsed.player,choice==='mulligan');assert.equal(s.opening.handDecisions.ai,'keep');
+  if(rivalDecision!==null||s.opening.handDecisions.ai==='keep')assert.equal(JSON.stringify(s.ai),rivalBefore,'an already decided rival hand never changes again');assert.equal(JSON.stringify(s.ai.legends),rivalLegends);assert.equal(JSON.stringify(s.player.legends),legendsBefore);
+  assert.equal(s.opening.mulliganUsed.player,choice==='mulligan');assert(['keep','mulligan'].includes(s.opening.handDecisions.ai));assert.equal(s.opening.mulliganUsed.ai,s.opening.handDecisions.ai==='mulligan');
   if(choice==='keep'){assert.equal(JSON.stringify(s.player.hand),handBefore);assert.equal(JSON.stringify(s.player.deck),deckBefore);}
   const confirmed=JSON.stringify(s);for(const next of ['keep','mulligan','partial'])assert.equal(P.openingHand(s,next).ok,false);assert.equal(P.chooseOrder(s,'player').ok,false);assert.equal(P.rollForOrder(s,1,20).ok,false);assert.equal(P.ready(s).ok,false);assert.equal(JSON.stringify(s),confirmed);
   s=good(P.beginOpening(s));assert.equal(s.turn,first);assert.equal(s.opening.resolved,true);assert.equal(s.step,first==='player'?'ready':'pendingBot');assert.equal(P.beginOpening(s).ok,false);assert.equal(P.openingHand(s,choice).ok,false);

@@ -1236,7 +1236,7 @@ function render(){
   }
 
   const modeHelp=add('details','',order,'v3-opening-help');add('summary','對手模式說明',modeHelp);
-  add('p',opponentMode==='mirror'?(scenario==='random'?'雙方洗牌並抽六張；對手保留起手，會呼叫傳奇、Go Solo、出牌、裝備與使用程式，攻擊時等待你的防守反應。':'固定練習保留指定起手與牌庫順序；自動對手會自動執行回合並等待你的防守反應。'):'固定目標模式保留原本預先配置的單位與委託骰，可測試腳本 Blocker／Quick。',modeHelp);
+  add('p',opponentMode==='mirror'?(scenario==='random'?'雙方洗牌並抽六張；對手會判斷保留或重抽一次，會呼叫傳奇、Go Solo、出牌、裝備與使用程式，攻擊時等待你的防守反應。':'固定練習保留指定起手與牌庫順序；自動對手會自動執行回合並等待你的防守反應。'):'固定目標模式保留原本預先配置的單位與委託骰，可測試腳本 Blocker／Quick。',modeHelp);
   if(opponentMode==='script'){
   const defenderLabel=add('label','腳本對手反應（測試模式）',order);
   const defenderSelect=document.createElement('select');defenderSelect.setAttribute('aria-label','選擇測試對手反應');
@@ -1262,7 +1262,7 @@ function render(){
     add('small',c.cost+' €$',item);
    }
    if(!opening.handDecisions.player){
-    add('p','保留六張，或整手洗回重抽一次；可能抽回原牌。'+(opening.first==='ai'?'對手已先決定保留。':'我方決定後，對手再決定。'),order);
+    add('p','保留六張，或整手洗回重抽一次；可能抽回原牌。'+(opening.first==='ai'?(opening.handDecisions.ai==='mulligan'?'對手已先重抽一次。':'對手已先決定保留。'):'我方決定後，對手再決定。'),order);
     const decisions=add('div','',order,'v3-opening-actions');
     command('保留這六張',()=>P.openingHand(state,'keep'),decisions).classList.add('v3-opening-primary');
     command('整手重抽一次',()=>P.openingHand(state,'mulligan'),decisions);

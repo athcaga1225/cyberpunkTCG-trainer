@@ -45,6 +45,7 @@ on:
       - 'tests/v3-outcomes.test.js'
       - 'tests/v3-full-match.test.js'
       - 'tests/v3-ai-strategy.test.js'
+      - 'tests/v3-ai-opening.test.js'
       - 'tests/v3-ai-programs.test.js'
       - '.github/workflows/v3-lessons.yml'
   workflow_dispatch:
@@ -98,6 +99,8 @@ jobs:
         run: V3_TEST_DECK=embracingPower node tests/v3-full-match.test.js
       - name: Verify active mirror Call, Go Solo and Gear decisions
         run: node tests/v3-ai-strategy.test.js
+      - name: Verify own-hand AI Mulligan policy and first-player decision order
+        run: node tests/v3-ai-opening.test.js
       - name: Verify AI main Programs and defensive Call
         run: node tests/v3-ai-programs.test.js
 

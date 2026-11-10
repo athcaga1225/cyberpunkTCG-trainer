@@ -17,8 +17,8 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   assert.match(await opening.innerText(),/隨機起手 \/ 確認六張手牌/);assert.match(await opening.innerText(),/可能抽回原牌/);const signature=s.player.hand.map(c=>c.id).join();assert(!hands.has(signature),'a fresh unseeded deal is not the previous fixed hand');hands.add(signature);
   assert.deepEqual(await opening.locator('.v3-opening-card').evaluateAll(es=>es.map(e=>e.dataset.cardId)),s.player.hand.map(c=>c.id));assert.equal(await page.locator('.opponent-hand img').count(),0,'no rival faces are rendered in setup');
   const openingState=JSON.stringify(s);await page.waitForTimeout(1050);assert.equal(JSON.stringify(await state()),openingState,'no AI draw/roll/action before human confirmation');assert.equal(await page.locator('[data-v3-deal-layer]').count(),0);
-  const rivalBefore=JSON.stringify(s.ai),myHand=JSON.stringify(s.player.hand),myDeck=JSON.stringify(s.player.deck);
-  await click(choice==='keep'?'保留這六張':'整手重抽一次');s=await state();assert.equal(JSON.stringify(s.ai),rivalBefore);assert.deepEqual(ids(s.player),before.player);assert.equal(s.opening.mulliganUsed.player,choice==='mulligan');
+  const rivalBefore=JSON.stringify(s.ai),rivalDecision=s.opening.handDecisions.ai,myHand=JSON.stringify(s.player.hand),myDeck=JSON.stringify(s.player.deck);
+  await click(choice==='keep'?'保留這六張':'整手重抽一次');s=await state();if(rivalDecision!==null||s.opening.handDecisions.ai==='keep')assert.equal(JSON.stringify(s.ai),rivalBefore);assert.deepEqual(ids(s.ai),before.ai);assert.equal(s.opening.mulliganUsed.ai,s.opening.handDecisions.ai==='mulligan');assert.deepEqual(ids(s.player),before.player);assert.equal(s.opening.mulliganUsed.player,choice==='mulligan');
   if(choice==='keep'){assert.equal(JSON.stringify(s.player.hand),myHand);assert.equal(JSON.stringify(s.player.deck),myDeck);}
   assert.equal(await opening.getByRole('button',{name:'整手重抽一次',exact:true}).count(),0);assert.equal(s.phase,'pregame');assert.equal(s.ai.practiceBot.turnsTaken,0);
   await page.evaluate(()=>window.__flights=[]);await click('開始對戰');await page.waitForFunction(()=>window.__openingCommands.includes('beginOpening'));
