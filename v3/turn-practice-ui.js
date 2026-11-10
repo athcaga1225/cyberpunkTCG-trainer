@@ -1191,7 +1191,7 @@ function render(){
  add('p',deckName()+' 支援隨機起手與一次整手重抽。鏡像模式包含傳奇、裝備能力、攻擊與防守反應；對手策略仍有限。',root,'v3-turn-note');
  if(state.phase==='pregame'){
   const order=add('div','',openingRoot,'v3-selected-detail');
-  add('strong',state.opening?.orderChosen?'開局設定 / 確認六張起手':'開局設定 / 選擇牌組與先後攻',order);
+  add('strong',state.opening?.orderChosen?'隨機起手 / 確認六張手牌':'開局設定 / 選擇牌組與先後攻',order);
   add('p',message===initial?'選擇設定後，擲 d20 決定先後攻。':message,order,'v3-opening-status').setAttribute('role','status');
   if(!state.opening?.orderChosen){
   const setupFields=add('div','',order,'v3-setup-fields');
@@ -1262,7 +1262,7 @@ function render(){
     add('small',c.cost+' €$',item);
    }
    if(!opening.handDecisions.player){
-    add('p','可保留目前六張，或將整手洗回牌庫重抽六張；每局只能重抽一次，不能只換部分牌。'+(opening.first==='ai'?'對手已先決定保留。':'我方決定後，對手再決定。'),order);
+    add('p','保留六張，或整手洗回重抽一次；可能抽回原牌。'+(opening.first==='ai'?'對手已先決定保留。':'我方決定後，對手再決定。'),order);
     const decisions=add('div','',order,'v3-opening-actions');
     command('保留這六張',()=>P.openingHand(state,'keep'),decisions).classList.add('v3-opening-primary');
     command('整手重抽一次',()=>P.openingHand(state,'mulligan'),decisions);

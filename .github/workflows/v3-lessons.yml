@@ -40,6 +40,8 @@ on:
       - 'tests/v3-heist-effects.test.js'
       - 'tests/v3-spend-effects.test.js'
       - 'tests/v3-opening.test.js'
+      - 'tests/v3-opening-matrix.test.js'
+      - 'tests/v3-opening-matrix.browser.cjs'
       - 'tests/v3-outcomes.test.js'
       - 'tests/v3-full-match.test.js'
       - 'tests/v3-ai-strategy.test.js'
@@ -84,6 +86,8 @@ jobs:
         run: node tests/v3-spend-effects.test.js
       - name: Verify shuffled opening and one-time Mulligan
         run: node tests/v3-opening.test.js
+      - name: Verify 1600 opening flows across all four starter matchups
+        run: node tests/v3-opening-matrix.test.js
       - name: Verify Overtime and match outcomes
         run: node tests/v3-outcomes.test.js
       - name: Verify 100 complete seeded desktop match state flows

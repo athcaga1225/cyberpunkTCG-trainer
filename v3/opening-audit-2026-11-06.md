@@ -21,4 +21,4 @@
 
 ## 限制
 
-僅 The Heist 鏡像模式提供隨機開局，未加入自訂牌組或 Embracing Power。對手沒有 Mulligan 策略；隨機鏡像後續已加入主動呼叫、Go Solo 與裝備，見 [鏡像策略驗證](ai-strategy-audit-2026-11-06.md)。Overtime 與基本勝負後續已接入，見 [勝負驗證](outcomes-audit-2026-11-06.md)；完整正式對局驗證仍待後續完成。
+目前 The Heist、Embracing Power 及其四種配對都支援隨機開局，自訂牌組仍未接入。對手沒有 Mulligan 策略；隨機鏡像後續已加入主動呼叫、Go Solo 與裝備，見 [鏡像策略驗證](ai-strategy-audit-2026-11-06.md)。Overtime 與基本勝負後續已接入，見 [勝負驗證](outcomes-audit-2026-11-06.md)；兩套牌組與跨牌組完整對局已有固定種子驗證，但未窮舉所有卡牌與互動。雙方隨機發牌、八次真實亂數桌面開局及 1,600 組開局分支的最新驗收見 [隨機開局驗收](opening-acceptance-2026-11-10.md)。
