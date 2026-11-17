@@ -29,4 +29,20 @@
  }
  search?.addEventListener('input',filterTerms);
  clear?.addEventListener('click',()=>{search.value='';filterTerms();search.focus()});
+ // Keep the sticky chapter list below the header when its container meets the footer.
+ const learning=document.getElementById('learn'),layout=learning?.querySelector('.learning-layout'),rail=learning?.querySelector('.learning-sidebar');
+ let railFrame=0;
+ function sizeChapterRail(){
+  railFrame=0;if(!rail)return;
+  if(learning.classList.contains('hide')||innerWidth<=800){rail.style.removeProperty('--learning-rail-space');return;}
+  const top=parseFloat(getComputedStyle(rail).top)||0;
+  const available=Math.max(0,Math.floor(Math.min(innerHeight-top-20,layout.getBoundingClientRect().bottom-top)));
+  rail.style.setProperty('--learning-rail-space',available+'px');
+ }
+ function queueChapterRail(){if(!railFrame)railFrame=requestAnimationFrame(sizeChapterRail)}
+ window.addEventListener('scroll',queueChapterRail,{passive:true});
+ window.addEventListener('resize',queueChapterRail);
+ window.addEventListener('hashchange',queueChapterRail);
+ if(layout&&window.ResizeObserver)new ResizeObserver(queueChapterRail).observe(layout);
+ queueChapterRail();
 })();
