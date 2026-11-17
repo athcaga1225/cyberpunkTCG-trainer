@@ -72,17 +72,20 @@ body:not(.battle-wide) .home-closing>span {display:block;color:var(--site-muted)
 body:not(.battle-wide) .site-page-heading {display:flex;justify-content:space-between;align-items:flex-end;gap:40px;padding:62px 0 46px;margin-bottom:40px;border-bottom:1px solid var(--site-line)}
 body:not(.battle-wide) .site-page-heading h1 {font-size:var(--site-type-page);line-height:1.15;font-weight:800;letter-spacing:-.06em;color:var(--site-text);margin:0}
 body:not(.battle-wide) .site-page-heading>p {font-size:var(--site-type-body);line-height:1.8;color:var(--site-muted);margin:0 0 3px;max-width:430px}
+body:not(.battle-wide) #learn .site-page-heading h1 {white-space:nowrap}
+body:not(.battle-wide) #learn .site-page-heading {display:block}
+body:not(.battle-wide) #learn .site-page-heading>p {max-width:none;margin:20px 0 0}
 body:not(.battle-wide) .learning-layout {display:grid;grid-template-columns:250px minmax(0,1fr);gap:64px;align-items:stretch;height:calc(100dvh - 132px);min-height:0;scroll-margin-top:112px}
 body:not(.battle-wide) .learning-sidebar {display:flex;flex-direction:column;min-width:0;min-height:0}
 body:not(.battle-wide) .learning-sidebar>.site-eyebrow {font-size:var(--site-type-caption);color:#9d9390;margin-bottom:12px}
 body:not(.battle-wide) #learn #chapterNav {display:flex;flex-direction:column;gap:0;margin:0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
-body:not(.battle-wide) #learn #chapterNav button {display:grid;grid-template-columns:26px minmax(0,1fr) 14px;align-items:center;gap:10px;width:100%;min-height:44px;padding:10px 10px 10px 0;border:0;border-radius:0;background:none;color:#a9a2a0;text-align:left;font-size:var(--site-type-body);line-height:1.35;font-weight:400}
+body:not(.battle-wide) #learn #chapterNav button {display:grid;grid-template-columns:26px minmax(0,1fr) 14px;align-items:center;gap:10px;width:100%;min-height:44px;padding:10px 10px 10px 0;border:0;border-bottom:1px solid #393536;border-radius:0;background:none;color:#a9a2a0;text-align:left;font-size:var(--site-type-body);line-height:1.35;font-weight:400}
 body:not(.battle-wide) #learn #chapterNav .chapter-index {color:#908886;font:500 var(--site-type-caption)/1.5 system-ui,sans-serif}
 body:not(.battle-wide) #learn #chapterNav .chapter-name {font-size:var(--site-type-body);line-height:1.4}
 body:not(.battle-wide) #learn #chapterNav .chapter-state {font:500 var(--site-type-body)/1.4 system-ui,sans-serif;text-align:right}
 body:not(.battle-wide) #learn #chapterNav button:is([aria-current="step"],:hover) {background:none;color:var(--site-text);font-weight:600}
 body:not(.battle-wide) #learn #chapterNav button[aria-current="step"] :is(.chapter-index,.chapter-state) {color:var(--site-accent)}
-body:not(.battle-wide) #learn #chapterNav button.completed:not([aria-current="step"]) {background:none;border:0;color:#bcb8b0}
+body:not(.battle-wide) #learn #chapterNav button.completed:not([aria-current="step"]) {background:none;border:0;border-bottom:1px solid #393536;color:#bcb8b0}
 body:not(.battle-wide) #learn #chapterNav button.completed .chapter-state {color:#9fc282}
 body:not(.battle-wide) .learning-reference-link {display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;font-size:var(--site-type-body);text-align:left;color:var(--site-muted);background:none;border:0;border-top:1px solid var(--site-line);margin-top:16px;padding:18px 0;min-height:48px}
 body:not(.battle-wide) .learning-reference-link:hover {color:var(--site-accent)}
@@ -100,8 +103,8 @@ body:not(.battle-wide) #learn #labStage .chapter-learning p {font-size:var(--sit
 body:not(.battle-wide) #learn .lesson-colors {border:0;background:none;padding:0;margin:30px 0}
 body:not(.battle-wide) #learn .lesson-colors-label {font-size:var(--site-type-body);font-weight:600;margin:0 0 18px}
 body:not(.battle-wide) #learn .lesson-colors-row {gap:14px}
-body:not(.battle-wide) #learn .lesson-colors-row button {background:none;border:0;border-top:3px solid;padding:13px 8px;min-height:48px;font-size:var(--site-type-body);border-radius:0;color:#a9a2a0;box-shadow:none}
-body:not(.battle-wide) #learn .lesson-colors-row button[aria-pressed="true"] {background:#1c1a1b;color:var(--site-text)}
+body:not(.battle-wide) #learn .lesson-colors-row button {position:relative;background:#262325;border:1px solid #655e60;border-top:3px solid;padding:15px 30px 15px 12px;min-height:52px;font-size:var(--site-type-body);border-radius:0;color:#f4f2ef;box-shadow:none;cursor:pointer}
+body:not(.battle-wide) #learn .lesson-colors-row button[aria-pressed="true"] {background:#3d3636;border-right-color:#b7a8a5;border-bottom-color:#b7a8a5;border-left-color:#b7a8a5;color:var(--site-text)}
 body:not(.battle-wide) #learn .lesson-colors-details {border:0;background:none;padding:0;margin-top:18px}
 body:not(.battle-wide) #learn .lesson-color-detail {background:none;border:0;padding:0}
 body:not(.battle-wide) #learn .lesson-color-title {font-size:var(--site-type-body);color:var(--site-text)}
@@ -109,8 +112,8 @@ body:not(.battle-wide) #learn .lesson-color-description {font-size:var(--site-ty
 body:not(.battle-wide) #learn .chapter-quiz {padding-top:28px;margin-top:34px;border-top:1px solid var(--site-line)}
 body:not(.battle-wide) #learn .chapter-quiz p {font-size:var(--site-type-body);line-height:1.9;color:var(--site-text)}
 body:not(.battle-wide) #learn #labStage>.actions {display:grid;gap:10px;margin:24px 0}
-body:not(.battle-wide) #learn #labStage>.actions .btn {display:block;width:100%;text-align:left;white-space:normal;line-height:1.7;padding:16px 20px;font-size:var(--site-type-body);font-weight:400;background:var(--site-raised);border:0;border-radius:0;color:var(--site-text)}
-body:not(.battle-wide) #learn #labStage>.actions .btn:hover {background:#262122;color:#fff}
+body:not(.battle-wide) #learn #labStage>.actions .btn {display:flex;justify-content:space-between;align-items:center;gap:24px;width:100%;text-align:left;white-space:normal;line-height:1.7;padding:16px 20px;font-size:var(--site-type-body);font-weight:500;background:#272426;border:1px solid #79706d;border-radius:0;color:var(--site-text);cursor:pointer}
+body:not(.battle-wide) #learn #labStage>.actions .btn:hover {background:#3c302e;border-color:var(--site-accent);color:#fff}
 body:not(.battle-wide) #learn .chapter-actions {padding:24px 0 0;margin-top:32px;border-top:1px solid var(--site-line)}
 body:not(.battle-wide) #learn .chapter-actions .btn {font-size:var(--site-type-body);min-height:48px}
 body:not(.battle-wide) #learn .lesson-feedback {border:0;border-left:2px solid;padding:14px 18px;background:#19191a;border-radius:0}
@@ -167,6 +170,61 @@ body:not(.battle-wide) .footer-links {display:flex;align-items:center;gap:24px}
 body:not(.battle-wide) .footer-links :is(button,a) {font-size:var(--site-type-body);font-weight:400;border:0;background:none;padding:8px 0;color:var(--site-muted);text-decoration:none}
 body:not(.battle-wide) .footer-links :is(button,a):hover {color:var(--site-text)}
 body:not(.battle-wide) .site-footer>p {font-size:var(--site-type-caption);margin:22px 0 0;color:#817a78;line-height:1.8}
+body:not(.battle-wide) #learn .lesson-colors-row button::after {content:"＋";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:var(--site-type-body);color:#c9bdb9}
+body:not(.battle-wide) #learn .lesson-colors-row button[aria-pressed="true"]::after {content:"✓";color:#fff}
+body:not(.battle-wide) #learn .lesson-colors-row button:hover {background:#3c3535;border-right-color:#b7a8a5;border-bottom-color:#b7a8a5;border-left-color:#b7a8a5;color:#fff}
+body:not(.battle-wide) #learn #labStage>.actions .btn::after {content:"→";flex:0 0 auto;color:var(--site-accent);font-size:var(--site-type-card)}
+body:not(.battle-wide) #rules {padding-top:0}
+body:not(.battle-wide) .rules-layout {display:grid;grid-template-columns:220px minmax(0,1fr);gap:64px;align-items:start}
+body:not(.battle-wide) .rules-index {position:sticky;top:112px;min-width:0}
+body:not(.battle-wide) .rules-index>.site-eyebrow {color:var(--site-muted)}
+body:not(.battle-wide) .rules-index nav {display:flex;flex-direction:column;gap:0}
+body:not(.battle-wide) .rules-index nav button {display:flex;align-items:center;gap:12px;width:100%;padding:18px 0;border:0;border-bottom:1px solid var(--site-line);background:none;color:var(--site-text);text-align:left;font-size:var(--site-type-body);cursor:pointer}
+body:not(.battle-wide) .rules-index nav button span {color:var(--site-accent);font-size:var(--site-type-caption)}
+body:not(.battle-wide) .rules-index nav button b {margin-left:auto;color:var(--site-muted);font-weight:400}
+body:not(.battle-wide) .rules-index nav button:hover {color:var(--site-accent)}
+body:not(.battle-wide) #rules .rules-official-link {margin:0;text-align:left}
+body:not(.battle-wide) #rules .rules-official-link .rules-source {display:inline-block;margin:28px 0 12px;color:var(--site-text);font-size:var(--site-type-body);text-underline-offset:6px}
+body:not(.battle-wide) .rules-index>p {font-size:var(--site-type-caption);color:var(--site-muted);line-height:1.8}
+body:not(.battle-wide) .rules-reading {min-width:0}
+body:not(.battle-wide) #rules .rule-section {padding:0 0 52px;margin-bottom:44px;border-bottom:1px solid var(--site-line);scroll-margin-top:112px}
+body:not(.battle-wide) #rules .rule-section-heading .number {font-size:var(--site-type-caption);letter-spacing:.12em;color:var(--site-accent)}
+body:not(.battle-wide) #rules h2 {font-size:var(--site-type-section);line-height:1.4;letter-spacing:-.03em;color:var(--site-text);margin:16px 0 28px}
+body:not(.battle-wide) #rules h3 {font-size:var(--site-type-body);font-weight:650;color:var(--site-text);margin:22px 0 12px}
+body:not(.battle-wide) #rules .rule-section p {font-size:var(--site-type-body);line-height:1.85;color:#bcb5b1}
+body:not(.battle-wide) .rules-key-facts {display:grid;grid-template-columns:1fr 1.3fr;gap:32px;margin:32px 0}
+body:not(.battle-wide) .rules-key-facts>div {border-top:2px solid var(--site-accent);padding-top:24px}
+body:not(.battle-wide) .rule-figure {font-size:var(--site-type-page);font-weight:750;letter-spacing:-.05em;line-height:1.3;color:var(--site-text)}
+body:not(.battle-wide) .rule-figure span {display:block;font-size:var(--site-type-body);font-weight:500;letter-spacing:0;color:var(--site-accent);margin-top:12px}
+body:not(.battle-wide) #rules .rule-note {border:0;border-left:2px solid #635250;padding:8px 0 8px 20px;margin:24px 0 0;background:none}
+body:not(.battle-wide) #rules .rule-note strong {color:var(--site-text)}
+body:not(.battle-wide) #rules :is(.rules-setup,.rules-timing) {margin:0}
+body:not(.battle-wide) #rules :is(.rules-setup,.rules-timing)>div {display:grid;grid-template-columns:156px minmax(0,1fr);gap:24px;border-top:1px solid var(--site-line);padding:22px 0}
+body:not(.battle-wide) #rules dt {font-size:var(--site-type-body);font-weight:650;color:var(--site-text);line-height:1.6}
+body:not(.battle-wide) #rules dt span {display:block;color:var(--site-muted);font-weight:400;margin-top:5px}
+body:not(.battle-wide) #rules dd {font-size:var(--site-type-body);line-height:1.85;color:#bcb5b1;margin:0}
+body:not(.battle-wide) .rules-turn-flow {list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;padding:0;margin:24px 0}
+body:not(.battle-wide) .rules-turn-flow li {position:relative;display:flex;flex-direction:column;gap:12px;padding-top:16px;border-top:1px solid #75605b}
+body:not(.battle-wide) .rules-turn-flow li:not(:last-child)::after {content:"→";position:absolute;right:0;top:14px;color:var(--site-accent)}
+body:not(.battle-wide) .rules-turn-flow li>span {color:var(--site-accent);font-size:var(--site-type-caption)}
+body:not(.battle-wide) .rules-turn-flow strong {font-size:var(--site-type-body);color:var(--site-text)}
+body:not(.battle-wide) .rules-turn-flow small {font-size:var(--site-type-caption);color:var(--site-muted);line-height:1.6}
+body:not(.battle-wide) .rules-search {margin:0 0 28px}
+body:not(.battle-wide) .rules-search label {display:block;color:var(--site-text);font-size:var(--site-type-body);margin:0 0 12px}
+body:not(.battle-wide) .rules-search>div {display:flex;gap:12px}
+body:not(.battle-wide) .rules-search input {width:100%;min-width:0;min-height:52px;padding:12px 16px;border:1px solid #79706d;border-radius:0;background:#242123;color:var(--site-text);font-size:var(--site-type-body)}
+body:not(.battle-wide) .rules-search input::placeholder {color:#b6acab}
+body:not(.battle-wide) .rules-search button {flex:0 0 auto;padding:12px 20px;border:1px solid #79706d;border-radius:0;background:#242123;color:var(--site-text);font-size:var(--site-type-body);cursor:pointer}
+body:not(.battle-wide) #rules #ruleSearchStatus {font-size:var(--site-type-caption);color:var(--site-muted);margin:10px 0 0}
+body:not(.battle-wide) #rules .terminology-list {display:block;margin:0}
+body:not(.battle-wide) #rules .term-entry {margin:0}
+body:not(.battle-wide) #rules .term-entry summary {padding:20px 0;font-weight:500;min-height:64px}
+body:not(.battle-wide) #rules .term-entry>summary span::before {background:linear-gradient(var(--site-accent),var(--site-accent)) center / 16px 2px no-repeat,linear-gradient(var(--site-accent),var(--site-accent)) center / 2px 16px no-repeat}
+body:not(.battle-wide) #rules .term-entry[open]>summary span::before {background:linear-gradient(var(--site-accent),var(--site-accent)) center / 16px 2px no-repeat}
+body:not(.battle-wide) #rules .term-entry summary:hover {color:var(--site-accent)}
+body:not(.battle-wide) #rules .term-entry>div {padding:0 0 24px}
+body:not(.battle-wide) #rules .term-entry>div p {font-size:var(--site-type-body);line-height:1.85;color:#bcb5b1}
+body:not(.battle-wide) #rules .term-entry .term-example {background:#211d1e;border-color:#635250;padding:14px 18px}
 @media(max-width:1100px) {
  body:not(.battle-wide) .site-header {padding:18px 30px;min-height:84px}
  body:not(.battle-wide) .site-header nav {gap:20px}
@@ -202,6 +260,12 @@ body:not(.battle-wide) .wrap {padding:0 24px 48px}
  body:not(.battle-wide) .starter-features {grid-template-columns:1fr}
  body:not(.battle-wide) .site-page-heading {padding-top:44px;align-items:flex-start;flex-direction:column;gap:24px}
  body:not(.battle-wide) .learning-layout {grid-template-columns:1fr;gap:36px;height:auto}
+ body:not(.battle-wide) #learn .site-page-heading h1 {white-space:normal}
+ body:not(.battle-wide) .rules-layout {grid-template-columns:1fr;gap:36px}
+ body:not(.battle-wide) .rules-index {position:static}
+ body:not(.battle-wide) .rules-key-facts {grid-template-columns:1fr}
+ body:not(.battle-wide) .rules-turn-flow {grid-template-columns:repeat(2,minmax(0,1fr))}
+ body:not(.battle-wide) #rules :is(.rules-setup,.rules-timing)>div {grid-template-columns:1fr;gap:12px}
  body:not(.battle-wide) .learning-sidebar {display:block}
  body:not(.battle-wide) #learn #chapterNav {overflow:visible}
  body:not(.battle-wide) .learning-main {overflow:visible;padding:0;scrollbar-gutter:auto}
