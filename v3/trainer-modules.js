@@ -85,7 +85,7 @@ let stage=0,game=null,notice='',feedbackType='',passed=false,replaying=false;
 const add=(parent,tag,text,cls)=>{const e=document.createElement(tag);e.textContent=text||'';if(cls)e.className=cls;parent.append(e);return e};
 function save(){try{localStorage.setItem(progressKey,JSON.stringify([...completedLessons].sort((a,b)=>a-b)))}catch{}}
 function load(i,practiceAgain=false){if(i<0||i>=stages.length)return;stage=i;game=stages[i].setup();notice='';feedbackType='';passed=false;replaying=practiceAgain;render();const pane=$('labStage')?.closest?.('.learning-main');if(pane)pane.scrollTop=0}
-function navChapters(){const root=$('chapterNav');if(!root)return;root.replaceChildren();stages.forEach((s,i)=>{const b=add(root,'button','');b.type='button';b.setAttribute('aria-label','第 '+(i+1)+' 課：'+lessonInfo[i].title);add(b,'span',String(i+1).padStart(2,'0'),'chapter-index');add(b,'span',s.title.replace(/^\d+\s*\/\s*/,''),'chapter-name');add(b,'span',completedLessons.has(i)?'✓':i===stage?'→':'','chapter-state').setAttribute('aria-hidden','true');if(i===stage)b.setAttribute('aria-current','step');if(completedLessons.has(i))b.classList.add('completed');b.onclick=()=>{load(i);$('labStage')?.scrollIntoView?.({behavior:'instant',block:'start'})}})}
+function navChapters(){const root=$('chapterNav');if(!root)return;root.replaceChildren();stages.forEach((s,i)=>{const b=add(root,'button','');b.type='button';b.setAttribute('aria-label','第 '+(i+1)+' 課：'+lessonInfo[i].title);add(b,'span',String(i+1).padStart(2,'0'),'chapter-index');add(b,'span',s.title.replace(/^\d+\s*\/\s*/,''),'chapter-name');if(i===stage)b.setAttribute('aria-current','step');if(completedLessons.has(i))b.classList.add('completed');b.onclick=()=>{load(i);$('labStage')?.scrollIntoView?.({behavior:'instant',block:'start'})}})}
 
 function render(){const st=stages[stage],container=$('labStage');if(!container)return;
 navChapters();container.replaceChildren();
@@ -134,7 +134,7 @@ if(o.progress){game=result.state;feedbackType='success';notice=(result.events||[
 if(o.done(result)){game=result.state;passed=true;completedLessons.add(stage);save();feedbackType='success';notice=(result.events||[]).join('；')}
 else{game=st.setup();feedbackType='error';notice=o.hint||'這個操作在規則上可以執行，但不符合本課的練習目標。';notice+=' 場面已還原，請再選一次。'}
 render()}}}
-else{add(actions,'strong','✓ '+(passed?'已完成本課':'本課已通過'),'muted');if(stage===stages.length-1)add(actions,'strong',completedLessons.size===stages.length?'恭喜完成全部 12 課！':'已完成第 12 課，可自由選擇其他課程。')}
+else{add(actions,'strong',(passed?'已完成本課':'本課已通過'),'muted');if(stage===stages.length-1)add(actions,'strong',completedLessons.size===stages.length?'恭喜完成全部 12 課！':'已完成第 12 課，可自由選擇其他課程。')}
 if(notice){const feedback=add(container,'div','','notice lesson-feedback '+(feedbackType==='success'?'is-success':'is-error'));feedback.setAttribute('role','status');add(feedback,'strong',feedbackType==='success'?'操作正確':'請再試一次','lesson-feedback-title');add(feedback,'p',notice,'lesson-feedback-detail')}
 const bottom=add(container,'div','','chapter-actions');
 if(isDone){const retry=add(bottom,'button','重新練習這一課 ↻','btn');retry.onclick=()=>load(stage,true)}
