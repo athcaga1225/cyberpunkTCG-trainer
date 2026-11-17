@@ -73,10 +73,10 @@ body:not(.battle-wide) .site-page-heading {display:flex;justify-content:space-be
 body:not(.battle-wide) .site-page-heading h1 {font-size:var(--site-type-page);line-height:1.15;font-weight:800;letter-spacing:-.06em;color:var(--site-text);margin:0}
 body:not(.battle-wide) .site-page-heading>p {font-size:var(--site-type-body);line-height:1.8;color:var(--site-muted);margin:0 0 3px;max-width:430px}
 body:not(.battle-wide) #learn .site-page-heading h1 {white-space:nowrap}
-body:not(.battle-wide) #learn .site-page-heading {display:block}
-body:not(.battle-wide) #learn .site-page-heading>p {max-width:none;margin:20px 0 0}
-body:not(.battle-wide) .learning-layout {display:grid;grid-template-columns:250px minmax(0,1fr);gap:64px;align-items:stretch;height:calc(100dvh - 132px);min-height:0;scroll-margin-top:112px}
-body:not(.battle-wide) .learning-sidebar {display:flex;flex-direction:column;min-width:0;min-height:0}
+body:not(.battle-wide) #learn .site-page-heading {display:block;padding:36px 0 28px;margin-bottom:32px}
+body:not(.battle-wide) #learn .site-page-heading>p {max-width:none;margin:16px 0 0}
+body:not(.battle-wide) .learning-layout {display:grid;grid-template-columns:250px minmax(0,1fr);gap:64px;align-items:start;min-height:0;scroll-margin-top:112px}
+body:not(.battle-wide) .learning-sidebar {position:sticky;top:112px;display:flex;flex-direction:column;min-width:0;min-height:0;max-height:calc(100dvh - 132px)}
 body:not(.battle-wide) .learning-sidebar>.site-eyebrow {font-size:var(--site-type-caption);color:#9d9390;margin-bottom:12px}
 body:not(.battle-wide) #learn #chapterNav {display:flex;flex-direction:column;gap:0;margin:0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
 body:not(.battle-wide) #learn #chapterNav button {display:grid;grid-template-columns:26px minmax(0,1fr);align-items:center;gap:10px;width:100%;min-height:44px;padding:10px 10px 10px 0;border:0;border-bottom:1px solid #393536;border-radius:0;background:none;color:#a9a2a0;text-align:left;font-size:var(--site-type-body);line-height:1.35;font-weight:400}
@@ -87,7 +87,7 @@ body:not(.battle-wide) #learn #chapterNav button[aria-current="step"] .chapter-i
 body:not(.battle-wide) #learn #chapterNav button.completed:not([aria-current="step"]) {background:none;border:0;border-bottom:1px solid #393536;color:#bcb8b0}
 body:not(.battle-wide) .learning-reference-link {display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;font-size:var(--site-type-body);text-align:left;color:var(--site-muted);background:none;border:0;border-top:1px solid var(--site-line);margin-top:16px;padding:18px 0;min-height:48px}
 body:not(.battle-wide) .learning-reference-link:hover {color:var(--site-accent)}
-body:not(.battle-wide) .learning-main {min-width:0;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-gutter:stable;padding:0 28px 24px 0;scrollbar-width:thin}
+body:not(.battle-wide) .learning-main {min-width:0;min-height:0;padding:0 0 24px;overflow:visible}
 body:not(.battle-wide) #learn .lesson-ref>summary::after {color:var(--site-accent)}
 body:not(.battle-wide) #learn #labStage {scroll-margin-top:112px;padding:0;background:none;border:0;border-radius:0;box-shadow:none;min-width:0}
 body:not(.battle-wide) #learn #labStage h2 {font-size:var(--site-type-section);line-height:1.4;letter-spacing:-.03em;color:var(--site-text);margin:20px 0}
@@ -171,13 +171,13 @@ body:not(.battle-wide) .site-footer>p {font-size:var(--site-type-caption);margin
 body:not(.battle-wide) #learn .lesson-colors-row button:hover {background:#141313;border-right-color:#6b6260;border-bottom-color:#6b6260;border-left-color:#6b6260;color:#fff}
 body:not(.battle-wide) #learn #labStage>.actions .btn::before {content:counter(lesson-answer,upper-alpha);display:grid;place-items:center;width:24px;height:24px;border:1px solid #696261;border-radius:50%;font-size:var(--site-type-caption);line-height:1;color:#bcb5b1;background:transparent}
 body:not(.battle-wide) #learn #labStage>.actions .btn:hover::before {border-color:var(--site-accent);color:var(--site-accent)}
-body:not(.battle-wide) #learn :is(.learning-main,#chapterNav) {scrollbar-width:thin;scrollbar-color:#515157 transparent}
-body:not(.battle-wide) #learn :is(.learning-main,#chapterNav):hover {scrollbar-color:#727279 transparent}
-body:not(.battle-wide) #learn :is(.learning-main,#chapterNav)::-webkit-scrollbar {width:6px;height:6px}
-body:not(.battle-wide) #learn :is(.learning-main,#chapterNav)::-webkit-scrollbar-track {background:transparent}
-body:not(.battle-wide) #learn :is(.learning-main,#chapterNav)::-webkit-scrollbar-thumb {background:#515157;border-radius:6px}
-body:not(.battle-wide) #learn :is(.learning-main,#chapterNav)::-webkit-scrollbar-thumb:hover {background:#727279}
-body:not(.battle-wide) #learn :is(.learning-main,#chapterNav)::-webkit-scrollbar-button {display:none;width:0;height:0}
+body:not(.battle-wide) #learn #chapterNav {scrollbar-width:thin;scrollbar-color:#515157 transparent}
+body:not(.battle-wide) #learn #chapterNav:hover {scrollbar-color:#727279 transparent}
+body:not(.battle-wide) #learn #chapterNav::-webkit-scrollbar {width:6px;height:6px}
+body:not(.battle-wide) #learn #chapterNav::-webkit-scrollbar-track {background:transparent}
+body:not(.battle-wide) #learn #chapterNav::-webkit-scrollbar-thumb {background:#515157;border-radius:6px}
+body:not(.battle-wide) #learn #chapterNav::-webkit-scrollbar-thumb:hover {background:#727279}
+body:not(.battle-wide) #learn #chapterNav::-webkit-scrollbar-button {display:none;width:0;height:0}
 body:not(.battle-wide) #rules {padding-top:0}
 body:not(.battle-wide) .rules-layout {display:grid;grid-template-columns:220px minmax(0,1fr);gap:64px;align-items:start}
 body:not(.battle-wide) .rules-index {position:sticky;top:112px;min-width:0}
@@ -321,7 +321,7 @@ body:not(.battle-wide) .wrap {padding:0 24px 48px}
  body:not(.battle-wide) .rules-key-facts {grid-template-columns:1fr}
  body:not(.battle-wide) .rules-turn-flow {grid-template-columns:repeat(2,minmax(0,1fr))}
  body:not(.battle-wide) #rules :is(.rules-setup,.rules-timing)>div {grid-template-columns:1fr;gap:12px}
- body:not(.battle-wide) .learning-sidebar {display:block}
+ body:not(.battle-wide) .learning-sidebar {display:block;position:static;max-height:none}
  body:not(.battle-wide) #learn #chapterNav {overflow:visible}
  body:not(.battle-wide) .learning-main {overflow:visible;padding:0;scrollbar-gutter:auto}
  body:not(.battle-wide) #learn #chapterNav {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px}

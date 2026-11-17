@@ -84,8 +84,9 @@ try{
 let stage=0,game=null,notice='',feedbackType='',passed=false,replaying=false;
 const add=(parent,tag,text,cls)=>{const e=document.createElement(tag);e.textContent=text||'';if(cls)e.className=cls;parent.append(e);return e};
 function save(){try{localStorage.setItem(progressKey,JSON.stringify([...completedLessons].sort((a,b)=>a-b)))}catch{}}
-function load(i,practiceAgain=false){if(i<0||i>=stages.length)return;stage=i;game=stages[i].setup();notice='';feedbackType='';passed=false;replaying=practiceAgain;render();const pane=$('labStage')?.closest?.('.learning-main');if(pane)pane.scrollTop=0}
-function navChapters(){const root=$('chapterNav');if(!root)return;root.replaceChildren();stages.forEach((s,i)=>{const b=add(root,'button','');b.type='button';b.setAttribute('aria-label','第 '+(i+1)+' 課：'+lessonInfo[i].title);add(b,'span',String(i+1).padStart(2,'0'),'chapter-index');add(b,'span',s.title.replace(/^\d+\s*\/\s*/,''),'chapter-name');if(i===stage)b.setAttribute('aria-current','step');if(completedLessons.has(i))b.classList.add('completed');b.onclick=()=>{load(i);$('labStage')?.scrollIntoView?.({behavior:'instant',block:'start'})}})}
+function load(i,practiceAgain=false){if(i<0||i>=stages.length)return;stage=i;game=stages[i].setup();notice='';feedbackType='';passed=false;replaying=practiceAgain;render()}
+function scrollLesson(){$('labStage')?.scrollIntoView?.({behavior:'instant',block:'start'})}
+function navChapters(){const root=$('chapterNav');if(!root)return;root.replaceChildren();stages.forEach((s,i)=>{const b=add(root,'button','');b.type='button';b.setAttribute('aria-label','第 '+(i+1)+' 課：'+lessonInfo[i].title);add(b,'span',String(i+1).padStart(2,'0'),'chapter-index');add(b,'span',s.title.replace(/^\d+\s*\/\s*/,''),'chapter-name');if(i===stage)b.setAttribute('aria-current','step');if(completedLessons.has(i))b.classList.add('completed');b.onclick=()=>{load(i);scrollLesson()}})}
 
 function render(){const st=stages[stage],container=$('labStage');if(!container)return;
 navChapters();container.replaceChildren();
@@ -137,9 +138,9 @@ render()}}}
 else{add(actions,'strong',(passed?'已完成本課':'本課已通過'),'muted');if(stage===stages.length-1)add(actions,'strong',completedLessons.size===stages.length?'恭喜完成全部 12 課！':'已完成第 12 課，可自由選擇其他課程。')}
 if(notice){const feedback=add(container,'div','','notice lesson-feedback '+(feedbackType==='success'?'is-success':'is-error'));feedback.setAttribute('role','status');add(feedback,'strong',feedbackType==='success'?'操作正確':'請再試一次','lesson-feedback-title');add(feedback,'p',notice,'lesson-feedback-detail')}
 const bottom=add(container,'div','','chapter-actions');
-if(isDone){const retry=add(bottom,'button','重新練習這一課 ↻','btn');retry.onclick=()=>load(stage,true)}
-if(isDone&&stage<stages.length-1){const next=add(bottom,'button','下一課 →','btn primary');next.onclick=()=>load(stage+1)}
-if(completedLessons.size>=stages.length){const reset=add(bottom,'button','重設教學進度','btn');reset.onclick=()=>{completedLessons.clear();save();load(0)}}
+if(isDone){const retry=add(bottom,'button','重新練習這一課 ↻','btn');retry.onclick=()=>{load(stage,true);scrollLesson()}}
+if(isDone&&stage<stages.length-1){const next=add(bottom,'button','下一課 →','btn primary');next.onclick=()=>{load(stage+1);scrollLesson()}}
+if(completedLessons.size>=stages.length){const reset=add(bottom,'button','重設教學進度','btn');reset.onclick=()=>{completedLessons.clear();save();load(0);scrollLesson()}}
 add(container,'p','這些是官方規則的局部操作示範，僅第 12 課支援基礎變賣與支付；尚未支援完整卡牌效果、快速反應（Quick）或完整 AI 對局。','muted');
 }
 function cards(){const root=$('verifiedCardList');if(!root)return;root.replaceChildren();for(const card of window.NCT_OFFICIAL_CARDS){const div=add(root,'div','','panel');add(div,'h3',L.cardTitle(card.name)).style.color='#29ffff';add(div,'p',(card.type==='Unit'?'角色單位':card.type==='Gear'?'裝備':card.type)+' · 費用 '+card.cost+' · 戰力 '+card.power+' · RAM '+card.ram);add(div,'p',card.summary);add(div,'small',card.implemented.length?'已支援部分卡牌能力':'卡牌效果尚未加入對戰引擎');const link=add(div,'a','查看官方英文卡牌 ↗');link.href=card.source;link.target='_blank';link.rel='noopener noreferrer';}}
