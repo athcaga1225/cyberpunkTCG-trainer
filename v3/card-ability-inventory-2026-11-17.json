@@ -1,0 +1,975 @@
+{
+  "auditedOn": "2026-11-17",
+  "baselineCommit": "ddde8b3f943abb96f69b98177856cec558010efd",
+  "scope": "two supported starter presets; excludes custom decks and full card catalogue",
+  "counts": {
+    "confirmed-gap": 7,
+    "no-gap-reproduced": 30,
+    "model-risk": 3
+  },
+  "fullyUnimplemented": 0,
+  "cards": [
+    {
+      "deck": "theHeist",
+      "name": "Dexter DeShawn: One Last Chance",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 3,
+      "power": 4,
+      "officialSource": "https://cyberpunktcg.com/cards/dexter-deshawn-one-last-chance",
+      "officialTextSha256": "980b37e83c7860f560c93b9e01bd7e6bd3d663cdce9c01686b087aca655bb5bf",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "登場／攻擊調骰；被擊敗時依聲望差抽牌",
+      "testReferences": [
+        "HP",
+        "HE"
+      ],
+      "status": "confirmed-gap",
+      "issues": [
+        "A2"
+      ]
+    },
+    {
+      "deck": "theHeist",
+      "name": "Heywood Ripperdoc",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 6,
+      "power": 8,
+      "officialSource": "https://cyberpunktcg.com/cards/heywood-ripperdoc",
+      "officialTextSha256": "5d24f68975fedae4305f89d8a60a9a88b6a525cd879e75a349d83eb715d3f9b7",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "可擊敗裝備；對應友方骰值時抽牌",
+      "testReferences": [
+        "HP",
+        "CR"
+      ],
+      "status": "confirmed-gap",
+      "issues": [
+        "A2"
+      ]
+    },
+    {
+      "deck": "theHeist",
+      "name": "Offduty Malfini",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 4,
+      "power": 5,
+      "officialSource": "https://cyberpunktcg.com/cards/offduty-malfini",
+      "officialTextSha256": "42489bfc602921fa118b2a503b810e89f0b67f63fd3f2760d5acf7fc703a7f6a",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "登場橫置自己與對手單位",
+      "testReferences": [
+        "HP",
+        "SE"
+      ],
+      "status": "confirmed-gap",
+      "issues": [
+        "A2"
+      ]
+    },
+    {
+      "deck": "theHeist",
+      "name": "Secondhand Bombus",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 2,
+      "power": 0,
+      "officialSource": "https://cyberpunktcg.com/cards/secondhand-bombus",
+      "officialTextSha256": "f9c9efff2ca43459d4eee31f838c7352f470fd522ba5f519f92fac5a80ddfa0b",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "攔截；零戰力不搶骰",
+      "testReferences": [
+        "MC",
+        "HE"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "T-Bug: Amateur Philosopher",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 4,
+      "power": 4,
+      "officialSource": "https://cyberpunktcg.com/cards/t-bug-amateur-philosopher",
+      "officialTextSha256": "933c1e099686fe3483c3b6da5435c8985d0bbeb940490e546afd0f806f45a59a",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "被擊敗後私看傳奇並可免費呼叫",
+      "testReferences": [
+        "HE",
+        "CR"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Kiroshi Optics",
+      "type": "Gear",
+      "quantity": 3,
+      "cost": 1,
+      "power": 1,
+      "officialSource": "https://cyberpunktcg.com/cards/kiroshi-optics",
+      "officialTextSha256": "4f5ae9bf66704ff29c95481782ce030bcd23819e7992b12a0da0d9ff504aa312",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "攻擊時私看友方蓋牌傳奇",
+      "testReferences": [
+        "HE"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Mandibular Upgrade",
+      "type": "Gear",
+      "quantity": 3,
+      "cost": 1,
+      "power": 0,
+      "officialSource": "https://cyberpunktcg.com/cards/mandibular-upgrade",
+      "officialTextSha256": "0e30b9d3373f5d5c52503d24f6fd3cd8394967694a12c623ec69cfbb2cc6bc85",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "提供戰力與 Blocker",
+      "testReferences": [
+        "HP",
+        "MC"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Zetatech Faceplate",
+      "type": "Gear",
+      "quantity": 3,
+      "cost": 2,
+      "power": 2,
+      "officialSource": "https://cyberpunktcg.com/cards/zetatech-faceplate",
+      "officialTextSha256": "c623a0ec72ce1e1bc2cd244d11f533ca7046811462182403683606a70aaf6de3",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "宿主橫置後調骰；三種不同點數時抽牌",
+      "testReferences": [
+        "SE"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Afterparty at Lizzie's",
+      "type": "Program",
+      "quantity": 2,
+      "cost": 1,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/afterparty-at-lizzie-s",
+      "officialTextSha256": "15830a649237f652ead2820f1fe3b645471a45abcf428c6e8230c50e5955627c",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "調整任一方委託骰；依不同點數抽牌",
+      "testReferences": [
+        "HP"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Delamain Cab",
+      "type": "Unit",
+      "quantity": 3,
+      "cost": 4,
+      "power": 4,
+      "officialSource": "https://cyberpunktcg.com/cards/delamain-cab",
+      "officialTextSha256": "e2e96aa51642c5dd60a74e6447910d84ea5e48fe98b854b3ef3e13485035d38f",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "自己回合結束，曾搶骰才重置 Eddie",
+      "testReferences": [
+        "HE"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Evelyn Parker: Scheming Siren",
+      "type": "Unit",
+      "quantity": 3,
+      "cost": 2,
+      "power": 0,
+      "officialSource": "https://cyberpunktcg.com/cards/evelyn-parker-scheming-siren",
+      "officialTextSha256": "1d8b96040c73cb870f3419bfd2359dc9adc703eb86e34233f92f9a860037075c",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "攻擊抽牌，再依聲望決定棄牌",
+      "testReferences": [
+        "HE"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "MT0D12 Flathead",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 5,
+      "power": 7,
+      "officialSource": "https://cyberpunktcg.com/cards/mt0d12-flathead",
+      "officialTextSha256": "096d9c79ceecf4e3190064ea4a1b1a6670516d535d4c16e126f197234439969c",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "聲望較低時不能被攔截",
+      "testReferences": [
+        "MC",
+        "HE"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Psycho Squad",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 4,
+      "power": 6,
+      "officialSource": "https://cyberpunktcg.com/cards/psycho-squad",
+      "officialTextSha256": "229baab8c33076bcef61380a5f3820133938870aa4f4def44cb04915969c50ae",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "基礎戰力；沒有額外文字能力",
+      "testReferences": [
+        "REF",
+        "HP"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Dying Night: V's Pistol",
+      "type": "Gear",
+      "quantity": 2,
+      "cost": 2,
+      "power": 2,
+      "officialSource": "https://cyberpunktcg.com/cards/dying-night-v-s-pistol",
+      "officialTextSha256": "9e8960177ad97732d75c7b7f8c97572859aab7e2c21f47828acc1879c574475f",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "攻擊降骰；V 宿主回合末重置 Eddies",
+      "testReferences": [
+        "HE"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Tetratronic Rippler",
+      "type": "Gear",
+      "quantity": 2,
+      "cost": 1,
+      "power": 1,
+      "officialSource": "https://cyberpunktcg.com/cards/tetratronic-rippler",
+      "officialTextSha256": "bce627c26222a9990da4434365a8fd66b15e3292914810349d6a0e3b7be5032f",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "宿主橫置後私看牌庫頂，可棄置",
+      "testReferences": [
+        "SE"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Floor It",
+      "type": "Program",
+      "quantity": 3,
+      "cost": 1,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/floor-it",
+      "officialTextSha256": "9fab5498a1f4817dee3411410d60678c94d3573b9f7cd97ce2b015d6fbdd57e5",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "主階段／Quick 降低對手戰力並抽牌",
+      "testReferences": [
+        "HP",
+        "MC"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Reboot Optics",
+      "type": "Program",
+      "quantity": 2,
+      "cost": 2,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/reboot-optics",
+      "officialTextSha256": "afe8da4f5b73c0f2029ebdd4e72576da85a97c137c9a847413eff3905ce22031",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "主階段／Quick 保護下次交戰的友方單位",
+      "testReferences": [
+        "MC",
+        "EP"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Viktor Vektor: Sit Down and Relax",
+      "type": "Legend",
+      "quantity": 1,
+      "cost": null,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/viktor-vektor-sit-down-and-relax",
+      "officialTextSha256": "a9e13dffc9ccd561d2b49cfa73f3dee29bae7698ce9db0a374281f4c32e626c0",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "頂五找至多兩張低費裝備，其餘洗到底",
+      "testReferences": [
+        "HE",
+        "CR"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "V: Corporate Exile",
+      "type": "Legend",
+      "quantity": 1,
+      "cost": 5,
+      "power": 8,
+      "officialSource": "https://cyberpunktcg.com/cards/v-corporate-exile",
+      "officialTextSha256": "843735dfb9c92634ddd13e92f3c3651f3eb5731cf74064dab9ad485a7ba04903",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "付費 Go Solo；保留裝備並可當回合攻擊",
+      "testReferences": [
+        "HE",
+        "CR"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "theHeist",
+      "name": "Jackie Welles: Pour One Out For Me",
+      "type": "Legend",
+      "quantity": 1,
+      "cost": null,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/jackie-welles-pour-one-out-for-me",
+      "officialTextSha256": "52491792e8ef072d1e248d518b87b562c63ee0cf4a531f24d7563750b31b255e",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "首次藍色出牌後可降友方骰，降至最小值抽牌",
+      "testReferences": [
+        "HE"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Chrome Fang",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 5,
+      "power": 6,
+      "officialSource": "https://cyberpunktcg.com/cards/chrome-fang",
+      "officialTextSha256": "bfd4726c8c46814280639fca30f322d6020b9625e3788fa063c72502e5f9fae1",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "限制對手搶高於攻擊戰力的友方骰，至下次己方回合",
+      "testReferences": [
+        "EP"
+      ],
+      "status": "model-risk",
+      "issues": [
+        "A4"
+      ]
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Minotaur",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 7,
+      "power": 9,
+      "officialSource": "https://cyberpunktcg.com/cards/minotaur",
+      "officialTextSha256": "156f7e920310feee57f937f17adb36b80ed5c33bd22a70f2f35f0e24f17b637e",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "登場時聲望較高則擊敗低戰力對手單位",
+      "testReferences": [
+        "EP",
+        "CR"
+      ],
+      "status": "model-risk",
+      "issues": [
+        "A4"
+      ]
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Ruthless Lowlife",
+      "type": "Unit",
+      "quantity": 3,
+      "cost": 2,
+      "power": 4,
+      "officialSource": "https://cyberpunktcg.com/cards/ruthless-lowlife",
+      "officialTextSha256": "a3136cae1d1ff75b673ed7d8a4841181fa6ed3c25af1a8b18ddf31edd6103946",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "只能攻擊對手單位",
+      "testReferences": [
+        "EP"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Swordwise Huscle",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 3,
+      "power": 3,
+      "officialSource": "https://cyberpunktcg.com/cards/swordwise-huscle",
+      "officialTextSha256": "404e0a72d9485b20cd5a9f10a4b110558973d898967c721c71673d1a137fef29",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "攻擊時依當前戰力門檻抽牌",
+      "testReferences": [
+        "EP"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Emergency Atlus",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 3,
+      "power": 4,
+      "officialSource": "https://cyberpunktcg.com/cards/emergency-atlus",
+      "officialTextSha256": "22464bf61994426a8bf80db6a33b1e7dac52c9d6878049e533caab0ace7943f3",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "基礎戰力；沒有額外文字能力",
+      "testReferences": [
+        "EP",
+        "REF"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Field Operator",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 3,
+      "power": 2,
+      "officialSource": "https://cyberpunktcg.com/cards/field-operator",
+      "officialTextSha256": "4f5ce9ecce2c41d7ade1adb8949c8544bdfee9f1b468ff6b66943736dcbd8285",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "登場時數值聲望為偶數才抽牌",
+      "testReferences": [
+        "EP"
+      ],
+      "status": "model-risk",
+      "issues": [
+        "A4"
+      ]
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Goro Takemura: Losing His Way",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 4,
+      "power": 4,
+      "officialSource": "https://cyberpunktcg.com/cards/goro-takemura-losing-his-way",
+      "officialTextSha256": "3bbeaf51d0ec5c06a98b56aeee4f0f14ecd69cdd928814223da02bba46028c98",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "攻擊時若友方傳奇皆正面，本回合加戰力",
+      "testReferences": [
+        "EP"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "MaxTac AV",
+      "type": "Unit",
+      "quantity": 2,
+      "cost": 5,
+      "power": 8,
+      "officialSource": "https://cyberpunktcg.com/cards/maxtac-av",
+      "officialTextSha256": "a7b91cd906b3d05a0b5f83406716150204df268a7712f972cba188c617952a29",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "可交換雙方委託骰，保留原值與身份",
+      "testReferences": [
+        "EP",
+        "CR"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Arasaka Emergency Radioport",
+      "type": "Gear",
+      "quantity": 2,
+      "cost": 2,
+      "power": 2,
+      "officialSource": "https://cyberpunktcg.com/cards/arasaka-emergency-radioport",
+      "officialTextSha256": "5427479b5fcd65793cef001e96e1636f87d1354550dc93025b64f8c33b7dba1d",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "宿主橫置後可私看傳奇，符合條件可免費呼叫",
+      "testReferences": [
+        "EP",
+        "CR"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Mantis Blades",
+      "type": "Gear",
+      "quantity": 3,
+      "cost": 1,
+      "power": 2,
+      "officialSource": "https://cyberpunktcg.com/cards/mantis-blades",
+      "officialTextSha256": "2821dfc099ceef530a8306eb2dc06035d696df5a576fdc70ea78e51fef8a2dfc",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "裝備加戰力；沒有額外觸發能力",
+      "testReferences": [
+        "EP",
+        "REF"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Satori: Sword of Saburo",
+      "type": "Gear",
+      "quantity": 3,
+      "cost": 2,
+      "power": 2,
+      "officialSource": "https://cyberpunktcg.com/cards/satori-sword-of-saburo",
+      "officialTextSha256": "efe55d64d21a6bebf8187e4150a9c0b949fed2e962bd550508335cc4dd534f3a",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "宿主贏得單位交戰後抽牌",
+      "testReferences": [
+        "EP",
+        "CR"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Industrial Assembly",
+      "type": "Program",
+      "quantity": 2,
+      "cost": 1,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/industrial-assembly",
+      "officialTextSha256": "d77816057a41a7540df74f7fdc4320a88802f6286b5983a87210b9f4b7d875bc",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "增加任一方骰值，再檢查友方高骰抽牌",
+      "testReferences": [
+        "EP"
+      ],
+      "status": "confirmed-gap",
+      "issues": [
+        "A3"
+      ]
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Over the Edge",
+      "type": "Program",
+      "quantity": 2,
+      "cost": 3,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/over-the-edge",
+      "officialTextSha256": "98f8eafd2a8b0a00bb10bcce6d78e6751e649844bea365bb88f63d00e085b52d",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "按友方 d20 數值選擇可擊敗單位",
+      "testReferences": [
+        "EP",
+        "CR"
+      ],
+      "status": "confirmed-gap",
+      "issues": [
+        "A1",
+        "A3"
+      ]
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Shattered Memories",
+      "type": "Program",
+      "quantity": 2,
+      "cost": 4,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/shattered-memories",
+      "officialTextSha256": "9323b168fc66f02603b36ee027dec46a7a85d20a1bca3417cee6152a5ed1264e",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "雙方棄手牌並各自決定抽五，再檢查額外抽牌",
+      "testReferences": [
+        "EP"
+      ],
+      "status": "confirmed-gap",
+      "issues": [
+        "A3"
+      ]
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Corpo Security",
+      "type": "Unit",
+      "quantity": 3,
+      "cost": 2,
+      "power": 2,
+      "officialSource": "https://cyberpunktcg.com/cards/corpo-security",
+      "officialTextSha256": "1f70b6cce22b92c63be2749b20005c6f4e2dec6e82aa059da2596e72da1c89e0",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "不能攻擊，但可攔截",
+      "testReferences": [
+        "EP"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Sandevistan",
+      "type": "Gear",
+      "quantity": 3,
+      "cost": 3,
+      "power": 2,
+      "officialSource": "https://cyberpunktcg.com/cards/sandevistan",
+      "officialTextSha256": "f6d8e940d3d38433d4930053d18a34d3ae0d203733811d9bb153cd680505f3b2",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "己方回合末重置宿主單位或傳奇",
+      "testReferences": [
+        "EP"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Corporate Surveillance",
+      "type": "Program",
+      "quantity": 3,
+      "cost": 2,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/corporate-surveillance",
+      "officialTextSha256": "397a1b43d9ccda1c0cc56df4a9b6373b61934ed646acf9b309e41c14a88adbba",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "按費用篩選對手單位並橫置",
+      "testReferences": [
+        "EP",
+        "CR"
+      ],
+      "status": "confirmed-gap",
+      "issues": [
+        "A3"
+      ]
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Goro Takemura: Hands Unclean",
+      "type": "Legend",
+      "quantity": 1,
+      "cost": 5,
+      "power": 7,
+      "officialSource": "https://cyberpunktcg.com/cards/goro-takemura-hands-unclean",
+      "officialTextSha256": "09c1d59a2c4b4cd6de869c88bce48123a72258e92dd712d8c345772fab280613",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "Go Solo、當回合可攻擊、攔截與離場移除",
+      "testReferences": [
+        "EP",
+        "CR"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Yorinobu Arasaka: Embracing Destruction",
+      "type": "Legend",
+      "quantity": 1,
+      "cost": null,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/yorinobu-arasaka-embracing-destruction",
+      "officialTextSha256": "2a48ee1556ce23a7b302cc700a2865b31644866e2f97c9a35412c252ac3804fe",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "每回合首次友方 ARASAKA 攻擊抽牌，再依聲望棄牌",
+      "testReferences": [
+        "EP",
+        "CR"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    },
+    {
+      "deck": "embracingPower",
+      "name": "Saburo Arasaka: Stubborn Patriarch",
+      "type": "Legend",
+      "quantity": 1,
+      "cost": null,
+      "power": null,
+      "officialSource": "https://cyberpunktcg.com/cards/saburo-arasaka-stubborn-patriarch",
+      "officialTextSha256": "4d2dff81abaae49cfb658a870ff7d4da6e52e98d8e34eb72915bc57f5a4c1fd1",
+      "statsMatch": true,
+      "unimplementedFlag": false,
+      "deferredFlag": false,
+      "summary": "友方 ARASAKA 攻擊期間加戰力，含中途呼叫",
+      "testReferences": [
+        "EP",
+        "CR"
+      ],
+      "status": "no-gap-reproduced",
+      "issues": []
+    }
+  ],
+  "diagnostics": {
+    "diagnostic": true,
+    "groups": [
+      "A1",
+      "A2",
+      "A3",
+      "A4"
+    ],
+    "probes": [
+      {
+        "id": "A1-over-edge-two-d20",
+        "scope": "controlled starter-card fixture with 40 main cards per side and 12 dice",
+        "observed": {
+          "targetLists": [
+            [],
+            [
+              "victim"
+            ]
+          ]
+        },
+        "expected": {
+          "targetLists": [
+            [
+              "victim"
+            ],
+            [
+              "victim"
+            ]
+          ]
+        },
+        "conforms": false
+      },
+      {
+        "id": "A2-dexter-order",
+        "scope": "controlled starter-card combo: paid with Faceplate Legend",
+        "observed": {
+          "offersOwnOrder": false,
+          "drawnAfterSpecifiedOrder": 0
+        },
+        "expected": {
+          "offersOwnOrder": true,
+          "drawnAfterSpecifiedOrder": 1
+        },
+        "conforms": false
+      },
+      {
+        "id": "A2-heywood-order",
+        "scope": "controlled starter-card combo: paid with Faceplate Legend",
+        "observed": {
+          "gearPresentBeforePendingChoice": false,
+          "drawnAfterSpecifiedOrder": 0
+        },
+        "expected": {
+          "gearPresentBeforePendingChoice": true,
+          "drawnAfterSpecifiedOrder": 1
+        },
+        "conforms": false
+      },
+      {
+        "id": "A2-offduty-order",
+        "scope": "controlled starter-card combo: paid with Faceplate Legend",
+        "observed": {
+          "rivalReadyBeforePendingChoice": false,
+          "hasOffdutyPending": false
+        },
+        "expected": {
+          "rivalReadyBeforePendingChoice": true,
+          "hasOffdutyPending": true
+        },
+        "conforms": false
+      },
+      {
+        "id": "A3-program-zone-Industrial Assembly",
+        "scope": "controlled starter-card fixture with 40 main cards per side and 12 dice",
+        "observed": {
+          "awaitsOwnResolution": true,
+          "alreadyInTrash": true
+        },
+        "expected": {
+          "awaitsOwnResolution": true,
+          "alreadyInTrash": false
+        },
+        "conforms": false
+      },
+      {
+        "id": "A3-program-zone-Over the Edge",
+        "scope": "controlled starter-card fixture with 40 main cards per side and 12 dice",
+        "observed": {
+          "awaitsOwnResolution": true,
+          "alreadyInTrash": true
+        },
+        "expected": {
+          "awaitsOwnResolution": true,
+          "alreadyInTrash": false
+        },
+        "conforms": false
+      },
+      {
+        "id": "A3-program-zone-Shattered Memories",
+        "scope": "controlled starter-card fixture with 40 main cards per side and 12 dice",
+        "observed": {
+          "awaitsOwnResolution": true,
+          "alreadyInTrash": true
+        },
+        "expected": {
+          "awaitsOwnResolution": true,
+          "alreadyInTrash": false
+        },
+        "conforms": false
+      },
+      {
+        "id": "A3-program-zone-Corporate Surveillance",
+        "scope": "controlled starter-card fixture with 40 main cards per side and 12 dice",
+        "observed": {
+          "awaitsOwnResolution": true,
+          "alreadyInTrash": true
+        },
+        "expected": {
+          "awaitsOwnResolution": true,
+          "alreadyInTrash": false
+        },
+        "conforms": false
+      },
+      {
+        "id": "A4-field-condition",
+        "scope": "isolated trigger-resolution probe, not a full legal match sequence",
+        "observed": {
+          "drawnAtResolution": 0
+        },
+        "expected": {
+          "drawnAtResolution": 1
+        },
+        "conforms": false
+      },
+      {
+        "id": "A4-minotaur-condition",
+        "scope": "isolated trigger-resolution probe, not a full legal match sequence",
+        "observed": {
+          "stillOffersDefeat": true
+        },
+        "expected": {
+          "stillOffersDefeat": false
+        },
+        "conforms": false
+      },
+      {
+        "id": "A4-chrome-pending",
+        "scope": "isolated trigger queue probe, not a changed-outcome starter combo",
+        "observed": {
+          "appliesBeforePendingResolution": true
+        },
+        "expected": {
+          "appliesBeforePendingResolution": false
+        },
+        "conforms": false
+      }
+    ]
+  }
+}
