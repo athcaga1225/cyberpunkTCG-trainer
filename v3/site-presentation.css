@@ -148,7 +148,7 @@ body:not(.battle-wide) #decks>.deck-accordion>summary {padding:24px 0;background
 body:not(.battle-wide) #decks .deck-inner {border:0;padding:16px 0 28px;background:none}
 body:not(.battle-wide) #decks>.deck-accordion>summary strong {color:var(--site-text)}
 body:not(.battle-wide) #decks .beta-filters {padding:20px 0;border:0;border-top:1px solid var(--site-line);border-bottom:1px solid var(--site-line);border-radius:0;background:none}
-body:not(.battle-wide) #decks :is(.beta-filters input,.beta-filters select,.beta-pages button,.beta-pages select) {font-size:var(--site-type-body);background:var(--site-raised);border-color:var(--site-line);border-radius:0}
+body:not(.battle-wide) #decks :is(.beta-filters input,.beta-filters select,.beta-pages button,.beta-pages select) {font-size:var(--site-type-body);background-color:var(--site-raised);border-color:var(--site-line);border-radius:0}
 body:not(.battle-wide) #decks .beta-card-title {color:var(--site-text)}
 body:not(.battle-wide) #decks .beta-tile {background:none;border:0;border-radius:0;box-shadow:none}
 body:not(.battle-wide) :is(#betaCardDetail,#deckImageDialog) {background:var(--site-bg);color:var(--site-text);border:1px solid var(--site-line);border-radius:0}
