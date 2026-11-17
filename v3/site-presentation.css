@@ -229,6 +229,57 @@ body:not(.battle-wide) #rules .term-entry summary:hover {color:var(--site-accent
 body:not(.battle-wide) #rules .term-entry>div {padding:0 0 24px}
 body:not(.battle-wide) #rules .term-entry>div p {font-size:var(--site-type-body);line-height:1.85;color:#bcb5b1}
 body:not(.battle-wide) #rules .term-entry .term-example {background:#211d1e;border-color:#635250;padding:14px 18px}
+/* Reference and catalogue surfaces share the home page palette. */
+body:not(.battle-wide) :is(#learn,#rules,#decks) :is(button,a,summary,select,input):focus-visible {outline:2px solid var(--site-accent);outline-offset:3px}
+body:not(.battle-wide) #learn .lesson-ref>summary::after {background:linear-gradient(var(--site-accent),var(--site-accent)) center / 16px 2px no-repeat,linear-gradient(var(--site-accent),var(--site-accent)) center / 2px 16px no-repeat}
+body:not(.battle-wide) #learn .lesson-ref[open]>summary::after {background:linear-gradient(var(--site-accent),var(--site-accent)) center / 16px 2px no-repeat}
+body:not(.battle-wide) #learn .lesson-ref-body :is(.pregame-colors,.pregame-step,.learning-overview>.panel) {border:0;border-top:1px solid var(--site-line);background:transparent;border-radius:0;box-shadow:none;padding:20px 0}
+body:not(.battle-wide) #learn .lesson-ref-body :is(p,.muted) {color:var(--site-muted);font-size:var(--site-type-body);line-height:1.85}
+body:not(.battle-wide) #learn .lesson-ref-body :is(h3,strong) {color:var(--site-text)}
+body:not(.battle-wide) #learn .lesson-ref-body h3 {font-size:var(--site-type-body)}
+body:not(.battle-wide) #learn .lesson-ref-body :is(.number,.pregame-mini-label,.pregame-symbol,a,.external-arrow) {color:var(--site-accent)}
+body:not(.battle-wide) #learn #referenceSetup .pregame-ram-example {background:transparent;border-color:var(--site-line);padding:16px 0;border-radius:0}
+body:not(.battle-wide) #learn #tableOrientation .field-map-board {background:transparent;border:0;border-radius:0;padding:0}
+body:not(.battle-wide) #learn #tableOrientation .field-map-zone {border-color:#494142;background:#101011;box-shadow:none}
+body:not(.battle-wide) #learn #tableOrientation .field-map-zone:hover {border-color:#968581;background:#171415}
+body:not(.battle-wide) #learn #tableOrientation .field-map-zone[aria-pressed="true"] {border-color:var(--site-accent);background:#171212;box-shadow:none}
+body:not(.battle-wide) #learn #tableOrientation :is(.field-map-symbol,.field-map-dice,.field-map-die,.field-map-die span,.field-die-label small) {color:var(--site-muted)}
+body:not(.battle-wide) #learn #tableOrientation :is(.field-map-zone strong,.field-die-label strong,.field-dice-reference-title strong,.field-map-hand-note strong) {color:var(--site-text)}
+body:not(.battle-wide) #learn #tableOrientation .field-map-zone strong {font-size:var(--site-type-body)}
+body:not(.battle-wide) #learn #tableOrientation :is(.field-map-die,.field-die-label) svg {stroke:currentColor;color:var(--site-muted)}
+body:not(.battle-wide) #learn #tableOrientation .field-map-key {border:0;border-left:2px solid var(--site-accent);background:transparent;padding:12px 20px;border-radius:0}
+body:not(.battle-wide) #learn #tableOrientation .field-map-flash {animation:none}
+body:not(.battle-wide) #learn #tableOrientation .field-dice-reference {border-color:var(--site-line)}
+body:not(.battle-wide) #learn #tableOrientation .field-die-label {background:transparent;border-color:var(--site-line)}
+body:not(.battle-wide) #rules .rules-official-link>a:is(:hover,:focus-visible) {color:var(--site-accent)}
+body:not(.battle-wide) #decks {padding-top:0}
+body:not(.battle-wide) #decks #starterDeckGallery .deck-collection {border:0;border-top:1px solid var(--site-line);border-radius:0;background:none;margin:0}
+body:not(.battle-wide) #decks #starterDeckGallery .deck-collection>summary {padding:28px 0;background:none}
+body:not(.battle-wide) #decks .deck-summaryline strong {font-size:var(--site-type-card);color:var(--site-text)}
+body:not(.battle-wide) #decks :is(.deck-original,.deck-meta,.deck-summaryline small,.beta-card-english,.card-english-subline,.beta-card-meta,.beta-filters label,.beta-pages,#betaPages,.beta-detail-meta-line) {color:var(--site-muted)}
+body:not(.battle-wide) #decks :is(.deck-name,.beta-card-title,.deck-inner h2) {color:var(--site-text)}
+body:not(.battle-wide) #decks :is(.deck-tile,.deck-art,.beta-card-art) {border:0;border-radius:0;background:transparent;box-shadow:none}
+body:not(.battle-wide) #decks .deck-inner {padding:20px 0 36px;background:none}
+body:not(.battle-wide) #decks .deck-meta b {border:0;background:none;color:var(--site-text)}
+body:not(.battle-wide) #decks #betaCardCollection .beta-filters .v3-search-row {border-color:var(--site-line)}
+body:not(.battle-wide) #decks .beta-filters :is(input,select) {color:var(--site-text);background-color:transparent;border-color:#4b4645;box-shadow:none;font-size:var(--site-type-body)}
+body:not(.battle-wide) #decks .beta-filters input::placeholder {color:var(--site-muted)}
+body:not(.battle-wide) #decks :is(.beta-filters select,.beta-pages select) {background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23bcb5b1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")}
+body:not(.battle-wide) #decks .beta-filters :is(input,select):focus {border-color:var(--site-accent);box-shadow:none}
+body:not(.battle-wide) #decks #v3FiltersReset {border-color:#4b4645;background:none;color:var(--site-muted);font-size:var(--site-type-body)}
+body:not(.battle-wide) #decks .v3-quick-filter {border:0;border-bottom:1px solid var(--site-line);background:transparent;color:var(--site-muted);font-size:var(--site-type-body);border-radius:0;letter-spacing:0}
+body:not(.battle-wide) #decks .v3-quick-filter[aria-pressed="true"] {border-bottom-color:var(--site-accent);color:var(--site-text);background:transparent}
+body:not(.battle-wide) #decks #betaCardCollection #betaCount {color:var(--site-muted);font-size:var(--site-type-caption)}
+body:not(.battle-wide) #decks #betaResults .v3-card-series {color:var(--site-muted);font-size:var(--site-type-caption)}
+body:not(.battle-wide) #decks :is(.beta-pages button,.beta-pages select) {color:var(--site-text);background-color:transparent;border-color:#4b4645}
+body:not(.battle-wide) #decks #betaCardDetail.beta-card-dialog {background:var(--site-bg);border:1px solid var(--site-line);border-radius:4px}
+body:not(.battle-wide) #decks #betaCardDetail .beta-detail-header {color:var(--site-text);border-color:var(--site-line)}
+body:not(.battle-wide) #decks #betaCardDetail :is(.beta-detail-art,.beta-detail-copy,.beta-detail-stat,.beta-printing-option) {background:transparent;color:var(--site-muted);border-color:var(--site-line)}
+body:not(.battle-wide) #decks #betaCardDetail .beta-detail-stat strong {color:var(--site-text)}
+body:not(.battle-wide) #decks #betaCardDetail .beta-printing-option.selected {border-color:var(--site-accent)}
+body:not(.battle-wide) #decks #betaCardDetail .beta-detail-body {scrollbar-width:thin;scrollbar-color:#515157 transparent}
+body:not(.battle-wide) #decks #betaCardDetail .beta-detail-effect {border-color:var(--site-line)}
+body:not(.battle-wide) #decks #betaCardDetail .beta-detail-effect p {color:var(--site-text)}
 @media(max-width:1100px) {
  body:not(.battle-wide) .site-header {padding:18px 30px;min-height:84px}
  body:not(.battle-wide) .site-header nav {gap:20px}
