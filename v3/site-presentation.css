@@ -1,6 +1,7 @@
 /* Site presentation. All rules deactivate on the battle screen. */
 @layer site-overrides {
 body:not(.battle-wide) {
+ --site-type-display:clamp(52px,5.5vw,78px);--site-type-page:clamp(40px,4.5vw,56px);--site-type-section:32px;--site-type-card:24px;--site-type-body:16px;--site-type-caption:12px;
  --site-bg:#0b0b0d;--site-raised:#171719;--site-text:#f4f2ef;--site-muted:#a29e9e;--site-line:#343031;--site-accent:#ff5048;
  background:var(--site-bg);color:var(--site-text);font-family:"PingFang TC","Noto Sans TC",system-ui,sans-serif;
 }
@@ -8,49 +9,49 @@ body:not(.battle-wide) :is(button,a,summary,select,input):focus-visible {outline
 body:not(.battle-wide) main>section {scroll-margin-top:92px}
 body:not(.battle-wide) .wrap {max-width:1280px;padding:0 40px 80px}
 body:not(.battle-wide) .site-header {position:sticky;top:0;z-index:100;min-height:92px;padding:20px max(40px,calc((100vw - 1200px)/2));background:rgb(11 11 13 / 94%);backdrop-filter:blur(14px);border:0;border-bottom:1px solid #252223;gap:32px}
-body:not(.battle-wide) .site-wordmark {display:flex;flex-direction:column;align-items:flex-start;padding:0;border:0;background:none;color:var(--site-text);font:900 19px/.92 Arial,sans-serif;letter-spacing:-.055em;text-align:left;white-space:nowrap}
+body:not(.battle-wide) .site-wordmark {display:flex;flex-direction:column;align-items:flex-start;padding:0;border:0;background:none;color:var(--site-text);font:900 var(--site-type-card)/.92 Arial,sans-serif;letter-spacing:-.055em;text-align:left;white-space:nowrap}
 body:not(.battle-wide) .wordmark-dot {color:var(--site-accent)}
 body:not(.battle-wide) .site-header nav {align-items:center;gap:30px}
-body:not(.battle-wide) .site-header nav button {position:relative;padding:12px 0;border:0;border-radius:0;background:none;color:#bcb6b5;font-size:16px;font-weight:500;min-height:44px;white-space:nowrap}
+body:not(.battle-wide) .site-header nav button {position:relative;padding:12px 0;border:0;border-radius:0;background:none;color:#bcb6b5;font-size:var(--site-type-body);font-weight:500;min-height:44px;white-space:nowrap}
 body:not(.battle-wide) .site-header nav button:is(.active,:hover) {background:none;color:var(--site-text)}
 body:not(.battle-wide) .site-header nav button.active::after {content:"";position:absolute;bottom:3px;left:0;width:20px;height:2px;background:var(--site-accent)}
 body:not(.battle-wide) .site-header nav .nav-play {padding:12px 20px;background:var(--site-accent);color:#0b0b0d;font-weight:700;margin-left:10px}
 body:not(.battle-wide) .site-header nav .nav-play:is(.active,:hover) {background:#ff6c65;color:#0b0b0d}
 body:not(.battle-wide) .site-header nav .nav-play.active::after {display:none}
-body:not(.battle-wide) :is(.btn,.site-text-link) {min-height:48px;font-size:16px;font-weight:600;border-radius:0;box-shadow:none;text-shadow:none}
+body:not(.battle-wide) :is(.btn,.site-text-link) {min-height:48px;font-size:var(--site-type-body);font-weight:600;border-radius:0;box-shadow:none;text-shadow:none}
 body:not(.battle-wide) .btn {padding:13px 22px;border:1px solid #51494a;background:transparent;color:var(--site-text)}
 body:not(.battle-wide) .btn.primary {background:var(--site-accent);border-color:var(--site-accent);color:#0b0b0d}
 body:not(.battle-wide) .btn.primary:hover {background:#ff6c65;border-color:#ff6c65}
 body:not(.battle-wide) .site-text-link {border:0;background:none;color:var(--site-text);padding:12px 0;text-align:left}
 body:not(.battle-wide) .site-text-link:hover {color:var(--site-accent)}
 body:not(.battle-wide) :is(.btn,.site-text-link) span[aria-hidden] {margin-left:18px}
-body:not(.battle-wide) .site-eyebrow {margin:0 0 18px;color:var(--site-accent);font:600 12px/1.5 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+body:not(.battle-wide) .site-eyebrow {margin:0 0 18px;color:var(--site-accent);font:600 var(--site-type-caption)/1.5 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase}
 body:not(.battle-wide) :is(#home,#learn,#rules,#decks) em {font-style:normal;color:var(--site-accent)}
 body:not(.battle-wide) #home {position:relative}
 body:not(.battle-wide) .site-hero {position:relative;isolation:isolate;min-height:660px;display:flex;align-items:center;padding:72px 0 96px}
 body:not(.battle-wide) .hero-copy {position:relative;z-index:2;width:56%;pointer-events:none}
 body:not(.battle-wide) .hero-copy .hero-actions {pointer-events:auto}
-body:not(.battle-wide) .hero-copy h1 {font-size:clamp(52px,5.5vw,78px);font-weight:900;line-height:1.15;letter-spacing:-.065em;margin:20px 0 26px;color:var(--site-text)}
-body:not(.battle-wide) .hero-description {font-size:16px;line-height:1.9;color:#b9b3b1;margin:0 0 28px;max-width:480px}
+body:not(.battle-wide) .hero-copy h1 {font-size:var(--site-type-display);font-weight:900;line-height:1.15;letter-spacing:-.065em;margin:20px 0 26px;color:var(--site-text)}
+body:not(.battle-wide) .hero-description {font-size:var(--site-type-body);line-height:1.9;color:#b9b3b1;margin:0 0 28px;max-width:480px}
 body:not(.battle-wide) .hero-actions {display:flex;align-items:center;gap:26px;flex-wrap:wrap}
-body:not(.battle-wide) .hero-facts {display:flex;gap:36px;margin-top:46px;color:var(--site-muted);font-size:12px}
+body:not(.battle-wide) .hero-facts {display:flex;gap:36px;margin-top:46px;color:var(--site-muted);font-size:var(--site-type-caption)}
 body:not(.battle-wide) .hero-facts>span {display:flex;flex-direction:column;gap:8px}
-body:not(.battle-wide) .hero-facts strong {font:700 28px/1 Arial,system-ui,sans-serif;letter-spacing:-.03em;color:var(--site-text)}
+body:not(.battle-wide) .hero-facts strong {font:700 var(--site-type-card)/1 Arial,system-ui,sans-serif;letter-spacing:-.03em;color:var(--site-text)}
 body:not(.battle-wide) .hero-art {position:absolute;z-index:-1;right:-40px;top:0;width:65%;height:100%;overflow:hidden;mask-image:linear-gradient(90deg,transparent,black 25%,black 83%,transparent)}
 body:not(.battle-wide) .hero-art img {display:block;position:absolute;width:100%;height:auto;top:-21%;opacity:.9;object-fit:cover}
 body:not(.battle-wide) .hero-art::after {content:"";position:absolute;inset:0;background:linear-gradient(0deg,var(--site-bg) 0%,var(--site-bg) 14%,transparent 42%),linear-gradient(180deg,var(--site-bg) 0%,var(--site-bg) 12%,transparent 28%),linear-gradient(90deg,var(--site-bg),transparent 40%)}
-body:not(.battle-wide) .hero-caption {position:absolute;bottom:26px;left:0;right:0;display:flex;justify-content:space-between;gap:20px;padding-top:18px;border-top:1px solid var(--site-line);font:500 11px/1.4 system-ui,sans-serif;letter-spacing:.16em;color:#8e8685}
+body:not(.battle-wide) .hero-caption {position:absolute;bottom:26px;left:0;right:0;display:flex;justify-content:space-between;gap:20px;padding-top:18px;border-top:1px solid var(--site-line);font:500 var(--site-type-caption)/1.4 system-ui,sans-serif;letter-spacing:.16em;color:#8e8685}
 body:not(.battle-wide) :is(.home-route-section,.home-starters) {padding:70px 0 30px}
 body:not(.battle-wide) .site-section-heading {display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:38px}
-body:not(.battle-wide) .site-section-heading h2 {font-size:36px;font-weight:750;line-height:1.3;letter-spacing:-.045em;color:var(--site-text);margin:0}
+body:not(.battle-wide) .site-section-heading h2 {font-size:var(--site-type-section);font-weight:750;line-height:1.3;letter-spacing:-.045em;color:var(--site-text);margin:0}
 body:not(.battle-wide) .site-section-heading .site-eyebrow {margin-bottom:12px}
-body:not(.battle-wide) .site-section-heading>p {font-size:14px;color:var(--site-muted);line-height:1.8;margin:0}
+body:not(.battle-wide) .site-section-heading>p {font-size:var(--site-type-body);color:var(--site-muted);line-height:1.8;margin:0}
 body:not(.battle-wide) .home-route-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
 body:not(.battle-wide) .home-route {appearance:none;display:flex;flex-direction:column;align-items:flex-start;padding:18px 0 20px;border:0;border-bottom:1px solid var(--site-line);border-radius:0;background:none;color:var(--site-text);text-align:left}
-body:not(.battle-wide) .route-number {color:var(--site-muted);font:500 12px/1.5 system-ui,sans-serif;letter-spacing:.13em}
-body:not(.battle-wide) .home-route h3 {font-size:24px;line-height:1.4;letter-spacing:-.035em;margin:24px 0 10px;font-weight:700;color:var(--site-text)}
-body:not(.battle-wide) .home-route p {font-size:16px;line-height:1.8;color:var(--site-muted);margin:0 0 24px;max-width:300px}
-body:not(.battle-wide) .route-bottom {display:flex;justify-content:space-between;gap:24px;width:100%;margin-top:auto;font-size:16px;font-weight:600}
+body:not(.battle-wide) .route-number {color:var(--site-muted);font:500 var(--site-type-caption)/1.5 system-ui,sans-serif;letter-spacing:.13em}
+body:not(.battle-wide) .home-route h3 {font-size:var(--site-type-card);line-height:1.4;letter-spacing:-.035em;margin:24px 0 10px;font-weight:700;color:var(--site-text)}
+body:not(.battle-wide) .home-route p {font-size:var(--site-type-body);line-height:1.8;color:var(--site-muted);margin:0 0 24px;max-width:300px}
+body:not(.battle-wide) .route-bottom {display:flex;justify-content:space-between;gap:24px;width:100%;margin-top:auto;font-size:var(--site-type-body);font-weight:600}
 body:not(.battle-wide) .home-route:hover :is(h3,.route-bottom) {color:var(--site-accent)}
 body:not(.battle-wide) .starter-features {display:grid;grid-template-columns:1fr 1fr;gap:24px}
 body:not(.battle-wide) .starter-feature {position:relative;isolation:isolate;display:block;overflow:hidden;min-height:360px;padding:30px;border:0;border-radius:0;background:#181416;text-align:left;color:var(--site-text)}
@@ -58,96 +59,96 @@ body:not(.battle-wide) .starter-feature-art {position:absolute;z-index:-1;inset:
 body:not(.battle-wide) .starter-feature-art img {position:absolute;top:-17%;width:110%;height:auto;transition:transform .3s ease}
 body:not(.battle-wide) .starter-feature::after {content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(0deg,#131113 0%,transparent 82%),linear-gradient(90deg,#131113 15%,transparent 85%)}
 body:not(.battle-wide) .starter-feature-copy {display:flex;flex-direction:column;align-items:flex-start;position:relative;max-width:94%}
-body:not(.battle-wide) .starter-feature-copy small {font:600 11px/1.6 system-ui,sans-serif;letter-spacing:.14em;color:#c9b2a9}
-body:not(.battle-wide) .starter-feature-copy>strong {font-size:32px;line-height:1.4;letter-spacing:-.04em;font-weight:750;margin:22px 0 14px}
-body:not(.battle-wide) .starter-feature-copy>span {font-size:14px;color:#c1b6b2;line-height:1.8;max-width:280px}
-body:not(.battle-wide) .starter-feature-copy>b {font-size:16px;font-weight:600;margin-top:32px}
+body:not(.battle-wide) .starter-feature-copy small {font:600 var(--site-type-caption)/1.6 system-ui,sans-serif;letter-spacing:.14em;color:#c9b2a9}
+body:not(.battle-wide) .starter-feature-copy>strong {font-size:var(--site-type-section);line-height:1.4;letter-spacing:-.04em;font-weight:750;margin:22px 0 14px}
+body:not(.battle-wide) .starter-feature-copy>span {font-size:var(--site-type-body);color:#c1b6b2;line-height:1.8;max-width:280px}
+body:not(.battle-wide) .starter-feature-copy>b {font-size:var(--site-type-body);font-weight:600;margin-top:32px}
 body:not(.battle-wide) .starter-feature-copy>b span {margin-left:20px}
 body:not(.battle-wide) .starter-feature:hover img {transform:scale(1.035)}
 body:not(.battle-wide) .starter-feature:hover b {color:var(--site-accent)}
 body:not(.battle-wide) .home-closing {padding:100px 0 90px;margin-top:50px;text-align:center;background:radial-gradient(ellipse at 50% 60%,#35120f 0%,transparent 64%)}
-body:not(.battle-wide) .home-closing h2 {font-size:clamp(40px,4.5vw,56px);font-weight:800;line-height:1.25;letter-spacing:-.06em;color:var(--site-text);margin:20px 0 30px}
-body:not(.battle-wide) .home-closing>span {display:block;color:var(--site-muted);font-size:12px;margin-top:18px}
+body:not(.battle-wide) .home-closing h2 {font-size:var(--site-type-page);font-weight:800;line-height:1.25;letter-spacing:-.06em;color:var(--site-text);margin:20px 0 30px}
+body:not(.battle-wide) .home-closing>span {display:block;color:var(--site-muted);font-size:var(--site-type-caption);margin-top:18px}
 body:not(.battle-wide) .site-page-heading {display:flex;justify-content:space-between;align-items:flex-end;gap:40px;padding:62px 0 46px;margin-bottom:40px;border-bottom:1px solid var(--site-line)}
-body:not(.battle-wide) .site-page-heading h1 {font-size:clamp(40px,4.5vw,56px);line-height:1.15;font-weight:800;letter-spacing:-.06em;color:var(--site-text);margin:0}
-body:not(.battle-wide) .site-page-heading>p {font-size:16px;line-height:1.8;color:var(--site-muted);margin:0 0 3px;max-width:430px}
+body:not(.battle-wide) .site-page-heading h1 {font-size:var(--site-type-page);line-height:1.15;font-weight:800;letter-spacing:-.06em;color:var(--site-text);margin:0}
+body:not(.battle-wide) .site-page-heading>p {font-size:var(--site-type-body);line-height:1.8;color:var(--site-muted);margin:0 0 3px;max-width:430px}
 body:not(.battle-wide) .learning-layout {display:grid;grid-template-columns:250px minmax(0,1fr);gap:64px;align-items:start}
 body:not(.battle-wide) .learning-sidebar {position:sticky;top:112px;min-width:0}
-body:not(.battle-wide) .learning-sidebar>.site-eyebrow {font-size:11px;color:#9d9390;margin-bottom:12px}
+body:not(.battle-wide) .learning-sidebar>.site-eyebrow {font-size:var(--site-type-caption);color:#9d9390;margin-bottom:12px}
 body:not(.battle-wide) #learn #chapterNav {display:flex;flex-direction:column;gap:0;margin:0}
-body:not(.battle-wide) #learn #chapterNav button {display:grid;grid-template-columns:26px minmax(0,1fr) 14px;align-items:center;gap:10px;width:100%;min-height:44px;padding:10px 10px 10px 0;border:0;border-radius:0;background:none;color:#a9a2a0;text-align:left;font-size:16px;line-height:1.35;font-weight:400}
-body:not(.battle-wide) #learn #chapterNav .chapter-index {color:#908886;font:500 12px/1.5 system-ui,sans-serif}
-body:not(.battle-wide) #learn #chapterNav .chapter-name {font-size:16px;line-height:1.4}
-body:not(.battle-wide) #learn #chapterNav .chapter-state {font:500 14px/1.4 system-ui,sans-serif;text-align:right}
+body:not(.battle-wide) #learn #chapterNav button {display:grid;grid-template-columns:26px minmax(0,1fr) 14px;align-items:center;gap:10px;width:100%;min-height:44px;padding:10px 10px 10px 0;border:0;border-radius:0;background:none;color:#a9a2a0;text-align:left;font-size:var(--site-type-body);line-height:1.35;font-weight:400}
+body:not(.battle-wide) #learn #chapterNav .chapter-index {color:#908886;font:500 var(--site-type-caption)/1.5 system-ui,sans-serif}
+body:not(.battle-wide) #learn #chapterNav .chapter-name {font-size:var(--site-type-body);line-height:1.4}
+body:not(.battle-wide) #learn #chapterNav .chapter-state {font:500 var(--site-type-body)/1.4 system-ui,sans-serif;text-align:right}
 body:not(.battle-wide) #learn #chapterNav button:is([aria-current="step"],:hover) {background:none;color:var(--site-text);font-weight:600}
 body:not(.battle-wide) #learn #chapterNav button[aria-current="step"] :is(.chapter-index,.chapter-state) {color:var(--site-accent)}
 body:not(.battle-wide) #learn #chapterNav button.completed:not([aria-current="step"]) {background:none;border:0;color:#bcb8b0}
 body:not(.battle-wide) #learn #chapterNav button.completed .chapter-state {color:#9fc282}
-body:not(.battle-wide) .learning-reference-link {display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;font-size:16px;text-align:left;color:var(--site-muted);background:none;border:0;border-top:1px solid var(--site-line);margin-top:16px;padding:18px 0;min-height:48px}
+body:not(.battle-wide) .learning-reference-link {display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;font-size:var(--site-type-body);text-align:left;color:var(--site-muted);background:none;border:0;border-top:1px solid var(--site-line);margin-top:16px;padding:18px 0;min-height:48px}
 body:not(.battle-wide) .learning-reference-link:hover {color:var(--site-accent)}
 body:not(.battle-wide) .learning-main {min-width:0}
 body:not(.battle-wide) #learn .lesson-ref>summary::after {color:var(--site-accent)}
 body:not(.battle-wide) #learn #labStage {scroll-margin-top:112px;padding:0;background:none;border:0;border-radius:0;box-shadow:none;min-width:0}
-body:not(.battle-wide) #learn #labStage h2 {font-size:32px;line-height:1.4;letter-spacing:-.03em;color:var(--site-text);margin:20px 0}
+body:not(.battle-wide) #learn #labStage h2 {font-size:var(--site-type-section);line-height:1.4;letter-spacing:-.03em;color:var(--site-text);margin:20px 0}
 body:not(.battle-wide) #learn #labStage h3 {color:var(--site-text)}
 body:not(.battle-wide) #learn #labStage .chapter-progress {gap:24px;padding:0;border:0;background:none;margin:0 0 20px}
-body:not(.battle-wide) #learn .number {font-size:12px;color:var(--site-accent);letter-spacing:.12em}
+body:not(.battle-wide) #learn .number {font-size:var(--site-type-caption);color:var(--site-accent);letter-spacing:.12em}
 body:not(.battle-wide) #learn #labStage .progress {height:2px;background:#302b2c;border:0;border-radius:0}
 body:not(.battle-wide) #learn #labStage .progress span {background:var(--site-accent);border-radius:0}
 body:not(.battle-wide) #learn #labStage .chapter-learning {border:0;background:none;padding:0;margin:0 0 30px}
-body:not(.battle-wide) #learn #labStage .chapter-learning p {font-size:16px;line-height:1.9;color:#b8b1ae}
+body:not(.battle-wide) #learn #labStage .chapter-learning p {font-size:var(--site-type-body);line-height:1.9;color:#b8b1ae}
 body:not(.battle-wide) #learn .lesson-colors {border:0;background:none;padding:0;margin:30px 0}
-body:not(.battle-wide) #learn .lesson-colors-label {font-size:16px;font-weight:600;margin:0 0 18px}
+body:not(.battle-wide) #learn .lesson-colors-label {font-size:var(--site-type-body);font-weight:600;margin:0 0 18px}
 body:not(.battle-wide) #learn .lesson-colors-row {gap:14px}
-body:not(.battle-wide) #learn .lesson-colors-row button {background:none;border:0;border-top:3px solid;padding:13px 8px;min-height:48px;font-size:16px;border-radius:0;color:#a9a2a0;box-shadow:none}
+body:not(.battle-wide) #learn .lesson-colors-row button {background:none;border:0;border-top:3px solid;padding:13px 8px;min-height:48px;font-size:var(--site-type-body);border-radius:0;color:#a9a2a0;box-shadow:none}
 body:not(.battle-wide) #learn .lesson-colors-row button[aria-pressed="true"] {background:#1c1a1b;color:var(--site-text)}
 body:not(.battle-wide) #learn .lesson-colors-details {border:0;background:none;padding:0;margin-top:18px}
 body:not(.battle-wide) #learn .lesson-color-detail {background:none;border:0;padding:0}
-body:not(.battle-wide) #learn .lesson-color-title {font-size:16px;color:var(--site-text)}
-body:not(.battle-wide) #learn .lesson-color-description {font-size:16px;color:var(--site-muted);line-height:1.8}
+body:not(.battle-wide) #learn .lesson-color-title {font-size:var(--site-type-body);color:var(--site-text)}
+body:not(.battle-wide) #learn .lesson-color-description {font-size:var(--site-type-body);color:var(--site-muted);line-height:1.8}
 body:not(.battle-wide) #learn .chapter-quiz {padding-top:28px;margin-top:34px;border-top:1px solid var(--site-line)}
-body:not(.battle-wide) #learn .chapter-quiz p {font-size:16px;line-height:1.9;color:var(--site-text)}
+body:not(.battle-wide) #learn .chapter-quiz p {font-size:var(--site-type-body);line-height:1.9;color:var(--site-text)}
 body:not(.battle-wide) #learn #labStage>.actions {display:grid;gap:10px;margin:24px 0}
-body:not(.battle-wide) #learn #labStage>.actions .btn {display:block;width:100%;text-align:left;white-space:normal;line-height:1.7;padding:16px 20px;font-size:16px;font-weight:400;background:var(--site-raised);border:0;border-radius:0;color:var(--site-text)}
+body:not(.battle-wide) #learn #labStage>.actions .btn {display:block;width:100%;text-align:left;white-space:normal;line-height:1.7;padding:16px 20px;font-size:var(--site-type-body);font-weight:400;background:var(--site-raised);border:0;border-radius:0;color:var(--site-text)}
 body:not(.battle-wide) #learn #labStage>.actions .btn:hover {background:#262122;color:#fff}
 body:not(.battle-wide) #learn .chapter-actions {padding:24px 0 0;margin-top:32px;border-top:1px solid var(--site-line)}
-body:not(.battle-wide) #learn .chapter-actions .btn {font-size:16px;min-height:48px}
+body:not(.battle-wide) #learn .chapter-actions .btn {font-size:var(--site-type-body);min-height:48px}
 body:not(.battle-wide) #learn .lesson-feedback {border:0;border-left:2px solid;padding:14px 18px;background:#19191a;border-radius:0}
 body:not(.battle-wide) #learn .lesson-feedback.is-success {border-color:#a7c783}
 body:not(.battle-wide) #learn .lesson-feedback.is-error {border-color:var(--site-accent)}
-body:not(.battle-wide) #learn .lesson-feedback-detail {font-size:16px;line-height:1.8}
-body:not(.battle-wide) #learn #labStage>.muted {font-size:12px;color:#8d8583;line-height:1.8;margin-top:30px}
+body:not(.battle-wide) #learn .lesson-feedback-detail {font-size:var(--site-type-body);line-height:1.8}
+body:not(.battle-wide) #learn #labStage>.muted {font-size:var(--site-type-caption);color:#8d8583;line-height:1.8;margin-top:30px}
 body:not(.battle-wide) #learn .arena {gap:24px;border:0;background:none;margin:24px 0}
 body:not(.battle-wide) #learn .arena .zone {padding:18px 0;border:0;border-top:1px solid var(--site-line);background:none}
-body:not(.battle-wide) #learn .arena p {font-size:16px;line-height:1.8;color:#b8b1ae}
-body:not(.battle-wide) #learn .learning-main>.notice {margin:40px 0;padding:0;border:0;background:none;border-radius:0;font-size:14px;color:var(--site-muted);line-height:1.8}
+body:not(.battle-wide) #learn .arena p {font-size:var(--site-type-body);line-height:1.8;color:#b8b1ae}
+body:not(.battle-wide) #learn .learning-main>.notice {margin:40px 0;padding:0;border:0;background:none;border-radius:0;font-size:var(--site-type-body);color:var(--site-muted);line-height:1.8}
 body:not(.battle-wide) #learn .learning-main>.notice a {color:var(--site-text)}
 body:not(.battle-wide) #learn .lesson-references {padding:32px 0 0;margin-top:40px;border:0;border-top:1px solid var(--site-line);background:none}
-body:not(.battle-wide) #learn .lesson-references>h2 {font-size:24px;color:var(--site-text);margin:12px 0}
+body:not(.battle-wide) #learn .lesson-references>h2 {font-size:var(--site-type-card);color:var(--site-text);margin:12px 0}
 body:not(.battle-wide) #learn .lesson-ref {border:0;border-bottom:1px solid var(--site-line);border-radius:0;background:none;margin:0;scroll-margin-top:112px}
 body:not(.battle-wide) #learn .lesson-ref>summary {padding:20px 0;background:none;min-height:64px;color:var(--site-text)}
-body:not(.battle-wide) #learn .lesson-ref>summary b {font-size:16px;font-weight:600}
-body:not(.battle-wide) #learn .lesson-ref>summary small {font-size:14px;color:var(--site-muted);margin-top:6px}
+body:not(.battle-wide) #learn .lesson-ref>summary b {font-size:var(--site-type-body);font-weight:600}
+body:not(.battle-wide) #learn .lesson-ref>summary small {font-size:var(--site-type-body);color:var(--site-muted);margin-top:6px}
 body:not(.battle-wide) #learn .lesson-ref-body {padding:16px 0 28px;background:none;border:0}
 body:not(.battle-wide) #learn .lesson-ref-body>.panel {padding:0;border:0;background:none}
-body:not(.battle-wide) #learn .lesson-ref-body h2 {color:var(--site-text);font-size:24px}
-body:not(.battle-wide) #learn .learning-official-link {font-size:14px;color:var(--site-muted);line-height:1.8;margin-top:30px}
+body:not(.battle-wide) #learn .lesson-ref-body h2 {color:var(--site-text);font-size:var(--site-type-card)}
+body:not(.battle-wide) #learn .learning-official-link {font-size:var(--site-type-body);color:var(--site-muted);line-height:1.8;margin-top:30px}
 body:not(.battle-wide) #learn .learning-official-link a {color:var(--site-text)}
 body:not(.battle-wide) :is(#rules,#decks) {padding-top:60px}
-body:not(.battle-wide) :is(#rules,#decks)>.tag {font-size:12px;color:var(--site-accent)}
-body:not(.battle-wide) :is(#rules,#decks)>h1 {font-size:clamp(40px,4.5vw,56px);font-weight:800;color:var(--site-text);margin:20px 0 42px;letter-spacing:-.05em}
+body:not(.battle-wide) :is(#rules,#decks)>.tag {font-size:var(--site-type-caption);color:var(--site-accent)}
+body:not(.battle-wide) :is(#rules,#decks)>h1 {font-size:var(--site-type-page);font-weight:800;color:var(--site-text);margin:20px 0 42px;letter-spacing:-.05em}
 body:not(.battle-wide) #rules>.panel {padding:28px 0;margin:0;border:0;border-top:1px solid var(--site-line);background:none;border-radius:0}
-body:not(.battle-wide) #rules>.panel h2 {font-size:24px;color:var(--site-text)}
+body:not(.battle-wide) #rules>.panel h2 {font-size:var(--site-type-card);color:var(--site-text)}
 body:not(.battle-wide) #rules .term-entry {background:none;border:0;border-bottom:1px solid var(--site-line);border-radius:0}
-body:not(.battle-wide) #rules .term-entry summary {font-size:16px;color:var(--site-text)}
+body:not(.battle-wide) #rules .term-entry summary {font-size:var(--site-type-body);color:var(--site-text)}
 body:not(.battle-wide) #rules .rules-official-link {margin-top:32px}
-body:not(.battle-wide) #rules .rules-official-link a {font-size:16px;color:var(--site-accent)}
+body:not(.battle-wide) #rules .rules-official-link a {font-size:var(--site-type-body);color:var(--site-accent)}
 body:not(.battle-wide) #decks>.deck-accordion {border:0;border-top:1px solid var(--site-line);border-radius:0;background:none;margin:0}
 body:not(.battle-wide) #decks>.deck-accordion>summary {padding:24px 0;background:none}
 body:not(.battle-wide) #decks .deck-inner {border:0;padding:16px 0 28px;background:none}
 body:not(.battle-wide) #decks>.deck-accordion>summary strong {color:var(--site-text)}
 body:not(.battle-wide) #decks .beta-filters {padding:20px 0;border:0;border-top:1px solid var(--site-line);border-bottom:1px solid var(--site-line);border-radius:0;background:none}
-body:not(.battle-wide) #decks :is(.beta-filters input,.beta-filters select,.beta-pages button,.beta-pages select) {font-size:16px;background:var(--site-raised);border-color:var(--site-line);border-radius:0}
+body:not(.battle-wide) #decks :is(.beta-filters input,.beta-filters select,.beta-pages button,.beta-pages select) {font-size:var(--site-type-body);background:var(--site-raised);border-color:var(--site-line);border-radius:0}
 body:not(.battle-wide) #decks .beta-card-title {color:var(--site-text)}
 body:not(.battle-wide) #decks .beta-tile {background:none;border:0;border-radius:0;box-shadow:none}
 body:not(.battle-wide) :is(#betaCardDetail,#deckImageDialog) {background:var(--site-bg);color:var(--site-text);border:1px solid var(--site-line);border-radius:0}
@@ -158,14 +159,14 @@ body:not(.battle-wide) #betaCardDetail .beta-detail-copy h4 {color:var(--site-ac
 body:not(.battle-wide) #rules .terminology-compare>div {border:0;background:none;padding:16px 0}
 body:not(.battle-wide) #rules .terminology-compare strong {color:var(--site-text)}
 body:not(.battle-wide) #rules .term-entry summary>span {color:var(--site-accent)}
-body:not(.battle-wide) .site-footer {max-width:1200px;padding:36px 0 40px;margin:0 auto;border:0;border-top:1px solid var(--site-line);background:none;color:var(--site-muted);font-size:12px;text-align:left;line-height:1.8}
+body:not(.battle-wide) .site-footer {max-width:1200px;padding:36px 0 40px;margin:0 auto;border:0;border-top:1px solid var(--site-line);background:none;color:var(--site-muted);font-size:var(--site-type-caption);text-align:left;line-height:1.8}
 body:not(.battle-wide) .site-footer>div {display:flex;justify-content:space-between;align-items:center;gap:24px}
-body:not(.battle-wide) .footer-brand {font:700 14px/1.5 system-ui,sans-serif;letter-spacing:.04em;color:var(--site-text)}
-body:not(.battle-wide) .footer-brand>span {font:400 12px/1.5 system-ui,sans-serif;color:var(--site-muted);letter-spacing:0}
+body:not(.battle-wide) .footer-brand {font:700 var(--site-type-body)/1.5 system-ui,sans-serif;letter-spacing:.04em;color:var(--site-text)}
+body:not(.battle-wide) .footer-brand>span {font:400 var(--site-type-caption)/1.5 system-ui,sans-serif;color:var(--site-muted);letter-spacing:0}
 body:not(.battle-wide) .footer-links {display:flex;align-items:center;gap:24px}
-body:not(.battle-wide) .footer-links :is(button,a) {font-size:16px;font-weight:400;border:0;background:none;padding:8px 0;color:var(--site-muted);text-decoration:none}
+body:not(.battle-wide) .footer-links :is(button,a) {font-size:var(--site-type-body);font-weight:400;border:0;background:none;padding:8px 0;color:var(--site-muted);text-decoration:none}
 body:not(.battle-wide) .footer-links :is(button,a):hover {color:var(--site-text)}
-body:not(.battle-wide) .site-footer>p {font-size:12px;margin:22px 0 0;color:#817a78;line-height:1.8}
+body:not(.battle-wide) .site-footer>p {font-size:var(--site-type-caption);margin:22px 0 0;color:#817a78;line-height:1.8}
 @media(max-width:1100px) {
  body:not(.battle-wide) .site-header {padding:18px 30px;min-height:84px}
  body:not(.battle-wide) .site-header nav {gap:20px}
@@ -189,12 +190,12 @@ body:not(.battle-wide) .site-footer {margin-left:40px;margin-right:40px}
 body:not(.battle-wide) .wrap {padding:0 24px 48px}
  body:not(.battle-wide) .site-hero {min-height:650px;padding:64px 0 120px;align-items:flex-start}
  body:not(.battle-wide) .hero-copy {width:100%}
- body:not(.battle-wide) .hero-copy h1 {font-size:52px}
+ body:not(.battle-wide) .hero-copy h1 {font-size:var(--site-type-display)}
  body:not(.battle-wide) .hero-art {width:100%;right:-24px;top:50px;opacity:.4}
  body:not(.battle-wide) .hero-facts {gap:28px}
  body:not(.battle-wide) .hero-caption>span:last-child {display:none}
  body:not(.battle-wide) .site-section-heading {align-items:flex-start;flex-direction:column;gap:18px}
- body:not(.battle-wide) .site-section-heading h2 {font-size:32px}
+ body:not(.battle-wide) .site-section-heading h2 {font-size:var(--site-type-section)}
  body:not(.battle-wide) .home-route-grid {grid-template-columns:1fr;gap:12px}
  body:not(.battle-wide) .home-route p {max-width:none}
  body:not(.battle-wide) .home-route h3 {margin-top:14px}
@@ -203,7 +204,7 @@ body:not(.battle-wide) .wrap {padding:0 24px 48px}
  body:not(.battle-wide) .learning-layout {grid-template-columns:1fr;gap:36px}
  body:not(.battle-wide) .learning-sidebar {position:static}
  body:not(.battle-wide) #learn #chapterNav {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px}
- body:not(.battle-wide) #learn #chapterNav .chapter-name {font-size:14px}
+ body:not(.battle-wide) #learn #chapterNav .chapter-name {font-size:var(--site-type-body)}
  body:not(.battle-wide) .learning-reference-link {margin-top:12px}
  body:not(.battle-wide) :is(#betaCardDetail,#deckImageDialog) {background:var(--site-bg);color:var(--site-text);border:1px solid var(--site-line);border-radius:0}
 body:not(.battle-wide) :is(#betaDetailClose,#closeDeckDialog) {border:1px solid var(--site-line);background:var(--site-raised);color:var(--site-text);border-radius:0;box-shadow:none}

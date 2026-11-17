@@ -10,6 +10,6 @@
 - 網站返回／上一頁同步畫面與網址；「從第一課開始」回到第一課，不清除已完成進度。
 - 插畫使用既有 `003.webp`、`051.webp`、`008.webp`；只調整 CSS 顯示與漸層，沒有替換原卡牌或新增圖像檔案。
 
-網站樣式置於 `site-presentation.css` 的 `site-overrides` layer；所有規則都由 `body:not(.battle-wide)` 限定。維持無 CSS priority flags，網站變數與桌面字級變數獨立。
+網站樣式置於 `site-presentation.css` 的 `site-overrides` layer；所有規則都由 `body:not(.battle-wide)` 限定。維持無 CSS priority flags，網站變數與桌面字級變數獨立；網站字級整理為六種角色，主要操作文字統一 16px。
 
 驗證：`v3-site-presentation.browser.cjs` 以 1440×1000、1280×720 操作首頁入口、答錯／答對／下一課、進度保存、自由選課、事前準備、兩套牌組入口、卡牌詳情與術語展開。另對照修改前版本的對戰設定及開始後桌面，確認字級、顏色、邊線、間距與尺寸一致。原有十二課原生測試與 CSS 規範檢查通過。
